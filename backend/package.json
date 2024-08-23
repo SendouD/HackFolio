@@ -1,0 +1,37 @@
+{
+  "name": "celestial trust",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.550.0",
+    "@aws-sdk/s3-request-presigner": "^3.556.0",
+    "alert": "^6.0.1",
+    "aws-sdk": "^2.1595.0",
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "bootstrap": "^5.3.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.9",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.3.2",
+    "multer": "^1.4.4",
+    "nodemailer": "^6.9.12",
+    "puppeteer": "^22.7.1",
+    "twilio": "^4.23.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
