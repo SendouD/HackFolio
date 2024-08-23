@@ -1,19 +1,16 @@
-import ProjectSubmissionForm from "./pages/project_submission_form"
+import Hack_org from "./pages/hack_org"
+import { Routes, Route } from "react-router-dom"
 
-
-function home(){
-
-    return(
-        <>
-
-        <button className="bg-sky-500 hover:bg-sky-700">Home</button>
-      
-
-        
-
-        
-        
-        </>
-    )
+function App() {
+  
+  
+  return(
+    <>
+      <Routes>
+        <Route path="/" element={<Hack_org />}/>
+      </Routes>
+    </>
+  );
 }
-export default home
+
+export default App
