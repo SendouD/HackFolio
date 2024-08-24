@@ -7,7 +7,7 @@ function App() {
   return(
     <>
       <Routes>
-        <Route path="/" element={<Hack_org />}/>
+        <Route path="/createHackathon" element={<Hack_org />}/>
       </Routes>
     </>
   );

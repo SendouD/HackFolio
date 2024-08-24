@@ -1,16 +1,12 @@
 const express = require('express');
 const mongoose = require("mongoose");
 const cors = require("cors");
-const axios = require("axios");
-const ejs = require("ejs");
+const hack_create = require("./controller/hackathon_creation");
 
 const app = express();
 
-
 app.use(cors());
 app.use(express.json());
-app.set('view engine', 'ejs');
-
 
 mongoose.connect(`mongodb://127.0.0.1:27017/hackpro`, {});
 
@@ -20,8 +16,6 @@ db.once("open", () => {
   console.log("Connected to MongoDB database successfully");
 });
 
+app.use("/api/hackathon", hack_create);
 
-app.get("/", (req, res) => {
-  res.render("home");
-})
-app.listen(5000, () => { console.log("Server started on port 5000") });
+app.listen(5000, () => { console.log("Server started on port 5000(http://localhost:5000/)") });
