@@ -7,11 +7,8 @@ const ProjectSubmission=require("./controller/project_submission");
 
 const app = express();
 
-
 app.use(cors());
 app.use(express.json());
-app.set('view engine', 'ejs');
-
 
 mongoose.connect(`mongodb://127.0.0.1:27017/hackpro`, {});
 
@@ -22,8 +19,3 @@ db.once("open", () => {
 });
 app.use("/api/projects",ProjectSubmission)
 
-
-app.get("/", (req, res) => {
-  res.render("home");
-})
-app.listen(5000, () => { console.log("Server started on port 5000") });
