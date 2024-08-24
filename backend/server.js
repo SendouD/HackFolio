@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const axios = require("axios");
 const ejs = require("ejs");
+const ProjectSubmission=require("./controller/project_submission");
 
 const app = express();
 
@@ -19,6 +20,7 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 db.once("open", () => {
   console.log("Connected to MongoDB database successfully");
 });
+app.use("/api/projects",ProjectSubmission)
 
 
 app.get("/", (req, res) => {
