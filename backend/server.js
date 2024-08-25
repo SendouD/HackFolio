@@ -10,6 +10,8 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use("/api/projects",ProjectSubmission)
+
 
 mongoose.connect(`mongodb://127.0.0.1:27017/hackpro`, {});
 

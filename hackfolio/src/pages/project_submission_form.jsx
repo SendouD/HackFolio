@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios"
 
 function ProjectSubmissionForm() {
   const [projectName, setProjectName] = useState("");
@@ -12,6 +13,9 @@ function ProjectSubmissionForm() {
   const [pictures, setPictures] = useState([]);
   const [logo, setLogo] = useState(null);
   const [platforms, setPlatforms] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
 
   const handlePlatformChange = (platform) => {
     setPlatforms((prevPlatforms) =>
@@ -21,21 +25,53 @@ function ProjectSubmissionForm() {
     );
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({
-      projectName,
-      tagline,
-      problem,
-      challenges,
-      technologies,
-      links,
-      videoDemo,
-      coverImage,
-      pictures,
-      logo,
-      platforms,
+    setLoading(true);
+    setError(null);
+    setSuccess(null);
+
+    const formData = new FormData();
+    formData.append("projectName", projectName);
+    formData.append("tagline", tagline);
+    formData.append("problem", problem);
+    formData.append("challenges", challenges);
+    formData.append("technologies", technologies.split(","));
+    formData.append("links", links.split(","));
+    formData.append("videoDemo", videoDemo);
+    formData.append("coverImage", coverImage);
+    pictures.forEach((pic, index) => {
+      formData.append(`pictures`, pic);
     });
+    formData.append("logo", logo);
+    formData.append("platforms", platforms);
+
+    try {
+      const response = await axios.post("/api/projects", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      setSuccess("Project submitted successfully!");
+      console.log("Response:", response.data);
+      // Clear the form
+      setProjectName("");
+      setTagline("");
+      setProblem("");
+      setChallenges("");
+      setTechnologies("");
+      setLinks("");
+      setVideoDemo("");
+      setCoverImage(null);
+      setPictures([]);
+      setLogo(null);
+      setPlatforms([]);
+    } catch (error) {
+      setError("Failed to submit project. Please try again.");
+      console.error("Error:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -223,6 +259,7 @@ function ProjectSubmissionForm() {
           <div className="mt-6">
             <button
               type="submit"
+              onClick={handleSubmit}
               className="w-full bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600"
             >
               Submit

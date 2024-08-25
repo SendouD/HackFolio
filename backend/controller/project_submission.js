@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const ProjectSubmission = require('../models/project_submissionSchema'); // Adjust the path as necessary
+const ProjectSubmission = require('../models/project_form_Schema'); // Adjust the path as necessary
 
 // @route   POST /api/projects
 // @desc    Create a new project submission
