@@ -10,6 +10,9 @@ const orgFormSchema = new mongoose.Schema({
         type: String,
         required: true,
         maxlength: 40,
+    },
+    completelyFilled: {
+        type: Boolean,
     }
 });
 

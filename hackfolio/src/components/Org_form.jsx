@@ -1,23 +1,27 @@
-import { useState } from "react"
+import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 function Org_form(props) {
-    const [hackName,setHackName] = useState("")
-    const [uniName,setUniName] = useState("") 
+    const [hackName, setHackName] = useState("");
+    const [uniName, setUniName] = useState("");
+    const navigate = useNavigate();
 
     async function handleClick() {
         try {
+            let id = "";
             const response = await fetch(`/api/hackathon/hackathonCreate`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body : JSON.stringify({hackName,uniName}),
+                body: JSON.stringify({ hackName, uniName }),
             });
             console.log(response);
-            
+
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
+            navigate(`/completeHackathonCreation/${id}`);
 
         } catch (error) {
             console.error('Error posting data:', error);
@@ -26,27 +30,32 @@ function Org_form(props) {
 
     return (
         <>
-            <div className="h-screen w-screen flex justify-center items-center bg-gray-100">
-                <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg">
-                    <div className="flex justify-between mb-4">
-                        <div className="font-bold text-4xl mb-4">Lets get you started</div>
-                        <button onClick={props.setFalse} className="text-red-600 text-3xl font-bold transition-transform duration-300 transform hover:scale-110">
-                            &#215;
+            <div className="hack-form">
+                <div className="form-container w-full max-w-md p-6 rounded-lg shadow-lg bg-white">
+                    <div className="flex justify-between items-center mb-4">
+                        <div className="font-semibold text-3xl text-gray-950/80">Let’s get you started!</div>
+                        <button 
+                            onClick={props.setFalse} 
+                            className="text-black text-2xl font-bold transition-transform duration-300 transform"
+                        >
+                            &#10005;
                         </button>
                     </div>
-                    <div className="space-y-4">
+                    <div className="">
+                        <label htmlFor="hackName" className="block text-gray-500 font-medium text-sm mt-4">NAME</label>
                         <input 
                             name="hackName" 
-                            className="block w-full rounded-md border-0 py-2 pl-7 pr-20 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
+                            className="block w-full mt-2 rounded-md border-0 py-2 pl-7 pr-20 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
                             type="text"
                             placeholder="Hackathon Name" 
                             onChange={(e) => setHackName(e.target.value)} 
                         />
+                        <label htmlFor="uniName" className="block text-gray-500 font-medium text-sm mt-4">UNIVERSITY YOU'RE REPRESENTING?</label>
                         <input 
                             name="uniName" 
-                            className="block w-full rounded-md border-0 py-2 pl-7 pr-20 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
+                            className="block w-full mt-2 mb-8 rounded-md border-0 py-2 pl-7 pr-20 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
                             type="text" 
-                            placeholder="University you are representing?" 
+                            placeholder="..." 
                             onChange={(e) => setUniName(e.target.value)} 
                         />
                         <button 

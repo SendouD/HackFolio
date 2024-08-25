@@ -20,10 +20,9 @@ function Hack_org() {
     return(
         <>
             <div>
+                <Org_page setTrue={setTrue}/>
                 {
-                    (isOpen) ? 
-                    <Org_form setFalse={setFalse}/> :
-                    <Org_page setTrue={setTrue}/>
+                    (isOpen) ? <Org_form setFalse={setFalse}/> : <></>
                 } 
             </div>
         </>
