@@ -1,6 +1,7 @@
-import Hack_org from "./pages/Hack_org"
 import { Routes, Route } from "react-router-dom"
+import Hack_org from "./pages/Hack_org"
 import ProjectSubmissionForm from "./pages/project_submission_form";
+import Org_form_completion from "./components/Org_form_completion";
 
 function App() {
   
@@ -8,8 +9,9 @@ function App() {
   return(
     <>
       <Routes>
-        <Route path="/" element={<Hack_org />}/>
-        <Route path="/project_form" element={<ProjectSubmissionForm></ProjectSubmissionForm>}/>
+        <Route path="/createHackathon" element={<Hack_org />}/>
+        <Route path="/project_form" element={<ProjectSubmissionForm />}/>
+        <Route path="/completeHackathonCreation" element={<Org_form_completion />}/>
       </Routes>
     </>
   );
