@@ -1,7 +1,5 @@
 import { useState } from "react";
 import Org_form2 from "./Org_form2";
-import Org_form3 from "./Org_form3";
-import Org_form4 from "./Org_form4";
 
 function Org_form_completion() {
     const [completed, setCompleted] = useState(0);

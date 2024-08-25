@@ -11,7 +11,7 @@ function App() {
       <Routes>
         <Route path="/createHackathon" element={<Hack_org />}/>
         <Route path="/project_form" element={<ProjectSubmissionForm />}/>
-        <Route path="/completeHackathonCreation" element={<Org_form_completion />}/>
+        <Route path="/completeHackathonCreation/:id" element={<Org_form_completion />}/>
       </Routes>
     </>
   );

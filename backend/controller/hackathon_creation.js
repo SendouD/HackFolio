@@ -24,13 +24,12 @@ hack_create.route("/hackathonCreate")
         }
     })
 
-hack_create.route("/hackathonCreate/secondStep")
+hack_create.route("/hackathonCreate/:id")
     .get(async(req,res) => {
-
+        const id =  req.params.id;
     })
     .post(async(req,res) => {
         const { hackName, uniName, tech, teamSize, partProf, contactLinks, fromDate, toDate, prizesDesc } = req.body;
-        const payload = { hackName, uniName, tech, teamSize, partProf, contactLinks, fromDate, toDate, prizesDesc };
         try{
             const newHackFullDetails = new hackFullDetails({
                 hackathonName: hackName,
