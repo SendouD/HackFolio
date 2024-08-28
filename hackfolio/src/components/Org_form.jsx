@@ -8,7 +8,6 @@ function Org_form(props) {
 
     async function handleClick() {
         try {
-            let id = "";
             const response = await fetch(`/api/hackathon/hackathonCreate`, {
                 method: 'POST',
                 headers: {
@@ -16,17 +15,20 @@ function Org_form(props) {
                 },
                 body: JSON.stringify({ hackName, uniName }),
             });
-            console.log(response);
-
+    
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
+    
+            const data = await response.json();
+            const id = data.id;
             navigate(`/completeHackathonCreation/${id}`);
-
+    
         } catch (error) {
             console.error('Error posting data:', error);
         }
     }
+    
 
     return (
         <>

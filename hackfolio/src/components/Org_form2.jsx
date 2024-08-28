@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 
@@ -16,6 +16,10 @@ function OrgForm2() {
     const [prizesDesc, setPrizesDesc] = useState("");
     const navigate = useNavigate();
     const { id } = useParams();
+
+    useEffect(() => {
+        getDetails();
+    },[])
 
     function nextStep() {
         if (step < totalSteps) setStep(step + 1);
@@ -43,7 +47,25 @@ function OrgForm2() {
     }
 
     async function getDetails() {
-        
+        try {
+            const response = await fetch(`/api/hackathon/hackathonCreate/${id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+
+            let data = await response.json();
+            setHackName(data.hackathonName);
+            setUniName(data.uniName);
+            
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+    
+        } catch (error) {
+            console.error('Error posting data:', error);
+        }
     }
 
     async function handleSubmit(e) {
@@ -91,6 +113,7 @@ function OrgForm2() {
                             placeholder="Hackathon Name"
                             value={hackName}
                             onChange={(e) => setHackName(e.target.value)}
+                            disabled
                         />
                         <label className="block text-gray-500 font-medium text-sm mt-4">University Name</label>
                         <input 
@@ -100,6 +123,7 @@ function OrgForm2() {
                             placeholder="University Name" 
                             value={uniName}
                             onChange={(e) => setUniName(e.target.value)}
+                            disabled
                         />
                         <label className="block text-gray-500 font-medium text-sm mt-4">Technology Stack</label>
                         <select 

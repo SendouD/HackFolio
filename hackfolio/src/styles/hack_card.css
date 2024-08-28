@@ -1,0 +1,54 @@
+.hackathon-card {
+    height: 400px;
+    width: 600px;
+    background-color: white;
+    margin: 30px;
+    border-radius: 20px;
+    transition: all 0.05s ease-out;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px hsl(0, 0%, 88%);
+    padding: 20px;
+    box-sizing: border-box;
+    border:solid 2px transparent;
+}
+
+.hackathon-card:hover {
+    border: solid 2px hsl(245, 58%, 61%);
+}
+
+.hack-name {
+    transition: all 0.05s ease-out;
+}
+
+.hackathon-card:hover .hack-name {
+    color: hsl(245, 58%, 51%);
+}
+
+.hack-themes {
+    display: inline-block;
+    margin: 10px;
+    padding: 10px 20px;
+    border: solid 2px hsl(0, 0%, 88%);
+    border-radius: 20px;
+}
+
+.hack-status {
+    background-color: hsl(0, 0%, 88%);
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-weight: 600;
+    color: hsl(0, 0%, 28%);
+    margin-right: 10px;
+}
+
+.hack-links {
+    padding: 10px;
+    margin-left: 10px;
+    border-radius: 20px;
+    background-color: hsl(0,0%,97%);
+    transition: all 0.15s ease-in-out;
+}
+
+.hack-links:hover {
+    background-color: hsl(0,0%,93%);
+}
