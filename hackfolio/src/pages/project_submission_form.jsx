@@ -1,94 +1,99 @@
 import React, { useState } from "react";
-import axios from "axios"
+import axios from "axios";
+import LoadingPage from "../components/loading"
+import { useNavigate } from 'react-router-dom';
 
 function ProjectSubmissionForm() {
-  const [projectName, setProjectName] = useState("");
-  const [tagline, setTagline] = useState("");
-  const [problem, setProblem] = useState("");
-  const [challenges, setChallenges] = useState("");
-  const [technologies, setTechnologies] = useState("");
-  const [links, setLinks] = useState("");
-  const [videoDemo, setVideoDemo] = useState("");
-  const [coverImage, setCoverImage] = useState(null);
-  const [pictures, setPictures] = useState([]);
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    projectName: "",
+    tagline: "",
+    problem: "",
+    challenges: "",
+    technologies: "",
+    links: "",
+    videoDemo: "",
+  });
+  
   const [logo, setLogo] = useState(null);
-  const [platforms, setPlatforms] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
+  const [images, setImages] = useState([]);
+  const [coverimage, setCoverimage] = useState(null);
+  const [isLoading,setIsloading]=useState(false);
 
-  const handlePlatformChange = (platform) => {
-    setPlatforms((prevPlatforms) =>
-      prevPlatforms.includes(platform)
-        ? prevPlatforms.filter((p) => p !== platform)
-        : [...prevPlatforms, platform]
-    );
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleImageUpload = async (file) => {
+    const uploadPreset = 'projectform'; // Replace with your Cloudinary upload preset
+    const cloudName = 'dv1a0uvfm'; // Replace with your Cloudinary cloud name
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', uploadPreset);
+    
+
+    try {
+      const response = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, formData);
+      return response.data.secure_url;
+    } catch (error) {
+      console.error('Error uploading file:', error.response ? error.response.data : error.message);
+      return null;
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError(null);
-    setSuccess(null);
+    setIsloading(true);
 
-    const formData = new FormData();
-    formData.append("projectName", projectName);
-    formData.append("tagline", tagline);
-    formData.append("problem", problem);
-    formData.append("challenges", challenges);
-    formData.append("technologies", technologies.split(","));
-    formData.append("links", links.split(","));
-    formData.append("videoDemo", videoDemo);
-    formData.append("coverImage", coverImage);
-    pictures.forEach((pic, index) => {
-      formData.append(`pictures`, pic);
-    });
-    formData.append("logo", logo);
-    formData.append("platforms", platforms);
+    // Upload logo and collect URL
+    const logoUrl = logo ? await handleImageUpload(logo) : null;
+    const imageUrls = await Promise.all(Array.from(images).map(handleImageUpload));
+    const coverUrl=coverimage?await handleImageUpload(coverimage):null;
+
+    // Prepare data for API request
+    const projectData = {
+      ...formData,
+      coverUrl,
+      logoUrl,
+      imageUrls,
+    };
 
     try {
-      const response = await axios.post("/api/projects", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      setSuccess("Project submitted successfully!");
-      console.log("Response:", response.data);
-      // Clear the form
-      setProjectName("");
-      setTagline("");
-      setProblem("");
-      setChallenges("");
-      setTechnologies("");
-      setLinks("");
-      setVideoDemo("");
-      setCoverImage(null);
-      setPictures([]);
-      setLogo(null);
-      setPlatforms([]);
+      // Send data to /api/project
+      console.log(projectData);
+      const response = await axios.post('/api/project', projectData);
+      console.log('Server response:', response.data);
+      navigate('/uploadsuccess');
+      
+      
     } catch (error) {
-      setError("Failed to submit project. Please try again.");
-      console.error("Error:", error);
-    } finally {
-      setLoading(false);
+      console.error('Error sending data to /api/project:', error.response ? error.response.data : error.message);
     }
   };
 
   return (
+    <>
+    {isLoading?(<LoadingPage></LoadingPage>):(
     <div className="bg-gray-100 p-6">
-        <div className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">Give more details about "janan"</div><br />
+      <div className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+        Give more details about your project
+      </div>
+      <br />
       <div className="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold mb-6">Project Submission Form</h1>
         <form onSubmit={handleSubmit}>
           {/* Project Name */}
           <div className="mb-4">
-            <label className="block text-gray-700 font-semibold mb-2">
-              Project Name
-            </label>
+            <label className="block text-gray-700 font-semibold mb-2">Project Name</label>
             <input
               type="text"
-              value={projectName}
-              onChange={(e) => setProjectName(e.target.value)}
+              name="projectName"
+              value={formData.projectName}
+              onChange={handleInputChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="What are you calling it?"
               maxLength="50"
@@ -97,27 +102,25 @@ function ProjectSubmissionForm() {
 
           {/* Tagline */}
           <div className="mb-4">
-            <label className="block text-gray-700 font-semibold mb-2">
-              Tagline
-            </label>
+            <label className="block text-gray-700 font-semibold mb-2">Tagline</label>
             <input
               type="text"
-              value={tagline}
-              onChange={(e) => setTagline(e.target.value)}
+              name="tagline"
+              value={formData.tagline}
+              onChange={handleInputChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Brief description or slogan"
               maxLength="200"
             />
           </div>
 
-          {/* The problem it solves */}
+          {/* The Problem it Solves */}
           <div className="mb-4">
-            <label className="block text-gray-700 font-semibold mb-2">
-              The Problem it Solves
-            </label>
+            <label className="block text-gray-700 font-semibold mb-2">The Problem it Solves</label>
             <textarea
-              value={problem}
-              onChange={(e) => setProblem(e.target.value)}
+              name="problem"
+              value={formData.problem}
+              onChange={handleInputChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               rows="4"
               placeholder="Describe the problem your project addresses"
@@ -125,14 +128,13 @@ function ProjectSubmissionForm() {
             ></textarea>
           </div>
 
-          {/* Challenges I ran into */}
+          {/* Challenges I Ran Into */}
           <div className="mb-4">
-            <label className="block text-gray-700 font-semibold mb-2">
-              Challenges I Ran Into
-            </label>
+            <label className="block text-gray-700 font-semibold mb-2">Challenges I Ran Into</label>
             <textarea
-              value={challenges}
-              onChange={(e) => setChallenges(e.target.value)}
+              name="challenges"
+              value={formData.challenges}
+              onChange={handleInputChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               rows="4"
               placeholder="Describe any specific bug or hurdle and how you overcame it"
@@ -140,15 +142,14 @@ function ProjectSubmissionForm() {
             ></textarea>
           </div>
 
-          {/* Technologies I used */}
+          {/* Technologies I Used */}
           <div className="mb-4">
-            <label className="block text-gray-700 font-semibold mb-2">
-              Technologies I Used
-            </label>
+            <label className="block text-gray-700 font-semibold mb-2">Technologies I Used</label>
             <input
               type="text"
-              value={technologies}
-              onChange={(e) => setTechnologies(e.target.value)}
+              name="technologies"
+              value={formData.technologies}
+              onChange={handleInputChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Comma-separated list of technologies"
               maxLength="100"
@@ -157,13 +158,12 @@ function ProjectSubmissionForm() {
 
           {/* Links */}
           <div className="mb-4">
-            <label className="block text-gray-700 font-semibold mb-2">
-              Links
-            </label>
+            <label className="block text-gray-700 font-semibold mb-2">Links</label>
             <input
               type="text"
-              value={links}
-              onChange={(e) => setLinks(e.target.value)}
+              name="links"
+              value={formData.links}
+              onChange={handleInputChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Add links (e.g., GitHub, website)"
               maxLength="1000"
@@ -172,13 +172,12 @@ function ProjectSubmissionForm() {
 
           {/* Video Demo */}
           <div className="mb-4">
-            <label className="block text-gray-700 font-semibold mb-2">
-              Video Demo
-            </label>
+            <label className="block text-gray-700 font-semibold mb-2">Video Demo</label>
             <input
               type="text"
-              value={videoDemo}
-              onChange={(e) => setVideoDemo(e.target.value)}
+              name="videoDemo"
+              value={formData.videoDemo}
+              onChange={handleInputChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Add a link to a video demo"
             />
@@ -186,80 +185,41 @@ function ProjectSubmissionForm() {
 
           {/* Cover Image */}
           <div className="mb-4">
-            <label className="block text-gray-700 font-semibold mb-2">
-              Cover Image
-            </label>
+            <label className="block text-gray-700 font-semibold mb-2">Cover Image</label>
             <input
               type="file"
-              onChange={(e) => setCoverImage(e.target.files[0])}
+              name="coverImage"
+              onChange={(e) => setCoverimage(e.target.files[0])}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          {/* Logo */}
+          <div className="mb-4">
+            <label className="block text-gray-700 font-semibold mb-2">Logo</label>
+            <input
+              type="file"
+              name="logo"
+              onChange={(e) => setLogo(e.target.files[0])}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
           {/* Pictures */}
           <div className="mb-4">
-            <label className="block text-gray-700 font-semibold mb-2">
-              Pictures
-            </label>
+            <label className="block text-gray-700 font-semibold mb-2">Pictures</label>
             <input
               type="file"
+              name="pictures"
               multiple
-              onChange={(e) => setPictures(Array.from(e.target.files))}
-              className="w-full px-3 py-2 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          {/* Logo */}
-          <div className="mb-4">
-            <label className="block text-gray-700 font-semibold mb-2">
-              Logo
-            </label>
-            <input
-              type="file"
-              onChange={(e) => setLogo(e.target.files[0])}
+              onChange={(e) => setImages(Array.from(e.target.files))}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-
-          {/* Platforms */}
-          <div className="mb-4">
-            <label className="block text-gray-700 font-semibold mb-2">
-              Select Platforms
-            </label>
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                checked={platforms.includes("Web")}
-                onChange={() => handlePlatformChange("Web")}
-                className="mr-2 text-blue-500"
-              />
-              <label className="text-gray-700">Web</label>
-            </div>
-            <div className="flex items-center mt-2">
-              <input
-                type="checkbox"
-                checked={platforms.includes("Mobile")}
-                onChange={() => handlePlatformChange("Mobile")}
-                className="mr-2 text-blue-500"
-              />
-              <label className="text-gray-700">Mobile</label>
-            </div>
-            <div className="flex items-center mt-2">
-              <input
-                type="checkbox"
-                checked={platforms.includes("Desktop")}
-                onChange={() => handlePlatformChange("Desktop")}
-                className="mr-2 text-blue-500"
-              />
-              <label className="text-gray-700">Desktop</label>
-            </div>
-          </div>
-
           {/* Submit Button */}
           <div className="mt-6">
             <button
               type="submit"
-              onClick={handleSubmit}
               className="w-full bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600"
             >
               Submit
@@ -267,7 +227,8 @@ function ProjectSubmissionForm() {
           </div>
         </form>
       </div>
-    </div>
+    </div>)}
+    </>
   );
 }
 

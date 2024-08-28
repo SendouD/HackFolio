@@ -1,52 +1,60 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const projectSubmissionSchema = new mongoose.Schema({
+const projectSchema = new mongoose.Schema({
+  userId:{
+    type:String,
+    required:false
+  },
   projectName: {
     type: String,
-    required: true,
-    maxlength: 50,
+    required: false,
+    maxlength: 50
   },
   tagline: {
     type: String,
-    required: true,
-    maxlength: 200,
+    required: false,
+    maxlength: 200
   },
   problem: {
     type: String,
-    required: true,
-    maxlength: 2000,
+    required: false,
+    maxlength: 2000
   },
   challenges: {
     type: String,
-    maxlength: 2000,
+    required: false,
+    maxlength: 2000
   },
   technologies: {
-    type: [String],
-    required: true,
+    type: String,
+    required: false,
+    maxlength: 100
   },
   links: {
-    type: [String],
+    type: String,
+    required: false,
+    maxlength: 1000
   },
   videoDemo: {
     type: String,
+    required: false
   },
-  coverImage: {
-    type: String, // This would store the file path or URL of the uploaded image
+  coverUrl: {
+    type: String,
+    required: false
   },
-  pictures: {
-    type: [String], // Array to store file paths or URLs of uploaded images
+  logoUrl: {
+    type: String,
+    required: false
   },
-  logo: {
-    type: String, // This would store the file path or URL of the uploaded logo
-  },
-  platforms: {
+  imageUrls: {
     type: [String],
-    enum: ["Web", "Mobile", "Desktop"],
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
+    required: false
+  }
+}, {
+  timestamps: true // Adds createdAt and updatedAt fields
 });
 
-module.exports = mongoose.model("ProjectSubmission", projectSubmissionSchema);
+const Project = mongoose.model('Project', projectSchema);
+
+module.exports = Project;
