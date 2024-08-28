@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const projectSchema = new mongoose.Schema({
+  userId:{
+    type:String,
+    required:false
+  },
   projectName: {
     type: String,
     required: false,

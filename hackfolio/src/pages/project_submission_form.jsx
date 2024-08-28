@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import LoadingPage from "../components/loading"
+import { useNavigate } from 'react-router-dom';
 
 function ProjectSubmissionForm() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     projectName: "",
     tagline: "",
@@ -65,7 +67,8 @@ function ProjectSubmissionForm() {
       console.log(projectData);
       const response = await axios.post('/api/project', projectData);
       console.log('Server response:', response.data);
-      setIsloading(false);
+      navigate('/uploadsuccess');
+      
       
     } catch (error) {
       console.error('Error sending data to /api/project:', error.response ? error.response.data : error.message);

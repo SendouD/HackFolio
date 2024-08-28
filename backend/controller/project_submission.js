@@ -8,7 +8,8 @@ const router = express.Router();
 router.post('/', async(req, res) => {
   try {
     // Create a new project instance with the request body
-    const project = new Project(req.body);
+    const userId="1"
+    const project = new Project({...req.body,userId});
 
     // Save the project to the database
     await project.save();
