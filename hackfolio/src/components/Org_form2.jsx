@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
 function OrgForm2() {
@@ -15,6 +15,7 @@ function OrgForm2() {
     const [toDate, setToDate] = useState("");
     const [prizesDesc, setPrizesDesc] = useState("");
     const navigate = useNavigate();
+    const { id } = useParams();
 
     function nextStep() {
         if (step < totalSteps) setStep(step + 1);
@@ -41,11 +42,15 @@ function OrgForm2() {
         setContactLinks(newLinks);
     }
 
+    async function getDetails() {
+        
+    }
+
     async function handleSubmit(e) {
         const payload = { hackName, uniName, tech, teamSize, partProf, contactLinks, fromDate, toDate, prizesDesc };
         console.log(payload);
         try {
-            const response = await fetch(`/api/hackathon/hackathonCreate/secondStep`, {
+            const response = await fetch(`/api/hackathon/hackathonCreate/${id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -102,6 +107,7 @@ function OrgForm2() {
                             className="block w-full mt-2 rounded-md border-0 py-2 pl-3 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             onChange={(e) => setTech(e.target.value)}
                             defaultValue=""
+                            value={tech}
                         >
                             <option value="" disabled>Select technology</option>
                             <option value="blockchain">Blockchain</option>
@@ -130,6 +136,8 @@ function OrgForm2() {
                             name="participantFields" 
                             className="block w-full mt-2 rounded-md border-0 py-2 pl-3 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             onChange={(e) => setPartProf(e.target.value)}
+                            defaultValue=""
+                            value={partProf}
                         >
                             <option value="" disabled>Select fields</option>
                             <option value="linkedin">LinkedIn Profile</option>
