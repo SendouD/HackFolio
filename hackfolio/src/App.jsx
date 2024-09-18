@@ -7,6 +7,8 @@ import Hack_disp from "./pages/Hack_disp";
 import PrivateRoute from "./components/PrivateRoute";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
+import Project_display from "./pages/Project_display";
+import UserProjects from "./pages/User_projects";
 
 function App() {
   
@@ -18,6 +20,12 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route element={<PrivateRoute/>}>
             <Route element={<SuccessPage/>} path="/uploadsuccess" />
+        </Route>
+        <Route element={<PrivateRoute/>}>
+            <Route element={<Project_display/>} path="/project_display" />
+        </Route>
+        <Route element={<PrivateRoute/>}>
+            <Route element={<UserProjects/>} path="/userProjects" />
         </Route>
         <Route path="/createHackathon" element={<Hack_org />}/>
         <Route path="/project_form" element={<ProjectSubmissionForm />}/>
