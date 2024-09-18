@@ -11,7 +11,6 @@ const PrivateRoute = () => {
       axios.defaults.withCredentials = true;
       try {
         const response = await axios.get('/api/jwtverify');
-        console.log(response);
         if (response.status === 200) {
           setIsUser(true);
         }
