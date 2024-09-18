@@ -3,8 +3,6 @@ const authController = express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-
-// Sign-Up Route
 authController.route('/signup')
     .post(async (req, res) => {
         const { email, password } = req.body;
@@ -60,8 +58,6 @@ authController.route('/signin')
             return res.status(400).json({ Error: "Error signing in!" });
         }
     });
-
-// Route to get all users (optional)
 authController.route('/')
     .get(async (req, res) => {
         try {
