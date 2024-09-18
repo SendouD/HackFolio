@@ -11,6 +11,10 @@ const hackFullDetails = new mongoose.Schema({
         required: true,
         maxlength: 40,
     },
+    eventMode: {
+        type: String,
+        required: true,
+    },
     tech: {
         type: String,
         required: true,

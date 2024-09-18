@@ -49,12 +49,13 @@ hack_create.route("/hackathonCreate/:id")
         }
     })
     .post(async(req,res) => {
-        const { hackName, uniName, tech, teamSize, partProf, contactLinks, fromDate, toDate, prizesDesc } = req.body;
+        const { hackName, uniName, eventMode, tech, teamSize, partProf, contactLinks, fromDate, toDate, prizesDesc } = req.body;
         const id = req.params.id;
         try{
             const newHackFullDetails = new hackFullDetails({
                 hackathonName: hackName,
                 uniName: uniName,
+                eventMode: eventMode,
                 tech: tech,
                 teamSize: teamSize,
                 participantsProfile: partProf,
