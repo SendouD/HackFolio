@@ -2,15 +2,16 @@ import { Routes, Route } from "react-router-dom"
 import Hack_org from "./pages/Hack_org"
 import ProjectSubmissionForm from "./pages/ProjectSubmissionForm";
 import Org_form_completion from "./components/Org_form_completion";
-import SuccessPage from "./pages/ProjectSuccessUpload";
-import Hack_disp from "./pages/Hack_disp";
+import SuccessPage from "./pages/projectSuccessUpload";
 import PrivateRoute from "./components/PrivateRoute";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Project_display from "./pages/ProjectDisplay";
 import UserProjects from "./pages/UserProjects";
 import HackathonProjectDispay from "./pages/hackathon_projects";
-import HomePage from "./pages/HomePage";
+import Hackathon_page from "./pages/Hackathon_page";
+import Org_form3 from "./components/Org_form3";
+import Hack_cards_disp from "./pages/Hack_cards_disp"
 
 function App() {
   
@@ -33,7 +34,8 @@ function App() {
         <Route path="/project_form" element={<ProjectSubmissionForm />}/>
         <Route path="/completeHackathonCreation/:id" element={<Org_form_completion />}/>
         {/* <Route path="/uploadsuccess" element={<SuccessPage/>}/> */}
-        <Route path="/hackathons" element={<Hack_disp />}/>
+        <Route path="/hackathons" element={<Hack_cards_disp />}/>
+        <Route path="/hackathon/:id" element={<Hackathon_page />} />
       </Routes>
     </>
   );

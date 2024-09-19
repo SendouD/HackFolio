@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const cookieParser=require("cookie-parser");
 const cors = require("cors");
 const axios = require("axios");
-const ejs = require("ejs");
 const ProjectSubmission=require("./controller/project_submission");
 const hack_create = require("./controller/hackathon_creation");
 const userlogin=require("./controller/userRegistration");

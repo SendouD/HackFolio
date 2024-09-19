@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 
-function OrgForm2() {
+function OrgForm2(props) {
     const [step, setStep] = useState(1);
     const totalSteps = 3;
     const [hackName, setHackName] = useState("");
     const [uniName, setUniName] = useState("");
+    const [eventMode, setEventMode] = useState("Online");
     const [tech, setTech] = useState("");
     const [teamSize, setTeamSize] = useState("4");
     const [partProf, setPartProf] = useState("");
@@ -48,7 +49,7 @@ function OrgForm2() {
 
     async function getDetails() {
         try {
-            const response = await fetch(`/api/hackathon/hackathonCreate/${id}`, {
+            const response = await fetch(`/api/hackathon/hackathonCreate/${id}/1`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -72,19 +73,19 @@ function OrgForm2() {
         const payload = { hackName, uniName, tech, teamSize, partProf, contactLinks, fromDate, toDate, prizesDesc };
         console.log(payload);
         try {
-            const response = await fetch(`/api/hackathon/hackathonCreate/${id}`, {
+            const response = await fetch(`/api/hackathon/hackathonCreate/${id}/1`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ hackName, uniName, tech, teamSize, partProf, contactLinks, fromDate, toDate, prizesDesc }),
+                body: JSON.stringify({ hackName, uniName, eventMode, tech, teamSize, partProf, contactLinks, fromDate, toDate, prizesDesc }),
             });
             console.log(response);
 
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            navigate(`/createHackathon`);
+            props.setCompleted(1);
 
         } catch (error) {
             console.error('Error posting data:', error);
@@ -125,6 +126,18 @@ function OrgForm2() {
                             onChange={(e) => setUniName(e.target.value)}
                             disabled
                         />
+                        <label className="block text-gray-500 font-medium text-sm mt-4">Technology Stack</label>
+                        <select 
+                            name="techStack" 
+                            className="block w-full mt-2 rounded-md border-0 py-2 pl-3 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            onChange={(e) => setEventMode(e.target.value)}
+                            value={eventMode}
+                        >
+                            <option value="" disabled>Select technology</option>
+                            <option value="Online">Online</option>
+                            <option value="Offline">Offline</option>
+                            <option value="Hybrid">Hybrid</option>
+                        </select>
                         <label className="block text-gray-500 font-medium text-sm mt-4">Technology Stack</label>
                         <select 
                             name="techStack" 

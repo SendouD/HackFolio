@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Hackathon_disp_card from "../components/Hackathon_disp_card";
 import "../styles/hack_card.css"
 
-function Hack_disp() {
+function Hack_cards_disp() {
     const [data,setData] = useState([]);
 
     async function getData() {
@@ -44,4 +44,4 @@ function Hack_disp() {
     );
 }
 
-export default Hack_disp
+export default Hack_cards_disp
