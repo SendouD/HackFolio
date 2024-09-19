@@ -12,6 +12,8 @@ import HackathonProjectDispay from "./pages/hackathon_projects";
 import Hackathon_page from "./pages/Hackathon_page";
 import Org_form3 from "./components/Org_form3";
 import Hack_cards_disp from "./pages/Hack_cards_disp"
+import HomePage from "./pages/HomePage";
+import UserDashboard from "./pages/UserDashboard";
 
 function App() {
   
@@ -28,6 +30,9 @@ function App() {
         <Route element={<Project_display/>} path="/ProjectDisplay/:projectId" />
         <Route element={<PrivateRoute/>}>
             <Route element={<UserProjects/>} path="/userProjects" />
+        </Route>
+        <Route element={<PrivateRoute/>}>
+            <Route element={<UserDashboard/>} path="/UserDashBoard" />
         </Route>
         <Route path="/createHackathon" element={<Hack_org />}/>
         {/* <Route path="/HackathonProjects" element={<HackathonProjectDispay/>}/> */}

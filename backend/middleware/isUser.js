@@ -16,7 +16,7 @@ const validuser=(req,res,next)=>{
       
        
         req.userId = data.userId; 
-        console.log("kumar");
+       
         next();
       }})}
       else{

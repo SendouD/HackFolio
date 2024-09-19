@@ -13,7 +13,7 @@ router.post('/',isUser, async (req, res) => {
    
     // Assuming userId is manually added or can be extracted from a JWT token
     const userId = req.userId;
-    console.log(req.userId); // Example userId
+   // Example userId
 
     // Create a new project instance with the request body
     const project = new Project({ ...req.body, userId });

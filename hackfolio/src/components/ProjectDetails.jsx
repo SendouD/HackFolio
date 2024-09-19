@@ -1,7 +1,7 @@
 import React from "react";
 
 const ProjectDetails = ({ project }) => {
-  console.log(project[0])
+ 
   return (
     <div className="container mx-auto p-6">
       <div className="flex flex-col items-center">
