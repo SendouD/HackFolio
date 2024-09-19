@@ -1,39 +1,36 @@
-import React,{useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../components/header';
-import ProjectCard from '../components/project_disp_card';
+import ProjectCard from '../components/UserProjectCard';
 import axios from 'axios';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+
 function UserProjects() {
   const [projects, setProjects] = useState([]); 
-  // State to store project data
-  const [loading, setLoading] = useState(true); // State for loading indicator
-  const [error, setError] = useState(null); // State to handle errors
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const response = await axios.get("/api/projectfinder/userproject");
-        console.log(response);
-        console.log(response.data);
+        const response = await axios.get("/api/projectfinder/userprojects");
         setProjects(response.data);
-        console.log("pro"+projects); // Store the response data in state
-        setLoading(false); // Set loading to false when data is fetched
+        setLoading(false);
       } catch (err) {
         console.error("Error fetching project:", err);
-        setError(err.message); // Store error message
-        setLoading(false); // Stop loading even if there's an error
+        setError(err.message);
+        setLoading(false);
       }
     };
 
     fetchProject();
-  }, []); // Empty dependency array ensures this runs only once when component mounts
+  }, []);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="min-h-screen bg-gray-100">
-        <Header />
-
+      <Header />
       <main className="max-w-7xl mx-auto p-6">
         <section className="text-center my-8">
           <h1 className="text-3xl font-bold">Share what you built</h1>
@@ -49,7 +46,10 @@ function UserProjects() {
           <h2 className="text-2xl font-bold">Public Projects</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
             {projects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
+              // Wrap each ProjectCard in a Link and pass project ID in the URL
+              <Link key={project.id} to={`/ProjectDisplay/${project._id}`}>
+                <ProjectCard project={project} />
+              </Link>
             ))}
           </div>
         </section>

@@ -1,9 +1,24 @@
 const mongoose = require('mongoose');
 
 const projectSchema = new mongoose.Schema({
-  userId:{
-    type:String,
-    required:false
+  userId: {
+    type: String,
+    required: false
+  },
+  hackathonId: {
+    type: String,
+    required: false,
+    default: null // Set default value to null
+  },
+  views: {
+    type: Number, // Ensure this is a Number type
+    required: false,
+    default: 0 // Set default value to 0
+  },
+  likes: {
+    type: Number, // Ensure this is a Number type
+    required: false,
+    default: 0 // Set default value to 0
   },
   projectName: {
     type: String,
