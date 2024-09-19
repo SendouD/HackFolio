@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 
-function OrgForm2() {
+function OrgForm2(props) {
     const [step, setStep] = useState(1);
     const totalSteps = 3;
     const [hackName, setHackName] = useState("");
@@ -49,7 +49,7 @@ function OrgForm2() {
 
     async function getDetails() {
         try {
-            const response = await fetch(`/api/hackathon/hackathonCreate/${id}`, {
+            const response = await fetch(`/api/hackathon/hackathonCreate/${id}/1`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -73,7 +73,7 @@ function OrgForm2() {
         const payload = { hackName, uniName, tech, teamSize, partProf, contactLinks, fromDate, toDate, prizesDesc };
         console.log(payload);
         try {
-            const response = await fetch(`/api/hackathon/hackathonCreate/${id}`, {
+            const response = await fetch(`/api/hackathon/hackathonCreate/${id}/1`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -85,7 +85,7 @@ function OrgForm2() {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            navigate(`/createHackathon`);
+            props.setCompleted(1);
 
         } catch (error) {
             console.error('Error posting data:', error);

@@ -1,6 +1,7 @@
 const express = require('express');
 const hack_create = express.Router();
 const hackathon_form = require('../models/org_form_Schema');
+const hackWebDetails = require('../models/hackathon_webpage_details');
 const hackFullDetails = require('../models/hackathon_full_details');
 
 hack_create.route('/')
@@ -35,7 +36,7 @@ hack_create.route("/hackathonCreate")
         }
     });
 
-hack_create.route("/hackathonCreate/:id")
+hack_create.route("/hackathonCreate/:id/1")
     .get(async(req,res) => {
         const id =  req.params.id;
         try {
@@ -71,6 +72,29 @@ hack_create.route("/hackathonCreate/:id")
             res.status(200).json({ data: data });
         } catch(e) {
             res.status(400).json({ Error: "Error saving data to Database!" });
+        }
+    });
+
+hack_create.route("/hackathonCreate/:id/2")
+    .get(async(req, res) => {
+        
+    })
+    .post(async(req,res) => {
+        const { aboutHack, aboutPrize } = req.body;
+        console.log(aboutHack+" "+aboutPrize);
+        const id = req.params.id;
+        try {
+            const newHackWebDetails = new hackWebDetails({
+                hackathonId: id,
+                aboutHack: aboutHack,
+                aboutPrize: aboutPrize,
+            });
+            const data = await newHackWebDetails.save();
+
+            res.status(200).json({data: data})
+
+        } catch(e) {
+            console.log("Error: "+e);
         }
     });
 

@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 function Hackathon_disp_card(props) {
+    const navigate = useNavigate();
     
     async function handleClick() {
-        
+        navigate(`/hackathon/${props.data._id}`);
     }
-
-    useEffect(() => {
-        console.log("in")
-    },[])
 
     return(
         <>
