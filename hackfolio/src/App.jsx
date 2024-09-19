@@ -10,6 +10,7 @@ import SignUp from "./pages/SignUp";
 import Project_display from "./pages/ProjectDisplay";
 import UserProjects from "./pages/UserProjects";
 import HackathonProjectDispay from "./pages/hackathon_projects";
+import HomePage from "./pages/HomePage";
 
 function App() {
   
@@ -17,6 +18,7 @@ function App() {
   return(
     <>
       <Routes>
+      <Route path="/" element={<HomePage />} />
       <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route element={<PrivateRoute/>}>
