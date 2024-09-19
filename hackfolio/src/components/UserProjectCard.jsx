@@ -15,7 +15,6 @@ const ProjectCards = ({ project }) => {
         <div className="text-gray-500">
           <p>Views: {project.views}</p>
           <p>Likes: {project.likes}</p>
-          <p>Comments: {project.comments}</p>
         </div>
         <button className="bg-green-500 text-white px-3 py-1 rounded">
           Update Project
