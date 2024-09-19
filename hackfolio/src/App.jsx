@@ -2,8 +2,7 @@ import { Routes, Route } from "react-router-dom"
 import Hack_org from "./pages/Hack_org"
 import ProjectSubmissionForm from "./pages/ProjectSubmissionForm";
 import Org_form_completion from "./components/Org_form_completion";
-import SuccessPage from "./pages/project_successupload";
-import Hack_disp from "./pages/Hack_disp";
+import SuccessPage from "./pages/projectSuccessUpload";
 import PrivateRoute from "./components/PrivateRoute";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
@@ -12,6 +11,7 @@ import UserProjects from "./pages/UserProjects";
 import HackathonProjectDispay from "./pages/hackathon_projects";
 import Hackathon_page from "./pages/Hackathon_page";
 import Org_form3 from "./components/Org_form3";
+import Hack_cards_disp from "./pages/Hack_cards_disp"
 
 function App() {
   
