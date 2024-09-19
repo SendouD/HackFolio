@@ -4,8 +4,31 @@ import { useNavigate, useParams } from 'react-router-dom';
 function Org_form3(props) {
     const aboutRef = useRef(null);
     const prizeRef = useRef(null);
+    const imgInpRef = useRef(null);
+    const imgRef = useRef(null);
     const navigate = useNavigate();
     const { id } = useParams();
+
+    useEffect(() => {
+        const inputElement = imgInpRef.current;
+        
+        const handleImageChange = (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    imgRef.current.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        };
+
+        inputElement.addEventListener('change', handleImageChange);
+
+        return () => {
+            inputElement.removeEventListener('change', handleImageChange);
+        };
+    }, []);
 
     async function handleSubmit(e) {
         const aboutHack = aboutRef.current.value;
@@ -38,9 +61,13 @@ function Org_form3(props) {
                 <div className="flex">
                     <div>
                         <div style={{padding:"30px",paddingTop:"0px",border:"solid 2px rgb(220, 220, 220)",borderRadius:"20px"}}>
-                            <div className="hackathon-poster flex justify-center items-center">
-                                <button className='text-xl bg-gray-400 text-white py-2 px-4 rounded-md font-semibold hover:bg-gray-500'>choose a poster</button>
+                            <div className="hackathon-poster">
+                                <img className="h-full w-full " ref={imgRef} style={{borderRadius:"20px"}}>
+
+                                </img>
                             </div>
+
+                            <input type="file" id="img" name="img" accept="image/*" style={{marginTop:"20px"}} ref={imgInpRef}/>
 
                             <div className="about-hack flex justify-center" style={{marginTop:"20px",height:"800px"}}>
                                 <textarea type="text" className="min-h-full w-11/12" placeholder='Enter about the hackathon' ref={aboutRef}/>
