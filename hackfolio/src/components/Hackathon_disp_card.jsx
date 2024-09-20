@@ -3,10 +3,10 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 function Hackathon_disp_card(props) {
     const navigate = useNavigate();
-    const { id } = useParams();
+    const { name } = useParams();
     
     async function handleClick() {
-        navigate(`/hackathon/${props.data._id}`);
+        navigate(`/hackathon/${props.data.hackathonName}`);
     }
 
     return(

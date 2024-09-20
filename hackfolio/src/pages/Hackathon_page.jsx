@@ -4,7 +4,7 @@ import Hack_info_card from '../components/Hack_info_card';
 import { useParams } from 'react-router-dom';
 
 function Hackathon_page() {
-    const { id } = useParams();
+    const { name } = useParams();
 
     return(
         <div style={{display:"flex", justifyContent:"center"}}>
@@ -12,10 +12,10 @@ function Hackathon_page() {
                 {/* <div style={{height:"300px",width:"100px"}}/> */}
                 <div className="flex">
                     <div>
-                        <Hack_detailed_info id={id}/>
+                        <Hack_detailed_info name={name}/>
                     </div>
                     <div>
-                        <Hack_info_card id={id}/>
+                        <Hack_info_card id={name}/>
                     </div>
                 </div>
             </div>

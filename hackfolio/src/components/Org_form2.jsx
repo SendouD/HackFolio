@@ -16,7 +16,7 @@ function OrgForm2(props) {
     const [toDate, setToDate] = useState("");
     const [prizesDesc, setPrizesDesc] = useState("");
     const navigate = useNavigate();
-    const { id } = useParams();
+    const { name } = useParams();
 
     useEffect(() => {
         getDetails();
@@ -49,7 +49,7 @@ function OrgForm2(props) {
 
     async function getDetails() {
         try {
-            const response = await fetch(`/api/hackathon/hackathonCreate/${id}/1`, {
+            const response = await fetch(`/api/hackathon/hackathonCreate/${name}/1`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -73,7 +73,7 @@ function OrgForm2(props) {
         const payload = { hackName, uniName, tech, teamSize, partProf, contactLinks, fromDate, toDate, prizesDesc };
         console.log(payload);
         try {
-            const response = await fetch(`/api/hackathon/hackathonCreate/${id}/1`, {
+            const response = await fetch(`/api/hackathon/hackathonCreate/${name}/1`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

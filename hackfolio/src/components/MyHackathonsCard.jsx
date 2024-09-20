@@ -3,12 +3,12 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 function MyHackathonsCard(props) {
     const navigate = useNavigate();
-    const { id } = useParams();
+    const { name } = useParams();
     
     async function handleClick() {
         let arr = [];
         try {
-            const response = await fetch(`/api/hackathon/hackathonCreate/${id}/1`, {
+            const response = await fetch(`/api/hackathon/hackathonCreate/${name}/1`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -25,9 +25,9 @@ function MyHackathonsCard(props) {
             console.error('Error posting data:', error);
         }
         if(arr[0].completelyFilled === true) 
-            navigate(`/hackathon/${props.data._id}`);
+            navigate(`/hackathon/${props.data.hackathonName}`);
         else 
-            navigate(`/completeHackathonCreation/${id}`);
+            navigate(`/completeHackathonCreation/${name}`);
     }
 
     return(

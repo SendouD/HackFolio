@@ -6,7 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 function Org_form_completion() {
     const [completed, setCompleted] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
-    const { id } = useParams();
+    const { name } = useParams();
 
     useEffect(()=> {
         getCompletionStatus();
@@ -15,7 +15,7 @@ function Org_form_completion() {
     async function getCompletionStatus() {
         let arr = [];
         try {
-            const response = await fetch(`/api/hackathon/hackathonCreate/${id}/1`, {
+            const response = await fetch(`/api/hackathon/hackathonCreate/${name}/1`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
