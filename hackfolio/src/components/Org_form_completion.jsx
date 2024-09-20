@@ -3,7 +3,7 @@ import Org_form2 from "./Org_form2";
 import Org_form3 from "./Org_form3";
 
 function Org_form_completion() {
-    const [completed, setCompleted] = useState(1);
+    const [completed, setCompleted] = useState(0);
 
     return (
         <>

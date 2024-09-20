@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import MenuItem from "./MenuDropdowns";
 import axios from "axios";
 import DefaultUserIcon from "/DefaultUserIcon.jpeg";
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -11,7 +13,11 @@ const Header = () => {
     const response = await axios.get('/api/userlogin/logout');
     localStorage.removeItem("data");
     setUsername("");
+    navigate("/")
   };
+  const UserDashboard=()=>{
+    navigate(`/UserDashBoard`);
+  }
 
   useEffect(() => {
     const storedData = localStorage.getItem("data");
@@ -28,7 +34,9 @@ const Header = () => {
   return (
     <header className="bg-white shadow">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-        <div className="text-xl font-bold">Hackfolio</div>
+        <div className="text-xl font-bold" onClick={()=>{
+          navigate("/")
+        }}>Hackfolio</div>
         <div className="space-x-8">
           <a href="#" className="text-gray-600 hover:text-gray-900">Profile</a>
           <a href="#" className="text-gray-600 hover:text-gray-900">Hackathons</a>
@@ -52,7 +60,10 @@ const Header = () => {
             {isMenuOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10">
                 <ul className="py-1">
-                  <MenuItem text="My Devfolio" href="#" />
+                  <div onClick={UserDashboard}>
+                  <MenuItem text="My Devfolio"/>
+
+                  </div>
                   <MenuItem text="Edit Profile" href="#" />
                   <MenuItem text="My Hackathons" href="#" />
                   <MenuItem text="My Projects" href="#" />

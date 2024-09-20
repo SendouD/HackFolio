@@ -1,11 +1,38 @@
-import React from 'react';
+import React ,{useEffect,useState}from 'react';
 import Header from '../components/header';
+import UserDashBoardProject from '../components/UserDashboardProject';
+import axios from 'axios';
 
 const UserDashboard = () => {
+  const [projects, setProjects] = useState([]); 
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchProject = async () => {
+      try {
+        const response = await axios.get("/api/projectfinder/userprojects");
+        console.log(response.data)
+        setProjects(response.data);
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching project:", err);
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    fetchProject();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
   return (
+    <>
+    <Header/>
     <div className="min-h-screen bg-gray-100 flex flex-col items-center">
       {/* Navbar */}
-      <Header/>
+      
      
      
       {/* Profile Section */}
@@ -24,20 +51,13 @@ const UserDashboard = () => {
             {/* Projects */}
             <div>
               <h2 className="font-semibold text-lg mb-2">Projects</h2>
-              <div className="mb-4">
-                <h3 className="text-blue-600 text-xl font-semibold">Connectit</h3>
-                <p className="text-gray-600">
-                  Online Blockchain based certificate generation and validation system for government organization
-                </p>
-                <p className="text-gray-500">Solidity, IPFS, MetaMask, JavaScript, ethers.js, ERC721, React.js, Soulbound NFT</p>
-              </div>
-              <div>
-                <h3 className="text-blue-600 text-xl font-semibold">SAVE X ROSS</h3>
-                <p className="text-gray-600">
-                  Making both pedestrians and the driver come forward to rescue animals without negligence
-                </p>
-                <p className="text-gray-500">Solidity, React, OpenZeppelin, MetaMask, ethers.js, Remix (IDE), Hardhat</p>
-              </div>
+              {projects.map((project) => (
+              // Wrap each ProjectCard in a Link and pass project ID in the URL
+              <UserDashBoardProject key={project.id}  project={project}/>
+            ))}
+
+             
+              
             </div>
           </div>
 
@@ -75,6 +95,7 @@ const UserDashboard = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

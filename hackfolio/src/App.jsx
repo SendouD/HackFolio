@@ -25,14 +25,12 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route element={<PrivateRoute/>}>
             <Route element={<SuccessPage/>} path="/uploadsuccess" />
-        </Route>
-        <Route element={<Project_display/>} path="/ProjectDisplay/:projectId" />
-        <Route element={<PrivateRoute/>}>
             <Route element={<UserProjects/>} path="/userProjects" />
         </Route>
-        <Route element={<PrivateRoute/>}>
-            <Route element={<UserDashboard/>} path="/UserDashBoard" />
-        </Route>
+        <Route element={<Project_display/>} path="/ProjectDisplay/:projectId" />
+       
+        <Route element={<UserDashboard/>} path="/UserDashBoard" />
+       
         <Route path="/createHackathon" element={<Hack_org />}/>
         {/* <Route path="/HackathonProjects" element={<HackathonProjectDispay/>}/> */}
         <Route path="/project_form" element={<ProjectSubmissionForm />}/>
