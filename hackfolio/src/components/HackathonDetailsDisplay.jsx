@@ -2,7 +2,7 @@ import { useState,useEffect } from 'react'
 import { useParams } from 'react-router-dom';
 import "../styles/hack_detailed_info.css"
 
-function Hack_detailed_info() {
+function HackathonDetailsDisplay() {
     const { name } = useParams();
     const [data, setData] = useState(null);
     const [formData, setFormData] = useState({
@@ -46,4 +46,4 @@ function Hack_detailed_info() {
     );
 }
 
-export default Hack_detailed_info
+export default HackathonDetailsDisplay

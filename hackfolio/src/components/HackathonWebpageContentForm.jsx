@@ -1,7 +1,7 @@
 import { useState, useEffect,useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 
-function Org_form3(props) {
+function HackathonWebpageContentForm(props) {
     const aboutRef = useRef(null);
     const prizeRef = useRef(null);
     const imgInpRef = useRef(null);
@@ -105,4 +105,4 @@ function Org_form3(props) {
     );
 }
 
-export default Org_form3
+export default HackathonWebpageContentForm

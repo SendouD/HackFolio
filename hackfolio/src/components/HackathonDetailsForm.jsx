@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 
-function OrgForm2(props) {
+function HackathonDetailsForm(props) {
     const [step, setStep] = useState(1);
     const totalSteps = 3;
     const [hackName, setHackName] = useState("");
@@ -266,4 +266,4 @@ function OrgForm2(props) {
     );
 }
 
-export default OrgForm2;
+export default HackathonDetailsForm;

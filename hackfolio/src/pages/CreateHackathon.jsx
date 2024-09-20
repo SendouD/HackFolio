@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from "react";
-import Org_form from "../components/Org_form";
-import Org_page from "../components/Org_page.jsx";
+import HackathonCreationForm from "../components/HackathonCreationForm.jsx";
+import HackathonRegisterWebpage from "../components/HackathonRegisterWebpage.jsx";
 import Header from "../components/header.jsx";
 import "../styles/hack_org_form.css"
 
-function Hack_org() {
+function CreateHackathon() {
     const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
@@ -23,13 +23,13 @@ function Hack_org() {
         <>
             <Header></Header>
             <div>
-                <Org_page setTrue={setTrue}/>
+                <HackathonRegisterWebpage setTrue={setTrue}/>
                 {
-                    (isOpen) ? <Org_form setFalse={setFalse}/> : <></>
+                    (isOpen) ? <HackathonCreationForm setFalse={setFalse}/> : <></>
                 } 
             </div>
         </>
     );
 }
 
-export default Hack_org
+export default CreateHackathon

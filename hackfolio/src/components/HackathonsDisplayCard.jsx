@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from 'react-router-dom';
 
-function Hackathon_disp_card(props) {
+function HackathonsDisplayCard(props) {
     const navigate = useNavigate();
     const { name } = useParams();
     const temp = useState(props.data.hackathonName.split('-').join(' '));
@@ -49,4 +49,4 @@ function Hackathon_disp_card(props) {
     );
 }
 
-export default Hackathon_disp_card
+export default HackathonsDisplayCard

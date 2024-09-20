@@ -2,7 +2,7 @@ import { useState,useEffect } from 'react'
 import { useParams } from 'react-router-dom';
 import "../styles/hack_info_card.css"
 
-function Hack_info_card() {
+function HackathonTimingsDisplay() {
     const { name } = useParams();
     const [data,setData] = useState(null);
 
@@ -22,6 +22,8 @@ function Hack_info_card() {
         }
     }
 
+    if (data === null) return <div>Loading...</div>;
+
     return(
         <div className="hack-info-card flex flex-col justify-between" style={{marginLeft:"30px"}}>
             <div>
@@ -40,4 +42,4 @@ function Hack_info_card() {
     );
 }
 
-export default Hack_info_card
+export default HackathonTimingsDisplay

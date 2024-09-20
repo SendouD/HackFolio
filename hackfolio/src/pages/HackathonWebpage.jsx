@@ -1,10 +1,10 @@
 import { useState,useEffect } from 'react'
-import Hack_detailed_info from '../components/Hack_detailed_info';
-import Hack_info_card from '../components/Hack_info_card';
+import HackathonDetailsDisplay from '../components/HackathonDetailsDisplay';
+import HackathonTimingsDisplay from '../components/HackathonTimingsDisplay';
 import Header from '../components/header';
 import { useParams } from 'react-router-dom';
 
-function Hackathon_page() {
+function HackathonWebpage() {
     const { name } = useParams();
 
     return(
@@ -15,10 +15,10 @@ function Hackathon_page() {
                     {/* <div style={{height:"300px",width:"100px"}}/> */}
                     <div className="flex">
                         <div>
-                            <Hack_detailed_info name={name}/>
+                            <HackathonDetailsDisplay name={name}/>
                         </div>
                         <div>
-                            <Hack_info_card id={name}/>
+                            <HackathonTimingsDisplay id={name}/>
                         </div>
                     </div>
                 </div>
@@ -28,4 +28,4 @@ function Hackathon_page() {
 
 }
 
-export default Hackathon_page
+export default HackathonWebpage

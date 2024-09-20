@@ -1,14 +1,14 @@
-import { useState, useEffect } from "react";
-import Hackathon_disp_card from "../components/Hackathon_disp_card";
+import { useState, useEffect, useRef } from "react";
+import MyHackathonsCard from "../components/MyHackathonsCard"
 import Header from "../components/header";
 import "../styles/hack_card.css"
 
-function Hack_cards_disp() {
+function MyOrganizedHackathons() {
     const [data,setData] = useState([]);
 
     async function getData() {
         try {
-            const response = await fetch(`/api/hackathon`, {
+            const response = await fetch(`/api/hackathon/organizedHackathons`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -34,10 +34,10 @@ function Hack_cards_disp() {
     return(
         <div className="">
             <Header></Header>
-            <div className="flex flex-wrap justify-center">
+            <div className="block">
                 {
                     data.map((element,i) => {
-                        return <Hackathon_disp_card key={i} data={element}/>
+                        return <MyHackathonsCard key={i} data={element}/>
                     })
                 }
             </div>
@@ -45,4 +45,4 @@ function Hack_cards_disp() {
     );
 }
 
-export default Hack_cards_disp
+export default MyOrganizedHackathons

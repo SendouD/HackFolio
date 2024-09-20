@@ -65,6 +65,7 @@ const Header = () => {
 
                   </div>
                   <MenuItem text="Edit Profile" href="#" />
+                  <MenuItem text="Create Hackathon" href="/createHackathon" />
                   <MenuItem text="My Hackathons" href="/organizedHackathons" />
                   <MenuItem text="My Projects" href="#" />
                   <MenuItem text="My Badges" href="#" />

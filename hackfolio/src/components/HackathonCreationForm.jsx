@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 
-function Org_form(props) {
+function HackathonCreationForm(props) {
     const [hackName, setHackName] = useState("");
     const [uniName, setUniName] = useState("");
     const navigate = useNavigate();
@@ -78,4 +78,4 @@ function Org_form(props) {
     );
 }
 
-export default Org_form;
+export default HackathonCreationForm;

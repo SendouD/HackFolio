@@ -4,7 +4,7 @@ import EditHackathonWebsite from "../components/EditHackathonWebsite";
 import Header from '../components/header';
 import "../styles/edit_hack_page.css";
 
-function EditOrganizedHackathon() {
+function EditOrganizedHackathonDetails() {
     const [selected, setSelected] = useState(0);
 
     return (
@@ -38,4 +38,4 @@ function EditOrganizedHackathon() {
     );
 }
 
-export default EditOrganizedHackathon;
+export default EditOrganizedHackathonDetails;
