@@ -15,7 +15,8 @@ const validuser=(req,res,next)=>{
       }else{
       
        
-        req.userId = data.userId; 
+        req.userId = data.userId;
+        req.email = data.email;
        
         next();
       }})}

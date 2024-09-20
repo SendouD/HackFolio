@@ -1,17 +1,38 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from 'react-router-dom';
 
-function Hackathon_disp_card(props) {
+function MyHackathonsCard(props) {
     const navigate = useNavigate();
     const { id } = useParams();
     
     async function handleClick() {
-        navigate(`/hackathon/${props.data._id}`);
+        let arr = [];
+        try {
+            const response = await fetch(`/api/hackathon/hackathonCreate/${id}/1`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+    
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            
+            arr = await response.json();
+    
+        } catch (error) {
+            console.error('Error posting data:', error);
+        }
+        if(arr[0].completelyFilled === true) 
+            navigate(`/hackathon/${props.data._id}`);
+        else 
+            navigate(`/completeHackathonCreation/${id}`);
     }
 
     return(
         <>
-            <div className="hackathon-card flex flex-col justify-between">
+            <div className="hackathon-card h-auto w-auto flex justify-between items-center" onClick={handleClick}>
                 <div className="flex justify-between">
                     <div className="hack-name font-semibold text-3xl text-gray-950/80">{props.data.hackathonName}</div>
                     <div className="flex">
@@ -36,16 +57,10 @@ function Hackathon_disp_card(props) {
                         <div className="hack-status">{props.data.eventMode.toUpperCase()}</div>
                         <div className="hack-status">STARTS {props.data.fromDate}</div>
                     </div>
-                    <button 
-                        className="w-36 text-xl bg-indigo-600 text-white py-2 rounded-md font-semibold hover:bg-indigo-700 transition-colors"
-                        onClick={handleClick}
-                    >
-                        Apply now
-                    </button>
                 </div>
             </div>
         </>
     );
 }
 
-export default Hackathon_disp_card
+export default MyHackathonsCard

@@ -3,11 +3,13 @@ const hack_create = express.Router();
 const hackathon_form = require('../models/org_form_Schema');
 const hackWebDetails = require('../models/hackathon_webpage_details');
 const hackFullDetails = require('../models/hackathon_full_details');
+const isUser = require('../middleware/isUser');
 
 hack_create.route('/')
     .get(async (req,res) => {
-        let details;
-        await hackFullDetails.find({}).then((data)=>details = data);
+        const filledForms = await hackathon_form.find({ completelyFilled: true });
+        const filledFormIds = filledForms.map(form => form._id.toString());
+        const details = await hackFullDetails.find({ hackathonId: { $in: filledFormIds } });
         return res.status(200).send(details);
     })
 
@@ -15,7 +17,7 @@ hack_create.route("/hackathonCreate")
     .get(async (req, res) => {
         
     })
-    .post(async (req, res) => {
+    .post(isUser,async (req, res) => {
         const { hackName, uniName } = req.body;
         try {
             const existingHackathon = await hackathon_form.findOne({ hackathonName: hackName });
@@ -24,6 +26,7 @@ hack_create.route("/hackathonCreate")
             }
 
             const newHackathonData = new hackathon_form({
+                email: req.email,
                 hackathonName: hackName,
                 uniName: uniName,
                 completelyFilled: false,
@@ -54,6 +57,7 @@ hack_create.route("/hackathonCreate/:id/1")
         const id = req.params.id;
         try{
             const newHackFullDetails = new hackFullDetails({
+                hackathonId: id,
                 hackathonName: hackName,
                 uniName: uniName,
                 eventMode: eventMode,
@@ -67,7 +71,7 @@ hack_create.route("/hackathonCreate/:id/1")
             });
             const data = await newHackFullDetails.save();
 
-            await hackathon_form.findByIdAndUpdate(id, { completelyFilled: true });
+            await hackathon_form.findByIdAndUpdate(id, { step: 1});
 
             res.status(200).json({ data: data });
         } catch(e) {
@@ -81,7 +85,6 @@ hack_create.route("/hackathonCreate/:id/2")
     })
     .post(async(req,res) => {
         const { aboutHack, aboutPrize } = req.body;
-        console.log(aboutHack+" "+aboutPrize);
         const id = req.params.id;
         try {
             const newHackWebDetails = new hackWebDetails({
@@ -90,12 +93,22 @@ hack_create.route("/hackathonCreate/:id/2")
                 aboutPrize: aboutPrize,
             });
             const data = await newHackWebDetails.save();
+            await hackathon_form.findByIdAndUpdate(id, { step: 2, completelyFilled: true });
 
             res.status(200).json({data: data})
 
         } catch(e) {
-            console.log("Error: "+e);
+            res.status(400).json({ Error: "Error saving data to Database!" });
         }
+    });
+
+hack_create.route("/organizedHackathons")
+    .get(isUser, async(req,res) => {
+        const email = req.email;
+        const myForms = await hackathon_form.find({ email: email });
+        const myFormIds = myForms.map(form => form._id.toString());
+        const details = await hackFullDetails.find({ hackathonId: { $in: myFormIds } });
+        return res.status(200).send(details);
     });
 
 module.exports = hack_create;
