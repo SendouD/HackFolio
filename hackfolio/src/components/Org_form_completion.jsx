@@ -1,13 +1,44 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Org_form2 from "./Org_form2";
 import Org_form3 from "./Org_form3";
+import { useNavigate, useParams } from 'react-router-dom';
 
 function Org_form_completion() {
-    const [completed, setCompleted] = useState(1);
+    const [completed, setCompleted] = useState(0);
+    const [isLoading, setIsLoading] = useState(true);
+    const { id } = useParams();
+
+    useEffect(()=> {
+        getCompletionStatus();
+    },[]);
+
+    async function getCompletionStatus() {
+        let arr = [];
+        try {
+            const response = await fetch(`/api/hackathon/hackathonCreate/${id}/1`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+    
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            
+            arr = await response.json();
+    
+        } catch (error) {
+            console.error('Error posting data:', error);
+        }
+        setCompleted(arr.step);
+        setIsLoading(false);
+    }
 
     return (
         <>
-            {completed === 0 && 
+            {isLoading && <div>Loading....</div>}
+            {completed === 0 && !isLoading &&
             <div className="flex items-center justify-center min-h-screen bg-gray-50">
                 <div className="w-full max-w-4xl bg-white rounded-lg shadow-lg p-8">
                     <div className="text-center mb-8">
@@ -33,7 +64,7 @@ function Org_form_completion() {
                 </div>
             </div>
             }
-            {completed === 1 && <Org_form3 completed={completed} setCompleted={setCompleted} />}
+            {completed === 1 && !isLoading && <Org_form3 completed={completed} setCompleted={setCompleted} />}
         </>
     );
 }

@@ -13,6 +13,7 @@ import Hackathon_page from "./pages/Hackathon_page";
 import Hack_cards_disp from "./pages/Hack_cards_disp"
 import HomePage from "./pages/HomePage";
 import UserDashboard from "./pages/UserDashboard";
+import My_hackathons from "./pages/My_hackathons";
 
 function App() {
 
@@ -33,11 +34,14 @@ function App() {
         <Route element={<PrivateRoute/>}>
             <Route element={<UserDashboard/>} path="/UserDashBoard" />
         </Route>
-        <Route path="/createHackathon" element={<Hack_org />}/>
         {/* <Route path="/HackathonProjects" element={<HackathonProjectDispay/>}/> */}
         <Route path="/project_form" element={<ProjectSubmissionForm />}/>
-        <Route path="/completeHackathonCreation/:id" element={<Org_form_completion />}/>
         {/* <Route path="/uploadsuccess" element={<SuccessPage/>}/> */}
+        <Route element={<PrivateRoute/>}>
+          <Route path="/createHackathon" element={<Hack_org />}/>
+          <Route path="/completeHackathonCreation/:id" element={<Org_form_completion />}/>
+          <Route path="organizedHackathons" element={<My_hackathons />}/>
+        </Route>
         <Route path="/hackathons" element={<Hack_cards_disp />}/>
         <Route path="/hackathon/:id" element={<Hackathon_page />} />
       </Routes>

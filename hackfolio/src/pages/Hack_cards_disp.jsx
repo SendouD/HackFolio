@@ -35,7 +35,6 @@ function Hack_cards_disp() {
             <div className="flex flex-wrap justify-center">
                 {
                     data.map((element,i) => {
-                        console.log(element)
                         return <Hackathon_disp_card key={i} data={element}/>
                     })
                 }
