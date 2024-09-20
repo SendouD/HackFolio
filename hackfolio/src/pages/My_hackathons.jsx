@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import MyHackathonsCard from "../components/MyHackathonsCard"
+import Header from "../components/header";
 import "../styles/hack_card.css"
 
 function My_hackathons() {
@@ -32,6 +33,7 @@ function My_hackathons() {
 
     return(
         <div className="">
+            <Header></Header>
             <div className="block">
                 {
                     data.map((element,i) => {

@@ -39,11 +39,11 @@ function App() {
         <Route element={<PrivateRoute/>}>
           <Route path="/createHackathon" element={<Hack_org />}/>
           <Route path="/completeHackathonCreation/:name" element={<Org_form_completion />}/>
-          <Route path="organizedHackathons" element={<My_hackathons />}/>
+          <Route path="/organizedHackathons" element={<My_hackathons />}/>
         </Route>
         <Route path="/hackathons" element={<Hack_cards_disp />}/>
         <Route path="/hackathon/:name" element={<Hackathon_page />} />
-        <Route path="/test" element={<EditOrganizedHackathon />} />
+        <Route path="/organizedHackathons/:name" element={<EditOrganizedHackathon />} />
       </Routes>
     </>
   );

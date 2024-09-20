@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import Org_form from "../components/Org_form";
 import Org_page from "../components/Org_page.jsx";
+import Header from "../components/header.jsx";
 import "../styles/hack_org_form.css"
 
 function Hack_org() {
@@ -20,6 +21,7 @@ function Hack_org() {
 
     return(
         <>
+            <Header></Header>
             <div>
                 <Org_page setTrue={setTrue}/>
                 {

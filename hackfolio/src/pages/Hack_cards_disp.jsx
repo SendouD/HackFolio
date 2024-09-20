@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Hackathon_disp_card from "../components/Hackathon_disp_card";
+import Header from "../components/header";
 import "../styles/hack_card.css"
 
 function Hack_cards_disp() {
@@ -32,6 +33,7 @@ function Hack_cards_disp() {
 
     return(
         <div className="">
+            <Header></Header>
             <div className="flex flex-wrap justify-center">
                 {
                     data.map((element,i) => {

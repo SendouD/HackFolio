@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 function Hackathon_disp_card(props) {
     const navigate = useNavigate();
     const { name } = useParams();
+    const temp = useState(props.data.hackathonName.split('-').join(' '));
     
     async function handleClick() {
         navigate(`/hackathon/${props.data.hackathonName}`);
@@ -13,7 +14,7 @@ function Hackathon_disp_card(props) {
         <>
             <div className="hackathon-card flex flex-col justify-between">
                 <div className="flex justify-between">
-                    <div className="hack-name font-semibold text-3xl text-gray-950/80">{props.data.hackathonName}</div>
+                    <div className="hack-name font-semibold text-3xl text-gray-950/80">{temp}</div>
                     <div className="flex">
                         {
                             props.data.contactLinks.map((ele,i)=>{

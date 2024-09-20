@@ -39,7 +39,7 @@ const Header = () => {
         }}>Hackfolio</div>
         <div className="space-x-8">
           <a href="#" className="text-gray-600 hover:text-gray-900">Profile</a>
-          <a href="#" className="text-gray-600 hover:text-gray-900">Hackathons</a>
+          <a href="/hackathons" className="text-gray-600 hover:text-gray-900">Hackathons</a>
           <a href="#" className="text-gray-600 hover:text-gray-900">Badges</a>
           <a href="#" className="text-blue-600 hover:text-blue-800">Projects</a>
         </div>
@@ -65,7 +65,7 @@ const Header = () => {
 
                   </div>
                   <MenuItem text="Edit Profile" href="#" />
-                  <MenuItem text="My Hackathons" href="#" />
+                  <MenuItem text="My Hackathons" href="/organizedHackathons" />
                   <MenuItem text="My Projects" href="#" />
                   <MenuItem text="My Badges" href="#" />
                   <MenuItem text="My Claims" href="#" />
