@@ -95,7 +95,7 @@ function EditHackathonWebsite() {
                     <div className="flex w-full h-full">
                         <div>
                             <div style={{padding:"30px",paddingTop:"0px",border:"solid 2px rgb(220, 220, 220)",borderRadius:"20px"}}>
-                                <div className="hackathon-poster w-[450px] h-52">
+                                <div className="hackathon-poster w-[500px] h-52">
                                     <img className="h-full w-full " ref={imgRef} style={{borderRadius:"5px"}}>
 
                                     </img>
@@ -103,14 +103,14 @@ function EditHackathonWebsite() {
 
                                 <input type="file" id="img" name="img" accept="image/*" style={{marginTop:"20px"}} ref={imgInpRef}/>
 
-                                <div className="about-hack w-[450px] flex justify-center" style={{marginTop:"20px",height:"800px"}}>
+                                <div className="about-hack w-[500px] flex justify-center" style={{marginTop:"20px",height:"800px"}}>
                                     <textarea type="text" name="aboutHack" value={formData.aboutHack} className="min-h-full w-11/12 text-xs p-3" placeholder='Enter about the hackathon' onChange={handleChange} disabled={!editableFields["aboutHack"]}/>
                                 </div>
                                 <button onClick={() => handleEdit("aboutHack")} className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-2 edit-btn">
                                     {editableFields["aboutHack"] ? 'Save' : 'Edit'}
                                 </button>
 
-                                <div className="about-hack w-[450px] flex justify-center" style={{marginTop:"20px",height:"200px"}}>
+                                <div className="about-hack w-[500px] flex justify-center" style={{marginTop:"20px",height:"200px"}}>
                                     <textarea type="text" name="aboutPrize" value={formData.aboutPrize} className="min-h-full w-11/12 text-xs p-3" placeholder='Enter about prizes' onChange={handleChange} disabled={!editableFields["aboutPrize"]}/>
                                 </div>
                                 <button onClick={() => handleEdit("aboutPrize")} className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-2 edit-btn">
