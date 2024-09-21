@@ -7,6 +7,10 @@ const hackWebDetails = new mongoose.Schema({
         required: true,
         maxlength: 40,
     },
+    imageUrl: {
+        type: String,
+        required: true,
+    },
     aboutHack: {
         type: String,
         required: true,

@@ -6,6 +6,7 @@ function HackathonDetailsDisplay() {
     const { name } = useParams();
     const [data, setData] = useState(null);
     const [formData, setFormData] = useState({
+        imageUrl: '',
         aboutHack: '',
         aboutPrize: '',
         otherFields: [],
@@ -22,10 +23,12 @@ function HackathonDetailsDisplay() {
             const arr = await response.json();
             setData(arr.data);
             setFormData({
+                imageUrl: arr.data.imageUrl,
                 aboutHack: arr.data.aboutHack,
                 aboutPrize: arr.data.aboutPrize,
                 otherFields: arr.data.otherFields,
             });
+            console.log(arr.data.imageUrl);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -33,12 +36,12 @@ function HackathonDetailsDisplay() {
 
     return (
         <div style={{ padding: "30px", paddingTop: "0px", border: "solid 2px rgb(220, 220, 220)", borderRadius: "20px" }}>
-            <div className="hackathon-poster">
+            <img src={formData.imageUrl} className="hackathon-poster">
                 
-            </div>
+            </img>
 
             <div className="about-hack" style={{ marginTop: "20px" }}>
-                <div className='text-4xl font-medium mb-5'>About Hackathon: </div>
+                <div className='text-4xl font-medium mb-5'>About Hackathon </div>
                 <div style={{
                     wordWrap: 'break-word',
                     overflowWrap: 'break-word',
@@ -48,7 +51,7 @@ function HackathonDetailsDisplay() {
                 </div>
             </div>
             <div className="about-hack" style={{ marginTop: "20px" }}>
-                <div className='text-4xl font-medium mb-5'>About Prizes:</div>
+                <div className='text-4xl font-medium mb-5'>About Prizes</div>
                 <div style={{
                     wordWrap: 'break-word',
                     overflowWrap: 'break-word',
@@ -58,7 +61,7 @@ function HackathonDetailsDisplay() {
                 </div>
             </div>
             {
-                formData.otherFields.map((field,i) => {
+                formData.otherFields && formData.otherFields.map((field,i) => {
                     return(
                         <div key={i} className="about-hack" style={{ marginTop: "20px" }}>
                             <div className='text-4xl font-medium mb-5'>{field.key}</div>

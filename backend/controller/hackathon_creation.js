@@ -83,11 +83,12 @@ hack_create.route("/hackathonCreate/:name/2")
         
     })
     .post(async(req,res) => {
-        const { aboutHack, aboutPrize, otherFields } = req.body;
+        const { imageUrl, aboutHack, aboutPrize, otherFields } = req.body;
         const name = req.params.name;
         try {
             const newHackWebDetails = new hackWebDetails({
                 hackathonName: name,
+                imageUrl: imageUrl,
                 aboutHack: aboutHack,
                 aboutPrize: aboutPrize,
                 otherFields: otherFields,
@@ -159,10 +160,10 @@ hack_create.route("/updateHackWebsite/:name")
     })
     .post(async(req,res) => {
         const name = req.params.name;
-        const { aboutHack, aboutPrize, otherFields } = req.body;
+        const { imageUrl, aboutHack, aboutPrize, otherFields } = req.body;
 
         try {
-            await hackWebDetails.findOneAndUpdate({hackathonName: name}, {aboutHack: aboutHack, aboutPrize: aboutPrize, otherFields: otherFields});
+            await hackWebDetails.findOneAndUpdate({hackathonName: name}, {imageUrl: imageUrl, aboutHack: aboutHack, aboutPrize: aboutPrize, otherFields: otherFields});
             
             res.status(200).json({msg: "success"})
         } catch(e) {

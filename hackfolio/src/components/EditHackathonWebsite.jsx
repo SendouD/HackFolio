@@ -1,6 +1,7 @@
 import { useState, useEffect,useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import ResizableTextArea from './ResizableTextArea';
+import axios from "axios";
 
 function EditHackathonWebsite() {
     const [data, setData] = useState(null);
@@ -9,6 +10,7 @@ function EditHackathonWebsite() {
     const imgRef = useRef(null);
     const aboutRef = useRef(null);
     const prizeRef = useRef(null);
+    const [imageUrl,setImageUrl] = useState("");
     const [otherFields, setOtherFields] = useState([]);
     const navigate = useNavigate();
     const { name } = useParams();
@@ -16,8 +18,10 @@ function EditHackathonWebsite() {
     useEffect(() => {
         const inputElement = imgInpRef.current;
         
-        const handleImageChange = (e) => {
+        const handleImageChange = async (e) => {
             const file = e.target.files[0];
+            const url = await handleImageUpload(file)
+            setImageUrl(url);
             if (file) {
                 const reader = new FileReader();
                 reader.onload = (e) => {
@@ -36,6 +40,27 @@ function EditHackathonWebsite() {
         };
     }, []);
 
+    const handleImageUpload = async (file) => {
+        const uploadPreset = 'hackathonform';
+        const cloudName = 'dgjqg72wo';
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', uploadPreset);
+    
+        try {
+          const response = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, formData,{
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+            withCredentials: false, 
+          });
+          return response.data.secure_url;
+        } catch (error) {
+          console.error('Error uploading file:', error.response ? error.response.data : error.message);
+          return null;
+        }
+      };
+
     async function getWebInfo() {
         try {
             const response = await fetch(`/api/hackathon/updateHackWebsite/${name}`);
@@ -46,6 +71,7 @@ function EditHackathonWebsite() {
             aboutRef.current.value = arr.data.aboutHack;
             prizeRef.current.value = arr.data.aboutPrize;
             setOtherFields(arr.data.otherFields);
+            setImageUrl(arr.data.imageUrl);
             handleTextChange(aboutRef.current,aboutRef);
             handleTextChange(prizeRef.current,prizeRef);
         } catch (error) {
@@ -63,8 +89,9 @@ function EditHackathonWebsite() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ 
+                    imageUrl,
                     aboutHack, 
-                    aboutPrize, 
+                    aboutPrize,
                     otherFields,
                 }),
             });
@@ -107,7 +134,7 @@ function EditHackathonWebsite() {
                         <div>
                             <div style={{padding:"30px",paddingTop:"0px",border:"solid 2px rgb(220, 220, 220)",borderRadius:"20px"}}>
                                 <div className="hackathon-poster w-[500px] h-52">
-                                    <img className="h-full w-full " ref={imgRef} style={{borderRadius:"5px"}}>
+                                    <img className="h-full w-full" src={imageUrl} ref={imgRef} style={{borderRadius:"5px"}}>
 
                                     </img>
                                 </div>
@@ -115,7 +142,7 @@ function EditHackathonWebsite() {
                                 <input type="file" id="img" name="img" accept="image/*" style={{marginTop:"20px"}} ref={imgInpRef}/>
 
                                 <div className="about-hack w-[500px]" style={{ marginTop: "20px" }}>
-                                    <div className='text-2xl font-medium mb-5 flex justify-center'>About Hackathon: </div>
+                                    <div className='text-2xl font-medium mb-5 flex justify-center'>About Hackathon</div>
                                     <div className='flex justify-center'>
                                         <textarea
                                             type="text"
@@ -128,7 +155,7 @@ function EditHackathonWebsite() {
                                 </div>
 
                                 <div className="about-hack w-[500px]" style={{ marginTop: "20px" }}>
-                                    <div className='text-2xl font-medium mb-5 flex justify-center'>About Prizes:</div>
+                                    <div className='text-2xl font-medium mb-5 flex justify-center'>About Prizes</div>
                                     <div className='flex justify-center'>
                                         <textarea
                                             type="text"
@@ -142,10 +169,10 @@ function EditHackathonWebsite() {
                                 {
                                     otherFields.map((field, i) => (
                                         <div key={i} className="about-hack w-[500px]" style={{ marginTop: "20px" }}>
-                                            <div>
+                                            <div className='text-center'>
                                                 <input
                                                     type="text"
-                                                    className="h-[25%] w-11/12 mb-3 font-medium text-2xl border rounded-md p-2"
+                                                    className="h-[25%] mb-3 font-medium text-2xl border rounded-md p-2"
                                                     placeholder="Enter field name"
                                                     value={field.key}
                                                     onChange={(e) => handleFieldChange(i, 'key', e.target.value)}
@@ -172,8 +199,8 @@ function EditHackathonWebsite() {
                             </div>
 
                             <div className='flex'>
-                                <button className="px-4 py-2 bg-indigo-600 text-xl hover:bg-indigo-700 text-white font-bold rounded my-5" style={{borderRadius:"10px"}} onClick={handleSubmit}>
-                                    Submit
+                                <button onClick={handleSubmit} className="edit-inp w-auto bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline edit-btn mt-4">
+                                    Save Changes
                                 </button>
                             </div>
                         </div>

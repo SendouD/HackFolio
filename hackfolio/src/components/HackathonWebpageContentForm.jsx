@@ -1,12 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import ResizableTextArea from './ResizableTextArea';
+import axios from "axios";
 
 function HackathonWebpageContentForm(props) {
     const aboutRef = useRef(null);
     const prizeRef = useRef(null);
     const imgInpRef = useRef(null);
     const imgRef = useRef(null);
+    const [imageUrl,setImageUrl] = useState("");
     const [otherFields, setOtherFields] = useState([]);
     const navigate = useNavigate();
     const { name } = useParams();
@@ -14,8 +16,10 @@ function HackathonWebpageContentForm(props) {
     useEffect(() => {
         const inputElement = imgInpRef.current;
 
-        const handleImageChange = (e) => {
+        const handleImageChange = async(e) => {
             const file = e.target.files[0];
+            const url = await handleImageUpload(file)
+            setImageUrl(url);
             if (file) {
                 const reader = new FileReader();
                 reader.onload = (e) => {
@@ -32,6 +36,27 @@ function HackathonWebpageContentForm(props) {
         };
     }, []);
 
+    const handleImageUpload = async (file) => {
+        const uploadPreset = 'hackathonform';
+        const cloudName = 'dgjqg72wo';
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', uploadPreset);
+    
+        try {
+          const response = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, formData,{
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+            withCredentials: false, 
+          });
+          return response.data.secure_url;
+        } catch (error) {
+          console.error('Error uploading file:', error.response ? error.response.data : error.message);
+          return null;
+        }
+      };
+
     async function handleSubmit(e) {
         const aboutHack = aboutRef.current.value;
         const aboutPrize = prizeRef.current.value;
@@ -42,7 +67,8 @@ function HackathonWebpageContentForm(props) {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ 
+                body: JSON.stringify({
+                    imageUrl,
                     aboutHack, 
                     aboutPrize, 
                     otherFields,
@@ -94,7 +120,7 @@ function HackathonWebpageContentForm(props) {
                             <input type="file" id="img" name="img" accept="image/*" style={{ marginTop: "20px" }} ref={imgInpRef} />
 
                             <div className="about-hack" style={{ marginTop: "20px" }}>
-                                <div className='text-4xl font-medium mb-5'>About Hackathon: </div>
+                                <div className='text-4xl font-medium mb-5'>About Hackathon </div>
                                 <div className='flex justify-center'>
                                     <textarea
                                         type="text"
@@ -107,7 +133,7 @@ function HackathonWebpageContentForm(props) {
                             </div>
 
                             <div className="about-hack" style={{ marginTop: "20px" }}>
-                                <div className='text-4xl font-medium mb-5'>About Prizes:</div>
+                                <div className='text-4xl font-medium mb-5'>About Prizes</div>
                                 <div className='flex justify-center'>
                                     <textarea
                                         type="text"
