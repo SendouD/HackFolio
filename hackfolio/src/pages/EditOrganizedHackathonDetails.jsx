@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import EditHackathonDetails from "../components/EditHackathonDetails";
 import EditHackathonWebsite from "../components/EditHackathonWebsite";
-import Header from '../components/header';
+import Header from '../components/Header';
 import "../styles/edit_hack_page.css";
 
 function EditOrganizedHackathonDetails() {
@@ -13,7 +13,7 @@ function EditOrganizedHackathonDetails() {
             <div className='flex justify-center mt-2'>
                 <div className="edit-selection-card">
                     <div className='edit-choice-card'>
-                        <button onClick={() => selected === 1 && setSelected(0)} className='edit-choice-btn text-2xl font-thin block mt-10 px-5'>
+                        <button onClick={() => selected === 1 && setSelected(0)} className='edit-choice-btn text-2xl font-thin block mt-5 px-5'>
                             Details
                         </button>
                         <button onClick={() => selected === 0 && setSelected(1)} className='edit-choice-btn text-2xl font-thin block mt-5 px-5'>
@@ -27,7 +27,7 @@ function EditOrganizedHackathonDetails() {
                             <EditHackathonDetails />
                         </div>
                     ) : (
-                        <div className='editCard bg-slate-100'>
+                        <div className='editCard bg-[rgb(251,251,251)]'>
                             <EditHackathonWebsite />
                         </div>
                     )}

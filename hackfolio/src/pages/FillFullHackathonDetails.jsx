@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import HackathonDetailsForm from "../components/HackathonDetailsForm";
 import HackathonWebpageContentForm from "../components/HackathonWebpageContentForm";
 import { useNavigate, useParams } from 'react-router-dom';
+import Header from "../components/Header";
 
 function FillFullHackathonDetails() {
     const [completed, setCompleted] = useState(0);
@@ -37,6 +38,7 @@ function FillFullHackathonDetails() {
 
     return (
         <>
+            <Header/>
             {isLoading && <div>Loading....</div>}
             {completed === 0 && !isLoading &&
             <div className="flex items-center justify-center min-h-screen bg-gray-50">

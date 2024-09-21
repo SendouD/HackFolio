@@ -6,6 +6,8 @@ import PrivateRoute from "./components/PrivateRoute";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import HomePage from "./pages/HomePage";
+import AuthCheck from "./components/AuthCheck";
+
 
 //Projects
 import Project_display from "./pages/ProjectDisplay";
@@ -26,29 +28,32 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route element={<PrivateRoute />}>
-          <Route element={<SuccessPage />} path="/uploadsuccess" />
-          <Route element={<UserProjects />} path="/userProjects" />
-        </Route>
-        <Route element={<Project_display/>} path="/ProjectDisplay/:projectId" />
-       
-        <Route element={<UserDashboard/>} path="/@/:username" />
-       
-        {/* <Route path="/HackathonProjects" element={<HackathonProjectDispay/>}/> */}
-        <Route path="/projectForm" element={<ProjectSubmissionForm />}/>
-        {/* <Route path="/uploadsuccess" element={<SuccessPage/>}/> */}
+        <Route element={<AuthCheck/>}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route element={<PrivateRoute />}>
+            <Route element={<SuccessPage />} path="/uploadsuccess" />
+            <Route element={<UserProjects />} path="/userProjects" />
+          </Route>
+          <Route element={<Project_display/>} path="/ProjectDisplay/:projectId" />
+        
+          <Route element={<UserDashboard/>} path="/@/:username" />
+        
+          {/* <Route path="/HackathonProjects" element={<HackathonProjectDispay/>}/> */}
+          <Route path="/projectForm" element={<ProjectSubmissionForm />}/>
+          {/* <Route path="/uploadsuccess" element={<SuccessPage/>}/> */}
 
-        <Route element={<PrivateRoute/>}>
-          <Route path="/createHackathon" element={<CreateHackathon />}/>
-          <Route path="/completeHackathonCreation/:name" element={<FillFullHackathonDetails />}/>
-          <Route path="/organizedHackathons" element={<MyOrganizedHackathons />}/>
+          <Route element={<PrivateRoute/>}>
+            <Route path="/createHackathon" element={<CreateHackathon />}/>
+            <Route path="/completeHackathonCreation/:name" element={<FillFullHackathonDetails />}/>
+            <Route path="/organizedHackathons" element={<MyOrganizedHackathons />}/>
+          </Route>
+          <Route path="/hackathons" element={<AllHackathonsDisplay />}/>
+          <Route path="/hackathon/:name" element={<HackathonWebpage />} />
+          <Route path="/organizedHackathons/:name" element={<EditOrganizedHackathonDetails />} />        
         </Route>
-        <Route path="/hackathons" element={<AllHackathonsDisplay />}/>
-        <Route path="/hackathon/:name" element={<HackathonWebpage />} />
-        <Route path="/organizedHackathons/:name" element={<EditOrganizedHackathonDetails />} />
+
       </Routes>
     </>
   );

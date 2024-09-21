@@ -82,19 +82,21 @@ function EditHackathonDetails(props) {
 
     function renderEditableField(label, name, value) {
         return (
-            <div>
+            <div className='mt-10'>
                 <label htmlFor={name}>{label}: </label>
-                <input
-                    id={name}
-                    name={name}
-                    value={formData[name]}
-                    disabled={!editableFields[name]}
-                    onChange={handleChange}
-                    className="edit-inp shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                />
-                <button onClick={() => handleEdit(name)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-2 edit-btn">
-                    {editableFields[name] ? 'Save' : 'Edit'}
-                </button>
+                <div className='flex items-center'>
+                    <input
+                        id={name}
+                        name={name}
+                        value={formData[name]}
+                        disabled={!editableFields[name]}
+                        onChange={handleChange}
+                        className="edit-inp shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    />
+                    <button onClick={() => handleEdit(name)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2 edit-btn">
+                        {editableFields[name] ? 'Save' : 'Edit'}
+                    </button>
+                </div>
             </div>
         );
     }
@@ -132,7 +134,7 @@ function EditHackathonDetails(props) {
                 {renderEditableField("Team Size", "teamSize", formData.teamSize)}
                 {renderEditableField("Required Profiles", "partProf", formData.partProf)}
                 
-                <div>
+                <div className='mt-10'>
                     <label htmlFor="contactLinks">Contact Links: </label>
                     {formData.contactLinks.map((link, i) => (
                         <div key={i} className="flex items-center">

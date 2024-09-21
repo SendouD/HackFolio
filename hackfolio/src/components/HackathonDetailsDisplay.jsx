@@ -37,9 +37,10 @@ function HackathonDetailsDisplay() {
             </div>
 
             <div className="about-hack" style={{marginTop:"20px"}}>
+                <div className='text-4xl font-medium mb-5'>About Hackathon: </div>
                 {formData.aboutHack}
             </div>
-            <div className="about-hack" style={{marginTop:"20px"}}> 
+            <div className="about-hack" style={{marginTop:"20px"}}>
                 {formData.aboutPrize}
             </div>
         </div>

@@ -6,6 +6,7 @@ function HackathonWebpageContentForm(props) {
     const prizeRef = useRef(null);
     const imgInpRef = useRef(null);
     const imgRef = useRef(null);
+    const [otherFields, setOtherFields] = useState([]);
     const navigate = useNavigate();
     const { name } = useParams();
 
@@ -62,9 +63,7 @@ function HackathonWebpageContentForm(props) {
                     <div>
                         <div style={{padding:"30px",paddingTop:"0px",border:"solid 2px rgb(220, 220, 220)",borderRadius:"20px"}}>
                             <div className="hackathon-poster">
-                                <img className="h-full w-full " ref={imgRef} style={{borderRadius:"20px"}}>
-
-                                </img>
+                                <img className="h-full w-full " ref={imgRef} style={{borderRadius:"20px"}} />
                             </div>
 
                             <input type="file" id="img" name="img" accept="image/*" style={{marginTop:"20px"}} ref={imgInpRef}/>
@@ -76,6 +75,16 @@ function HackathonWebpageContentForm(props) {
                             <div className="about-hack flex justify-center" style={{marginTop:"20px",height:"200px"}}>
                                 <textarea type="text" className="min-h-full w-11/12" placeholder='Enter about prizes' ref={prizeRef}/>
                             </div>
+                            {
+                                otherFields.map((field,i) => {
+                                    <div className="about-hack flex justify-center" style={{marginTop:"20px",height:"200px"}}>
+                                        <textarea type="text" className="min-h-full w-11/12" placeholder='Enter about prizes' ref={prizeRef}/>
+                                    </div>
+                                })
+                            }
+                            <button onClick={addField} className="add-link-btn edit-btn py-2 px-3">
+                                Add
+                            </button>
                         </div>
                         <div className='flex'>
                             <button className="px-6 py-3 bg-indigo-600 text-2xl hover:bg-indigo-700 text-white font-bold rounded my-5" style={{borderRadius:"10px"}} onClick={handleSubmit}>
@@ -87,7 +96,8 @@ function HackathonWebpageContentForm(props) {
                     <div>
                         <div className="hack-info-card flex flex-col justify-between" style={{marginLeft:"30px"}}>
                             <div>
-
+                                From:
+                                To:
                             </div>
 
                             <div className='flex justify-center'>

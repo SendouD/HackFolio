@@ -6,9 +6,7 @@ const isUser=require('../middleware/isUser')
 authController.route('/')
     .get(isUser,async (req, res) => {
         try {
-            
-            const users = await User.find({});
-            return res.status(200).json(users);
+            return res.status(200).json({msg: "Success"});
         } catch (e) {
             return res.status(400).json({ Error: "Error fetching users from Database!" });
         }
