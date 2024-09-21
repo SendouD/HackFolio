@@ -38,7 +38,7 @@ function App() {
         <Route element={<UserDashboard/>} path="/@/:username" />
        
         {/* <Route path="/HackathonProjects" element={<HackathonProjectDispay/>}/> */}
-        <Route path="/project_form" element={<ProjectSubmissionForm />}/>
+        <Route path="/projectForm" element={<ProjectSubmissionForm />}/>
         {/* <Route path="/uploadsuccess" element={<SuccessPage/>}/> */}
 
         <Route element={<PrivateRoute/>}>
