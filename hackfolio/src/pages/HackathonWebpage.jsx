@@ -1,7 +1,7 @@
 import { useState,useEffect } from 'react'
 import HackathonDetailsDisplay from '../components/HackathonDetailsDisplay';
 import HackathonTimingsDisplay from '../components/HackathonTimingsDisplay';
-import Header from '../components/header';
+import Header from '../components/Header';
 import { useParams } from 'react-router-dom';
 
 function HackathonWebpage() {

@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import { Outlet, Navigate } from 'react-router-dom';
 import axios from 'axios';
 
-const PrivateRoute = () => {
-  const [isUser, setIsUser] = useState(false);
+function AuthCheck() {
+  const [isExp, setIsExp] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -11,11 +11,12 @@ const PrivateRoute = () => {
       axios.defaults.withCredentials = true;
       try {
         const response = await axios.get('/api/jwtverify');
-        if (response.status === 200) {
-          setIsUser(true);
+        if(response.status === 201) {
+            if(response.data.error ==='Token expired') {
+                localStorage.removeItem("data");
+            }
         }
 
-        
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -30,7 +31,7 @@ const PrivateRoute = () => {
     return <div>Loading...</div>;
   }
 
-  return isUser ? <Outlet /> : <Navigate to="/signin" />;
-};
+  return <Outlet />
+}
 
-export default PrivateRoute;
+export default AuthCheck

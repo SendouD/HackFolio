@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Header from "../components/header";
+import Header from "../components/Header";
 import UserDashBoardProject from "../components/UserDashboardProject";
 import axios from "axios";
 import { useParams } from "react-router-dom";

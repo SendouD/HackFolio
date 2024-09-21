@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ProjectDetails from "../components/ProjectDetails";
 import axios from "axios";
 import { useParams } from "react-router-dom"; // Import useParams to extract route params
-import Header from "../components/header";
+import Header from "../components/Header";
 
 const Project_display = () => {
   const { projectId } = useParams(); // Extract projectId from the URL

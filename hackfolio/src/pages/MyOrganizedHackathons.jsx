@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import MyHackathonsCard from "../components/MyHackathonsCard"
-import Header from "../components/header";
+import Header from "../components/Header";
 import "../styles/hack_card.css"
 
 function MyOrganizedHackathons() {

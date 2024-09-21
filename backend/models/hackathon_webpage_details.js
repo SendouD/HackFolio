@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
 const hackWebDetails = new mongoose.Schema({
     hackathonName: {
@@ -13,7 +14,10 @@ const hackWebDetails = new mongoose.Schema({
     aboutPrize: {
         type: String,
         required: true,
-    }
+    },
+    aboutOtherStuff: {
+        type: Schema.Types.Mixed,
+    },
 });
 
 module.exports = mongoose.model("HackathonWebpageDetails", hackWebDetails);
