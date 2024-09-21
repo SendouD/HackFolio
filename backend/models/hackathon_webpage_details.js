@@ -15,7 +15,7 @@ const hackWebDetails = new mongoose.Schema({
         type: String,
         required: true,
     },
-    aboutOtherStuff: {
+    otherFields: {
         type: Schema.Types.Mixed,
     },
 });

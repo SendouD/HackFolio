@@ -15,7 +15,6 @@ function HackathonTimingsDisplay() {
             const response = await fetch(`/api/hackathon/updateHackDetails/${name}`);
             if (!response.ok) throw new Error('Network response was not ok');
             const arr = await response.json();
-            console.log(arr.data);
             setData(arr.data);
         } catch (error) {
             console.error('Error fetching data:', error);
