@@ -1,13 +1,13 @@
 import { useState, useEffect,useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 
-function Org_form3(props) {
+function HackathonWebpageContentForm(props) {
     const aboutRef = useRef(null);
     const prizeRef = useRef(null);
     const imgInpRef = useRef(null);
     const imgRef = useRef(null);
     const navigate = useNavigate();
-    const { id } = useParams();
+    const { name } = useParams();
 
     useEffect(() => {
         const inputElement = imgInpRef.current;
@@ -35,7 +35,7 @@ function Org_form3(props) {
         const aboutPrize = prizeRef.current.value;
         console.log(aboutPrize);
         try {
-            const response = await fetch(`/api/hackathon/hackathonCreate/${id}/2`, {
+            const response = await fetch(`/api/hackathon/hackathonCreate/${name}/2`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -105,4 +105,4 @@ function Org_form3(props) {
     );
 }
 
-export default Org_form3
+export default HackathonWebpageContentForm

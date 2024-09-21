@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import Org_form2 from "./Org_form2";
-import Org_form3 from "./Org_form3";
+import HackathonDetailsForm from "../components/HackathonDetailsForm";
+import HackathonWebpageContentForm from "../components/HackathonWebpageContentForm";
 import { useNavigate, useParams } from 'react-router-dom';
 
-function Org_form_completion() {
+function FillFullHackathonDetails() {
     const [completed, setCompleted] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
-    const { id } = useParams();
+    const { name } = useParams();
 
     useEffect(()=> {
         getCompletionStatus();
@@ -15,7 +15,7 @@ function Org_form_completion() {
     async function getCompletionStatus() {
         let arr = [];
         try {
-            const response = await fetch(`/api/hackathon/hackathonCreate/${id}/1`, {
+            const response = await fetch(`/api/hackathon/hackathonCreate/${name}/1`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -47,7 +47,7 @@ function Org_form_completion() {
                         </h1>
                     </div>
                     <div className="space-y-8">
-                        <Org_form2 completed={completed} setCompleted={setCompleted} />
+                        <HackathonDetailsForm completed={completed} setCompleted={setCompleted} />
                         {/* {completed === 2 && <Org_form4 completed={completed} setCompleted={setCompleted} />} */}
                     </div>
                     {/* <div className="mt-8">
@@ -64,9 +64,9 @@ function Org_form_completion() {
                 </div>
             </div>
             }
-            {completed === 1 && !isLoading && <Org_form3 completed={completed} setCompleted={setCompleted} />}
+            {completed === 1 && !isLoading && <HackathonWebpageContentForm completed={completed} setCompleted={setCompleted} />}
         </>
     );
 }
 
-export default Org_form_completion;
+export default FillFullHackathonDetails;

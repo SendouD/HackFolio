@@ -1,19 +1,26 @@
-import { Routes, Route } from "react-router-dom";
-import Hack_org from "./pages/Hack_org";
-import ProjectSubmissionForm from "./pages/ProjectSubmissionForm";
-import Org_form_completion from "./components/Org_form_completion";
+import { Routes, Route } from "react-router-dom"
+
+//common
 import SuccessPage from "./pages/projectSuccessUpload";
 import PrivateRoute from "./components/PrivateRoute";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
+import HomePage from "./pages/HomePage";
+
+//Projects
 import Project_display from "./pages/ProjectDisplay";
+import ProjectSubmissionForm from "./pages/ProjectSubmissionForm";
 import UserProjects from "./pages/UserProjects";
 import HackathonProjectDispay from "./pages/hackathon_projects";
-import Hackathon_page from "./pages/Hackathon_page";
-import Hack_cards_disp from "./pages/Hack_cards_disp";
-import HomePage from "./pages/HomePage";
 import UserDashboard from "./pages/UserDashboard";
-import My_hackathons from "./pages/My_hackathons";
+
+//Hackathons
+import MyOrganizedHackathons from "./pages/MyOrganizedHackathons";
+import EditOrganizedHackathonDetails from "./pages/EditOrganizedHackathonDetails";
+import FillFullHackathonDetails from "./pages/FillFullHackathonDetails";
+import AllHackathonsDisplay from "./pages/AllHackathonsDisplay";
+import HackathonWebpage from "./pages/HackathonWebpage";
+import CreateHackathon from "./pages/CreateHackathon"
 
 function App() {
   return (
@@ -32,18 +39,22 @@ function App() {
           />
           <Route path="organizedHackathons" element={<My_hackathons />} />
         </Route>
-        <Route
-          element={<Project_display />}
-          path="/ProjectDisplay/:projectId"
-        />
+        <Route element={<Project_display/>} path="/ProjectDisplay/:projectId" />
+       
+        <Route element={<UserDashboard/>} path="/UserDashBoard" />
+       
+        {/* <Route path="/HackathonProjects" element={<HackathonProjectDispay/>}/> */}
+        <Route path="/project_form" element={<ProjectSubmissionForm />}/>
+        {/* <Route path="/uploadsuccess" element={<SuccessPage/>}/> */}
 
-        {/* Update this route to handle @username */}
-        <Route element={<UserDashboard />} path="/@/:username" />
-
-        <Route path="/project_form" element={<ProjectSubmissionForm />} />
-
-        <Route path="/hackathons" element={<Hack_cards_disp />} />
-        <Route path="/hackathon/:id" element={<Hackathon_page />} />
+        <Route element={<PrivateRoute/>}>
+          <Route path="/createHackathon" element={<CreateHackathon />}/>
+          <Route path="/completeHackathonCreation/:name" element={<FillFullHackathonDetails />}/>
+          <Route path="/organizedHackathons" element={<MyOrganizedHackathons />}/>
+        </Route>
+        <Route path="/hackathons" element={<AllHackathonsDisplay />}/>
+        <Route path="/hackathon/:name" element={<HackathonWebpage />} />
+        <Route path="/organizedHackathons/:name" element={<EditOrganizedHackathonDetails />} />
       </Routes>
     </>
   );

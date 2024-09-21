@@ -1,6 +1,6 @@
 
 
-function Org_page(props) {
+function HackathonRegisterWebpage(props) {
     return(
         <>
             <div className="flex justify-center min-h-screen bg-gray-200 pt-16">
@@ -23,4 +23,4 @@ function Org_page(props) {
     );
 }
 
-export default Org_page
+export default HackathonRegisterWebpage

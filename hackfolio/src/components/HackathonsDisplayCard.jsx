@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from 'react-router-dom';
 
-function Hackathon_disp_card(props) {
+function HackathonsDisplayCard(props) {
     const navigate = useNavigate();
-    const { id } = useParams();
+    const { name } = useParams();
+    const temp = useState(props.data.hackathonName.split('-').join(' '));
     
     async function handleClick() {
-        navigate(`/hackathon/${props.data._id}`);
+        navigate(`/hackathon/${props.data.hackathonName}`);
     }
 
     return(
         <>
             <div className="hackathon-card flex flex-col justify-between">
                 <div className="flex justify-between">
-                    <div className="hack-name font-semibold text-3xl text-gray-950/80">{props.data.hackathonName}</div>
+                    <div className="hack-name font-semibold text-3xl text-gray-950/80">{temp}</div>
                     <div className="flex">
                         {
                             props.data.contactLinks.map((ele,i)=>{
@@ -48,4 +49,4 @@ function Hackathon_disp_card(props) {
     );
 }
 
-export default Hackathon_disp_card
+export default HackathonsDisplayCard

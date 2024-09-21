@@ -3,38 +3,39 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 function MyHackathonsCard(props) {
     const navigate = useNavigate();
-    const { id } = useParams();
+    const { name } = useParams();
+    const temp = useState(props.data.hackathonName.split('-').join(' '));
     
     async function handleClick() {
-        let arr = [];
         try {
-            const response = await fetch(`/api/hackathon/hackathonCreate/${id}/1`, {
+            const response = await fetch(`/api/hackathon/hackathonCreate/${props.data.hackathonName}/1`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
                 },
             });
-    
+
+            const data = await response.json();
+
+            if(data.completelyFilled)
+                navigate(`/organizedHackathons/${props.data.hackathonName}`);
+            else
+                navigate(`/completeHackathonCreation/${props.data.hackathonName}`);
+            
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            
-            arr = await response.json();
     
         } catch (error) {
             console.error('Error posting data:', error);
         }
-        if(arr[0].completelyFilled === true) 
-            navigate(`/hackathon/${props.data._id}`);
-        else 
-            navigate(`/completeHackathonCreation/${id}`);
     }
 
     return(
         <>
             <div className="hackathon-card h-auto w-auto flex justify-between items-center" onClick={handleClick}>
                 <div className="flex justify-between">
-                    <div className="hack-name font-semibold text-3xl text-gray-950/80">{props.data.hackathonName}</div>
+                    <div className="hack-name font-semibold text-3xl text-gray-950/80">{temp}</div>
                     <div className="flex">
                         {
                             props.data.contactLinks.map((ele,i)=>{

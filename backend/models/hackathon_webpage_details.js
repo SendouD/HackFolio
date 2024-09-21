@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
 
 const hackWebDetails = new mongoose.Schema({
-    hackathonId: {
+    hackathonName: {
         type: String,
         required: true,
+        maxlength: 40,
     },
     aboutHack: {
         type: String,
