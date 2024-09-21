@@ -167,7 +167,7 @@ function EditHackathonWebsite() {
                                     </div>
                                 </div>
                                 {
-                                    otherFields.map((field, i) => (
+                                    otherFields && otherFields.map((field, i) => (
                                         <div key={i} className="about-hack w-[500px]" style={{ marginTop: "20px" }}>
                                             <div className='text-center'>
                                                 <input
