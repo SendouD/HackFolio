@@ -23,6 +23,7 @@ import FillFullHackathonDetails from "./pages/FillFullHackathonDetails";
 import AllHackathonsDisplay from "./pages/AllHackathonsDisplay";
 import HackathonWebpage from "./pages/HackathonWebpage";
 import CreateHackathon from "./pages/CreateHackathon"
+import HackathonRegistrationPage from "./pages/HackathonRegistrationPage";
 
 function App() {
   return (
@@ -45,11 +46,12 @@ function App() {
           {/* <Route path="/uploadsuccess" element={<SuccessPage/>}/> */}
 
           <Route element={<PrivateRoute/>}>
-            <Route path="/createHackathon" element={<CreateHackathon />}/>
-            <Route path="/completeHackathonCreation/:name" element={<FillFullHackathonDetails />}/>
-            <Route path="/organizedHackathons" element={<MyOrganizedHackathons />}/>
+            <Route path="/createHackathon" element={<CreateHackathon />} />
+            <Route path="/completeHackathonCreation/:name" element={<FillFullHackathonDetails />} />
+            <Route path="/organizedHackathons" element={<MyOrganizedHackathons />} />
+            <Route path="/hackathon/:name/register" element={<HackathonRegistrationPage />} />
           </Route>
-          <Route path="/hackathons" element={<AllHackathonsDisplay />}/>
+          <Route path="/hackathons" element={<AllHackathonsDisplay />} />
           <Route path="/hackathon/:name" element={<HackathonWebpage />} />
           <Route path="/organizedHackathons/:name" element={<EditOrganizedHackathonDetails />} />        
         </Route>

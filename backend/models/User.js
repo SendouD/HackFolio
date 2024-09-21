@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
   skills: { type: [String], default: null },                 // Array of skills
   phoneNumber: { type: String, default: null },              // Phone number field
   bio: { type: String, default: null },                      // Bio field
-}, { timestamps: true });                                     // Adds createdAt and updatedAt timestamps
+}, { timestamps: true });                                    // Adds createdAt and updatedAt timestamps
 
 // Create the User model using the schema
 const User = mongoose.model('User', userSchema);

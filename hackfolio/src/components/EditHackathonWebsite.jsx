@@ -186,14 +186,14 @@ function EditHackathonWebsite() {
                                                     ind={i}
                                                 />
                                                 <div className='flex justify-end'>
-                                                    <button className='remove-link-btn1 edit-btn mt-2 mr-0 ml-2' onClick={() => removeField(i)}>Remove</button>
+                                                    <button className='remove-link-btn1 edit-btn mt-2 mr-0 ml-2 font-medium' onClick={() => removeField(i)}>Remove</button>
                                                 </div>
                                             </div>
                                         </div>
                                     ))
                                 }
 
-                                <button onClick={addField} className="add-link-btn edit-btn py-2 px-3 mt-[20px]">
+                                <button onClick={addField} className="add-link-btn edit-btn py-2 px-3 mt-[20px] font-medium">
                                     Add more fields
                                 </button>
                             </div>

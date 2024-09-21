@@ -1,9 +1,10 @@
 import { useState,useEffect } from 'react'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import "../styles/hack_info_card.css"
 
 function HackathonTimingsDisplay() {
     const { name } = useParams();
+    const navigate = useNavigate();
     const [data,setData] = useState(null);
 
     useEffect(() => {
@@ -33,6 +34,7 @@ function HackathonTimingsDisplay() {
             <div className='flex justify-center'>
                 <button 
                     className="w-11/12 text-xl bg-indigo-600 text-white py-4 rounded-md font-semibold hover:bg-indigo-700 transition-colors"
+                    onClick={()=>navigate(`/hackathon/${name}/register`)}
                 >
                     Apply now
                 </button>
