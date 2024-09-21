@@ -5,7 +5,7 @@ const projectSchema = new mongoose.Schema({
     type: String,
     required: false
   },
-  hackathonId: {
+  hackathonName: {
     type: String,
     required: false,
     default: null // Set default value to null

@@ -15,9 +15,7 @@ const Header = () => {
     setUsername("");
     navigate("/")
   };
-  const UserDashboard=()=>{
-    navigate(`/UserDashBoard`);
-  }
+
 
   useEffect(() => {
     const storedData = localStorage.getItem("data");
@@ -26,6 +24,9 @@ const Header = () => {
       setUsername(parsedData?.username);
     }
   }, []);
+  const UserDashboard=()=>{
+    navigate(`/@/${username}`);
+  }
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -66,7 +67,10 @@ const Header = () => {
                   </div>
                   <MenuItem text="Edit Profile" href="#" />
                   <MenuItem text="My Hackathons" href="#" />
-                  <MenuItem text="My Projects" href="#" />
+                  <div  onClick={()=>{
+                    navigate("/userProjects")
+                  }}><MenuItem text="My Projects" /></div>
+                  
                   <MenuItem text="My Badges" href="#" />
                   <MenuItem text="My Claims" href="#" />
                   <MenuItem text="Organizer Dashboard" href="#" />

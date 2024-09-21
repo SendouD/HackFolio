@@ -9,7 +9,7 @@ router.get("/userprojects", isUser, async (req, res) => {
     let userId = req.userId;
 
     const projects = await Project.find({ userId: userId });
-    console.log(projects)
+    
     if (projects.length === 0) {
       return res.status(404).json({
         message: "No projects found",
