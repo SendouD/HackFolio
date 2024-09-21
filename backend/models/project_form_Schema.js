@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
 const projectSchema = new mongoose.Schema({
-  userId: {
+  username: {
     type: String,
     required: false
   },
-  hackathonId: {
+  hackathonName: {
     type: String,
     required: false,
     default: null // Set default value to null

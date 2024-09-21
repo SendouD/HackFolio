@@ -23,24 +23,22 @@ import HackathonWebpage from "./pages/HackathonWebpage";
 import CreateHackathon from "./pages/CreateHackathon"
 
 function App() {
-
-  
-  return(
+  return (
     <>
       <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/signin" element={<SignIn />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route element={<PrivateRoute/>}>
-            <Route element={<SuccessPage/>} path="/uploadsuccess" />
-            <Route element={<UserProjects/>} path="/userProjects" />
+        <Route element={<PrivateRoute />}>
+          <Route element={<SuccessPage />} path="/uploadsuccess" />
+          <Route element={<UserProjects />} path="/userProjects" />
         </Route>
         <Route element={<Project_display/>} path="/ProjectDisplay/:projectId" />
        
-        <Route element={<UserDashboard/>} path="/UserDashBoard" />
+        <Route element={<UserDashboard/>} path="/@/:username" />
        
         {/* <Route path="/HackathonProjects" element={<HackathonProjectDispay/>}/> */}
-        <Route path="/project_form" element={<ProjectSubmissionForm />}/>
+        <Route path="/projectForm" element={<ProjectSubmissionForm />}/>
         {/* <Route path="/uploadsuccess" element={<SuccessPage/>}/> */}
 
         <Route element={<PrivateRoute/>}>
@@ -56,4 +54,4 @@ function App() {
   );
 }
 
-export default App
+export default App;

@@ -8,6 +8,7 @@ const hack_create = require("./controller/hackathon_creation");
 const userlogin=require("./controller/userRegistration");
 const jwtverifier=require("./controller/jwtVerifier");
 const project_finder=require("./controller/project_finder")
+const user=require("./controller/UserProfile")
 
 const app = express();
 
@@ -28,4 +29,5 @@ app.use("/api/hackathon", hack_create);
 app.use("/api/userlogin",userlogin);
 app.use("/api/jwtverify",jwtverifier);
 app.use("/api/projectfinder",project_finder);
+app.use("/api/user",user);
 app.listen(5000, () => { console.log("Server started on port 5000 ... (http://localhost:5000/)") });

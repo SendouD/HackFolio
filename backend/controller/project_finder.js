@@ -6,10 +6,32 @@ const router = express.Router();
 
 router.get("/userprojects", isUser, async (req, res) => {
   try {
-    let userId = req.userId;
+    let username = req.username;
 
-    const projects = await Project.find({ userId: userId });
-    console.log(projects)
+    const projects = await Project.find({ username: username });
+    
+    if (projects.length === 0) {
+      return res.status(404).json({
+        message: "No projects found",
+      });
+    }
+
+    res.status(200).json(projects);
+  } catch (error) {
+    // Handle errors during retrieval
+    console.error("Error fetching project details:", error);
+    res.status(500).json({
+      message: "Error fetching project details",
+      error: error.message,
+    });
+  }
+});
+router.get("/userprojects/:username", async (req, res) => {
+  try {
+    let username = req.params.username;
+
+    const projects = await Project.find({ username: username });
+    
     if (projects.length === 0) {
       return res.status(404).json({
         message: "No projects found",
