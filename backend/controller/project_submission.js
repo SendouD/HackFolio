@@ -12,11 +12,11 @@ router.post('/',isUser, async (req, res) => {
   try {
    
     // Assuming userId is manually added or can be extracted from a JWT token
-    const userId = req.userId;
+    const username = req.username;
    // Example userId
 
     // Create a new project instance with the request body
-    const project = new Project({ ...req.body, userId });
+    const project = new Project({ ...req.body, username });
 
     // Save the project to the database
     await project.save();

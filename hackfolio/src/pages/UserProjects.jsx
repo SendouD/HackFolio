@@ -15,9 +15,14 @@ function UserProjects() {
         const response = await axios.get("/api/projectfinder/userprojects");
         setProjects(response.data);
         setLoading(false);
-      } catch (err) {
-        console.error("Error fetching project:", err);
-        setError(err.message);
+      }catch (err) {
+        if (err.response && err.response.status === 404) {
+          setProjects("No projects found"); // Set message directly
+        } else {
+          console.error("Error fetching project:", err);
+          setError(err.message);
+        }
+      } finally {
         setLoading(false);
       }
     };
@@ -45,12 +50,15 @@ function UserProjects() {
         <section className="my-12">
           <h2 className="text-2xl font-bold">Public Projects</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-            {projects.map((project) => (
-              // Wrap each ProjectCard in a Link and pass project ID in the URL
-              <Link key={project.id} to={`/ProjectDisplay/${project._id}`}>
-                <ProjectCard project={project} />
-              </Link>
-            ))}
+          {Array.isArray(projects) && projects.length > 0 ? (
+                  projects.map((project) => (
+                    <Link key={project.id} to={`/ProjectDisplay/${project._id}`}>
+                    <ProjectCard project={project} />
+                  </Link>
+                  ))
+                ) : (
+                  <p>{projects}</p> // Display the message directly
+                )}
           </div>
         </section>
       </main>
