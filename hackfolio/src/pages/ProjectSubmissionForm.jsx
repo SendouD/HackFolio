@@ -6,8 +6,6 @@ const ProjectSubmissionForm=()=>{
         <>
         <Header/>
         <ProjectForm/>
-        
-        
         </>
 
     )
