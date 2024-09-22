@@ -11,7 +11,7 @@ function HackathonRegistrationPage() {
     return(
         <>
             <Header></Header>
-            <div className='flex justify-center items-center h-[150px] mt-3 text-gray-500 text-xl'>
+            <div className='flex justify-center items-center h-[150px] my-3 text-gray-500 text-xl'>
                 <div className='bg-white p-6 rounded-[10px]'>
                     <div 
                         onClick={(e)=>setSelection(0)}
@@ -29,7 +29,7 @@ function HackathonRegistrationPage() {
                     </div>
                     <div 
                         onClick={(e)=>setSelection(2)}
-                        className={`cursor-pointer ml-10 p-5 ${selection === 2 && 'text-blue-500 borderz p-[19px]'} rounded-[10px] hover:bg-gray-200`}
+                        className={`cursor-pointer ml-10 p-5 ${selection === 2 && 'text-blue-500 border p-[19px]'} rounded-[10px] hover:bg-gray-200`}
                     >
                         TIMELINE
                     </div>
@@ -42,10 +42,17 @@ function HackathonRegistrationPage() {
                 </div>
             </div>
 
-            {selection === 0 && <HackathonRegistrationForm />}
-            {selection === 1 && <HackathonLinks />}
-            {selection === 2 && <HackathonTimelineDescription />}
-            {selection === 3 && <HackathonPrizesDescription />}
+            <div className='flex'>
+                <div>
+                    {selection === 0 && <HackathonRegistrationForm />}
+                    {selection === 1 && <HackathonLinks />}
+                    {selection === 2 && <HackathonTimelineDescription />}
+                    {selection === 3 && <HackathonPrizesDescription />}
+                </div>
+                <div>
+                    
+                </div>
+            </div>
         </>
     );
 }
