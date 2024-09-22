@@ -34,12 +34,14 @@ function AllHackathonsDisplay() {
     return(
         <div className="">
             <Header></Header>
-            <div className="flex flex-wrap justify-center">
-                {
-                    data.map((element,i) => {
-                        return <HackathonsDisplayCard key={i} data={element}/>
-                    })
-                }
+            <div className="flex justify-center">
+                <div className="flex flex-wrap justify-center w-4/5">
+                    {
+                        data.map((element,i) => {
+                            return <HackathonsDisplayCard key={i} data={element}/>
+                        })
+                    }
+                </div>
             </div>
         </div>
     );

@@ -2,6 +2,7 @@ import { useState, useEffect,useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import ResizableTextArea from './ResizableTextArea';
 import axios from "axios";
+import LoadingPage from './Loading';
 
 function EditHackathonWebsite() {
     const [data, setData] = useState(null);
@@ -10,8 +11,10 @@ function EditHackathonWebsite() {
     const imgRef = useRef(null);
     const aboutRef = useRef(null);
     const prizeRef = useRef(null);
-    const [imageUrl,setImageUrl] = useState("");
+    const [file,setFile] = useState("");
     const [otherFields, setOtherFields] = useState([]);
+    const [imageUrl,setImageUrl] = useState("");
+    const [loading,setLoading] = useState(false);
     const navigate = useNavigate();
     const { name } = useParams();
 
@@ -20,8 +23,7 @@ function EditHackathonWebsite() {
         
         const handleImageChange = async (e) => {
             const file = e.target.files[0];
-            const url = await handleImageUpload(file)
-            setImageUrl(url);
+            setFile(file);
             if (file) {
                 const reader = new FileReader();
                 reader.onload = (e) => {
@@ -70,7 +72,7 @@ function EditHackathonWebsite() {
             setHackName(arr.data.hackathonName);
             aboutRef.current.value = arr.data.aboutHack;
             prizeRef.current.value = arr.data.aboutPrize;
-            setOtherFields(arr.data.otherFields);
+            setOtherFields(arr.data.otherFields || []);
             setImageUrl(arr.data.imageUrl);
             handleTextChange(aboutRef.current,aboutRef);
             handleTextChange(prizeRef.current,prizeRef);
@@ -83,6 +85,8 @@ function EditHackathonWebsite() {
         const aboutHack = aboutRef.current.value;
         const aboutPrize = prizeRef.current.value;
         try {
+            setLoading(true);
+            const imageUrl = await handleImageUpload(file);
             const response = await fetch(`/api/hackathon/updateHackWebsite/${name}`, {
                 method: 'POST',
                 headers: {
@@ -96,8 +100,9 @@ function EditHackathonWebsite() {
                 }),
             });
             if (!response.ok) throw new Error('Network response was not ok');
-            console.log(response);
-            navigate(`/organizedHackathons/${name}`);
+            setLoading(false);
+            setImageUrl(imageUrl);
+            getWebInfo();
         } catch (error) {
             console.error('Error posting data:', error);
         }
@@ -123,6 +128,12 @@ function EditHackathonWebsite() {
         textRef.current.style.height = "0px";
         const scrollHeight = textRef.current.scrollHeight;
         textRef.current.style.height = scrollHeight + "px";
+    }
+    
+    if(loading) {
+        return(
+            <LoadingPage/>
+        );
     }
 
     return(
