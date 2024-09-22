@@ -1,6 +1,6 @@
 const express = require('express');
 const authController = express.Router();
-const User = require('../models/User');
+const User = require('../models/user_Schema');
 
 // Route to get user profile by username (excluding password)
 authController.get('/',async(req,res)=>{

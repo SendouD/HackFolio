@@ -12,7 +12,7 @@ function UserProjects() {
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const response = await axios.get("/api/projectfinder/userprojects");
+        const response = await axios.get("/api/project/userprojects");
         setProjects(response.data);
         setLoading(false);
       }catch (err) {

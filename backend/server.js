@@ -10,6 +10,7 @@ const jwtverifier=require("./controller/jwtVerifier");
 const project_finder=require("./controller/project_finder")
 const user=require("./controller/UserProfile");
 const hack_register = require('./controller/hackathonRegistration');
+const sponsor=require("./controller/Sponsor");
 
 const app = express();
 
@@ -25,11 +26,11 @@ db.once("open", () => {
   console.log("Connected to MongoDB database successfully");
 });
 
-app.use("/api/project",ProjectSubmission)
+app.use("/api/project",project_finder)
 app.use("/api/hackathon", hack_create);
 app.use("/api/hackathon", hack_register);
 app.use("/api/userlogin",userlogin);
 app.use("/api/jwtverify",jwtverifier);
-app.use("/api/projectfinder",project_finder);
 app.use("/api/user",user);
+app.use("/api/sponsor",sponsor);
 app.listen(5000, () => { console.log("Server started on port 5000 ... (http://localhost:5000/)") });

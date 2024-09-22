@@ -37,7 +37,14 @@ function ProjectForm() {
     
 
     try {
-      const response = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, formData);
+      const response = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+          withCredentials: false, 
+        }
+      );
       return response.data.secure_url;
     } catch (error) {
       console.error('Error uploading file:', error.response ? error.response.data : error.message);
@@ -65,7 +72,7 @@ function ProjectForm() {
     try {
       // Send data to /api/project
       console.log(projectData);
-      const response = await axios.post('/api/project', projectData);
+      const response = await axios.post('/api/project/submitproject', projectData);
       console.log('Server response:', response.data);
       navigate('/uploadsuccess');
       
