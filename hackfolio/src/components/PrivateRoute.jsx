@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Outlet, Navigate } from 'react-router-dom';
 import axios from 'axios';
 
-const PrivateRoute = () => {
-  const [isUser, setIsUser] = useState(false);
+const PrivateRoute = ({role}) => {
+  const [Rolebool, setRolebool] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -11,8 +11,10 @@ const PrivateRoute = () => {
       axios.defaults.withCredentials = true;
       try {
         const response = await axios.get('/api/jwtverify');
-        if (response.status === 200) {
-          setIsUser(true);
+        
+
+        if (response.data.roles.includes(`${role}`)) {
+          setRolebool(true);
         }
 
         
@@ -30,7 +32,7 @@ const PrivateRoute = () => {
     return <div>Loading...</div>;
   }
 
-  return isUser ? <Outlet /> : <Navigate to="/signin" />;
+  return Rolebool ? <Outlet /> : <Navigate to="/signin" />;
 };
 
 export default PrivateRoute;

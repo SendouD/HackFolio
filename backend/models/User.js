@@ -1,20 +1,23 @@
 const mongoose = require('mongoose');
 
-// Define the schema for the User
+
 const userSchema = new mongoose.Schema({
-  username: { type: String, required: true, unique: true },  // Unique username
-  firstName: { type: String, required: true },               // First name field
-  lastName: { type: String, required: true },                // Last name field
-  email: { type: String, required: true, unique: true },     // Unique email field
-  password: { type: String, required: true },                // Password field
-  gender: { type: String, enum: ['Male', 'Female', 'Other'], default: null },  // Gender field with enum
-  education: { type: String, default: null },                // Education field
-  githubProfile: { type: String, default: null },            // GitHub profile link
-  linkedinProfile: { type: String, default: null },          // LinkedIn profile link
-  skills: { type: [String], default: null },                 // Array of skills
-  phoneNumber: { type: String, default: null },              // Phone number field
-  bio: { type: String, default: null },                      // Bio field
-}, { timestamps: true });                                    // Adds createdAt and updatedAt timestamps
+  username: { type: String, required: true, unique: true },
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
+  email: { type: String, required: true, unique: true, match: /.+\@.+\..+/ }, // Simple email regex
+  password: { type: String, required: true, minlength: 6 }, // Minimum password length
+  gender: { type: String, enum: ['Male', 'Female', 'Other'], default: 'Other' },
+  education: { type: String, default: '' },
+  githubProfile: { type: String, default: '' },
+  linkedinProfile: { type: String, default: '' },
+  skills: { type: [String], default: [] }, // Default to an empty array
+  phoneNumber: { type: String, default: '' },
+  bio: { type: String, default: '' },
+  roles: { type: [String], default: ['User'] }, // Array of roles, default to 'User'
+}, { timestamps: true });
+
+// Password hashing before saving the user
 
 // Create the User model using the schema
 const User = mongoose.model('User', userSchema);
