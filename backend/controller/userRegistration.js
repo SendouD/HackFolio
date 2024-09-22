@@ -3,6 +3,7 @@ const authController = express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const mailSender=require('./mail')
 
 // Sign-Up Route
 authController.route('/signup')
@@ -64,6 +65,17 @@ authController.route('/signin')
             return res.status(400).json({ Error: "Error signing in!" });
         }
     });
+    // authController.route('/checkmail').post(async(req,res)=>{
+    //     try{
+          
+    //     const id=mailSender.donation_success(req.body.email,req.body.amount);
+    //     return res.status(200).json({id:id});}
+    //     catch(error){
+    //         console.log(error)
+    //     }
+
+
+    // })
 
 // Fetch All Users Route
 authController.route('/logout')
