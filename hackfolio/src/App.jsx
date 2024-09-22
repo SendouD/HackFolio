@@ -33,23 +33,23 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route element={<PrivateRoute />}>
-            <Route element={<SuccessPage />} path="/uploadsuccess" />
-            <Route element={<UserProjects />} path="/userProjects" />
-          </Route>
           <Route element={<Project_display/>} path="/ProjectDisplay/:projectId" />
-        
           <Route element={<UserDashboard/>} path="/@/:username" />
-        
           {/* <Route path="/HackathonProjects" element={<HackathonProjectDispay/>}/> */}
           <Route path="/projectForm" element={<ProjectSubmissionForm />}/>
           {/* <Route path="/uploadsuccess" element={<SuccessPage/>}/> */}
 
-          <Route element={<PrivateRoute/>}>
+          <Route element={<PrivateRoute role="User" />}>
             <Route path="/createHackathon" element={<CreateHackathon />} />
             <Route path="/completeHackathonCreation/:name" element={<FillFullHackathonDetails />} />
             <Route path="/organizedHackathons" element={<MyOrganizedHackathons />} />
             <Route path="/hackathon/:name/register" element={<HackathonRegistrationPage />} />
+            <Route element={<UserProjects />} path="/userProjects" />
+          </Route>
+          <Route element={<PrivateRoute role="Admin" />}>
+       
+            <Route element={<SuccessPage />} path="/uploadsuccess" />
+         
           </Route>
           <Route path="/hackathons" element={<AllHackathonsDisplay />} />
           <Route path="/hackathon/:name" element={<HackathonWebpage />} />
