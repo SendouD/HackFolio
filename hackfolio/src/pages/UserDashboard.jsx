@@ -17,7 +17,7 @@ const UserDashboard = () => {
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const projectResponse = await axios.get(`/api/projectfinder/userprojects/${username}`);
+        const projectResponse = await axios.get(`/api/project/userprojects/${username}`);
         setProjects(projectResponse.data);
       } catch (err) {
         if (err.response && err.response.status === 404) {

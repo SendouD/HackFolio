@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom"
 
 //common
-import SuccessPage from "./pages/projectSuccessUpload";
+import SuccessPage from "./pages/successPages/projectFormSuccess";
 import PrivateRoute from "./components/PrivateRoute";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
@@ -12,7 +12,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 
 //Projects
 import Project_display from "./pages/ProjectDisplay";
-import ProjectSubmissionForm from "./pages/ProjectSubmissionForm";
+import SubmissionForm from "./pages/SubmissionForm";
 import UserProjects from "./pages/UserProjects";
 import HackathonProjectDispay from "./pages/hackathon_projects";
 import UserDashboard from "./pages/UserDashboard";
@@ -41,7 +41,7 @@ function App() {
           <Route element={<UserDashboard/>} path="/@/:username" />
           <Route element={<SuccessPage />} path="/uploadsuccess" />
           {/* <Route path="/HackathonProjects" element={<HackathonProjectDispay/>}/> */}
-          <Route path="/projectForm" element={<ProjectSubmissionForm />}/>
+        
           <Route element={<SuccessPage />} path="/uploadsuccess" />
           <Route path="/hackathons" element={<AllHackathonsDisplay />} />
           <Route path="/hackathon/:name" element={<HackathonWebpage />} />
@@ -53,6 +53,8 @@ function App() {
 
           {/* User private routes */}
           <Route element={<PrivateRoute role="User" />}>
+            <Route path="/projectForm" element={<SubmissionForm formName="projectForm" />}/>
+            <Route path="/sponsorForm" element={<SubmissionForm formName="sponsorForm" />}/>
             <Route path="/createHackathon" element={<CreateHackathon />} />
             <Route path="/completeHackathonCreation/:name" element={<FillFullHackathonDetails />} />
             <Route path="/organizedHackathons" element={<MyOrganizedHackathons />} />
@@ -66,9 +68,6 @@ function App() {
           {/* Admin Private Routes */}
           <Route element={<PrivateRoute role="Admin" />}>
           <Route element={<AdminDashboard />} path="/adminDashboard" />
-       
-            
-         
           </Route>
               
         </Route>

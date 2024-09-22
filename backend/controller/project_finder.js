@@ -1,8 +1,32 @@
 const express = require("express");
-const Project = require("../models/project_form_Schema");
+const Project = require("../models/projectForm_Schema");
 const isUser = require("../middleware/isUser");
 
 const router = express.Router();
+router.post('/submitproject',isUser, async (req, res) => {
+ 
+  try {
+   
+    const username = req.username;
+  
+
+    const project = new Project({ ...req.body, username });
+
+    await project.save();
+
+    res.status(201).json({
+      message: 'Project created successfully',
+      project,
+    });
+  } catch (error) {
+   
+    console.error('Error creating project:', error);
+    res.status(400).json({
+      message: 'Error creating project',
+      error: error.message,
+    });
+  }
+});
 
 router.get("/userprojects", isUser, async (req, res) => {
   try {
@@ -18,7 +42,7 @@ router.get("/userprojects", isUser, async (req, res) => {
 
     res.status(200).json(projects);
   } catch (error) {
-    // Handle errors during retrieval
+ 
     console.error("Error fetching project details:", error);
     res.status(500).json({
       message: "Error fetching project details",
@@ -40,7 +64,7 @@ router.get("/userprojects/:username", async (req, res) => {
 
     res.status(200).json(projects);
   } catch (error) {
-    // Handle errors during retrieval
+  
     console.error("Error fetching project details:", error);
     res.status(500).json({
       message: "Error fetching project details",

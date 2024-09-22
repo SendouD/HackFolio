@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 const SuccessPage = () => {
   const navigate = useNavigate();
 
-  const handleGoHome = () => {
+  const handleGoHome = ({title,description}) => {
     navigate('/'); // Redirect to home or another page
   };
 

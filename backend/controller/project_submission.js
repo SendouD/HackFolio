@@ -1,5 +1,5 @@
 const express = require('express');
-const Project = require('../models/project_form_Schema');
+const Project = require('../models/projectForm_Schema');
 const isUser=require('../middleware/isUser')
 
 const router = express.Router();
