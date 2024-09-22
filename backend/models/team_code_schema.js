@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
 const teamCodeSchema = new mongoose.Schema({
     hackathonName: {
@@ -9,6 +10,10 @@ const teamCodeSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    members: {
+        type: Schema.Types.Mixed,
+        required: true,
+    }
 });
 
 module.exports = mongoose.model("HackathonTeamCodes", teamCodeSchema);

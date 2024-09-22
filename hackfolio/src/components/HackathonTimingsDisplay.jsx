@@ -22,6 +22,21 @@ function HackathonTimingsDisplay() {
         }
     }
 
+    async function handleClick() {
+        try {
+            const response = await fetch(`/api/hackathon/hackathonTeam/${name}/create`);
+            if (!response.ok) throw new Error('Network response was not ok');
+            const arr = await response.json();
+            if(arr.flag === true){
+                navigate(`/hackathon/${name}/team`);
+            }
+            else
+                navigate(`/hackathon/${name}/register`);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+
     if (data === null) return <div>Loading...</div>;
 
     return(
@@ -34,7 +49,7 @@ function HackathonTimingsDisplay() {
             <div className='flex justify-center'>
                 <button 
                     className="w-11/12 text-xl bg-indigo-600 text-white py-4 rounded-md font-semibold hover:bg-indigo-700 transition-colors"
-                    onClick={()=>navigate(`/hackathon/${name}/register`)}
+                    onClick={()=>handleClick()}
                 >
                     Apply now
                 </button>

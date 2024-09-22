@@ -50,7 +50,7 @@ function HackathonRegistrationPage() {
                     {selection === 3 && <HackathonPrizesDescription />}
                 </div>
                 <div className='h-[300px] w-[400px] bg-white ml-[50px] rounded-[10px] card'>
-                    
+                    From: To:
                 </div>
             </div>
         </>
