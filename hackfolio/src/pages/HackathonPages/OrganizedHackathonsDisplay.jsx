@@ -3,7 +3,7 @@ import MyHackathonsCard from "../../components/HackathonComponents/MyHackathonsC
 import Header from "../../components/Header";
 import "../../styles/hack_card.css"
 
-function MyOrganizedHackathons() {
+function OrganizedHackathonsDisplay() {
     const [data,setData] = useState([]);
 
     async function getData() {
@@ -35,6 +35,7 @@ function MyOrganizedHackathons() {
         <div className="">
             <Header></Header>
             <div className="block">
+                <div className="text-4xl font-medium flex justify-center my-[50px]">Organized Hackathons :</div>
                 {
                     data.map((element,i) => {
                         return <MyHackathonsCard key={i} data={element}/>
@@ -45,4 +46,4 @@ function MyOrganizedHackathons() {
     );
 }
 
-export default MyOrganizedHackathons
+export default OrganizedHackathonsDisplay

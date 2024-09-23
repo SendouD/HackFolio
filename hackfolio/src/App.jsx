@@ -22,7 +22,7 @@ import HackathonProjectDispay from "./pages/HackathonPages/Hackathon_projects";
 import UserDashboard from "./pages/UserPages/UserDashboard";
 
 //Hackathons
-import MyOrganizedHackathons from "./pages/HackathonPages/MyOrganizedHackathons";
+import OrganizedHackathonsDisplay from "./pages/HackathonPages/OrganizedHackathonsDisplay";
 import EditOrganizedHackathonDetails from "./pages/HackathonPages/EditOrganizedHackathonDetails";
 import FillFullHackathonDetails from "./pages/HackathonPages/FillFullHackathonDetails";
 import AllHackathonsDisplay from "./pages/HackathonPages/AllHackathonsDisplay";
@@ -59,7 +59,7 @@ function App() {
             <Route path="/sponsorForm" element={<SubmissionForm formName="sponsorForm" />}/>
             <Route path="/createHackathon" element={<CreateHackathon />} />
             <Route path="/completeHackathonCreation/:name" element={<FillFullHackathonDetails />} />
-            <Route path="/organizedHackathons" element={<MyOrganizedHackathons />} />
+            <Route path="/organizedHackathons" element={<OrganizedHackathonsDisplay />} />
             <Route path="/hackathon/:name/register" element={<HackathonRegistrationPage />} />
             <Route element={<UserProjects />} path="/userProjects" />
             <Route path="/hackathon/:name/editRegistrationDetails" element={<EditRegisteredHackathonDetails/>} />
