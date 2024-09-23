@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const joi =require('joi')
+const passwordComplexity =require('joi-password-complexity')
 
 // Define the schema for the User
 const userSchema = new mongoose.Schema({
@@ -18,5 +20,16 @@ const userSchema = new mongoose.Schema({
 
 // Create the User model using the schema
 const User = mongoose.model('User', userSchema);
+
+const validate = (data) =>{
+  const schema = joi.object({
+      username:joi.string().required().label('username'),
+      firstName:joi.string().required().label('firstName'),
+      lastName:joi.string().required().label('lastName'),
+      email:joi.string().email().required().label('email'),
+      password:joi.passwordComplexity().required().label('password'),
+  })
+  return schema.validate(data)
+}
 
 module.exports = User;
