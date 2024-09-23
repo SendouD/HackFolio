@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import HackathonRegistrationForm from "../components/HackathonRegistrationForm";
-import HackathonLinks from "../components/HackathonLinks";
-import HackathonTimelineDescription from "../components/HackathonTimelineDescription";
-import HackathonPrizesDescription from "../components/HackathonPrizesDescription";
-import Header from '../components/Header';
+import HackathonRegistrationForm from "../../components/HackathonComponents/HackathonRegistrationForm";
+import HackathonLinks from "../../components/HackathonComponents/HackathonLinks";
+import HackathonTimelineDescription from "../../components/HackathonComponents/HackathonTimelineDescription";
+import HackathonPrizesDescription from "../../components/HackathonComponents/HackathonPrizesDescription";
+import Header from '../../components/Header';
 
 function HackathonRegistrationPage() {
     const [selection, setSelection] = useState(0);
@@ -49,9 +49,12 @@ function HackathonRegistrationPage() {
                     {selection === 2 && <HackathonTimelineDescription />}
                     {selection === 3 && <HackathonPrizesDescription />}
                 </div>
-                <div className='h-[300px] w-[400px] bg-white ml-[50px] rounded-[10px] card'>
-                    From: To:
+                <div>
+                    <div className='h-[300px] w-[400px] bg-white ml-[50px] rounded-[10px] card'>
+                            From: To:
+                    </div>
                 </div>
+
             </div>
         </>
     );

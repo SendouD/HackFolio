@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import EditHackathonDetails from "../components/EditHackathonDetails";
-import EditHackathonWebsite from "../components/EditHackathonWebsite";
-import HackathonDashboard from '../components/HackathonDashboard';
-import Header from '../components/Header';
-
-import "../styles/edit_hack_page.css";
+import EditHackathonDetails from "../../components/HackathonComponents/EditHackathonDetails";
+import EditHackathonWebsite from "../../components/HackathonComponents/EditHackathonWebsite";
+import HackathonDashboard from '../../components/HackathonComponents/HackathonDashboard';
+import Header from '../../components/Header';
+import "../../styles/edit_hack_page.css";
 
 function EditOrganizedHackathonDetails() {
     const [selected, setSelected] = useState(0); // 0: Details, 1: Webpage, 2: Dashboard

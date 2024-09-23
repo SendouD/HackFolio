@@ -46,7 +46,7 @@ function HackathonRegistrationForm() {
             });
             if (!response.ok) throw new Error('Network response was not ok');
             console.log(await response.json())
-            navigate(`/hackathon/${name}/team`);
+            navigate(`/hackathon/${name}/editRegistrationDetails`);
         } catch (error) {
             console.error('Error posting data:', error);
         }

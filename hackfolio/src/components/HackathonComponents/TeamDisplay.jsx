@@ -21,7 +21,6 @@ function TeamDisplay(props) {
             });
             const data = await response.json();
             setData(data.data);
-            console.log(data.data.members[0].email);
             props.func();
             setLoading(false);
         } catch (error) {
@@ -46,7 +45,7 @@ function TeamDisplay(props) {
                 <div>
                     {
                         data.members.map((ele,i) => {
-                            return <div>{ele.email} : {ele.role}</div>
+                            return <div key={i}>{ele.email} : {ele.role}</div>
                         })
                     }
                 </div>

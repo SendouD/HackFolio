@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import HackathonsDisplayCard from "../components/HackathonsDisplayCard";
-import Header from "../components/Header";
-import "../styles/hack_card.css"
+import HackathonsDisplayCard from "../../components/HackathonComponents/HackathonsDisplayCard";
+import Header from "../../components/Header";
+import "../../styles/hack_card.css"
 
 function AllHackathonsDisplay() {
     const [data,setData] = useState([]);

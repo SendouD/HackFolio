@@ -1,6 +1,6 @@
 import { useState,useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import "../styles/hack_info_card.css"
+import "../../styles/hack_info_card.css"
 
 function HackathonTimingsDisplay() {
     const { name } = useParams();
@@ -28,7 +28,7 @@ function HackathonTimingsDisplay() {
             if (!response.ok) throw new Error('Network response was not ok');
             const arr = await response.json();
             if(arr.flag === true){
-                navigate(`/hackathon/${name}/team`);
+                navigate(`/hackathon/${name}/editRegistrationDetails`);
             }
             else
                 navigate(`/hackathon/${name}/register`);

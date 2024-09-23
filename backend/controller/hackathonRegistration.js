@@ -11,7 +11,7 @@ hack_register.route('/registerForHackathon/:name')
             const email = req.email;
 
             const data = await hackParticipantDetails.findOne({hackathonName: name, email: email});
-            return res.status(200).json({teamCode: data.teamCode});
+            return res.status(200).json({data: data});
         } catch (error) {
             return res.status(400).json({ Error: "Error saving data to Database!" });
         }
@@ -50,6 +50,36 @@ hack_register.route('/registerForHackathon/:name')
             return res.status(400).json({ Error: "Error saving data to Database!" });
         }
 
+    })
+    .put(isUser,async(req,res) => {
+        const { name } = req.params;
+        const formData = req.body;
+        const email = req.email;
+        try {
+            const flag = await hackParticipantDetails.find({hackathonName: name, email: email});
+            if(flag.length !== 0) {
+                await hackParticipantDetails.findOneAndUpdate({hackathonName:name, email: email},{
+                    hackathonName: name,
+                    email: email,
+                    aliasname: formData.aliasname,
+                    firstname: formData.firstname,
+                    lastname: formData.lastname,
+                    phoneno: formData.phoneno,
+                    gender: formData.gender,
+                    githubprofile: formData.githubprofile,
+                    linkednprofile: formData.linkednprofile,
+                    portfoliowebsite: formData.portfoliowebsite,
+                    skills: formData.skills,
+                    reviewed: false,
+                });
+                return res.status(200).json({ msg: "Registered" });
+            }
+            else {
+                return res.status(200).json({ Error: "Registration doesn't exist!" });
+            }
+        } catch (e) {
+            return res.status(400).json({ Error: "Error saving data to Database!" });
+        }
     })
 
 hack_register.route('/hackathonTeam/:name/create')

@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import HackathonCreationForm from "../components/HackathonCreationForm.jsx";
-import HackathonRegisterWebpage from "../components/HackathonRegisterWebpage.jsx";
-import Header from "../components/Header.jsx";
-import "../styles/hack_org_form.css"
+import HackathonCreationForm from "../../components/HackathonComponents/HackathonCreationForm.jsx";
+import HackathonRegisterWebpage from "../../components/HackathonComponents/HackathonRegisterWebpage.jsx";
+import Header from "../../components/Header.jsx";
+import "../../styles/hack_org_form.css"
 
 function CreateHackathon() {
     const [isOpen, setIsOpen] = useState(false);

@@ -18,18 +18,18 @@ import ProjectSuccessPage from "./pages/successPages/projectFormSuccess";
 import Project_display from "./pages/ProjectPages/ProjectDisplay";
 import SubmissionForm from "./pages/UserPages/SubmissionForm";
 import UserProjects from "./pages/ProjectPages/UserProjects";
-import HackathonProjectDispay from "./pages/hackathon_projects";
+import HackathonProjectDispay from "./pages/HackathonPages/Hackathon_projects";
 import UserDashboard from "./pages/UserPages/UserDashboard";
 
 //Hackathons
-import MyOrganizedHackathons from "./pages/MyOrganizedHackathons";
-import EditOrganizedHackathonDetails from "./pages/EditOrganizedHackathonDetails";
-import FillFullHackathonDetails from "./pages/FillFullHackathonDetails";
-import AllHackathonsDisplay from "./pages/AllHackathonsDisplay";
-import HackathonWebpage from "./pages/HackathonWebpage";
-import CreateHackathon from "./pages/CreateHackathon"
-import HackathonRegistrationPage from "./pages/HackathonRegistrationPage";
-import HackathonTeamPage from "./pages/HackathonTeamPage";
+import MyOrganizedHackathons from "./pages/HackathonPages/MyOrganizedHackathons";
+import EditOrganizedHackathonDetails from "./pages/HackathonPages/EditOrganizedHackathonDetails";
+import FillFullHackathonDetails from "./pages/HackathonPages/FillFullHackathonDetails";
+import AllHackathonsDisplay from "./pages/HackathonPages/AllHackathonsDisplay";
+import HackathonWebpage from "./pages/HackathonPages/HackathonWebpage";
+import CreateHackathon from "./pages/HackathonPages/CreateHackathon"
+import HackathonRegistrationPage from "./pages/HackathonPages/HackathonRegistrationPage";
+import EditRegisteredHackathonDetails from "./pages/HackathonPages/EditRegisteredHackatonDetails";
 
 
 
@@ -44,7 +44,6 @@ function App() {
       <Routes>
         <Route element={<AuthCheck/>}>
 
-
           {/* Normal Routes */}
           <Route path="/" element={<HomePage />} />
           <Route path="/signin" element={<SignIn />} />
@@ -53,27 +52,14 @@ function App() {
           <Route element={<UserDashboard/>} path="/@/:username" />
         
           {/* <Route path="/HackathonProjects" element={<HackathonProjectDispay/>}/> */}
-        
-         
           <Route path="/hackathons" element={<AllHackathonsDisplay />} />
           <Route path="/hackathon/:name" element={<HackathonWebpage />} />
           <Route path="/organizedHackathons/:name" element={<EditOrganizedHackathonDetails />} /> 
-
-
-
 
           {/* Success Pages */}
           <Route element={<ProjectSuccessPage />} path="/uploadsuccess" />
           <Route element={<SponsorSuccessPage />} path="/sponsoruploadsuccess" />
           <Route element={<SponsorList />} path="/sponsors" />
-
-
-
-
-
-
-
-
 
 
           {/* User private routes */}
@@ -85,15 +71,12 @@ function App() {
             <Route path="/organizedHackathons" element={<MyOrganizedHackathons />} />
             <Route path="/hackathon/:name/register" element={<HackathonRegistrationPage />} />
             <Route element={<UserProjects />} path="/userProjects" />
-            <Route path="/hackathon/:name/team" element={<HackathonTeamPage />} />
+            <Route path="/hackathon/:name/editRegistrationDetails" element={<EditRegisteredHackathonDetails/>} />
           </Route>
-
-
-
 
           {/* Admin Private Routes */}
           <Route element={<PrivateRoute role="Admin" />}>
-          <Route element={<AdminDashboard />} path="/adminDashboard" />
+            <Route element={<AdminDashboard />} path="/adminDashboard" />
           </Route>
               
         </Route>

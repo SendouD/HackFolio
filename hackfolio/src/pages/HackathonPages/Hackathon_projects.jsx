@@ -1,5 +1,5 @@
 import React from 'react';
-import HackathonProjectCard from '../components/HackathonProjectCard';
+import HackathonProjectCard from '../../components/HackathonComponents/HackathonProjectCard';
 
 // Mock project data
 const projects = [
