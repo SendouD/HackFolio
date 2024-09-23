@@ -18,6 +18,8 @@ const hack_register = require('./controller/hackathonRegistration');
 const sponsor=require("./controller/Sponsor");
 const chat_backend = require("./controller/chat_backend");
 const chatStatusModel = require("./models/chat_status_model");
+const chatUserSchema = require('./models/chat_user_schema');
+const chatMessagesSchema = require('./models/chat_messages_schema');
 
 app.use(express.json());
 app.use(cookieParser());
@@ -46,6 +48,20 @@ io.on('connection', async (socket) => {
   await chatStatusModel.findOneAndUpdate({ email: socket.email }, {
       status: true,
       socketId: socket.id,
+  });
+
+  socket.on('chatMessage', async (msg) => {
+    console.log('Message received:', msg);
+
+    try{
+      const data = await chatStatusModel.findOne({email: msg.to});
+      console.log(data.socketId);
+      if(data && data.status === true){
+        io.to(data.socketId).emit('chatMessage', msg);
+      }
+    } catch(e){
+      console.error("Error:",e)
+    }
   });
 
   socket.on('disconnect', async() => {
