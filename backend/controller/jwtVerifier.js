@@ -5,10 +5,14 @@ const isUser=require('../middleware/isUser')
 
 authController.route('/')
     .get(isUser,async (req, res) => {
-        roles=req.roles;
-        
+        const username=req.username;
+        const response = await User.findOne({ username:username }, 'roles');
+       
+
+
+
         try {
-            return res.status(200).json({msg: "Success",roles:roles});
+            return res.status(200).json({msg: "Success",roles:response.roles});
         } catch (e) {
             return res.status(400).json({ Error: "Error fetching users from Database!" });
         }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import LoadingPage from "./loading";
+import LoadingPage from "../loading";
 import { useNavigate } from 'react-router-dom';
 
 function SponsorForm() {
@@ -46,7 +46,7 @@ function SponsorForm() {
   };
 
   const handleImageUpload = async (file) => {
-    const uploadPreset = 'projectform'; // Replace with your Cloudinary upload preset
+    const uploadPreset = 'sponsor'; // Replace with your Cloudinary upload preset
     const cloudName = 'dv1a0uvfm'; // Replace with your Cloudinary cloud name
     const formData = new FormData();
     formData.append('file', file);
@@ -85,7 +85,7 @@ function SponsorForm() {
       console.log(sponsorData);
       const response = await axios.post('/api/sponsor', sponsorData);
       console.log('Server response:', response.data);
-      navigate('/submission-success');
+      navigate('/sponsoruploadsuccess');
     } catch (error) {
       console.error('Error sending data to /api/sponsor:', error.response ? error.response.data : error.message);
     } finally {

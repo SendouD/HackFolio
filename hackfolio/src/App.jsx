@@ -1,21 +1,25 @@
 import { Routes, Route } from "react-router-dom"
 
 //common
-import SuccessPage from "./pages/successPages/projectFormSuccess";
+
 import PrivateRoute from "./components/PrivateRoute";
-import SignIn from "./pages/SignIn";
-import SignUp from "./pages/SignUp";
-import HomePage from "./pages/HomePage";
+import SignIn from "./pages/RegistrationPages/SignIn";
+import SignUp from "./pages/RegistrationPages/SignUp";
+import HomePage from "./pages/UserPages/HomePage";
 import AuthCheck from "./components/AuthCheck";
-import AdminDashboard from "./pages/AdminDashboard";
+import AdminDashboard from "./pages/AdminPages/AdminDashboard";
+
+//SuccessRoutes
+import SponsorSuccessPage from "./pages/successPages/SponsorSuccess";
+import ProjectSuccessPage from "./pages/successPages/projectFormSuccess";
 
 
 //Projects
-import Project_display from "./pages/ProjectDisplay";
-import SubmissionForm from "./pages/SubmissionForm";
-import UserProjects from "./pages/UserProjects";
+import Project_display from "./pages/ProjectPages/ProjectDisplay";
+import SubmissionForm from "./pages/UserPages/SubmissionForm";
+import UserProjects from "./pages/ProjectPages/UserProjects";
 import HackathonProjectDispay from "./pages/hackathon_projects";
-import UserDashboard from "./pages/UserDashboard";
+import UserDashboard from "./pages/UserPages/UserDashboard";
 
 //Hackathons
 import MyOrganizedHackathons from "./pages/MyOrganizedHackathons";
@@ -40,13 +44,24 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route element={<Project_display/>} path="/ProjectDisplay/:projectId" />
           <Route element={<UserDashboard/>} path="/@/:username" />
-          <Route element={<SuccessPage />} path="/uploadsuccess" />
+        
           {/* <Route path="/HackathonProjects" element={<HackathonProjectDispay/>}/> */}
         
-          <Route element={<SuccessPage />} path="/uploadsuccess" />
+         
           <Route path="/hackathons" element={<AllHackathonsDisplay />} />
           <Route path="/hackathon/:name" element={<HackathonWebpage />} />
           <Route path="/organizedHackathons/:name" element={<EditOrganizedHackathonDetails />} /> 
+
+
+
+
+          {/* Success Pages */}
+          <Route element={<ProjectSuccessPage />} path="/uploadsuccess" />
+          <Route element={<SponsorSuccessPage />} path="/sponsoruploadsuccess" />
+
+
+
+
 
 
 
