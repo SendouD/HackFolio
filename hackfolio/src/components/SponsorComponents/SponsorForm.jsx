@@ -83,7 +83,7 @@ function SponsorForm() {
     try {
       // Send data to /api/sponsor
       console.log(sponsorData);
-      const response = await axios.post('/api/sponsor', sponsorData);
+      const response = await axios.post('/api/sponsors', sponsorData);
       console.log('Server response:', response.data);
       navigate('/sponsoruploadsuccess');
     } catch (error) {

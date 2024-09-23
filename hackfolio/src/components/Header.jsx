@@ -59,7 +59,7 @@ const Header = () => {
           <a href="/hackathons" className="text-gray-600 hover:text-gray-900">
             Hackathons
           </a>
-          <a href="#" className="text-gray-600 hover:text-gray-900">
+          <a href="/sponsors" className="text-gray-600 hover:text-gray-900">
             Sponsors
           </a>
           <a href="#" className="text-gray-600 hover:text-gray-900">

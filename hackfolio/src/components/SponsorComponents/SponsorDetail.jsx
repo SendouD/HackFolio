@@ -11,7 +11,7 @@ const SponsorDetail = () => {
     useEffect(() => {
       const fetchSponsor = async () => {
         try {
-          const response = await axios.get(`/api/sponsors/${companyName}`);
+          const response = await axios.get(`/api/sponsors/user/${companyName}`);
           setSponsor(response.data);
           setLoading(false);
         } catch (err) {
