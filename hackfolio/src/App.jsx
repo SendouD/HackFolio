@@ -32,7 +32,8 @@ import HackathonRegistrationPage from "./pages/HackathonPages/HackathonRegistrat
 import EditRegisteredHackathonDetails from "./pages/HackathonPages/EditRegisteredHackatonDetails";
 import RegisteredHackathonsDisplay from "./pages/HackathonPages/RegisteredHackathonsDisplay";
 
-
+//Chat
+import ChatPage from "./pages/ChatPages/ChatPage";
 
 //Sponsors
 import SponsorList from "./pages/SponsorPages/SponsorsList";
@@ -74,6 +75,7 @@ function App() {
             <Route element={<UserProjects />} path="/userProjects" />
             <Route path="/hackathon/:name/editRegistrationDetails" element={<EditRegisteredHackathonDetails/>} />
             <Route path="/registeredHackathons" element={<RegisteredHackathonsDisplay />} />
+            <Route path="/chat" element={<ChatPage />} />
           </Route>
 
           {/* Admin Private Routes */}

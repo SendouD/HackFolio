@@ -4,6 +4,7 @@ const User = require('../models/user_Schema');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const mailSender=require('./mail')
+const chatStatusModel = require('../models/chat_status_model');
 
 // Sign-Up Route
 authController.route('/signup')
@@ -27,11 +28,19 @@ authController.route('/signup')
             });
 
             await newUser.save();
+            
+            const newChatStatusModel = new chatStatusModel({
+                email: email,
+                status: false,
+                socketId: "",
+            });
+            await newChatStatusModel.save();
+
             const savedUser = await User.findOne({ email });
 
             return res.status(201).json({ id: savedUser._id ,username:username,email:email});
         } catch (e) {
-            return res.status(400).json({ Error: "Error saving data to Database!" });
+            return res.status(400).json({ Error: "Error saving data to Database! " + e });
         }
     });
 
