@@ -52,7 +52,7 @@ authController.route('/signin')
             }
 
             // Generate JWT token with user ID and email
-            const token = jwt.sign({ username:user.username,userId: user._id, email: user.email ,roles:user.roles}, 'secret', { expiresIn: '1d' });
+            const token = jwt.sign({ username:user.username,userId: user._id, email: user.email}, 'secret', { expiresIn: '1d' });
 
             res.cookie('jwt', token, {
                 httpOnly: true,

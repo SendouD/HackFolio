@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Header from "../components/Header";
-import SponsorDetail from "../components/SponsorDetail";
+import Header from "../../components/Header";
+import SponsorDetail from "../../components/SponsorComponents/SponsorDetail";
 import axios from "axios";
 
 const AdminDashboard = () => {

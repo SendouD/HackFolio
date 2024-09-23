@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import LoadingPage from "./loading";
+import LoadingPage from "../loading";
 import { useNavigate } from 'react-router-dom';
 
 function SponsorForm() {
