@@ -1,41 +1,14 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { useParams } from 'react-router-dom';
 
 function MyHackathonsCard(props) {
-    const navigate = useNavigate();
     const { name } = useParams();
     const [hackathonName] = useState(props.data.hackathonName.split('-').join(' '));
-    
-    async function handleClick() {
-        try {
-            const response = await fetch(`/api/hackathon/hackathonCreate/${props.data.hackathonName}/1`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            });
-
-            const data = await response.json();
-
-            if (data.completelyFilled) {
-                navigate(`/organizedHackathons/${props.data.hackathonName}`);
-            } else {
-                navigate(`/completeHackathonCreation/${props.data.hackathonName}`);
-            }
-
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-    
-        } catch (error) {
-            console.error('Error posting data:', error);
-        }
-    }
 
     return (
         <div 
             className="hc bg-white rounded-lg shadow-lg p-6 m-4 border border-gray-300 transition-transform transform"
-            onClick={handleClick}
+            onClick={() => props.handleClick(props.data.hackathonName)}
         >
             <div className="flex justify-between items-center mb-4">
                 <h2 className="hn font-semibold text-xl text-gray-800">{hackathonName}</h2>

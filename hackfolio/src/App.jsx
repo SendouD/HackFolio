@@ -30,6 +30,7 @@ import HackathonWebpage from "./pages/HackathonPages/HackathonWebpage";
 import CreateHackathon from "./pages/HackathonPages/CreateHackathon"
 import HackathonRegistrationPage from "./pages/HackathonPages/HackathonRegistrationPage";
 import EditRegisteredHackathonDetails from "./pages/HackathonPages/EditRegisteredHackatonDetails";
+import RegisteredHackathonsDisplay from "./pages/HackathonPages/RegisteredHackathonsDisplay";
 
 function App() {
   return (
@@ -63,6 +64,7 @@ function App() {
             <Route path="/hackathon/:name/register" element={<HackathonRegistrationPage />} />
             <Route element={<UserProjects />} path="/userProjects" />
             <Route path="/hackathon/:name/editRegistrationDetails" element={<EditRegisteredHackathonDetails/>} />
+            <Route path="/registeredHackathons" element={<RegisteredHackathonsDisplay />} />
           </Route>
 
           {/* Admin Private Routes */}
