@@ -3,6 +3,7 @@ const Sponsor = require('../models/sponser_Schema'); // Ensure this path is corr
 const isUser = require('../middleware/isUser'); // Assuming this is for user authentication/authorization
 const User=require('../models/user_Schema');
 const jwt = require('jsonwebtoken');
+const isAdmin=require('../middleware/isAdmin')
 const router = express.Router();
 
 // POST request to create a new sponsor
@@ -33,7 +34,7 @@ router.post('/',isUser, async (req, res) => {
   }
 });
 // GET request to fetch sponsors with status 'Pending' for the admin dashboard
-router.get('/adminDash', async (req, res) => {
+router.get('/adminDash',isAdmin, async (req, res) => {
   try {
     // Filter sponsors by status 'Pending'
     const sponsors = await Sponsor.find({ verificationStatus: 'Pending' });
@@ -48,7 +49,7 @@ router.get('/adminDash', async (req, res) => {
     });
   }
 });
-router.patch('/admin/verify/:companyName', async (req, res) => {
+router.patch('/admin/verify/:companyName',isAdmin, async (req, res) => {
   const { companyName } = req.params;
   try {
     // Find and update the sponsor's verification status
@@ -84,7 +85,7 @@ router.patch('/admin/verify/:companyName', async (req, res) => {
 });
 
 // PATCH request to decline a sponsor by company name
-router.patch('/admin/decline/:companyName', async (req, res) => {
+router.patch('/admin/decline/:companyName',isAdmin, async (req, res) => {
   const { companyName } = req.params;
   try {
     const sponsor = await Sponsor.findOneAndUpdate(
@@ -101,6 +102,20 @@ router.patch('/admin/decline/:companyName', async (req, res) => {
     res.status(500).json({ message: 'Error declining sponsor', error: error.message });
   }
 });
+router.get('/', async (req, res) => {
+  try {
+    // Filter sponsors by status 'Pending'
+    const sponsors = await Sponsor.find({ verificationStatus: 'Verified' });
 
+    // Respond with the list of pending sponsors
+    res.status(200).json(sponsors);
+  } catch (error) {
+    console.error('Error fetching pending sponsors:', error);
+    res.status(500).json({
+      message: 'Error fetching pending sponsors',
+      error: error.message,
+    });
+  }
+});
 
 module.exports = router;

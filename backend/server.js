@@ -32,5 +32,5 @@ app.use("/api/hackathon", hack_register);
 app.use("/api/userlogin",userlogin);
 app.use("/api/jwtverify",jwtverifier);
 app.use("/api/user",user);
-app.use("/api/sponsor",sponsor);
+app.use("/api/sponsors",sponsor);
 app.listen(5000, () => { console.log("Server started on port 5000 ... (http://localhost:5000/)") });

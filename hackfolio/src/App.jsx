@@ -31,6 +31,13 @@ import CreateHackathon from "./pages/CreateHackathon"
 import HackathonRegistrationPage from "./pages/HackathonRegistrationPage";
 import HackathonTeamPage from "./pages/HackathonTeamPage";
 
+
+
+//Sponsors
+import SponsorList from "./pages/SponsorPages/SponsorsList";
+
+
+
 function App() {
   return (
     <>
@@ -58,6 +65,8 @@ function App() {
           {/* Success Pages */}
           <Route element={<ProjectSuccessPage />} path="/uploadsuccess" />
           <Route element={<SponsorSuccessPage />} path="/sponsoruploadsuccess" />
+          <Route element={<SponsorList />} path="/sponsors" />
+
 
 
 
