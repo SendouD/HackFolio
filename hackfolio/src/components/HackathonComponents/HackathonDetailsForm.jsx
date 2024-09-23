@@ -80,7 +80,6 @@ function HackathonDetailsForm(props) {
                 },
                 body: JSON.stringify({ hackName, uniName, eventMode, tech, teamSize, partProf, contactLinks, fromDate, toDate, prizesDesc }),
             });
-            console.log(response);
 
             if (!response.ok) {
                 throw new Error('Network response was not ok');

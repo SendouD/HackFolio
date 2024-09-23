@@ -22,6 +22,7 @@ function OrganizedHackathonsDisplay() {
             }
             
             const array = await response.json();
+            console.log(array);
             setData(array);
     
         } catch (error) {
@@ -33,7 +34,7 @@ function OrganizedHackathonsDisplay() {
         getData();
     },[])
 
-    function navFunction(completelyFilled,hackathonName) {
+    function navFunction(completelyFilled,hackathonName,step) {
         if (completelyFilled) {
             navigate(`/organizedHackathons/${hackathonName}`);
         } else {
