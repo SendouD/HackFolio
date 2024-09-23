@@ -53,7 +53,7 @@ io.on('connection', async (socket) => {
       status: false,
       socketId: "",
     });
-      console.log('User disconnected ' + socket.id);
+      console.log('User disconnected! socket ID: ' + socket.id);
   });
 
   socket.on('error', (err) => {

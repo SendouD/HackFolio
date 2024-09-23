@@ -32,6 +32,21 @@ hack_create.route("/hackathonCreate")
                 completelyFilled: false,
             });
             await newHackathonData.save();
+
+            const newHackFullDetails = new hackFullDetails({
+                hackathonName: hackName,
+                uniName: uniName,
+                eventMode: " ",
+                tech: " ",
+                teamSize: " ",
+                participantsProfile: " ",
+                contactLinks: [],
+                fromDate: " ",
+                toDate: " ",
+                prizesDesc: " ",
+            });
+            const data = await newHackFullDetails.save();
+
             const savedHackathon = await hackathon_form.findOne({ hackathonName: hackName });
             return res.status(200).json({ name: savedHackathon.hackathonName });
         } catch (e) {
@@ -56,7 +71,7 @@ hack_create.route("/hackathonCreate/:name/1")
         const { hackName, uniName, eventMode, tech, teamSize, partProf, contactLinks, fromDate, toDate, prizesDesc } = req.body;
         const name = req.params.name;
         try{
-            const newHackFullDetails = new hackFullDetails({
+            const newHackFullDetails = {
                 hackathonName: hackName,
                 uniName: uniName,
                 eventMode: eventMode,
@@ -67,9 +82,9 @@ hack_create.route("/hackathonCreate/:name/1")
                 fromDate: fromDate,
                 toDate: toDate,
                 prizesDesc: prizesDesc,
-            });
-            const data = await newHackFullDetails.save();
-
+            };
+            
+            await hackFullDetails.findOneAndUpdate({hackathonName: hackName}, newHackFullDetails);
             await hackathon_form.findOneAndUpdate({hackathonName: name}, { step: 1});
 
             res.status(200).json({ data: data });
