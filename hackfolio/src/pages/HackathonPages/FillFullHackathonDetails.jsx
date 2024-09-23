@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import HackathonDetailsForm from "../components/HackathonDetailsForm";
-import HackathonWebpageContentForm from "../components/HackathonWebpageContentForm";
 import { useNavigate, useParams } from 'react-router-dom';
-import Header from "../components/Header";
+import HackathonDetailsForm from "../../components/HackathonComponents/HackathonDetailsForm";
+import HackathonWebpageContentForm from "../../components/HackathonComponents/HackathonWebpageContentForm";
+import Header from "../../components/Header";
 
 function FillFullHackathonDetails() {
     const [completed, setCompleted] = useState(0);

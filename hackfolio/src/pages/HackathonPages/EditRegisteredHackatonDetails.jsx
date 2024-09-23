@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
-import HackathonRegistrationForm from "../components/HackathonRegistrationForm";
-import HackathonLinks from "../components/HackathonLinks";
-import HackathonTimelineDescription from "../components/HackathonTimelineDescription";
-import HackathonPrizesDescription from "../components/HackathonPrizesDescription";
-import TeamFormation from "../components/TeamFormation";
-import TeamDisplay from "../components/TeamDisplay";
-import Header from '../components/Header';
-import EditHackathonRegistrationForm from '../components/EditHackathonRegistrationForm';
+import HackathonLinks from "../../components/HackathonComponents/HackathonLinks";
+import EditHackathonRegistrationForm from '../../components/HackathonComponents/EditHackathonRegistrationForm';
+import HackathonTimelineDescription from "../../components/HackathonComponents/HackathonTimelineDescription";
+import HackathonPrizesDescription from "../../components/HackathonComponents/HackathonPrizesDescription";
+import TeamFormation from "../../components/HackathonComponents/TeamFormation";
+import TeamDisplay from "../../components/HackathonComponents/TeamDisplay";
+import Header from '../../components/Header';
 
 function EditRegisteredHackathonDetails() {
     const [selection, setSelection] = useState(0);

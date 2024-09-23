@@ -1,6 +1,6 @@
 import { useState,useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import "../styles/hack_info_card.css"
+import "../../styles/hack_info_card.css"
 
 function HackathonTimingsDisplay() {
     const { name } = useParams();
