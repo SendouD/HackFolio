@@ -1,13 +1,17 @@
 import { Routes, Route } from "react-router-dom"
 
 //common
-import SuccessPage from "./pages/successPages/projectFormSuccess";
+
 import PrivateRoute from "./components/PrivateRoute";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import HomePage from "./pages/HomePage";
 import AuthCheck from "./components/AuthCheck";
 import AdminDashboard from "./pages/AdminDashboard";
+
+//SuccessRoutes
+import SponsorSuccessPage from "./pages/successPages/SponsorSuccess";
+import ProjectSuccessPage from "./pages/successPages/projectFormSuccess";
 
 
 //Projects
@@ -39,13 +43,24 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route element={<Project_display/>} path="/ProjectDisplay/:projectId" />
           <Route element={<UserDashboard/>} path="/@/:username" />
-          <Route element={<SuccessPage />} path="/uploadsuccess" />
+        
           {/* <Route path="/HackathonProjects" element={<HackathonProjectDispay/>}/> */}
         
-          <Route element={<SuccessPage />} path="/uploadsuccess" />
+         
           <Route path="/hackathons" element={<AllHackathonsDisplay />} />
           <Route path="/hackathon/:name" element={<HackathonWebpage />} />
           <Route path="/organizedHackathons/:name" element={<EditOrganizedHackathonDetails />} /> 
+
+
+
+
+          {/* Success Pages */}
+          <Route element={<ProjectSuccessPage />} path="/uploadsuccess" />
+          <Route element={<SponsorSuccessPage />} path="/sponsoruploadsuccess" />
+
+
+
+
 
 
 

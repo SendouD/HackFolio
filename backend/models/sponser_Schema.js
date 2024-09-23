@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const sponsorSchema = new mongoose.Schema({
+  userName:{type:String,required:true},
   companyName: { type: String, required: true, unique: true }, // Unique company name
   website: { type: String, required: true }, // Company website URL
   email: { type: String, required: true }, // Contact email

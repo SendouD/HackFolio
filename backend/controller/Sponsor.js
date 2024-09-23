@@ -1,14 +1,19 @@
 const express = require('express');
 const Sponsor = require('../models/sponser_Schema'); // Ensure this path is correct
-const isUser = require('../middleware/isUser');
-
+const isUser = require('../middleware/isUser'); // Assuming this is for user authentication/authorization
+const User=require('../models/user_Schema');
+const jwt = require('jsonwebtoken');
 const router = express.Router();
 
 // POST request to create a new sponsor
-router.post('/', async (req, res) => {
+router.post('/',isUser, async (req, res) => {
   try {
+    userName=req.username
     // Create a new sponsor instance with the request body
-    const sponsor = new Sponsor(req.body);
+    sponsorData={
+      ...req.body,userName
+    }
+    const sponsor = new Sponsor(sponsorData);
 
     // Save the sponsor to the database
     await sponsor.save();
@@ -27,25 +32,75 @@ router.post('/', async (req, res) => {
     });
   }
 });
-
-// GET request to fetch all sponsors or filter by company name
-router.get('/', async (req, res) => {
+// GET request to fetch sponsors with status 'Pending' for the admin dashboard
+router.get('/adminDash', async (req, res) => {
   try {
-    const { companyName } = req.query; // Optionally filter by company name
-    const filter = companyName ? { companyName: { $regex: companyName, $options: 'i' } } : {};
+    // Filter sponsors by status 'Pending'
+    const sponsors = await Sponsor.find({ verificationStatus: 'Pending' });
 
-    // Fetch sponsors from the database
-    const sponsors = await Sponsor.find(filter);
-
-    // Respond with the list of sponsors
+    // Respond with the list of pending sponsors
     res.status(200).json(sponsors);
   } catch (error) {
-    console.error('Error fetching sponsors:', error);
+    console.error('Error fetching pending sponsors:', error);
     res.status(500).json({
-      message: 'Error fetching sponsors',
+      message: 'Error fetching pending sponsors',
       error: error.message,
     });
   }
 });
+router.patch('/admin/verify/:companyName', async (req, res) => {
+  const { companyName } = req.params;
+  try {
+    // Find and update the sponsor's verification status
+    const sponsor = await Sponsor.findOneAndUpdate(
+      { companyName },
+      { verificationStatus: req.body.verificationStatus },
+      { new: true }
+    );
+
+    // If sponsor not found, return 404
+    if (!sponsor) {
+      return res.status(404).json({ message: 'Sponsor not found' });
+    }
+
+    // Find the user associated with the sponsor and add "Sponsor" role to the roles array
+    const user = await User.findOneAndUpdate(
+      { username: sponsor.userName },
+      { $addToSet: { roles: "Sponsor" } }, // Add "Sponsor" to the roles array if it doesn't already exist
+      { new: true } // Return the updated document
+    );
+
+    // If user not found, return 404
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Respond with the updated sponsor data
+    res.status(200).json(sponsor);
+  } catch (error) {
+    console.error('Error verifying sponsor:', error);
+    res.status(500).json({ message: 'Error verifying sponsor', error: error.message });
+  }
+});
+
+// PATCH request to decline a sponsor by company name
+router.patch('/admin/decline/:companyName', async (req, res) => {
+  const { companyName } = req.params;
+  try {
+    const sponsor = await Sponsor.findOneAndUpdate(
+      { companyName },
+      { verificationStatus: req.body.verificationStatus },
+      { new: true }
+    );
+    if (!sponsor) {
+      return res.status(404).json({ message: 'Sponsor not found' });
+    }
+    res.status(200).json(sponsor);
+  } catch (error) {
+    console.error('Error declining sponsor:', error);
+    res.status(500).json({ message: 'Error declining sponsor', error: error.message });
+  }
+});
+
 
 module.exports = router;
