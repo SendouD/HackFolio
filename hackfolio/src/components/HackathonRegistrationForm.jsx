@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function HackathonRegistrationForm() {
     const { name } = useParams();
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         aliasname: '',
@@ -45,6 +46,7 @@ function HackathonRegistrationForm() {
             });
             if (!response.ok) throw new Error('Network response was not ok');
             console.log(await response.json())
+            navigate(`/hackathon/${name}/team`);
         } catch (error) {
             console.error('Error posting data:', error);
         }

@@ -29,6 +29,7 @@ import AllHackathonsDisplay from "./pages/AllHackathonsDisplay";
 import HackathonWebpage from "./pages/HackathonWebpage";
 import CreateHackathon from "./pages/CreateHackathon"
 import HackathonRegistrationPage from "./pages/HackathonRegistrationPage";
+import HackathonTeamPage from "./pages/HackathonTeamPage";
 
 function App() {
   return (
@@ -75,6 +76,7 @@ function App() {
             <Route path="/organizedHackathons" element={<MyOrganizedHackathons />} />
             <Route path="/hackathon/:name/register" element={<HackathonRegistrationPage />} />
             <Route element={<UserProjects />} path="/userProjects" />
+            <Route path="/hackathon/:name/team" element={<HackathonTeamPage />} />
           </Route>
 
 

@@ -46,8 +46,13 @@ const hackParticipantDetails = new mongoose.Schema({
         type: String,
         required: true,
     },
+    reviewed: {
+        type: Boolean,
+        required: true,
+    },
     teamCode: {
         type: String,
+        default: '',
     }
 });
 
