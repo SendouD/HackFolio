@@ -60,9 +60,9 @@ const Header = () => {
             Hackathons
           </a>
           <a href="#" className="text-gray-600 hover:text-gray-900">
-            Badges
+            Sponsors
           </a>
-          <a href="#" className="text-blue-600 hover:text-blue-800">
+          <a href="#" className="text-gray-600 hover:text-gray-900">
             Projects
           </a>
         </div>

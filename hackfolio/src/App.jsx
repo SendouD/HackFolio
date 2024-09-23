@@ -32,6 +32,13 @@ import HackathonRegistrationPage from "./pages/HackathonPages/HackathonRegistrat
 import EditRegisteredHackathonDetails from "./pages/HackathonPages/EditRegisteredHackatonDetails";
 import RegisteredHackathonsDisplay from "./pages/HackathonPages/RegisteredHackathonsDisplay";
 
+
+
+//Sponsors
+import SponsorList from "./pages/SponsorPages/SponsorsList";
+
+
+
 function App() {
   return (
     <>
@@ -53,6 +60,8 @@ function App() {
           {/* Success Pages */}
           <Route element={<ProjectSuccessPage />} path="/uploadsuccess" />
           <Route element={<SponsorSuccessPage />} path="/sponsoruploadsuccess" />
+          <Route element={<SponsorList />} path="/sponsors" />
+
 
           {/* User private routes */}
           <Route element={<PrivateRoute role="User" />}>

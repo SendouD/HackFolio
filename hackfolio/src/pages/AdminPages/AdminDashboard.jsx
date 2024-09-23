@@ -12,7 +12,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchSponsors = async () => {
       try {
-        const response = await axios.get("/api/sponsor/adminDash");
+        const response = await axios.get("/api/sponsors/adminDash");
         setSponsors(response.data); // Assume the API returns an array of sponsors
         setLoading(false);
       } catch (err) {
@@ -33,7 +33,7 @@ const AdminDashboard = () => {
   };
   const handleUpdateSponsors = async () => {
     try {
-      const response = await axios.get("/api/sponsor/adminDash");
+      const response = await axios.get("/api/sponsors/adminDash");
       setSponsors(response.data); // Update the state with the new list of sponsors
     } catch (error) {
       console.error("Error fetching updated sponsors:", error);

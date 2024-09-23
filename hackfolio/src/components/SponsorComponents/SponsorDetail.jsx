@@ -1,68 +1,51 @@
 import React from "react";
-import axios from "axios";
 
-const SponsorDetail = ({ sponsor, onClose, onUpdate }) => {
-  const handleVerify = async () => {
-    try {
-      await axios.patch(`/api/sponsor/admin/verify/${sponsor.companyName}`, {
-        verificationStatus: 'Verified',
-      });
-      
-      onUpdate(); // Call onUpdate to refresh the sponsor list
-      onClose(); // Close the detail view
-    } catch (error) {
-      console.error('Error verifying sponsor:', error);
-      alert('Failed to verify sponsor');
-    }
-  };
-
-  const handleDecline = async () => {
-    try {
-      await axios.patch(`/api/sponsor/admin/decline/${sponsor.companyName}`, {
-        verificationStatus: 'Rejected',
-      });
-      onUpdate(); // Call onUpdate to refresh the sponsor list
-      onClose(); // Close the detail view
-    } catch (error) {
-      console.error('Error declining sponsor:', error);
-      alert('Failed to decline sponsor');
-    }
-  };
-
+const SponsorDetail = ({ sponsor }) => {
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white rounded-lg p-4 w-11/12 md:w-1/2 relative">
-        <button
-          onClick={onClose}
-          className="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
-          aria-label="Close"
-        >
-          &times; {/* Close symbol */}
-        </button>
-        <h2 className="text-xl font-bold mb-2">{sponsor.companyName}</h2>
-        <p><strong>Email:</strong> {sponsor.email}</p>
-        <p><strong>Phone:</strong> {sponsor.phoneNumber}</p>
-        <p><strong>Website:</strong> <a href={sponsor.website} target="_blank" rel="noopener noreferrer" className="text-blue-500">{sponsor.website}</a></p>
-        <p><strong>Registration Number:</strong> {sponsor.registrationNumber}</p>
-        <p><strong>Tax ID:</strong> {sponsor.taxId}</p>
-        <p><strong>Address:</strong> {`${sponsor.address.street}, ${sponsor.address.city}, ${sponsor.address.state}, ${sponsor.address.zip}, ${sponsor.address.country}`}</p>
-        <p><strong>Description:</strong> {sponsor.description}</p>
-        <p><strong>Status:</strong> {sponsor.verificationStatus}</p>
-        
-        <div className="mt-4 flex justify-between">
-          <button 
-            onClick={handleVerify} 
-            className="bg-green-500 text-white px-4 py-2 rounded mr-2"
-          >
-            Verify
-          </button>
-          <button 
-            onClick={handleDecline} 
-            className="bg-red-500 text-white px-4 py-2 rounded"
-          >
-            Decline
-          </button>
+    <div className="container mx-auto p-6">
+      <div className="flex flex-col items-center">
+        {/* Header Section */}
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold">{sponsor.companyName}</h1>
+          <p className="text-gray-600 mt-2">{sponsor.userName}</p>
         </div>
+
+        {/* Logo Section */}
+        {sponsor.logo && (
+          <div className="mb-6">
+            <img src={sponsor.logo} alt="logo" className="h-24 w-24 rounded-lg shadow-lg" />
+          </div>
+        )}
+
+        {/* Website */}
+        <div className="bg-gray-100 p-6 rounded-lg shadow-lg w-full max-w-4xl mb-6">
+          <h2 className="text-xl font-semibold mb-4">Website</h2>
+          <a href={sponsor.website} className="text-blue-500 underline">
+            {sponsor.website}
+          </a>
+        </div>
+
+        {/* Contact Details */}
+        <div className="bg-gray-100 p-6 rounded-lg shadow-lg w-full max-w-4xl mb-6">
+          <h2 className="text-xl font-semibold mb-4">Contact Information</h2>
+          <p>Email: <a href={`mailto:${sponsor.email}`} className="text-blue-500">{sponsor.email}</a></p>
+          <p>Phone: {sponsor.phoneNumber}</p>
+        </div>
+
+        {/* Address Section */}
+        <div className="bg-gray-100 p-6 rounded-lg shadow-lg w-full max-w-4xl mb-6">
+          <h2 className="text-xl font-semibold mb-4">Address</h2>
+          <p>{sponsor.address.street}</p>
+          <p>{`${sponsor.address.city}, ${sponsor.address.state}, ${sponsor.address.zip}, ${sponsor.address.country}`}</p>
+        </div>
+
+        {/* Description */}
+        {sponsor.description && (
+          <div className="bg-gray-100 p-6 rounded-lg shadow-lg w-full max-w-4xl mb-6">
+            <h2 className="text-xl font-semibold mb-4">Description</h2>
+            <p>{sponsor.description}</p>
+          </div>
+        )}
       </div>
     </div>
   );

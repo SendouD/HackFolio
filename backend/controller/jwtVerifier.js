@@ -7,10 +7,6 @@ authController.route('/')
     .get(isUser,async (req, res) => {
         const username=req.username;
         const response = await User.findOne({ username:username }, 'roles');
-       
-
-
-
         try {
             return res.status(200).json({msg: "Success",roles:response.roles});
         } catch (e) {
