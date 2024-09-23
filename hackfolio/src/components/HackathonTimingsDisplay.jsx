@@ -28,7 +28,7 @@ function HackathonTimingsDisplay() {
             if (!response.ok) throw new Error('Network response was not ok');
             const arr = await response.json();
             if(arr.flag === true){
-                navigate(`/hackathon/${name}/team`);
+                navigate(`/hackathon/${name}/editRegistrationDetails`);
             }
             else
                 navigate(`/hackathon/${name}/register`);

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
 import HackathonRegistrationForm from "../components/HackathonRegistrationForm";
 import HackathonLinks from "../components/HackathonLinks";
@@ -7,9 +7,28 @@ import HackathonPrizesDescription from "../components/HackathonPrizesDescription
 import TeamFormation from "../components/TeamFormation";
 import TeamDisplay from "../components/TeamDisplay";
 import Header from '../components/Header';
+import EditHackathonRegistrationForm from '../components/EditHackathonRegistrationForm';
 
-function HackathonRegistrationPage() {
+function EditRegisteredHackathonDetails() {
     const [selection, setSelection] = useState(0);
+    const [inTeam,setInTeam] = useState(false);
+    const { name } = useParams();
+
+    useEffect(() => {
+        handle();
+    },[])
+
+    async function handle() {
+        try {
+            const response = await fetch(`/api/hackathon/registerForHackathon/${name}`);
+            if (!response.ok) throw new Error('Network response was not ok');
+            const arr = await response.json();
+            if(!arr.data.teamCode) setInTeam(false);
+            else setInTeam(true);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
 
     return(
         <>
@@ -47,14 +66,21 @@ function HackathonRegistrationPage() {
 
             <div className='flex justify-center'>
                 <div className="w-[800px] bg-white rounded-[10px] flex justify-center p-8">
-                    {selection === 0 && <HackathonRegistrationForm />}
+                    {selection === 0 && <EditHackathonRegistrationForm />}
                     {selection === 1 && <HackathonLinks />}
                     {selection === 2 && <HackathonTimelineDescription />}
                     {selection === 3 && <HackathonPrizesDescription />}
                 </div>
                 <div>
                     <div className='h-[300px] w-[400px] bg-white ml-[50px] rounded-[10px] card'>
-                            From: To:
+                        From: To:
+                    </div>
+                    <div className=' mt-[50px] w-[400px] bg-white ml-[50px] rounded-[10px] card p-10'>
+                        {
+                            (inTeam) ? 
+                            <TeamDisplay func={handle} /> :
+                            <TeamFormation func={handle}/>
+                        }
                     </div>
                 </div>
 
@@ -63,4 +89,4 @@ function HackathonRegistrationPage() {
     );
 }
 
-export default HackathonRegistrationPage
+export default EditRegisteredHackathonDetails

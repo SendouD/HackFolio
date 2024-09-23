@@ -48,11 +48,11 @@ function TeamFormation(props) {
 
     return(
         <>
-            <div className="flex justify-center h-[70vh] items-center">
+            <div className="flex justify-center items-center">
                 <div className="">
                     <div className="flex justify-center">
                         <button 
-                            className="bg-blue-500 text-white py-3 px-8 rounded text-2xl hover:bg-blue-800 transition-all w-[350px]"
+                            className="bg-blue-500 text-white py-3 px-8 rounded text-2xl hover:bg-blue-800 transition-all w-[300px]"
                             onClick={handleCreate}
                         >
                             Create a team
@@ -64,14 +64,14 @@ function TeamFormation(props) {
                     <div className="flex justify-center">
                         <input 
                             type="text"
-                            className="w-[400px] text-3xl py-3 px-[30px] font-normal rounded-s card"
+                            className="font-normal rounded-s card text-2xl pl-[10px]"
                             ref={inpRef}
                         />
                         <button 
-                            className="bg-blue-500 text-white py-3 px-8 rounded-e text-2xl hover:bg-blue-700 transition-all"
+                            className="bg-blue-500 text-white rounded-e text-xl hover:bg-blue-700 transition-all py-3 px-6"
                             onClick={handleJoin}
                         >
-                            Join a team
+                            Join
                         </button>
                     </div>   
                 </div>

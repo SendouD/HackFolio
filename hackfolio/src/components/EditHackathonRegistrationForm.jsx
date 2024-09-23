@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
-function HackathonRegistrationForm() {
+function EditHackathonRegistrationForm() {
     const { name } = useParams();
     const navigate = useNavigate();
+    const [data,setData] = useState(null);
 
     const [formData, setFormData] = useState({
         aliasname: '',
@@ -18,10 +19,58 @@ function HackathonRegistrationForm() {
         skills: '',
     });
 
+    const [editableFields, setEditableFields] = useState({
+        aliasname: false,
+        firstname: false,
+        lastname: false,
+        email: false,
+        phoneno: false,
+        gender: false,
+        githubprofile: false,
+        linkednprofile: false,
+        portfoliowebsite: false,
+        skills: false,
+    });
+
+    useEffect(() => {
+        getInfo();
+    },[])
+
+    useEffect(() => {
+        if(data)
+            setFormData({
+                aliasname: data.aliasname,
+                firstname: data.firstname,
+                lastname: data.lastname,
+                email: data.email,
+                phoneno: data.phoneno,
+                gender: data.gender,
+                githubprofile: data.githubprofile,
+                linkednprofile: data.linkednprofile,
+                portfoliowebsite: data.portfoliowebsite,
+                skills: data.skills,
+            });
+    },[data])
+
+    async function getInfo() {
+        try {
+            const response = await fetch(`/api/hackathon/registerForHackathon/${name}`);
+            if (!response.ok) throw new Error('Network response was not ok');
+            const arr = await response.json();
+            setData(arr.data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+
     function handleChange(e,name) {
         const temp = { ...formData };
         temp[name] = e.target.value;
         setFormData(temp);
+    }
+
+    function handleEdit(field) {
+        setEditableFields(prev => ({ ...prev, [field]: !prev[field] }));
     }
 
 
@@ -30,7 +79,12 @@ function HackathonRegistrationForm() {
         return(
             <>
                 <label htmlFor="" className="mt-[20px] font-light">{label}</label>
-                <input type="text" onChange={(e) => handleChange(e,name)} value={formData[name]} className="edit-inp shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-2"/>
+                <div className="flex items-center">
+                    <input type="text" disabled={!editableFields[name]} onChange={(e) => handleChange(e,name)} value={formData[name]} className="edit-inp shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-2"/>
+                    <button onClick={() => handleEdit(name)} className="bg-blue-500 font-medium hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2 edit-btn mt-2">
+                        {editableFields[name] ? 'Save' : 'Edit'}
+                    </button>
+                </div>
             </>
         );
     }
@@ -38,7 +92,7 @@ function HackathonRegistrationForm() {
     async function handleSubmit() {
         try {
             const response = await fetch(`/api/hackathon/registerForHackathon/${name}`, {
-                method: 'POST',
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -79,4 +133,4 @@ function HackathonRegistrationForm() {
     );
 }
 
-export default HackathonRegistrationForm
+export default EditHackathonRegistrationForm
