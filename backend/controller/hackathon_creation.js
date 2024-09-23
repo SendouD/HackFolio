@@ -71,7 +71,7 @@ hack_create.route("/hackathonCreate/:name/1")
         const { hackName, uniName, eventMode, tech, teamSize, partProf, contactLinks, fromDate, toDate, prizesDesc } = req.body;
         const name = req.params.name;
         try{
-            const newHackFullDetails = {
+            const data = {
                 hackathonName: hackName,
                 uniName: uniName,
                 eventMode: eventMode,
@@ -82,9 +82,9 @@ hack_create.route("/hackathonCreate/:name/1")
                 fromDate: fromDate,
                 toDate: toDate,
                 prizesDesc: prizesDesc,
-            };
-            
-            await hackFullDetails.findOneAndUpdate({hackathonName: hackName}, newHackFullDetails);
+            }
+            await hackFullDetails.findOneAndUpdate({hackathonName: hackName}, data);
+
             await hackathon_form.findOneAndUpdate({hackathonName: name}, { step: 1});
 
             res.status(200).json({ data: data });
