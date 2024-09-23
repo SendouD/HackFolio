@@ -1,6 +1,31 @@
-import React from "react";
+import React ,{useEffect,useState} from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
-const SponsorDetail = ({ sponsor }) => {
+const SponsorDetail = () => {
+    const { companyName } = useParams(); // Get the sponsor ID from the URL
+    const [sponsor, setSponsor] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+  
+    useEffect(() => {
+      const fetchSponsor = async () => {
+        try {
+          const response = await axios.get(`/api/sponsors/${companyName}`);
+          setSponsor(response.data);
+          setLoading(false);
+        } catch (err) {
+          console.error("Error fetching sponsor details:", err);
+          setError("Error fetching sponsor details");
+          setLoading(false);
+        }
+      };
+  
+      fetchSponsor();
+    }, [companyName]);
+  
+    if (loading) return <div>Loading sponsor details...</div>;
+    if (error) return <div>{error}</div>;
   return (
     <div className="container mx-auto p-6">
       <div className="flex flex-col items-center">
@@ -13,31 +38,58 @@ const SponsorDetail = ({ sponsor }) => {
         {/* Logo Section */}
         {sponsor.logo && (
           <div className="mb-6">
-            <img src={sponsor.logo} alt="logo" className="h-24 w-24 rounded-lg shadow-lg" />
+            <img
+              src={sponsor.logo}
+              alt={`${sponsor.companyName} logo`}
+              className="h-24 w-24 rounded-lg shadow-lg"
+            />
           </div>
         )}
 
         {/* Website */}
-        <div className="bg-gray-100 p-6 rounded-lg shadow-lg w-full max-w-4xl mb-6">
-          <h2 className="text-xl font-semibold mb-4">Website</h2>
-          <a href={sponsor.website} className="text-blue-500 underline">
-            {sponsor.website}
-          </a>
-        </div>
+        {sponsor.website && (
+          <div className="bg-gray-100 p-6 rounded-lg shadow-lg w-full max-w-4xl mb-6">
+            <h2 className="text-xl font-semibold mb-4">Website</h2>
+            <a
+              href={sponsor.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 underline"
+            >
+              {sponsor.website}
+            </a>
+          </div>
+        )}
 
         {/* Contact Details */}
-        <div className="bg-gray-100 p-6 rounded-lg shadow-lg w-full max-w-4xl mb-6">
-          <h2 className="text-xl font-semibold mb-4">Contact Information</h2>
-          <p>Email: <a href={`mailto:${sponsor.email}`} className="text-blue-500">{sponsor.email}</a></p>
-          <p>Phone: {sponsor.phoneNumber}</p>
-        </div>
+        {(sponsor.email || sponsor.phoneNumber) && (
+          <div className="bg-gray-100 p-6 rounded-lg shadow-lg w-full max-w-4xl mb-6">
+            <h2 className="text-xl font-semibold mb-4">Contact Information</h2>
+            {sponsor.email && (
+              <p>
+                Email:{" "}
+                <a
+                  href={`mailto:${sponsor.email}`}
+                  className="text-blue-500 underline"
+                >
+                  {sponsor.email}
+                </a>
+              </p>
+            )}
+            {sponsor.phoneNumber && <p>Phone: {sponsor.phoneNumber}</p>}
+          </div>
+        )}
 
         {/* Address Section */}
-        <div className="bg-gray-100 p-6 rounded-lg shadow-lg w-full max-w-4xl mb-6">
-          <h2 className="text-xl font-semibold mb-4">Address</h2>
-          <p>{sponsor.address.street}</p>
-          <p>{`${sponsor.address.city}, ${sponsor.address.state}, ${sponsor.address.zip}, ${sponsor.address.country}`}</p>
-        </div>
+        {sponsor.address && (
+          <div className="bg-gray-100 p-6 rounded-lg shadow-lg w-full max-w-4xl mb-6">
+            <h2 className="text-xl font-semibold mb-4">Address</h2>
+            <p>{sponsor.address.street}</p>
+            <p>
+              {`${sponsor.address.city}, ${sponsor.address.state}, ${sponsor.address.zip}, ${sponsor.address.country}`}
+            </p>
+          </div>
+        )}
 
         {/* Description */}
         {sponsor.description && (

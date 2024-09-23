@@ -35,6 +35,7 @@ import EditRegisteredHackathonDetails from "./pages/HackathonPages/EditRegistere
 
 //Sponsors
 import SponsorList from "./pages/SponsorPages/SponsorsList";
+import SponsorDetail from "./components/SponsorComponents/SponsorDetail";
 
 
 
@@ -50,6 +51,8 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route element={<Project_display/>} path="/ProjectDisplay/:projectId" />
           <Route element={<UserDashboard/>} path="/@/:username" />
+          <Route element={<SponsorList />} path="/sponsors" />
+          <Route element={<SponsorDetail />} path="/sponsors/:companyName" />
         
           {/* <Route path="/HackathonProjects" element={<HackathonProjectDispay/>}/> */}
           <Route path="/hackathons" element={<AllHackathonsDisplay />} />
@@ -59,7 +62,7 @@ function App() {
           {/* Success Pages */}
           <Route element={<ProjectSuccessPage />} path="/uploadsuccess" />
           <Route element={<SponsorSuccessPage />} path="/sponsoruploadsuccess" />
-          <Route element={<SponsorList />} path="/sponsors" />
+          
 
 
           {/* User private routes */}
