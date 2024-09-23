@@ -3,6 +3,7 @@ const hack_register = express.Router();
 const hackParticipantDetails = require('../models/hackathon_participants_schema');
 const teamCodeSchema = require('../models/team_code_schema');
 const isUser = require('../middleware/isUser');
+const hackFullDetails = require('../models/hackathon_full_details');
 
 hack_register.route('/registerForHackathon/:name')
     .get(isUser,async(req, res) => {
@@ -170,5 +171,15 @@ hack_register.route('/hackathonTeam/:name/join')
             return res.status(400).json({ Error: "Error saving data to Database!" });
         }
     });
+
+hack_register.route('/registeredHackathons')
+    .get(isUser,async(req,res) => {
+        const email = req.email;
+
+        const regHacks = await hackParticipantDetails.find({ email: email });
+        const regHackNames = regHacks.map(form => form.hackathonName);
+        const details = await hackFullDetails.find({ hackathonName: { $in: regHackNames } });
+        return res.status(200).send(details);
+    })
 
 module.exports = hack_register;

@@ -81,7 +81,7 @@ const Header = () => {
             </div>
 
             {isMenuOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10">
+              <div className="absolute right-0 mt-2 w-52 bg-white border border-gray-200 rounded-md shadow-lg z-10">
                 <ul className="py-1">
                   <MenuItem text="My Devfolio" href={`/@/${username}`} />
                   {roles.includes("Admin") && (
@@ -89,7 +89,8 @@ const Header = () => {
                   )}
                   <MenuItem text="Edit Profile" href="#" />
                   <MenuItem text="Create Hackathon" href="/createHackathon" />
-                  <MenuItem text="My Hackathons" href="/organizedHackathons" />
+                  <MenuItem text="Organized Hackathons" href="/organizedHackathons" />
+                  <MenuItem text="Registered Hackathons" href="/registeredHackathons" />
                   <MenuItem text="My Projects" href="/userProjects" />
                   {roles.includes("Sponsor") ? (
                     <MenuItem
