@@ -6,21 +6,15 @@ const { Server } = require("socket.io");
 const mongoose = require("mongoose");
 const cookieParser=require("cookie-parser");
 const cors = require("cors");
-const axios = require("axios");
-const ProjectSubmission=require("./controller/project_submission");
 const hack_create = require("./controller/hackathon_creation");
 const userlogin=require("./controller/userRegistration");
 const jwtverifier=require("./controller/jwtVerifier");
-const jwt = require('jsonwebtoken');
 const project_finder=require("./controller/project_finder")
 const user=require("./controller/UserProfile");
 const hack_register = require('./controller/hackathonRegistration');
 const sponsor=require("./controller/Sponsor");
 const chat_backend = require("./controller/chat_backend");
 const chatStatusModel = require("./models/chat_status_model");
-const chatUserSchema = require('./models/chat_user_schema');
-const chatMessagesSchema = require('./models/chat_messages_schema');
-
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
