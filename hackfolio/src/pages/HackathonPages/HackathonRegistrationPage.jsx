@@ -12,7 +12,7 @@ function HackathonRegistrationPage() {
         <>
             <Header></Header>
             <div className='flex justify-center items-center h-[150px] my-3 text-gray-500 text-xl'>
-                <div className='bg-white p-4 rounded-[10px] card'>
+                <div className='bg-white p-4 rounded-[10px] card-v'>
                     <div 
                         onClick={(e)=>setSelection(0)}
                         className={`cursor-pointer p-5 ${selection === 0 && 'text-blue-500 border p-[19px]'} rounded-[10px] hover:bg-gray-200`}
@@ -20,7 +20,7 @@ function HackathonRegistrationPage() {
                         APPLICATION
                     </div>
                 </div>
-                <div className='flex bg-white p-4 ml-10 rounded-[10px] card'>
+                <div className='flex bg-white p-4 ml-10 rounded-[10px] card-v'>
                     <div 
                         onClick={(e)=>setSelection(1)}
                         className={`cursor-pointer p-5 ${selection === 1 && 'text-blue-500 border p-[19px]'} rounded-[10px] hover:bg-gray-200`}
@@ -50,7 +50,7 @@ function HackathonRegistrationPage() {
                     {selection === 3 && <HackathonPrizesDescription />}
                 </div>
                 <div>
-                    <div className='h-[300px] w-[400px] bg-white ml-[50px] rounded-[10px] card'>
+                    <div className='h-[300px] w-[400px] bg-white ml-[50px] rounded-[10px] card-v'>
                             From: To:
                     </div>
                 </div>
