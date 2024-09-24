@@ -38,6 +38,7 @@ import ChatPage from "./pages/ChatPages/ChatPage";
 //Sponsors
 import SponsorList from "./pages/SponsorPages/SponsorsList";
 import SponsorDetail from "./components/SponsorComponents/SponsorDetail";
+import SponsorsDashboard from "./pages/SponsorPages/SponsorsDashboard";
 
 
 
@@ -75,11 +76,12 @@ function App() {
             <Route path="/completeHackathonCreation/:name" element={<FillFullHackathonDetails />} />
             <Route path="/organizedHackathons" element={<OrganizedHackathonsDisplay />} />
             <Route path="/hackathon/:name/register" element={<HackathonRegistrationPage />} />
-            <Route element={<UserProjects />} path="/userProjects" />
+            <Route path="/userProjects" element={<UserProjects />} />
             <Route path="/organizedHackathons/:name" element={<EditOrganizedHackathonDetails />} /> 
             <Route path="/hackathon/:name/editRegistrationDetails" element={<EditRegisteredHackathonDetails/>} />
             <Route path="/registeredHackathons" element={<RegisteredHackathonsDisplay />} />
             <Route path="/chat" element={<ChatPage />} />
+            <Route path="/sponsorDashboard" element={<SponsorsDashboard />} />
           </Route>
 
           {/* Admin Private Routes */}

@@ -6,6 +6,10 @@ const teamCodeSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    teamName: {
+        type: String,
+        required: true,
+    },
     teamCode: {
         type: String,
         required: true,

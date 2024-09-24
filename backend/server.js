@@ -15,6 +15,7 @@ const hack_register = require('./controller/hackathonRegistration');
 const sponsor=require("./controller/Sponsor");
 const chat_backend = require("./controller/chat_backend");
 const chatStatusModel = require("./models/chat_status_model");
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
