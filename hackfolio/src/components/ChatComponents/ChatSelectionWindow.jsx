@@ -34,12 +34,10 @@ function ChatSelectionWindow(props) {
             });
             if (!response.ok) throw new Error('Network response was not ok');
             console.log(await response.json())
-            const temp = {
-                email: data.email,
-                interactedEmails: [...data.interactedEmails,email],
-            };
-            console.log(temp);
-            setData(temp);
+            setData(prev => ({
+                ...prev,
+                interactedEmails: [...prev.interactedEmails, email]
+            }));
             addInpRef.current.value = "";
         } catch (error) {
             console.error('Error posting data:', error);

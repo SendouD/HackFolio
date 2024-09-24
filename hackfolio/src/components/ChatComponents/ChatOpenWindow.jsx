@@ -12,14 +12,12 @@ function ChatOpenWindow(props) {
     },[props.currUser]);
 
     useEffect(() => {
-        console.log("hello");
-        // if (props.newMessage) {
-        //     setMessages(prevMessages => [...prevMessages, props.newMessage]);
-        // }
+        if (props.newMessage) {
+            setMessages(prevMessages => [...prevMessages, props.newMessage]);
+        }
     }, [props.newMessage]);
 
     useEffect(() => {
-        // console.log(props.newMessage);
         if (msgsEndRef.current) msgsEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }, [messages]);
 
@@ -67,12 +65,15 @@ function ChatOpenWindow(props) {
     function ChatBox(props) {
         
         return(
-            <span className="bg-white p-4 block rounded mt-[10px]">
-                <div className="">
-                    {props.message.from}
-                </div>
-                {props.message.message}
-            </span>
+            <div className={(JSON.parse(token).email === props.message.from) ? 'flex justify-end' : ''}>
+                <span className="bg-white p-4 inline-block rounded mt-[10px] max-w-[43vw] text-wrap break-words">
+                    <div className={`text-xl font-bold flex justify-start`}>
+                        {props.message.from}
+                    </div>
+                    {props.message.message}
+                </span>
+            </div>
+
         );
     }
 
@@ -93,10 +94,10 @@ function ChatOpenWindow(props) {
                 <div className="flex justify-center items-center">
                     <input
                         type="text"
-                        className="w-[94%] text-2xl py-2 px-4 mb-4 rounded"
+                        className="w-[89%] text-2xl py-2 px-4 mb-4 rounded-s"
                         ref={inpRef}
                     />
-                    <button className="mb-4 bg-gray-600 fixed left-[80%] text-white px-3 py-2 rounded-[10px]" onClick={sendMessage}>{'>'}</button>
+                    <button className="mb-4 bg-gray-600  text-white px-6 py-3 rounded-e-[10px]" onClick={sendMessage}>{'>'}</button>
                 </div>
             </div>
         </>
