@@ -35,7 +35,8 @@ function ChatOpenWindow(props) {
         }
     }
 
-    async function sendMessage() {
+    async function sendMessage(e) {
+        e.preventDefault();
         const message = inpRef.current.value;
         inpRef.current.value = ""
         try {
@@ -80,7 +81,7 @@ function ChatOpenWindow(props) {
     return(
         <>
             <div className="h-full flex flex-col justify-between">
-                <div className="bg-white p-4 rounded-bl-[5px] rounded-br-[5px] rounded-tr-[5px]">
+                <div className="bg-white p-4 rounded-bl-[5px] rounded-br-[5px] rounded-tr-[5px] text-2xl font-bold">
                     {props.currUser}
                 </div>
                 <div className="h-full p-4 overflow-y-scroll">
@@ -91,14 +92,14 @@ function ChatOpenWindow(props) {
                     }
                     <div ref={msgsEndRef} />
                 </div>
-                <div className="flex justify-center items-center">
+                <form onSubmit={(e) => sendMessage(e)} className="flex justify-center items-center">
                     <input
                         type="text"
                         className="w-[89%] text-2xl py-2 px-4 mb-4 rounded-s"
                         ref={inpRef}
                     />
-                    <button className="mb-4 bg-gray-600  text-white px-6 py-3 rounded-e-[10px]" onClick={sendMessage}>{'>'}</button>
-                </div>
+                    <button className="mb-4 bg-gray-600  text-white px-6 py-3 rounded-e-[10px]" type="submit">{'>'}</button>
+                </form>
             </div>
         </>
     );
