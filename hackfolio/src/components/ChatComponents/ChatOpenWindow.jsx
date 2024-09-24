@@ -66,8 +66,8 @@ function ChatOpenWindow(props) {
         
         return(
             <div className={(JSON.parse(token).email === props.message.from) ? 'flex justify-end' : ''}>
-                <span className="bg-white p-4 inline-block rounded mt-[10px]">
-                    <div className="">
+                <span className="bg-white p-4 inline-block rounded mt-[10px] max-w-[43vw] text-wrap break-words">
+                    <div className={`text-xl font-bold flex justify-start`}>
                         {props.message.from}
                     </div>
                     {props.message.message}
