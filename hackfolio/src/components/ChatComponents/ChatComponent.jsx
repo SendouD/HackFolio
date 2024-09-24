@@ -23,13 +23,6 @@ function ChatComponent() {
             console.log('Connected to WebSocket server');
         });
 
-        newSocket.on('chatMessage', (msg) => {
-            if(msg.from === currUser) {
-                if(msg.from === currUser) setNewMessage(msg);
-                console.log(newMessage);
-            }
-        });
-
         newSocket.on('disconnect', async () => {
             try {
                 const response = await fetch(`/api/chat/disconnect`);
@@ -46,6 +39,18 @@ function ChatComponent() {
             newSocket.disconnect();
         };
     }, []);
+
+    useEffect(() => {
+        if(socket) {
+            socket.on('chatMessage', (msg) => {
+                if(msg.from === currUser || msg.to === JSON.parse(token).email) setNewMessage(msg);
+            });
+        }
+
+        return() => {
+            
+        }
+    },[socket,currUser]);
 
 
     return (

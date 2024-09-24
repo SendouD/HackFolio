@@ -55,7 +55,6 @@ io.on('connection', async (socket) => {
 
     try{
       const data = await chatStatusModel.findOne({email: msg.to});
-      console.log(data.socketId);
       if(data && data.status === true){
         io.to(data.socketId).emit('chatMessage', msg);
       }
