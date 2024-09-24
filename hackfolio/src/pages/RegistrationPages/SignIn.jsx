@@ -23,13 +23,10 @@ const SignIn = () => {
       localStorage.setItem("data", JSON.stringify(response.data));
       navigate('/');
 
-
-      
-      
       setSuccess('Sign in successful!');
       setError(null); 
     } catch (err) {
-      console.log(err)
+      console.log(err);
       setError('Error signing in. Please try again.');
       setSuccess(null);
     }
@@ -37,10 +34,10 @@ const SignIn = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      {/* Main container with reduced width and max width constraints */}
-      <div className="bg-white shadow-lg rounded-lg overflow-hidden max-w-4xl w-full flex">
+      {/* Main container with increased height */}
+      <div className="bg-white shadow-lg rounded-lg overflow-hidden max-w-4xl w-full flex min-h-[60vh]">
         {/* Left side - Sign In Form */}
-        <div className="w-1/2 p-8">
+        <div className="w-1/2 p-8 flex flex-col justify-center">
           <div className="max-w-md w-full mx-auto">
             <h2 className="text-2xl font-bold text-center mb-4">Sign In</h2>
             <form onSubmit={handleSubmit}>
@@ -90,7 +87,7 @@ const SignIn = () => {
           <div className="text-center">
             <h2 className="text-4xl font-bold mb-4">Hello, Friend!</h2>
             <p className="mb-6 text-lg">
-              Register with your personal details to use all of the site features
+              Register with your personal details to use all of the site features.
             </p>
             <button
               className="bg-transparent border-2 border-white text-white font-bold py-2 px-6 rounded hover:bg-white hover:text-gray-900"
@@ -103,10 +100,10 @@ const SignIn = () => {
       </div>
     </div>
   );
-  
 };
 
 export default SignIn;
+
 
 
 

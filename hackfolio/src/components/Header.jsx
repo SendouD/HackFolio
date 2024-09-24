@@ -50,7 +50,7 @@ const Header = () => {
           className="text-3xl font-semibold cursor-pointer"
           onClick={() => navigate("/")}
         >
-          Hackfolio
+          HackPro
         </div>
         <div className="space-x-8">
           <a href="#" className="text-gray-600 hover:text-gray-900">

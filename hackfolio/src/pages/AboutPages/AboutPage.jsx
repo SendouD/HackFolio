@@ -1,6 +1,7 @@
 import React from 'react';
 import './AboutPage.css'; 
 import { Link } from 'react-router-dom';
+import Footer from '../../components/Footer'
 
 import janeImg from '../../Assets/janeImg.jpg';
 import mikeImg from '../../Assets/mike.jpg';
@@ -15,60 +16,61 @@ import RichardImg from '../../Assets/Richard.jpeg';
 const teamMembers = [
   {
     name: 'Jane Doe',
-    title: 'CEO & Founder',
-    description: 'Some text that describes me lorem ipsum ipsum lorem.',
+    title: 'CEO',
+    description: 'Jane is a visionary leader with over 15 years of experience in technology innovation and strategic growth. She founded the company with a mission to foster creativity and innovation through hackathons.',
     email: 'jane.doe@example.com',
     img: janeImg,
   },
   {
     name: 'Mike Ross',
     title: 'Art Director',
-    description: 'Some text that describes me lorem ipsum ipsum lorem.',
+    description: 'Mike is an accomplished art director known for his creative campaigns and design leadership. His work drives the visual storytelling of the team’s projects.',
     email: 'mike.ross@example.com',
     img: mikeImg,
   },
   {
     name: 'John Doe',
     title: 'Designer',
-    description: 'Some text that describes me lorem ipsum ipsum lorem.',
+    description: 'John is a talented UI/UX designer with a passion for creating intuitive and beautiful user experiences. He excels at bridging the gap between functionality and aesthetics.',
     email: 'john.doe@example.com',
     img: johnImg,
   },
   {
     name: 'Jennie Richards',
     title: 'Operations',
-    description: 'Some text that describes me lorem ipsum ipsum lorem.',
+    description: 'Jennie oversees the smooth operation of events and projects, ensuring everything runs efficiently. She has a background in project management and team coordination.',
     email: 'jennie.richards@example.com',
     img: jennieImg,
   },
   {
     name: 'Jenniefer Curls',
-    title: 'Designer',
-    description: 'Some text that describes me lorem ipsum ipsum lorem.',
+    title: 'Marketing',
+    description: 'Jenniefer is a creative designer with a strong focus on branding and product design. She brings ideas to life with her innovative designs and attention to detail.',
     email: 'jenniefer.curls@example.com',
     img: jennieferImg,
   },
   {
     name: 'Ranjith',
     title: 'Designer',
-    description: 'Some text that describes me lorem ipsum ipsum lorem.',
+    description: 'Ranjith is a dynamic designer specializing in motion graphics and digital animation. He’s passionate about creating engaging visual content that tells a story.',
     email: 'ranjith@example.com',
     img: ranjithImg,
   },
 ];
 
+
 const advisors = [
   {
     name: 'Christina Kate',
     title: 'Senior Technical Advisor',
-    description: 'Some text that describes the advisor lorem ipsum.',
+    description: 'Christina is a senior techie in the IT field solved many complex cases.',
     email: 'christina.kate@example.com',
     img: christinaImg,
   },
   {
     name: 'Suhas',
     title: 'Business Strategy Advisor',
-    description: 'Some text that describes the advisor lorem ipsum.',
+    description: 'Suhas is experienced stratergist Advisor in the Business World.',
     email: 'suhas@example.com',
     img: suhasImg,
   },
@@ -96,7 +98,7 @@ const AboutSection = () => {
 const TeamSection = ({ title, members }) => {
   return (
     <section className="team-section">
-      <h2 style={{ textAlign: 'center' }}>{title}</h2>
+      <h2 className="text-3xl font-bold text-center mb-6">{title}</h2>
       <div className="row">
         {members.map((member) => (
           <div className="column" key={member.name}>
@@ -134,6 +136,8 @@ const AboutPage = () => {
           <button className="button">Go to Homepage</button>
         </Link>
       </div>
+      {/* Add Footer at the end of the page */}
+      <Footer />
     </div>
   );
 };
