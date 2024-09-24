@@ -93,7 +93,7 @@ function HackathonDetailsForm(props) {
 
     return (
         <>
-            <div className="card bg-white p-20 rounded-md border-solid border-gray-200 border-2 mb-4 w-12/12">
+            <div className="card-v bg-white p-20 rounded-md border-solid border-gray-200 border-2 mb-4 w-12/12">
                 <div className="flex justify-between items-center mb-4">
                     <div className="font-semibold text-3xl text-gray-950/80">Let’s get you started!</div>
                 </div>

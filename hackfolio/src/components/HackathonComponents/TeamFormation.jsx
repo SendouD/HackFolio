@@ -58,32 +58,33 @@ function TeamFormation(props) {
 
     return(
         <>
-            <div className="flex justify-center items-center">
+            <div className="flex justify-center items-center border rounded p-[30px]">
                 <div className="">
+                    <div className="text-4xl text-gray-700 mb-[20px]">Have some friends?</div>
                     <div className="flex justify-center">
                         <input 
                             type="text"
-                            className="font-normal rounded-s card text-2xl pl-[10px]"
+                            className="edit-inp shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-2"
                             ref={inpNameRef}
                         />
                         <button 
-                            className="bg-blue-500 text-white py-3 px-8 rounded text-2xl hover:bg-blue-800 transition-all w-[300px]"
+                            className="bg-blue-500 font-medium hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2 edit-btn mt-2 w-[200px]"
                             onClick={handleCreate}
                         >
                             Create a team
                         </button>
                     </div>
                     <div className="flex justify-center my-[50px] text-5xl font-medium text-gray-800">
-                        {'< - OR - >'}
+                        {'- OR -'}
                     </div>
                     <div className="flex justify-center">
                         <input 
                             type="text"
-                            className="font-normal rounded-s card text-2xl pl-[10px]"
+                            className="edit-inp shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-2"
                             ref={inpCodeRef}
                         />
                         <button 
-                            className="bg-blue-500 text-white rounded-e text-xl hover:bg-blue-700 transition-all py-3 px-6"
+                            className="bg-blue-500 font-medium hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2 edit-btn mt-2"
                             onClick={handleJoin}
                         >
                             Join
