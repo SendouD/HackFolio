@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
+import Header from "../../components/Header";
 
 const SponsorList = () => {
   const [sponsors, setSponsors] = useState([]);
@@ -36,6 +37,7 @@ const SponsorList = () => {
 
   return (
     <>
+    <Header/>
       <h1 className="text-4xl text-center font-bold mt-6">Our Sponsors</h1>
 
       <div className="container mx-auto p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

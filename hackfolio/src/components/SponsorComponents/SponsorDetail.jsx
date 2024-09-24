@@ -1,7 +1,7 @@
 import React ,{useEffect,useState} from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-
+import Header from "../Header";
 const SponsorDetail = () => {
     const { companyName } = useParams(); // Get the sponsor ID from the URL
     const [sponsor, setSponsor] = useState(null);
@@ -27,6 +27,9 @@ const SponsorDetail = () => {
     if (loading) return <div>Loading sponsor details...</div>;
     if (error) return <div>{error}</div>;
   return (
+    <>
+    <Header/>
+
     <div className="container mx-auto p-6">
       <div className="flex flex-col items-center">
         {/* Header Section */}
@@ -99,7 +102,9 @@ const SponsorDetail = () => {
           </div>
         )}
       </div>
+
     </div>
+    </>
   );
 };
 
