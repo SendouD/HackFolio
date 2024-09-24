@@ -40,6 +40,9 @@ function TeamDisplay(props) {
         <>
             <div>
                 <div>
+                    Team Name: {data.teamName}
+                </div>
+                <div>
                     Team Code: {data.teamCode}
                 </div>
                 <div>

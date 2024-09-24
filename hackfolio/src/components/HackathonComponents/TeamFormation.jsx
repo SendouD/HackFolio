@@ -2,28 +2,38 @@ import { useRef } from "react";
 import { useParams } from "react-router-dom";
 
 function TeamFormation(props) {
-    const inpRef = useRef(null);
+    const inpCodeRef = useRef(null);
+    const inpNameRef = useRef(null);
     const { name } = useParams();
 
     async function handleCreate() {
+        const teamName = inpNameRef.current.value;
+        if(name.length < 3) {
+            alert("Name should have atleast 3 characters.");
+        }
         try {
             const response = await fetch(`/api/hackathon/hackathonTeam/${name}/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({}),
+                body: JSON.stringify({teamName}),
             });
-            const data = await response.json();
-            console.log(data);
-            props.func();
+            if(response.status === 400) {
+                alert(response.msg);
+            }
+            else {
+                const data = await response.json();
+                console.log(data);
+                props.func();
+            }
         } catch (error) {
             console.error('Error posting data:', error);
         }
     }
 
     async function handleJoin() {
-        const teamCode = inpRef.current.value;
+        const teamCode = inpCodeRef.current.value;
         if(teamCode.length !== 6) {
             console.log("Enter a valid Team Code!");
         }
@@ -51,6 +61,11 @@ function TeamFormation(props) {
             <div className="flex justify-center items-center">
                 <div className="">
                     <div className="flex justify-center">
+                        <input 
+                            type="text"
+                            className="font-normal rounded-s card text-2xl pl-[10px]"
+                            ref={inpNameRef}
+                        />
                         <button 
                             className="bg-blue-500 text-white py-3 px-8 rounded text-2xl hover:bg-blue-800 transition-all w-[300px]"
                             onClick={handleCreate}
@@ -65,7 +80,7 @@ function TeamFormation(props) {
                         <input 
                             type="text"
                             className="font-normal rounded-s card text-2xl pl-[10px]"
-                            ref={inpRef}
+                            ref={inpCodeRef}
                         />
                         <button 
                             className="bg-blue-500 text-white rounded-e text-xl hover:bg-blue-700 transition-all py-3 px-6"

@@ -48,7 +48,7 @@ function ChatSelectionWindow(props) {
     function SelectionCard(email,i) {
 
         return(
-            <div className="flex justify-center items-center w-[95%] h-[70px] bg-white rounded mt-[10px] cursor-pointer" key={i} onClick={() => props.setCurrUser(email)}>
+            <div className="flex justify-center items-center w-[95%] h-[70px] bg-white rounded mt-[10px] cursor-pointer hover:bg-gray-400 transition-all ease-in" key={i} onClick={() => props.setCurrUser(email)}>
                 {email}
             </div>
         );

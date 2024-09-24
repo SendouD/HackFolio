@@ -64,14 +64,31 @@ function ChatOpenWindow(props) {
     }
     
     function ChatBox(props) {
+        let milliseconds = Number(props.message.timestamp);
+        let date = new Date(milliseconds);
+        let utcDate = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+        let istOffset = 5 * 60 + 30;
+        let istDate = new Date(utcDate.getTime() + istOffset * 60 * 1000);
+
+        let time = (istDate.getHours())%12 + ":" + istDate.getMinutes();
+        if(istDate.getHours() >= 12) time += " pm";
+        else time+=" am";
         
         return(
-            <div className={(JSON.parse(token).email === props.message.from) ? 'flex justify-end' : ''}>
-                <span className="bg-white p-4 inline-block rounded mt-[10px] max-w-[43vw] text-wrap break-words">
-                    <div className={`text-xl font-bold flex justify-start`}>
-                        {props.message.from}
+            <div className={(JSON.parse(token).email === props.message.from) ? 'flex justify-end items-center' : ''}>
+                {
+                    (JSON.parse(token).email === props.message.from) ? <div className="bg-white h-[30px] w-[30px] rounded-[20px] text-center mr-[5px] cursor-pointer">...</div> : <></>
+                }
+                <span className="bg-white p-4 pb-2 inline-block rounded mt-[10px] max-w-[43vw] text-wrap break-words">
+                    <div>
+                        <div className={`text-xl font-bold flex justify-start`}>
+                            {props.message.from}
+                        </div>
+                        {props.message.message}
                     </div>
-                    {props.message.message}
+                    <div className="flex justify-end font-medium">
+                        {time}
+                    </div>
                 </span>
             </div>
 

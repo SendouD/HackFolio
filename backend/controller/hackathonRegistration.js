@@ -93,6 +93,8 @@ hack_register.route('/hackathonTeam/:name/create')
     .post(isUser,async(req,res) => {
         const email = req.email;
         const { name } = req.params;
+        const {teamName} = req.body;
+
         let code;
         function randGen(len) {
             const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -103,25 +105,33 @@ hack_register.route('/hackathonTeam/:name/create')
         }
 
         try {
+            const flag = await teamCodeSchema.findOne({hackathonName: name,teamName: teamName});
+            if(flag) {
+                return res.status(400).json({msg: "Name already exists!"});
+            }
+
             const data = await hackParticipantDetails.findOne({hackathonName: name, email: email});
             if(!data || data.teamCode !== "") {
-                return res.status(200).json({msg: "User not registered for Hackathon or user already in a team"});
+                return res.status(400).json({msg: "User not registered for Hackathon or user already in a team"});
             }
+
             while(true){
                 randGen(6);
                 const data1 = await teamCodeSchema.findOne({hackathonName: name,teamCode: code});
                 if(!data1) break;
             }
-            const newteamCodeData = new teamCodeSchema({
+
+            const newTeamCodeData = new teamCodeSchema({
                 hackathonName: name,
+                teamName: teamName,
                 teamCode: code,
                 members: [{
                     email: email,
                     role: "lead"
                 }]
             });
-            await newteamCodeData.save();
-            await hackParticipantDetails.findOneAndUpdate({hackathonName: name, email: email},{teamCode: code});
+            await newTeamCodeData.save();
+            await hackParticipantDetails.findOneAndUpdate({hackathonName: name, email: email},{teamCode: code});                
 
             return res.status(200).json({msg: "success"});
         } catch (e) {
