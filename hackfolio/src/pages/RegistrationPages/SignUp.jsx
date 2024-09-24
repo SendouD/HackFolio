@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
   // State variables for form inputs
@@ -10,6 +11,8 @@ const SignUp = () => {
   const [lastName, setLastName] = useState('');
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,109 +36,133 @@ const SignUp = () => {
       setSuccess(null);
     }
   };
-
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Create your account
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Start sharing your projects today!
-          </p>
-        </div>
-        <form onSubmit={handleSubmit} className="mt-8 space-y-6">
-          {/* Username Input */}
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div>
-              <label htmlFor="username" className="sr-only">
-                Username
-              </label>
-              <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Username"
-              />
-            </div>
-            {/* First Name Input */}
-            <div>
-              <label htmlFor="first-name" className="sr-only">
-                First Name
-              </label>
-              <input
-                type="text"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="First Name"
-              />
-            </div>
-            {/* Last Name Input */}
-            <div>
-              <label htmlFor="last-name" className="sr-only">
-                Last Name
-              </label>
-              <input
-                type="text"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Last Name"
-              />
-            </div>
-            {/* Email Input */}
-            <div>
-              <label htmlFor="email" className="sr-only">
-                Email address
-              </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Email address"
-              />
-            </div>
-            {/* Password Input */}
-            <div>
-              <label htmlFor="password" className="sr-only">
-                Password
-              </label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="appearance-none rounded-b-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
-              />
-            </div>
-          </div>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      {/* Main container with reduced width and max width constraints */}
+      <div className="bg-white shadow-lg rounded-lg overflow-hidden max-w-4xl w-full flex">
+        {/* Left side - Sign Up Form */}
+        <div className="w-1/2 p-8">
+          <div className="max-w-md w-full mx-auto">
+            <h2 className="text-2xl font-bold text-center mb-4">Create your account</h2>
+            <p className="text-center mb-6 text-sm text-gray-500">Start sharing your projects today!</p>
+            <form onSubmit={handleSubmit}>
+              {/* Username Input */}
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
+                  Username
+                </label>
+                <input
+                  type="text"
+                  id="username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  placeholder="Username"
+                />
+              </div>
 
-          {/* Submit Button */}
-          <div>
+              {/* First Name Input */}
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="first-name">
+                  First Name
+                </label>
+                <input
+                  type="text"
+                  id="first-name"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  required
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  placeholder="First Name"
+                />
+              </div>
+
+              {/* Last Name Input */}
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="last-name">
+                  Last Name
+                </label>
+                <input
+                  type="text"
+                  id="last-name"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  required
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  placeholder="Last Name"
+                />
+              </div>
+
+              {/* Email Input */}
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+                  Email address
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  placeholder="Email address"
+                />
+              </div>
+
+              {/* Password Input */}
+              <div className="mb-6">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  placeholder="Password"
+                />
+              </div>
+
+              {/* Submit Button */}
+              <div className="flex items-center justify-between">
+                <button
+                  type="submit"
+                  className="bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+                >
+                  Sign Up
+                </button>
+              </div>
+            </form>
+
+            {/* Error and Success Messages */}
+            {error && <p className="mt-4 text-red-600 text-center">{error}</p>}
+            {success && <p className="mt-4 text-green-600 text-center">{success}</p>}
+          </div>
+        </div>
+
+        {/* Right side - Welcome Section */}
+        <div className="w-1/2 bg-gray-900 text-white flex items-center justify-center p-8">
+          <div className="text-center">
+            <h2 className="text-4xl font-bold mb-4">Welcome Back!</h2>
+            <p className="mb-6 text-lg">
+              Sign in with your personal details to keep connected with your projects.
+            </p>
             <button
-              type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="bg-transparent border-2 border-white text-white font-bold py-2 px-6 rounded hover:bg-white hover:text-gray-900"
+              onClick={() => navigate('/signin')}
             >
-              Sign Up
+              Sign In
             </button>
           </div>
-        </form>
-
-        {/* Error and Success Messages */}
-        {error && <p className="mt-2 text-center text-sm text-red-600">{error}</p>}
-        {success && <p className="mt-2 text-center text-sm text-green-600">{success}</p>}
+        </div>
       </div>
     </div>
   );
 };
 
 export default SignUp;
+
+
