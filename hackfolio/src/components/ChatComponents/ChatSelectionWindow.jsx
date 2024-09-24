@@ -22,7 +22,8 @@ function ChatSelectionWindow(props) {
         }
     }
 
-    async function handleAdd() {
+    async function handleAdd(e) {
+        e.preventDefault();
         const email = addInpRef.current.value;
         try {
             const response = await fetch(`/api/chat/addFriends`, {
@@ -55,10 +56,10 @@ function ChatSelectionWindow(props) {
 
     return(
         <div>
-            <div className="flex justify-center items-center">
-                <input type="text" className="p-2 rounded text-2xl w-[220px]" ref={addInpRef}/>
-                <button className="text-4xl bg-white p-3 pt-[6px] rounded-[20px] m-[5px] hover:bg-gray-400 transition-all" onClick={handleAdd}>+</button>
-            </div>
+            <form onSubmit={(e) => handleAdd(e)} className="flex justify-center items-center">
+                <input type="text" className="p-2 rounded text-xl w-[220px]" ref={addInpRef}/>
+                <button className="text-4xl bg-white p-3 pt-[6px] rounded-[20px] m-[5px] hover:bg-gray-400 transition-all" type="submit">+</button>
+            </form>
             <div className="flex justify-center overflow-y-scroll">
                 <div className="w-[95%]">
                     {

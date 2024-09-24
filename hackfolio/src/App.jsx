@@ -59,7 +59,6 @@ function App() {
           {/* <Route path="/HackathonProjects" element={<HackathonProjectDispay/>}/> */}
           <Route path="/hackathons" element={<AllHackathonsDisplay />} />
           <Route path="/hackathon/:name" element={<HackathonWebpage />} />
-          <Route path="/organizedHackathons/:name" element={<EditOrganizedHackathonDetails />} /> 
 
           {/* Success Pages */}
           <Route element={<ProjectSuccessPage />} path="/uploadsuccess" />
@@ -76,6 +75,7 @@ function App() {
             <Route path="/organizedHackathons" element={<OrganizedHackathonsDisplay />} />
             <Route path="/hackathon/:name/register" element={<HackathonRegistrationPage />} />
             <Route element={<UserProjects />} path="/userProjects" />
+            <Route path="/organizedHackathons/:name" element={<EditOrganizedHackathonDetails />} /> 
             <Route path="/hackathon/:name/editRegistrationDetails" element={<EditRegisteredHackathonDetails/>} />
             <Route path="/registeredHackathons" element={<RegisteredHackathonsDisplay />} />
             <Route path="/chat" element={<ChatPage />} />
