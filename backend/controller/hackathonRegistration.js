@@ -4,6 +4,7 @@ const hackParticipantDetails = require('../models/hackathon_participants_schema'
 const teamCodeSchema = require('../models/team_code_schema');
 const isUser = require('../middleware/isUser');
 const hackFullDetails = require('../models/hackathon_full_details');
+const hackathon_participants_schema = require('../models/hackathon_participants_schema');
 
 hack_register.route('/registerForHackathon/:name')
     .get(isUser,async(req, res) => {
@@ -131,7 +132,7 @@ hack_register.route('/hackathonTeam/:name/create')
                 }]
             });
             await newTeamCodeData.save();
-            await hackParticipantDetails.findOneAndUpdate({hackathonName: name, email: email},{teamCode: code});                
+            await hackParticipantDetails.findOneAndUpdate({hackathonName: name, email: email},{teamCode: code,teamName: teamName});                
 
             return res.status(200).json({msg: "success"});
         } catch (e) {
@@ -185,7 +186,6 @@ hack_register.route('/hackathonTeam/:name/join')
 hack_register.route('/registeredHackathons')
     .get(isUser,async(req,res) => {
         const email = req.email;
-
         const regHacks = await hackParticipantDetails.find({ email: email });
         const regHackNames = regHacks.map(form => form.hackathonName);
         const details = await hackFullDetails.find({ hackathonName: { $in: regHackNames } });
