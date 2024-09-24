@@ -1,13 +1,15 @@
-<h1 className="text-4xl text-center font-bold mt-6">Our Sponsors</h1>;
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import SponsorCard from "../../components/SponsorComponents/SponsorCard"; // Assuming SponsorCard is in the same folder
+import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
+import Header from "../../components/Header";
 
 const SponsorList = () => {
   const [sponsors, setSponsors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate(); // Initialize useNavigate hook
 
+  // Fetch sponsors on component mount
   useEffect(() => {
     const fetchSponsors = async () => {
       try {
@@ -24,16 +26,34 @@ const SponsorList = () => {
     fetchSponsors();
   }, []);
 
+  // Handle click on a sponsor card (Redirect to sponsor detail page)
+  const handleSponsorClick = (sponsor) => {
+    navigate(`/sponsors/${sponsor.companyName}`); // Redirect to the sponsor detail page using the sponsor ID
+  };
+
+  // Loading and error states
   if (loading) return <div>Loading sponsors...</div>;
   if (error) return <div>{error}</div>;
 
   return (
     <>
+    <Header/>
       <h1 className="text-4xl text-center font-bold mt-6">Our Sponsors</h1>
 
       <div className="container mx-auto p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {sponsors.map((sponsor) => (
-          <SponsorCard key={sponsor._id} sponsor={sponsor} />
+          <div
+            key={sponsor._id}
+            className="border border-gray-300 p-4 rounded cursor-pointer hover:bg-gray-50"
+            onClick={() => handleSponsorClick(sponsor)} // Trigger redirection on click
+          >
+            <img
+              src={sponsor.logo}
+              alt={sponsor.companyName}
+              className="h-20 mb-2"
+            />
+            <h2 className="font-bold">{sponsor.companyName}</h2>
+          </div>
         ))}
       </div>
     </>

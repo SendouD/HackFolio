@@ -64,7 +64,9 @@ function HackathonWebpageContentForm(props) {
 
         try {
             setLoading(true);
-            const imageUrl = await handleImageUpload(file);
+            let imageUrl;
+            if(file !== "") imageUrl = await handleImageUpload(file);
+            else imageUrl = "a"
             const response = await fetch(`/api/hackathon/hackathonCreate/${name}/2`, {
                 method: 'POST',
                 headers: {

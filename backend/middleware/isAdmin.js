@@ -21,7 +21,9 @@ const validuser = async (req, res, next) => {
           
           // Fetch user data and check for roles
           const user = await User.findOne({ username: req.username }, 'roles');
+          console.log(user)
           if (user && user.roles.includes('Admin')) {
+
             next(); // If the user has the 'admin' role, proceed
           } else {
             return res.status(403).json({ error: 'Access denied. Admins only.' });

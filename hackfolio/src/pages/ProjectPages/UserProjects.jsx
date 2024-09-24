@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header';
 import ProjectCard from '../../components/ProjectComponents/UserProjectCard';
 import axios from 'axios';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { Link, Navigate, useNavigate } from 'react-router-dom'; // Import Link from react-router-dom
 
 function UserProjects() {
   const [projects, setProjects] = useState([]); 
   const [loading, setLoading] = useState(true); 
   const [error, setError] = useState(null);
+  const navigate=useNavigate();
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -41,9 +42,9 @@ function UserProjects() {
           <h1 className="text-3xl font-bold">Share what you built</h1>
           <p className="text-gray-500 mt-2">Give your weekend projects, side projects, serious ventures a place to breathe, invite collaborators and inspire others.</p>
           <div className="mt-6">
-            <button className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow hover:bg-blue-500">
+            <span className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow hover:bg-blue-500" onClick={()=>{navigate('/projectForm')}}> 
               ADD A NEW SIDE PROJECT
-            </button>
+            </span>
           </div>
         </section>
 

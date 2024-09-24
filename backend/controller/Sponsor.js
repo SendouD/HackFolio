@@ -33,18 +33,45 @@ router.post('/',isUser, async (req, res) => {
     });
   }
 });
+router.get('/user/:companyName', async (req, res) => {
+  try {
+    const { companyName } = req.params;
+    
+    // Find a sponsor by company name (case-insensitive)
+    const sponsor = await Sponsor.findOne({
+      companyName: { $regex: new RegExp(companyName, "i") }
+    });
+
+    // Check if the sponsor was found
+    if (!sponsor) {
+      return res.status(202).json({ message: 'Sponsor not found' });
+    }
+
+    // Respond with the sponsor details
+    res.status(200).json(sponsor);
+  } catch (error) {
+    console.error('Error fetching sponsor:', error);
+    res.status(500).json({
+      message: 'Error fetching sponsor',
+      error: error.message,
+    });
+  }
+});
+
 // GET request to fetch sponsors with status 'Pending' for the admin dashboard
-router.get('/adminDash',isAdmin, async (req, res) => {
+router.get('/adminDash', async (req, res) => {
+  console.log("hitt")
   try {
     // Filter sponsors by status 'Pending'
+    
     const sponsors = await Sponsor.find({ verificationStatus: 'Pending' });
 
     // Respond with the list of pending sponsors
     res.status(200).json(sponsors);
   } catch (error) {
-    console.error('Error fetching pending sponsors:', error);
+    console.error('Error fetching sponsor details:', error);
     res.status(500).json({
-      message: 'Error fetching pending sponsors',
+      message: 'Error fetching sponsor details',
       error: error.message,
     });
   }
@@ -61,7 +88,7 @@ router.patch('/admin/verify/:companyName',isAdmin, async (req, res) => {
 
     // If sponsor not found, return 404
     if (!sponsor) {
-      return res.status(404).json({ message: 'Sponsor not found' });
+      return res.status(202).json({ message: 'Sponsor not found' });
     }
 
     // Find the user associated with the sponsor and add "Sponsor" role to the roles array
@@ -73,7 +100,7 @@ router.patch('/admin/verify/:companyName',isAdmin, async (req, res) => {
 
     // If user not found, return 404
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(202).json({ message: 'User not found' });
     }
 
     // Respond with the updated sponsor data
@@ -94,7 +121,7 @@ router.patch('/admin/decline/:companyName',isAdmin, async (req, res) => {
       { new: true }
     );
     if (!sponsor) {
-      return res.status(404).json({ message: 'Sponsor not found' });
+      return res.status(202).json({ message: 'Sponsor not found' });
     }
     res.status(200).json(sponsor);
   } catch (error) {
