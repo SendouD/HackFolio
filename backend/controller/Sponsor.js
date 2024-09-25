@@ -60,7 +60,6 @@ router.get('/user/:companyName', async (req, res) => {
 
 // GET request to fetch sponsors with status 'Pending' for the admin dashboard
 router.get('/adminDash', async (req, res) => {
-  console.log("hitt")
   try {
     // Filter sponsors by status 'Pending'
     
