@@ -16,6 +16,7 @@ const sponsor=require("./controller/Sponsor");
 const chat_backend = require("./controller/chat_backend");
 const chatStatusModel = require("./models/chat_status_model");
 const judges=require('./controller/Judges');
+const hack_project = require('./controller/project');
 
 app.use(express.json());
 app.use(cookieParser());
@@ -80,7 +81,7 @@ db.once("open", () => {
   console.log("Connected to MongoDB database successfully");
 });
 
-app.use("/api/project",project_finder)
+app.use("/api/project",project_finder);
 app.use("/api/hackathon", hack_create);
 app.use("/api/hackathon", hack_register);
 app.use("/api/userlogin",userlogin);
@@ -88,6 +89,7 @@ app.use("/api/jwtverify",jwtverifier);
 app.use("/api/user",user);
 app.use("/api/sponsors",sponsor);
 app.use("/api/chat",chat_backend(io));
-app.use("/api/judge",judges)
+app.use("/api/judge",judges);
+app.use("/api/project",hack_project);
 
 server.listen(5000, () => { console.log("Server started on port 5000 ... (http://localhost:5000/)") });

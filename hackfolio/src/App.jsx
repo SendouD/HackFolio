@@ -20,6 +20,7 @@ import SubmissionForm from "./pages/UserPages/SubmissionForm";
 import UserProjects from "./pages/ProjectPages/UserProjects";
 import HackathonProjectDispay from "./pages/HackathonPages/Hackathon_projects";
 import UserDashboard from "./pages/UserPages/UserDashboard";
+import HackathonProjectSubmission from "./pages/ProjectPages/HackathonProjectSubmission";
 
 //Hackathons
 import OrganizedHackathonsDisplay from "./pages/HackathonPages/OrganizedHackathonsDisplay";
@@ -39,6 +40,9 @@ import ChatPage from "./pages/ChatPages/ChatPage";
 import SponsorList from "./pages/SponsorPages/SponsorsList";
 import SponsorDetail from "./components/SponsorComponents/SponsorDetail";
 import SponsorsDashboard from "./pages/SponsorPages/SponsorsDashboard";
+import EditHackathonProjectSubmission from "./pages/ProjectPages/EditHackathonProjectSubmission";
+
+const token = localStorage.getItem('data');
 
 
 
@@ -80,8 +84,10 @@ function App() {
             <Route path="/organizedHackathons/:name" element={<EditOrganizedHackathonDetails />} /> 
             <Route path="/hackathon/:name/editRegistrationDetails" element={<EditRegisteredHackathonDetails/>} />
             <Route path="/registeredHackathons" element={<RegisteredHackathonsDisplay />} />
-            <Route path="/chat" element={<ChatPage />} />
+            <Route path="/chat" element={<ChatPage currUser={JSON.parse(token).email}/>} />
             <Route path="/sponsorDashboard" element={<SponsorsDashboard />} />
+            <Route path="/hackathon/:name/projectSubmission" element={<HackathonProjectSubmission />} />
+            <Route path="/hackathon/:name/EditProjectSubmission" element={<EditHackathonProjectSubmission/>} />
           </Route>
 
           {/* Admin Private Routes */}

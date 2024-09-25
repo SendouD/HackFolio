@@ -68,7 +68,7 @@ function NotificationsComponent(props) {
     }
 
     return(
-        <div className="bg-white w-[325px] rounded-[10px] ml-[100px] card-v p-4 mr-[10px]">
+        <div className="bg-white w-[325px] rounded-[10px] ml-[50px] card-v p-4 mr-[10px]">
             <div className="flex justify-center text-3xl border-b p-3">
                 Notifications
             </div>

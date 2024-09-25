@@ -205,17 +205,16 @@ hack_register.route('/registeredParticipants/:hackathonName')
 
     })
 
-    hack_register.route('/registeredParticipants/:hackathonName/verify')
+hack_register.route('/registeredParticipants/:hackathonName/verify')
     .post(async (req, res) => {
         const hackathonName = req.params.hackathonName;
-        const { teamCode } = req.body; // Expect teamCode in the request body
+        const { teamCode } = req.body; 
 
         try {
-            // Find the team by hackathonName and teamCode, then update the verificationStatus to "verified"
             const team = await teamCodeSchema.findOneAndUpdate(
                 { hackathonName: hackathonName, teamCode: teamCode },
                 { verificationStatus: "verified" },
-                { new: true } // Return the updated document
+                { new: true }
             );
 
             if (!team) {
@@ -228,17 +227,17 @@ hack_register.route('/registeredParticipants/:hackathonName')
             return res.status(500).json({ message: "Server error" });
         }
     });
-    hack_register.route('/registeredParticipants/:hackathonName/decline')
+
+hack_register.route('/registeredParticipants/:hackathonName/decline')
     .post(async (req, res) => {
         const hackathonName = req.params.hackathonName;
-        const { teamCode } = req.body; // Expect teamCode in the request body
+        const { teamCode } = req.body;
 
         try {
-            // Find the team by hackathonName and teamCode, then update the verificationStatus to "rejected"
             const team = await teamCodeSchema.findOneAndUpdate(
                 { hackathonName: hackathonName, teamCode: teamCode },
                 { verificationStatus: "rejected" },
-                { new: true } // Return the updated document
+                { new: true }
             );
 
             if (!team) {
@@ -253,13 +252,12 @@ hack_register.route('/registeredParticipants/:hackathonName')
     });
 
 
-    hack_register.route('/registeredParticipants/teamDetails/:teamCode')
+hack_register.route('/registeredParticipants/teamDetails/:teamCode')
     .get(async (req, res) => {
         try {
-            const teamCode = req.params.teamCode; // Ensure it's lowercase as per the route definition
-            const response = await hackParticipantDetails.find({ teamCode: teamCode }); // Match the team name
+            const teamCode = req.params.teamCode;
+            const response = await hackParticipantDetails.find({ teamCode: teamCode });
     
-            // Check if the team exists
             if (response.length === 0) {
                 return res.status(404).json({ message: "No participants found for this team" });
             }
@@ -270,6 +268,19 @@ hack_register.route('/registeredParticipants/:hackathonName')
             return res.status(500).json({ message: "Server error" });
         }
     });
+
+hack_register.route('/checkRegistration/:name')
+    .get(isUser,async(req,res) => {
+        const {name} = req.params;
+        const email = req.email;
+        try {
+            const data = await hackParticipantDetails.findOne({hackathonName: name, email: email});
+            return res.status(200).json({ flag: (data) ? true : false });
+        } catch (error) {
+            console.error("Error fetching team details:", error);
+            return res.status(500).json({ message: "Server error" });
+        }
+    })
 
 
 module.exports = hack_register;
