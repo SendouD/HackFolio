@@ -17,7 +17,12 @@ const teamCodeSchema = new mongoose.Schema({
     members: {
         type: Schema.Types.Mixed,
         required: true,
-    }
+    },
+    verificationStatus: {
+        type: String,
+        enum: ["pending", "verified", "rejected"],
+        default: "pending",
+    },
 });
 
 module.exports = mongoose.model("HackathonTeamCodes", teamCodeSchema);

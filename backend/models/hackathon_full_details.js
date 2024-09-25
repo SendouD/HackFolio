@@ -51,6 +51,17 @@ const hackFullDetails = new mongoose.Schema({
         required: true,
         default: "",
     },
+    judges: { type: [String], default: [''] },
+    criteria: {
+        type: [
+            {
+                name: { type: String, required: true },
+                maxMarks: { type: Number, required: true }
+            }
+        ],
+        default: null// Sets the default value to null
+    }
+
 });
 
 module.exports = mongoose.model("HackathonDetails", hackFullDetails);
