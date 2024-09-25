@@ -4,8 +4,8 @@ import ChatSelectionWindow from "./ChatSelectionWindow";
 import ChatOpenWindow from "./ChatOpenWindow";
 const token = localStorage.getItem('data');
 
-function ChatComponent() {
-    const [currUser, setCurrUser] = useState(JSON.parse(token).email);
+function ChatComponent(props) {
+    const {currUser,setCurrUser} = props;
     const [socket, setSocket] = useState(null);
     const [newMessage,setNewMessage] = useState(null);
 
@@ -21,6 +21,12 @@ function ChatComponent() {
 
         newSocket.on('connect', () => {
             console.log('Connected to WebSocket server');
+        });
+
+        newSocket.on('chatMessage', (msg) => {
+            console.log(msg.to === JSON.parse(token).email && msg.from === currUser);
+            props.setFlag(prev => !prev);
+            if(msg.to === JSON.parse(token).email && msg.from === currUser) setNewMessage(msg);
         });
 
         newSocket.on('disconnect', async () => {
@@ -41,16 +47,26 @@ function ChatComponent() {
     }, []);
 
     useEffect(() => {
-        if(socket) {
-            socket.on('chatMessage', (msg) => {
-                if(msg.from === currUser || msg.to === JSON.parse(token).email) setNewMessage(msg);
-            });
+
+        async function msgstatus() {
+            try {
+                const response = await fetch(`/api/chat/changeReadStatus/${currUser}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                if (!response.ok) throw new Error('Network response was not ok');
+
+            } catch (error) {
+                console.error('Error posting data:', error);
+            }
         }
 
-        return() => {
-            
-        }
+        msgstatus();
+
     },[socket,currUser]);
+
 
 
     return (

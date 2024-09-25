@@ -1,12 +1,11 @@
-
-import ChatComponent from "../../components/ChatComponents/ChatComponent"
+import ChatPage from "../ChatPages/ChatPage";
 
 function SponsorsDashboard() {
 
 
     return(
         <>
-            <ChatComponent />
+            <ChatPage />
         </>
     );
 }
