@@ -7,7 +7,7 @@ const HackathonDashboard = () => {
   const [teams, setTeams] = useState([]); // List of teams
   const [teamMembers, setTeamMembers] = useState([]); // Members of the selected team
   const [showDetails, setShowDetails] = useState(false); // Show modal for team members
-  const [viewMoreDetails, setViewMoreDetails] = useState(false); // Toggle to show more details about team members
+  const [selectedTeamCode, setSelectedTeamCode] = useState(""); // Track the selected teamCode
 
   // Fetch the teams on page load
   useEffect(() => {
@@ -23,7 +23,7 @@ const HackathonDashboard = () => {
     };
 
     fetchTeams();
-  }, [name]);
+  }, [name,teams]);
 
   // Fetch team members when "View Details" button is clicked
   const handleViewDetails = async (teamCode) => {
@@ -31,11 +31,38 @@ const HackathonDashboard = () => {
       const response = await axios.get(
         `/api/hackathon/registeredParticipants/teamDetails/${teamCode}`
       );
-      console.log(response);
-      setTeamMembers(response.data.response); // Assume the API returns an array of team members // Set selected team
+      setTeamMembers(response.data.response); // Assume the API returns an array of team members
+      setSelectedTeamCode(teamCode); // Store the selected team code
       setShowDetails(true); // Show the modal
     } catch (error) {
       console.error("Error fetching team details:", error);
+    }
+  };
+
+  // Handle team verification
+  const handleVerifyTeam = async () => {
+    try {
+        await axios.post(`/api/hackathon/registeredParticipants/${name}/verify`, {
+        teamCode: selectedTeamCode,
+      });
+    
+      setShowDetails(false); // Close modal after verification
+    } catch (error) {
+      console.error("Error verifying team:", error);
+      alert("Failed to verify the team.");
+    }
+  };
+
+  // Handle team decline
+  const handleDeclineTeam = async () => {
+    try {
+      await axios.post(`/api/hackathon/registeredParticipants/${name}/decline`, {
+        teamCode: selectedTeamCode,
+      });
+      setShowDetails(false); // Close modal after declining
+    } catch (error) {
+      console.error("Error declining team:", error);
+      alert("Failed to decline the team.");
     }
   };
 
@@ -53,6 +80,9 @@ const HackathonDashboard = () => {
               <p className="text-gray-700 text-lg mb-4">
                 <strong>Number of Members:</strong> {team.members.length}
               </p>
+              <p className="text-gray-700 text-lg mb-4">
+                <strong>Status:</strong> {team.verificationStatus}
+              </p>
               <button
                 className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
                 onClick={() => handleViewDetails(team.teamCode)}
@@ -68,65 +98,64 @@ const HackathonDashboard = () => {
 
       {/* Modal for showing team members */}
       {showDetails && (
-       <div className="modal fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center z-50">
-       <div className="bg-white rounded-lg shadow-lg p-8 max-w-lg w-full max-h-[80vh] overflow-y-auto space-y-6">
-         <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">
-           Team Members
-         </h2>
-     
-         {/* Team Members List */}
-         <ul className="space-y-2 text-gray-700">
-           {teamMembers.map((member, index) => (
-             <li key={index} className="pl-4">
-               <p className="font-medium text-lg">{member.aliasname}</p>
-             </li>
-           ))}
-         </ul>
-     
-         {/* More Details */}
-         <ul className="list-none space-y-4 text-gray-700">
-           {teamMembers.map((member, index) => (
-             <li key={index} className="p-4 border rounded-lg bg-gray-50 shadow-sm">
-               <p><strong>Name:</strong> {member.aliasname}</p>
-               <p><strong>Email:</strong> {member.email}</p>
-               <p><strong>Phone:</strong> {member.phoneno}</p>
-               <p><strong>Gender:</strong> {member.gender}</p>
-               <p>
-                 <strong>GitHub:</strong>{" "}
-                 <a href={member.githubprofile} target="_blank" className="text-blue-500 underline">
-                   {member.githubprofile}
-                 </a>
-               </p>
-               <p>
-                 <strong>LinkedIn:</strong>{" "}
-                 <a href={member.linkednprofile} target="_blank" className="text-blue-500 underline">
-                   {member.linkednprofile}
-                 </a>
-               </p>
-               <p>
-                 <strong>Portfolio:</strong>{" "}
-                 <a href={member.portfoliowebsite} target="_blank" className="text-blue-500 underline">
-                   {member.portfoliowebsite}
-                 </a>
-               </p>
-               <p><strong>Skills:</strong> {member.skills}</p>
-             </li>
-           ))}
-         </ul>
-     
-         {/* Buttons */}
-         <button className="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg w-full transition duration-300 ease-in-out" onClick={() => setShowDetails(false)}>
-           Close
-         </button>
-         <button className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg w-full transition duration-300 ease-in-out">
-           Verify
-         </button>
-         <button className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg w-full transition duration-300 ease-in-out">
-           Decline
-         </button>
-       </div>
-     </div>
-     
+        <div className="modal fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center z-50">
+          <div className="bg-white rounded-lg shadow-lg p-8 max-w-lg w-full max-h-[80vh] overflow-y-auto space-y-6">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">
+              Team Members
+            </h2>
+
+            {/* Team Members List */}
+            <ul className="space-y-2 text-gray-700">
+              {teamMembers.map((member, index) => (
+                <li key={index} className="pl-4">
+                  <p className="font-medium text-lg">{member.aliasname}</p>
+                </li>
+              ))}
+            </ul>
+
+            {/* More Details */}
+            <ul className="list-none space-y-4 text-gray-700">
+              {teamMembers.map((member, index) => (
+                <li key={index} className="p-4 border rounded-lg bg-gray-50 shadow-sm">
+                  <p><strong>Name:</strong> {member.aliasname}</p>
+                  <p><strong>Email:</strong> {member.email}</p>
+                  <p><strong>Phone:</strong> {member.phoneno}</p>
+                  <p><strong>Gender:</strong> {member.gender}</p>
+                  <p>
+                    <strong>GitHub:</strong>{" "}
+                    <a href={member.githubprofile} target="_blank" className="text-blue-500 underline">
+                      {member.githubprofile}
+                    </a>
+                  </p>
+                  <p>
+                    <strong>LinkedIn:</strong>{" "}
+                    <a href={member.linkednprofile} target="_blank" className="text-blue-500 underline">
+                      {member.linkednprofile}
+                    </a>
+                  </p>
+                  <p>
+                    <strong>Portfolio:</strong>{" "}
+                    <a href={member.portfoliowebsite} target="_blank" className="text-blue-500 underline">
+                      {member.portfoliowebsite}
+                    </a>
+                  </p>
+                  <p><strong>Skills:</strong> {member.skills}</p>
+                </li>
+              ))}
+            </ul>
+
+            {/* Buttons */}
+            <button className="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg w-full transition duration-300 ease-in-out" onClick={() => setShowDetails(false)}>
+              Close
+            </button>
+            <button className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg w-full transition duration-300 ease-in-out" onClick={handleVerifyTeam}>
+              Verify
+            </button>
+            <button className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg w-full transition duration-300 ease-in-out" onClick={handleDeclineTeam}>
+              Decline
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );

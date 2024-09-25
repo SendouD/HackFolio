@@ -4,7 +4,6 @@ const hackParticipantDetails = require('../models/hackathon_participants_schema'
 const teamCodeSchema = require('../models/team_code_schema');
 const isUser = require('../middleware/isUser');
 const hackFullDetails = require('../models/hackathon_full_details');
-const hackathon_participants_schema = require('../models/hackathon_participants_schema');
 
 hack_register.route('/registerForHackathon/:name')
     .get(isUser,async(req, res) => {
@@ -205,6 +204,55 @@ hack_register.route('/registeredParticipants/:hackathonName')
 
 
     })
+
+    hack_register.route('/registeredParticipants/:hackathonName/verify')
+    .post(async (req, res) => {
+        const hackathonName = req.params.hackathonName;
+        const { teamCode } = req.body; // Expect teamCode in the request body
+
+        try {
+            // Find the team by hackathonName and teamCode, then update the verificationStatus to "verified"
+            const team = await teamCodeSchema.findOneAndUpdate(
+                { hackathonName: hackathonName, teamCode: teamCode },
+                { verificationStatus: "verified" },
+                { new: true } // Return the updated document
+            );
+
+            if (!team) {
+                return res.status(404).json({ message: "Team not found" });
+            }
+
+            return res.status(200).json({ message: "Team successfully verified", team });
+        } catch (error) {
+            console.error("Error verifying team:", error);
+            return res.status(500).json({ message: "Server error" });
+        }
+    });
+    hack_register.route('/registeredParticipants/:hackathonName/decline')
+    .post(async (req, res) => {
+        const hackathonName = req.params.hackathonName;
+        const { teamCode } = req.body; // Expect teamCode in the request body
+
+        try {
+            // Find the team by hackathonName and teamCode, then update the verificationStatus to "rejected"
+            const team = await teamCodeSchema.findOneAndUpdate(
+                { hackathonName: hackathonName, teamCode: teamCode },
+                { verificationStatus: "rejected" },
+                { new: true } // Return the updated document
+            );
+
+            if (!team) {
+                return res.status(404).json({ message: "Team not found" });
+            }
+
+            return res.status(200).json({ message: "Team successfully declined", team });
+        } catch (error) {
+            console.error("Error declining team:", error);
+            return res.status(500).json({ message: "Server error" });
+        }
+    });
+
+
     hack_register.route('/registeredParticipants/teamDetails/:teamCode')
     .get(async (req, res) => {
         try {

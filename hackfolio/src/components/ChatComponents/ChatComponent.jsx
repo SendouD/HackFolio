@@ -42,6 +42,7 @@ function ChatComponent() {
 
     useEffect(() => {
         if(socket) {
+            console.log(socket);
             socket.on('chatMessage', (msg) => {
                 if(msg.from === currUser || msg.to === JSON.parse(token).email) setNewMessage(msg);
             });

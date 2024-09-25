@@ -15,6 +15,7 @@ const hack_register = require('./controller/hackathonRegistration');
 const sponsor=require("./controller/Sponsor");
 const chat_backend = require("./controller/chat_backend");
 const chatStatusModel = require("./models/chat_status_model");
+const judges=require('./controller/Judges');
 
 app.use(express.json());
 app.use(cookieParser());
@@ -86,5 +87,7 @@ app.use("/api/userlogin",userlogin);
 app.use("/api/jwtverify",jwtverifier);
 app.use("/api/user",user);
 app.use("/api/sponsors",sponsor);
-app.use("/api/chat",chat_backend(io))
+app.use("/api/chat",chat_backend(io));
+app.use("/api/judge",judges)
+
 server.listen(5000, () => { console.log("Server started on port 5000 ... (http://localhost:5000/)") });

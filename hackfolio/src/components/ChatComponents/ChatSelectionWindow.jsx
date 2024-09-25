@@ -33,8 +33,8 @@ function ChatSelectionWindow(props) {
                 },
                 body: JSON.stringify({email}),
             });
-            if (!response.ok) throw new Error('Network response was not ok');
             console.log(await response.json())
+            if (!response.ok) throw new Error('Network response was not ok');
             setData(prev => ({
                 ...prev,
                 interactedEmails: [...prev.interactedEmails, email]
