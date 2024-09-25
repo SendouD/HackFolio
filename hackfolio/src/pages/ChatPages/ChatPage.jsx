@@ -1,4 +1,5 @@
 import ChatComponent from "../../components/ChatComponents/ChatComponent";
+import NotificationsComponent from "../../components/ChatComponents/NotificationsComponent";
 import Header from "../../components/Header"
 
 function ChatPage() {
@@ -7,8 +8,11 @@ function ChatPage() {
     return (
         <>
             <Header/>
-            
-            <ChatComponent/>
+            <div className="flex justify-end mt-[40px]">
+                    <ChatComponent/>
+
+                    <NotificationsComponent />
+            </div>
         </>
     );
 }

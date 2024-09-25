@@ -54,11 +54,11 @@ function ChatComponent() {
 
 
     return (
-        <div className="flex justify-center items-center mt-[40px]">
-            <div className="h-[800px] w-[300px] bg-gray-200 rounded-s-[10px] shadow">
+        <div className="flex justify-center items-center">
+            <div className="h-[800px] w-[300px] bg-white rounded-s-[10px] shadow">
                 <ChatSelectionWindow setCurrUser={setCurrUser}/>
             </div>
-            <div className="h-[800px] w-[1000px] bg-gray-800 rounded-e-[10px] shadow">
+            <div className="h-[800px] w-[1000px] bg-white rounded-e-[10px] shadow">
                 <ChatOpenWindow currUser={currUser} newMessage={newMessage} socket={socket}/>
             </div>
         </div>

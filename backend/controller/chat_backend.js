@@ -89,7 +89,6 @@ module.exports = function(io) {
                 return res.status(500).json({ error: 'Database Error!' });
             }
         })
-        
 
     return chat_backend;
 }
