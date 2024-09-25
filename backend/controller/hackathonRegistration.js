@@ -4,6 +4,7 @@ const hackParticipantDetails = require('../models/hackathon_participants_schema'
 const teamCodeSchema = require('../models/team_code_schema');
 const isUser = require('../middleware/isUser');
 const hackFullDetails = require('../models/hackathon_full_details');
+const hackathon_participants_schema = require('../models/hackathon_participants_schema');
 
 hack_register.route('/registerForHackathon/:name')
     .get(isUser,async(req, res) => {
@@ -131,7 +132,7 @@ hack_register.route('/hackathonTeam/:name/create')
                 }]
             });
             await newTeamCodeData.save();
-            await hackParticipantDetails.findOneAndUpdate({hackathonName: name, email: email},{teamCode: code});                
+            await hackParticipantDetails.findOneAndUpdate({hackathonName: name, email: email},{teamCode: code,teamName: teamName});                
 
             return res.status(200).json({msg: "success"});
         } catch (e) {
@@ -185,11 +186,42 @@ hack_register.route('/hackathonTeam/:name/join')
 hack_register.route('/registeredHackathons')
     .get(isUser,async(req,res) => {
         const email = req.email;
-
         const regHacks = await hackParticipantDetails.find({ email: email });
         const regHackNames = regHacks.map(form => form.hackathonName);
         const details = await hackFullDetails.find({ hackathonName: { $in: regHackNames } });
         return res.status(200).send(details);
     })
+
+hack_register.route('/registeredParticipants/:hackathonName')
+    .get(async(req,res)=>{
+
+        const hackathonName=req.params.hackathonName;
+
+
+        const response= await teamCodeSchema.find({hackathonName: hackathonName}); 
+     
+        
+        return res.status(200).json({response})
+
+
+    })
+    hack_register.route('/registeredParticipants/teamDetails/:teamCode')
+    .get(async (req, res) => {
+        try {
+            const teamCode = req.params.teamCode; // Ensure it's lowercase as per the route definition
+            const response = await hackParticipantDetails.find({ teamCode: teamCode }); // Match the team name
+    
+            // Check if the team exists
+            if (response.length === 0) {
+                return res.status(404).json({ message: "No participants found for this team" });
+            }
+    
+            return res.status(200).json({ response });
+        } catch (error) {
+            console.error("Error fetching team details:", error);
+            return res.status(500).json({ message: "Server error" });
+        }
+    });
+
 
 module.exports = hack_register;

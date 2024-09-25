@@ -53,6 +53,11 @@ const hackParticipantDetails = new mongoose.Schema({
     teamCode: {
         type: String,
         default: '',
+    },
+    teamName:{
+        type: String,
+        default: '',
+        
     }
 });
 
