@@ -192,4 +192,36 @@ hack_register.route('/registeredHackathons')
         return res.status(200).send(details);
     })
 
+hack_register.route('/registeredParticipants/:hackathonName')
+    .get(async(req,res)=>{
+
+        const hackathonName=req.params.hackathonName;
+
+
+        const response= await teamCodeSchema.find({hackathonName: hackathonName}); 
+     
+        
+        return res.status(200).json({response})
+
+
+    })
+    hack_register.route('/registeredParticipants/teamDetails/:teamCode')
+    .get(async (req, res) => {
+        try {
+            const teamCode = req.params.teamCode; // Ensure it's lowercase as per the route definition
+            const response = await hackParticipantDetails.find({ teamCode: teamCode }); // Match the team name
+    
+            // Check if the team exists
+            if (response.length === 0) {
+                return res.status(404).json({ message: "No participants found for this team" });
+            }
+    
+            return res.status(200).json({ response });
+        } catch (error) {
+            console.error("Error fetching team details:", error);
+            return res.status(500).json({ message: "Server error" });
+        }
+    });
+
+
 module.exports = hack_register;
