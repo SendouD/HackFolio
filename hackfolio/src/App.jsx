@@ -37,6 +37,9 @@ import RegisteredHackathonsDisplay from "./pages/HackathonPages/RegisteredHackat
 //Chat
 import ChatPage from "./pages/ChatPages/ChatPage";
 
+// Judge
+import Judge from "./pages/JudgePages/JudgeDshboard"
+
 //Sponsors
 import SponsorList from "./pages/SponsorPages/SponsorsList";
 import SponsorDetail from "./components/SponsorComponents/SponsorDetail";
