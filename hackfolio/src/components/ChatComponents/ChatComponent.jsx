@@ -5,9 +5,9 @@ import ChatOpenWindow from "./ChatOpenWindow";
 const token = localStorage.getItem('data');
 
 function ChatComponent(props) {
-    const {currUser,setCurrUser} = props;
     const [socket, setSocket] = useState(null);
     const [newMessage,setNewMessage] = useState(null);
+
 
     useEffect(() => {
         const newSocket = io("http://localhost:5000",{
@@ -21,12 +21,6 @@ function ChatComponent(props) {
 
         newSocket.on('connect', () => {
             console.log('Connected to WebSocket server');
-        });
-
-        newSocket.on('chatMessage', (msg) => {
-            console.log(msg.to === JSON.parse(token).email && msg.from === currUser);
-            props.setFlag(prev => !prev);
-            if(msg.to === JSON.parse(token).email && msg.from === currUser) setNewMessage(msg);
         });
 
         newSocket.on('disconnect', async () => {
@@ -47,35 +41,56 @@ function ChatComponent(props) {
     }, []);
 
     useEffect(() => {
+        if (!socket) return;
+        console.log(socket);
 
-        async function msgstatus() {
-            try {
-                const response = await fetch(`/api/chat/changeReadStatus/${currUser}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
-                if (!response.ok) throw new Error('Network response was not ok');
-
-            } catch (error) {
-                console.error('Error posting data:', error);
+        const handleMessage = (msg) => {
+            console.log('Current user in ChatComponent:', props.currUser);
+            props.setFlag(prev => !prev);
+            msgstatus();
+            if (msg.to === JSON.parse(token).email && msg.from === props.currUser) {
+                setNewMessage(msg);
             }
-        }
+        };
 
+        socket.on('chatMessage', handleMessage);
+
+        return () => {
+            socket.off('chatMessage', handleMessage);
+        };
+    }, [socket, props.currUser]);
+
+    
+
+    useEffect(() => {
         msgstatus();
 
-    },[socket,currUser]);
+    },[socket,props.currUser]);
+
+    async function msgstatus() {
+        try {
+            const response = await fetch(`/api/chat/changeReadStatus/${props.currUser}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (!response.ok) throw new Error('Network response was not ok');
+
+        } catch (error) {
+            console.error('Error posting data:', error);
+        }
+    }
 
 
 
     return (
         <div className="flex justify-center items-center">
             <div className="h-[800px] w-[300px] bg-white rounded-s-[10px] shadow">
-                <ChatSelectionWindow setCurrUser={setCurrUser}/>
+                <ChatSelectionWindow setCurrUser={props.setCurrUser}/>
             </div>
             <div className="h-[800px] w-[1000px] bg-white rounded-e-[10px] shadow">
-                <ChatOpenWindow currUser={currUser} newMessage={newMessage} socket={socket}/>
+                <ChatOpenWindow currUser={props.currUser} newMessage={newMessage} socket={socket}/>
             </div>
         </div>
     );
