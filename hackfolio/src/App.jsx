@@ -8,8 +8,10 @@ import SignUp from "./pages/RegistrationPages/SignUp";
 import HomePage from "./pages/UserPages/HomePage";
 import AuthCheck from "./components/AuthCheck";
 import AdminDashboard from "./pages/AdminPages/AdminDashboard";
+import EditProfile from "./pages/UserPages/EditProfile";
+
+
 import AboutPage from "./pages/AboutPages/AboutPage";
-import CodeOfConduct from "./pages/code_ofconduct/code_of_conductpage"
 //SuccessRoutes
 import SponsorSuccessPage from "./pages/successPages/SponsorSuccess";
 import ProjectSuccessPage from "./pages/successPages/projectFormSuccess";
@@ -45,6 +47,7 @@ import SponsorList from "./pages/SponsorPages/SponsorsList";
 import SponsorDetail from "./components/SponsorComponents/SponsorDetail";
 import SponsorsDashboard from "./pages/SponsorPages/SponsorsDashboard";
 import EditHackathonProjectSubmission from "./pages/ProjectPages/EditHackathonProjectSubmission";
+import ForgotPassword from "./pages/RegistrationPages/ForgotPassword";
 
 const token = localStorage.getItem('data');
 
@@ -60,8 +63,8 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/editprofile/:id" element={<EditProfile />} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/codeofconduct" element={<CodeOfConduct/>} />
           <Route element={<Project_display/>} path="/ProjectDisplay/:projectId" />
           <Route element={<UserDashboard/>} path="/@/:username" />
           <Route element={<SponsorList />} path="/sponsors" />
@@ -72,6 +75,7 @@ function App() {
           {/* <Route path="/HackathonProjects" element={<HackathonProjectDispay/>}/> */}
           <Route path="/hackathons" element={<AllHackathonsDisplay />} />
           <Route path="/hackathon/:name" element={<HackathonWebpage />} />
+          <Route path="/forgotPassword" element={<ForgotPassword />} />
 
           {/* Success Pages */}
           <Route element={<ProjectSuccessPage />} path="/uploadsuccess" />

@@ -1,125 +1,228 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import axios from 'axios';
+import { useParams } from "react-router-dom";
 
 const About = () => {
     const [formData, setFormData] = useState({
+        username: '',
         firstName: '',
         lastName: '',
         gender: '',
-        tshirtSize: '',
         bio: '',
-        readMe: '',
-        isPreview: false
+        skills: []
     });
+
+    const [editableFields, setEditableFields] = useState({
+        username: false,
+        firstName: false,
+        lastName: false,
+        gender: false,
+        bio: false
+    });
+
+    const [newSkill, setNewSkill] = useState("");
+    const {id: userId} = useParams();
+    // Fetch user data on component mount
+    useEffect(() => {
+        const fetchData = async () => {
+            if (!userId) {
+                console.error('No userId provided!');
+                return;
+            }
+
+            try {
+                const response = await axios.get(`/api/userProfile/${userId}/1`); 
+                console.log("Fetched user data:", response.data); // Debugging: log the data to inspect
+
+                let userData;
+                // Case 1: If response.data contains the user object directly
+                if (response.data.username) {
+                    userData = response.data;
+                } 
+                // Case 2: If user data is wrapped inside a 'user' object in response.data
+                else if (response.data.user) {
+                    userData = response.data.user;
+                } 
+                // Case 3: If response.data is an array, grab the first user
+                else if (Array.isArray(response.data) && response.data.length > 0) {
+                    userData = response.data[0];
+                }
+
+                // Set the form data using the user details
+                setFormData({
+                    username: userData.username || '',
+                    firstName: userData.firstName || '',
+                    lastName: userData.lastName || '',
+                    gender: userData.gender || '',
+                    bio: userData.bio || '',
+                    skills: userData.skills || []
+                });
+            } catch (error) {
+                console.error("Error fetching user data:", error.response || error.message);
+                alert("Failed to fetch user data: " + (error.response ? error.response.data.message : error.message));
+            }
+        };
+
+        fetchData();
+    }, [userId]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const togglePreview = () => {
-        setFormData(prev => ({ ...prev, isPreview: !prev.isPreview }));
+    const toggleEdit = (field) => {
+        if (editableFields[field]) {
+            updateUser(); // Call the update function before toggling
+        }
+        setEditableFields(prev => ({ ...prev, [field]: !prev[field] }));
+    }
+
+    // Update user data
+    const updateUser = async () => {
+        try {
+            console.log(formData);
+            const response = await axios.put(`/api/userProfile/${userId}/1`, formData); 
+            if (response.status === 200) {
+                console.log(response);
+                alert("User details updated successfully!");
+            }
+        } catch (error) {
+            console.error("Error updating user data:", error);
+            alert("Failed to update user data");
+        }
+    }
+
+    useEffect(() => {
+        console.log(formData);
+    },[formData]);
+
+    const addSkill = () => {
+        if (newSkill.trim()) {
+            setFormData(prev => ({
+                ...prev,
+                skills: [...prev.skills, newSkill.trim()]
+            }));
+            setNewSkill("");
+        }
     };
 
-    return (
-        <div className="flex space-x-8 p-6">
-            {/* Left Section */}
-            <div className="w-1/2 bg-white shadow-md rounded p-6">
-                <div className="mb-4">
-                    <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">First Name:</label>
-                    <input
-                        type="text"
-                        id="firstName"
-                        name="firstName"
-                        value={formData.firstName}
-                        onChange={handleChange}
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    />
-                </div>
+    const removeSkill = (index) => {
+        setFormData(prev => ({
+            ...prev,
+            skills: prev.skills.filter((_, i) => i !== index)
+        }));
+    };
 
-                <div className="mb-4">
-                    <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">Last Name:</label>
-                    <input
-                        type="text"
-                        id="lastName"
-                        name="lastName"
-                        value={formData.lastName}
-                        onChange={handleChange}
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    />
-                </div>
-
-                <div className="mb-4">
-                    <label htmlFor="gender" className="block text-sm font-medium text-gray-700">I identify as:</label>
+    const renderEditableField = (label, name, value, options) => (
+        <div className="mb-4">
+            <label htmlFor={name} className="block text-sm font-medium text-gray-700">{label}:</label>
+            <div className="flex items-center">
+                {options ? (
                     <select
-                        id="gender"
-                        name="gender"
-                        value={formData.gender}
+                        id={name}
+                        name={name}
+                        value={formData[name]}
+                        disabled={!editableFields[name]}
                         onChange={handleChange}
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     >
-                        <option value="">Select</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="nonbinary">Non-binary</option>
-                        <option value="other">Other</option>
+                        <option value="">Select {label}</option>
+                        {options.map((option, i) => (
+                            <option key={i} value={option}>{option}</option>
+                        ))}
                     </select>
-                </div>
-
-                <div className="mb-4">
-                    <label htmlFor="tshirtSize" className="block text-sm font-medium text-gray-700">T-shirt Size:</label>
-                    <select
-                        id="tshirtSize"
-                        name="tshirtSize"
-                        value={formData.tshirtSize}
+                ) : (
+                    <input
+                        id={name}
+                        name={name}
+                        value={formData[name]}
+                        disabled={!editableFields[name]}
                         onChange={handleChange}
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    >
-                        <option value="">Select</option>
-                        <option value="xs">XS</option>
-                        <option value="s">S</option>
-                        <option value="m">M</option>
-                        <option value="l">L</option>
-                        <option value="xl">XL</option>
-                    </select>
-                </div>
-            </div>
-
-            {/* Right Section */}
-            <div className="w-1/2 bg-white shadow-md rounded p-6">
-                <div className="mb-4">
-                    <label htmlFor="bio" className="block text-sm font-medium text-gray-700">Add Bio:</label>
-                    <textarea
-                        id="bio"
-                        name="bio"
-                        value={formData.bio}
-                        onChange={handleChange}
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-24"
                     />
-                </div>
-
-                <div className="mb-4">
-                    <label htmlFor="readMe" className="block text-sm font-medium text-gray-700">Read Me:</label>
-                    {!formData.isPreview ? (
-                        <textarea
-                            id="readMe"
-                            name="readMe"
-                            value={formData.readMe}
-                            onChange={handleChange}
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-24"
-                        />
-                    ) : (
-                        <div className="border p-2 rounded text-gray-700 bg-gray-50">
-                            {formData.readMe || "No content to preview"}
-                        </div>
-                    )}
-                </div>
-
+                )}
                 <button
-                    onClick={togglePreview}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    onClick={() => toggleEdit(name)}
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2"
                 >
-                    {formData.isPreview ? "Write" : "Preview"}
+                    {editableFields[name] ? 'Save' : 'Edit'}
                 </button>
+            </div>
+        </div>
+    );
+
+    return (
+        <div className="p-6">
+            <h2 className='text-3xl font-bold text-center mb-6'>Edit About Details</h2>
+
+            <div className="flex space-x-8">
+                {/* Left Section */}
+                <div className="w-1/2 bg-white shadow-md rounded p-6">
+                    {renderEditableField("Username", "username", formData.username)}
+                    {renderEditableField("First Name", "firstName", formData.firstName)}
+                    {renderEditableField("Last Name", "lastName", formData.lastName)}
+                    {renderEditableField("I identify as", "gender", formData.gender, ["Male", "Female", "Non-binary", "Other"])}
+                </div>
+
+                {/* Right Section */}
+                <div className="w-1/2 bg-white shadow-md rounded p-6">
+                    <div className="mb-4">
+                        <label htmlFor="bio" className="block text-sm font-medium text-gray-700">Add Bio:</label>
+                        <div className="flex items-center">
+                            <textarea
+                                id="bio"
+                                name="bio"
+                                value={formData.bio}
+                                disabled={!editableFields.bio}
+                                onChange={handleChange}
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-24"
+                            />
+                            <button
+                                onClick={() => toggleEdit('bio')}
+                                className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2"
+                            >
+                                {editableFields.bio ? 'Save' : 'Edit'}
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Skills Section */}
+                    <div className="mb-4">
+                        <label htmlFor="skills" className="block text-sm font-medium text-gray-700">Skills:</label>
+                        <input
+                            type="text"
+                            value={newSkill}
+                            onChange={(e) => setNewSkill(e.target.value)}
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2"
+                            placeholder="Enter a skill"
+                        />
+                        <button
+                            onClick={addSkill}
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-1 px-2 rounded focus:outline-none focus:shadow-outline text-sm"
+                        >
+                            Add Skill
+                        </button>
+
+                        <div className="mt-2">
+                            {formData.skills.length > 0 && (
+                                <ul className="flex flex-wrap gap-2">
+                                    {formData.skills.map((skill, index) => (
+                                        <li key={index} className="bg-gray-200 text-gray-700 px-2 py-1 rounded">
+                                            {skill}
+                                            <button
+                                                onClick={() => removeSkill(index)}
+                                                className="ml-2 text-red-500"
+                                            >
+                                                &times;
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );
