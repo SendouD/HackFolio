@@ -84,7 +84,7 @@ function App() {
             <Route path="/organizedHackathons/:name" element={<EditOrganizedHackathonDetails />} /> 
             <Route path="/hackathon/:name/editRegistrationDetails" element={<EditRegisteredHackathonDetails/>} />
             <Route path="/registeredHackathons" element={<RegisteredHackathonsDisplay />} />
-            <Route path="/chat" element={<ChatPage currUser={JSON.parse(token).email}/>} />
+            {/* <Route path="/chat" element={<ChatPage currUser={JSON.parse(token).email}/>} /> */}
             <Route path="/sponsorDashboard" element={<SponsorsDashboard />} />
             <Route path="/hackathon/:name/projectSubmission" element={<HackathonProjectSubmission />} />
             <Route path="/hackathon/:name/EditProjectSubmission" element={<EditHackathonProjectSubmission/>} />

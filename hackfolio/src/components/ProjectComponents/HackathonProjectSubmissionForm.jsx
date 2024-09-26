@@ -1,21 +1,20 @@
 import React, { useState } from "react";
 import axios from "axios";
 import LoadingPage from "../loading"
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 
 function HackathonProjectSubmissionForm() {
-    const {name} = useParams();
   const navigate = useNavigate();
+  const {name}=useParams();
   const [formData, setFormData] = useState({
-    hackathonName: "",
-    teamCode: "",
     projectName: "",
-    slogan: "",
-    aboutProject: "",
+    tagline: "",
+    problem: "",
     challenges: "",
-    tech: "",
+    technologies: "",
     links: "",
-    videoLink: "",
+    videoDemo: "",
   });
   
   const [logo, setLogo] = useState(null);
@@ -72,6 +71,7 @@ function HackathonProjectSubmissionForm() {
 
     try {
       console.log(projectData);
+      console.log("name");
       const response = await axios.post(`/api/project/hackathonProject/${name}`, projectData);
       console.log('Server response:', response.data);
       navigate('/uploadsuccess');
@@ -81,15 +81,18 @@ function HackathonProjectSubmissionForm() {
       console.error('Error sending data to /api/project:', error.response ? error.response.data : error.message);
     }
   };
-
   return (
     <>
     {isLoading?(<LoadingPage></LoadingPage>):(
-    <div className="p-6 min-w-[50%]">
+    <div className="bg-gray-100 p-6">
+      <div className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+        Give more details about your project
+      </div>
+      <br />
       <div className="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold mb-6">Project Submission Form</h1>
         <form onSubmit={handleSubmit}>
-
+          {/* Project Name */}
           <div className="mb-4">
             <label className="block text-gray-700 font-semibold mb-2">Project Name</label>
             <input
@@ -103,11 +106,12 @@ function HackathonProjectSubmissionForm() {
             />
           </div>
 
+          {/* Tagline */}
           <div className="mb-4">
             <label className="block text-gray-700 font-semibold mb-2">Tagline</label>
             <input
               type="text"
-              name="slogan"
+              name="tagline"
               value={formData.tagline}
               onChange={handleInputChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -116,10 +120,11 @@ function HackathonProjectSubmissionForm() {
             />
           </div>
 
+          {/* The Problem it Solves */}
           <div className="mb-4">
-            <label className="block text-gray-700 font-semibold mb-2">About Project</label>
+            <label className="block text-gray-700 font-semibold mb-2">The Problem it Solves</label>
             <textarea
-              name="aboutProject"
+              name="problem"
               value={formData.problem}
               onChange={handleInputChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -129,6 +134,7 @@ function HackathonProjectSubmissionForm() {
             ></textarea>
           </div>
 
+          {/* Challenges I Ran Into */}
           <div className="mb-4">
             <label className="block text-gray-700 font-semibold mb-2">Challenges I Ran Into</label>
             <textarea
@@ -142,11 +148,12 @@ function HackathonProjectSubmissionForm() {
             ></textarea>
           </div>
 
+          {/* Technologies I Used */}
           <div className="mb-4">
             <label className="block text-gray-700 font-semibold mb-2">Technologies I Used</label>
             <input
               type="text"
-              name="tech"
+              name="technologies"
               value={formData.technologies}
               onChange={handleInputChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -155,6 +162,7 @@ function HackathonProjectSubmissionForm() {
             />
           </div>
 
+          {/* Links */}
           <div className="mb-4">
             <label className="block text-gray-700 font-semibold mb-2">Links</label>
             <input
@@ -168,11 +176,12 @@ function HackathonProjectSubmissionForm() {
             />
           </div>
 
+          {/* Video Demo */}
           <div className="mb-4">
             <label className="block text-gray-700 font-semibold mb-2">Video Demo</label>
             <input
               type="text"
-              name="videoLink"
+              name="videoDemo"
               value={formData.videoDemo}
               onChange={handleInputChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -180,6 +189,7 @@ function HackathonProjectSubmissionForm() {
             />
           </div>
 
+          {/* Cover Image */}
           <div className="mb-4">
             <label className="block text-gray-700 font-semibold mb-2">Cover Image</label>
             <input
@@ -190,6 +200,7 @@ function HackathonProjectSubmissionForm() {
             />
           </div>
 
+          {/* Logo */}
           <div className="mb-4">
             <label className="block text-gray-700 font-semibold mb-2">Logo</label>
             <input
@@ -200,6 +211,7 @@ function HackathonProjectSubmissionForm() {
             />
           </div>
 
+          {/* Pictures */}
           <div className="mb-4">
             <label className="block text-gray-700 font-semibold mb-2">Pictures</label>
             <input
@@ -210,7 +222,7 @@ function HackathonProjectSubmissionForm() {
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-
+          {/* Submit Button */}
           <div className="mt-6">
             <button
               type="submit"
