@@ -37,7 +37,7 @@ import RegisteredHackathonsDisplay from "./pages/HackathonPages/RegisteredHackat
 import ChatPage from "./pages/ChatPages/ChatPage";
 
 // Judge
-import Judge from "./pages/JudgePages/JudgeDshboard"
+import Judge from "./pages/JudgePages/JudgeDashboard"
 
 //Sponsors
 import SponsorList from "./pages/SponsorPages/SponsorsList";
@@ -65,6 +65,8 @@ function App() {
           <Route element={<SponsorList />} path="/sponsors" />
           <Route element={<SponsorDetail />} path="/sponsors/:companyName" />
           <Route element={<AboutPage/>} path="/aboutus"/>
+          <Route element={<Judge/>} path="/hackathon/:name/judgeDashboard"/>
+
           {/* <Route path="/HackathonProjects" element={<HackathonProjectDispay/>}/> */}
           <Route path="/hackathons" element={<AllHackathonsDisplay />} />
           <Route path="/hackathon/:name" element={<HackathonWebpage />} />

@@ -58,8 +58,7 @@ function HackathonTimingsDisplay() {
     async function checkIfJudge() {
         try {
             const response = await fetch(`/api/judge/isjudge/${name}`);
-            console.log(response)
-
+            
             if (response.ok) {
                 setIsJudge(true); 
             } else {

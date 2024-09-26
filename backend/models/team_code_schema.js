@@ -23,6 +23,20 @@ const teamCodeSchema = new mongoose.Schema({
         enum: ["pending", "verified", "rejected"],
         default: "pending",
     },
-});
+    judgingStatus: {
+        type: String,
+        enum: ["pending", "verified"],
+        default: "pending",
+    },
+    Judge: {
+        type: [{
+            email: String,
+            criteria:String,
+            value: String,
+        }],default: [],
+    }}
+    
+);
 
 module.exports = mongoose.model("HackathonTeamCodes", teamCodeSchema);
+
