@@ -9,6 +9,8 @@ import HomePage from "./pages/UserPages/HomePage";
 import AuthCheck from "./components/AuthCheck";
 import AdminDashboard from "./pages/AdminPages/AdminDashboard";
 import AboutPage from "./pages/AboutPages/AboutPage";
+import EditProfile from "./pages/UserPages/EditProfile"
+
 //SuccessRoutes
 import SponsorSuccessPage from "./pages/successPages/SponsorSuccess";
 import ProjectSuccessPage from "./pages/successPages/projectFormSuccess";
@@ -53,6 +55,7 @@ function App() {
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/editprofile/:id" element={<EditProfile />} />
           <Route element={<Project_display/>} path="/ProjectDisplay/:projectId" />
           <Route element={<UserDashboard/>} path="/@/:username" />
           <Route element={<SponsorList />} path="/sponsors" />

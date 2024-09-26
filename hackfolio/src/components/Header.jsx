@@ -87,7 +87,7 @@ const Header = () => {
                   {roles.includes("Admin") && (
                     <MenuItem text="Admin Dashboard" href="/adminDashboard" />
                   )}
-                  <MenuItem text="Edit Profile" href="#" />
+                  <MenuItem text="Edit Profile" href={`/editprofile/${username}`} />
                   <MenuItem text="Create Hackathon" href="/createHackathon" />
                   <MenuItem text="Organized Hackathons" href="/organizedHackathons" />
                   <MenuItem text="Registered Hackathons" href="/registeredHackathons" />
