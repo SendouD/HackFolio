@@ -11,11 +11,7 @@ function ChatPage(props) {
     const initialUser = location.state?.currUser || storedToken;
     const [currUser, setCurrUser] = useState(initialUser);
     const [flag, setFlag] = useState(false);
-
-    useEffect(() => {
-        console.log(currUser);
-    },[])
-
+    
     return (
         <>
             {
@@ -24,9 +20,9 @@ function ChatPage(props) {
                 <></>
             }
             <div className="flex justify-end mt-[40px]">
-                    <ChatComponent currUser={currUser} setCurrUser={setCurrUser} setFlag={setFlag}/>
+                    <ChatComponent currUser={currUser} setCurrUser={setCurrUser} setFlag={setFlag} flag={flag} />
 
-                    <NotificationsComponent flag={flag} currUser={currUser} setCurrUser={setCurrUser}/>
+                    <NotificationsComponent flag={flag} currUser={currUser} setCurrUser={setCurrUser} />
             </div>
         </>
     );

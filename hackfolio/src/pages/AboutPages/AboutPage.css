@@ -17,6 +17,9 @@ body {
     background-color: #292c30;
     color: white;
   }
+  .about-section p {
+    color:#fff;
+  }
   
   .row {
     display: flex;

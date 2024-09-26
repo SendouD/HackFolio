@@ -11,20 +11,21 @@ function NotificationsComponent(props) {
     },[props.currUser,props.flag]);
 
     useEffect(() => {
+        console.log("in");
         let temp = [];
         if(data.length !== 0) {
             data.data.map((ele,i) => {
-                const from = ele.from;
-                if(!temp[from]){
-                    temp[from] = 1;
-                }
-                else {
-                    temp[from]++;
+                if(ele.from !== props.currUser) {
+                    const from = ele.from;
+                    if(!temp[from]){
+                        temp[from] = 1;
+                    }
+                    else {
+                        temp[from]++;
+                    }
                 }
             });
         }
-
-        console.log(temp);
 
         setNotis(temp);
     },[data])

@@ -55,21 +55,25 @@ hack_create.route("/hackathonCreate")
     });
 
 hack_create.route("/hackathonCreate/:name/1")
-    .get(async(req,res) => {
+    .get(isUser,async(req,res) => {
         const name =  req.params.name;
+        const email = req.email;
         try {
             const data = await hackathon_form.findOne({hackathonName: name});
             if (!data) {
                 return res.status(404).json({ Error: "Hackathon not found!" });
             }
+            if(email!==data.email) return res.status(400).json({error: "not authorized"})
             return res.status(200).json(data);
         } catch (e) {
             return res.status(400).json({ Error: "Error fetching data from Database!" });
         }
     })
-    .post(async(req,res) => {
+    .post(isUser,async(req,res) => {
         const { hackName, uniName, eventMode, tech, teamSize, partProf, contactLinks, fromDate, toDate, prizesDesc } = req.body;
         const name = req.params.name;
+        const email = req.email;
+
         try{
             const data = {
                 hackathonName: hackName,

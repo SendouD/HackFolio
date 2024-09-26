@@ -50,7 +50,7 @@ const Header = () => {
           className="text-3xl font-semibold cursor-pointer"
           onClick={() => navigate("/")}
         >
-          HackPro
+          HackQuest
         </div>
         <div className="space-x-8">
       

@@ -9,6 +9,7 @@ import HomePage from "./pages/UserPages/HomePage";
 import AuthCheck from "./components/AuthCheck";
 import AdminDashboard from "./pages/AdminPages/AdminDashboard";
 import AboutPage from "./pages/AboutPages/AboutPage";
+import CodeOfConduct from "./pages/code_ofconduct/code_of_conductpage"
 //SuccessRoutes
 import SponsorSuccessPage from "./pages/successPages/SponsorSuccess";
 import ProjectSuccessPage from "./pages/successPages/projectFormSuccess";
@@ -60,6 +61,7 @@ function App() {
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/codeofconduct" element={<CodeOfConduct/>} />
           <Route element={<Project_display/>} path="/ProjectDisplay/:projectId" />
           <Route element={<UserDashboard/>} path="/@/:username" />
           <Route element={<SponsorList />} path="/sponsors" />
@@ -89,7 +91,7 @@ function App() {
             <Route path="/organizedHackathons/:name" element={<EditOrganizedHackathonDetails />} /> 
             <Route path="/hackathon/:name/editRegistrationDetails" element={<EditRegisteredHackathonDetails/>} />
             <Route path="/registeredHackathons" element={<RegisteredHackathonsDisplay />} />
-            {/* <Route path="/chat" element={<ChatPage currUser={JSON.parse(token).email}/>} /> */}
+            <Route path="/chat" element={<ChatPage />} />
             <Route path="/sponsorDashboard" element={<SponsorsDashboard />} />
             <Route path="/hackathon/:name/projectSubmission" element={<HackathonProjectSubmission />} />
             <Route path="/hackathon/:name/EditProjectSubmission" element={<EditHackathonProjectSubmission/>} />
