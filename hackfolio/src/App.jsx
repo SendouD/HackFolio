@@ -8,6 +8,9 @@ import SignUp from "./pages/RegistrationPages/SignUp";
 import HomePage from "./pages/UserPages/HomePage";
 import AuthCheck from "./components/AuthCheck";
 import AdminDashboard from "./pages/AdminPages/AdminDashboard";
+import EditProfile from "./pages/UserPages/EditProfile";
+
+
 import AboutPage from "./pages/AboutPages/AboutPage";
 //SuccessRoutes
 import SponsorSuccessPage from "./pages/successPages/SponsorSuccess";
@@ -58,6 +61,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/editprofile/:id" element={<EditProfile />} />
           <Route path="/about" element={<AboutPage />} />
           <Route element={<Project_display/>} path="/ProjectDisplay/:projectId" />
           <Route element={<UserDashboard/>} path="/@/:username" />
