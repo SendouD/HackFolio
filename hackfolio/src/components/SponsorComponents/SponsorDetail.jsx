@@ -1,12 +1,15 @@
-import React ,{useEffect,useState} from "react";
+import React ,{useEffect,useState,useRef} from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Header from "../Header";
+const token = localStorage.getItem('data');
 const SponsorDetail = () => {
     const { companyName } = useParams(); // Get the sponsor ID from the URL
     const [sponsor, setSponsor] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const inpRef = useRef(null);
+    const navigate = useNavigate();
   
     useEffect(() => {
       const fetchSponsor = async () => {
@@ -23,6 +26,34 @@ const SponsorDetail = () => {
   
       fetchSponsor();
     }, [companyName]);
+
+    async function sendMessage(e) {
+      e.preventDefault();
+      const message = inpRef.current.value;
+      inpRef.current.value = ""
+      try {
+          const response = await fetch(`/api/chat/messages/${sponsor.email}`, {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({message}),
+          });
+          if (!response.ok) throw new Error('Network response was not ok');
+          console.log(await response.json())
+          const msg = {
+              from: JSON.parse(token).email,
+              to: sponsor.email,
+              message: message,
+              timestamp: Date.now(),
+              readStatus: false,
+          }
+
+          navigate('/chat', { state: { currUser: sponsor.email } });
+      } catch (error) {
+          console.error('Error posting data:', error);
+      }
+  }
   
     if (loading) return <div>Loading sponsor details...</div>;
     if (error) return <div>{error}</div>;
@@ -101,7 +132,19 @@ const SponsorDetail = () => {
             <p>{sponsor.description}</p>
           </div>
         )}
+        <div className="font-bold text-3xl my-[20px]">Contact Us</div>
+
+        <form onSubmit={(e) => sendMessage(e)} className="items-center w-[60%] rounded">
+          <textarea
+              type="text"
+              className="w-[100%] h-[200px] text-xl py-4 px-8 mb-4 rounded-s border"
+              ref={inpRef}
+              placeholder="Got questions? Don't hesitate—reaching out is never too much! We're just a message away, ready to help."
+          />
+          <button className="mb-4 bg-blue-500 hover:bg-blue-700 text-white px-6 py-3 rounded font-bold" type="submit">{'Send Message'}</button>
+        </form>
       </div>
+
 
     </div>
     </>

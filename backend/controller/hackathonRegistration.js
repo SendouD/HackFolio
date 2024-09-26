@@ -4,7 +4,6 @@ const hackParticipantDetails = require('../models/hackathon_participants_schema'
 const teamCodeSchema = require('../models/team_code_schema');
 const isUser = require('../middleware/isUser');
 const hackFullDetails = require('../models/hackathon_full_details');
-const hackathon_participants_schema = require('../models/hackathon_participants_schema');
 
 hack_register.route('/registerForHackathon/:name')
     .get(isUser,async(req, res) => {
@@ -205,13 +204,60 @@ hack_register.route('/registeredParticipants/:hackathonName')
 
 
     })
-    hack_register.route('/registeredParticipants/teamDetails/:teamCode')
+
+hack_register.route('/registeredParticipants/:hackathonName/verify')
+    .post(async (req, res) => {
+        const hackathonName = req.params.hackathonName;
+        const { teamCode } = req.body; 
+
+        try {
+            const team = await teamCodeSchema.findOneAndUpdate(
+                { hackathonName: hackathonName, teamCode: teamCode },
+                { verificationStatus: "verified" },
+                { new: true }
+            );
+
+            if (!team) {
+                return res.status(404).json({ message: "Team not found" });
+            }
+
+            return res.status(200).json({ message: "Team successfully verified", team });
+        } catch (error) {
+            console.error("Error verifying team:", error);
+            return res.status(500).json({ message: "Server error" });
+        }
+    });
+
+hack_register.route('/registeredParticipants/:hackathonName/decline')
+    .post(async (req, res) => {
+        const hackathonName = req.params.hackathonName;
+        const { teamCode } = req.body;
+
+        try {
+            const team = await teamCodeSchema.findOneAndUpdate(
+                { hackathonName: hackathonName, teamCode: teamCode },
+                { verificationStatus: "rejected" },
+                { new: true }
+            );
+
+            if (!team) {
+                return res.status(404).json({ message: "Team not found" });
+            }
+
+            return res.status(200).json({ message: "Team successfully declined", team });
+        } catch (error) {
+            console.error("Error declining team:", error);
+            return res.status(500).json({ message: "Server error" });
+        }
+    });
+
+
+hack_register.route('/registeredParticipants/teamDetails/:teamCode')
     .get(async (req, res) => {
         try {
-            const teamCode = req.params.teamCode; // Ensure it's lowercase as per the route definition
-            const response = await hackParticipantDetails.find({ teamCode: teamCode }); // Match the team name
+            const teamCode = req.params.teamCode;
+            const response = await hackParticipantDetails.find({ teamCode: teamCode });
     
-            // Check if the team exists
             if (response.length === 0) {
                 return res.status(404).json({ message: "No participants found for this team" });
             }
@@ -222,6 +268,19 @@ hack_register.route('/registeredParticipants/:hackathonName')
             return res.status(500).json({ message: "Server error" });
         }
     });
+
+hack_register.route('/checkRegistration/:name')
+    .get(isUser,async(req,res) => {
+        const {name} = req.params;
+        const email = req.email;
+        try {
+            const data = await hackParticipantDetails.findOne({hackathonName: name, email: email});
+            return res.status(200).json({ flag: (data) ? true : false });
+        } catch (error) {
+            console.error("Error fetching team details:", error);
+            return res.status(500).json({ message: "Server error" });
+        }
+    })
 
 
 module.exports = hack_register;

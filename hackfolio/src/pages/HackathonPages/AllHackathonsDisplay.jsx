@@ -33,7 +33,7 @@ function AllHackathonsDisplay() {
 
     return(
         <div className="">
-            <Header></Header>
+            <Header />
             <div className="flex justify-center">
                 <div className="flex flex-wrap justify-center w-4/5">
                     {

@@ -4,8 +4,9 @@ import LoadingPage from "../loading"
 import { useNavigate } from 'react-router-dom';
 import { useParams } from "react-router-dom";
 
-function ProjectForm() {
+function HackathonProjectSubmissionForm() {
   const navigate = useNavigate();
+  const {name}=useParams();
   const [formData, setFormData] = useState({
     projectName: "",
     tagline: "",
@@ -57,12 +58,10 @@ function ProjectForm() {
     e.preventDefault();
     setIsloading(true);
 
-    // Upload logo and collect URL
     const logoUrl = logo ? await handleImageUpload(logo) : null;
     const imageUrls = await Promise.all(Array.from(images).map(handleImageUpload));
     const coverUrl=coverimage?await handleImageUpload(coverimage):null;
 
-    // Prepare data for API request
     const projectData = {
       ...formData,
       coverUrl,
@@ -71,8 +70,9 @@ function ProjectForm() {
     };
 
     try {
-      // Send data to /api/project
-      const response = await axios.post('/api/project/submitproject', projectData);
+      console.log(projectData);
+      console.log("name");
+      const response = await axios.post(`/api/project/hackathonProject/${name}`, projectData);
       console.log('Server response:', response.data);
       navigate('/uploadsuccess');
       
@@ -81,7 +81,6 @@ function ProjectForm() {
       console.error('Error sending data to /api/project:', error.response ? error.response.data : error.message);
     }
   };
-
   return (
     <>
     {isLoading?(<LoadingPage></LoadingPage>):(
@@ -239,4 +238,4 @@ function ProjectForm() {
   );
 }
 
-export default ProjectForm;
+export default HackathonProjectSubmissionForm;

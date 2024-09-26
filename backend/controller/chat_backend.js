@@ -29,12 +29,9 @@ module.exports = function(io) {
                 if (user && friend) {
                     const { interactedEmails = [] } = user;
                     const interactedEmails1 = friend.interactedEmails;
-                    console.log(interactedEmails1);
             
                     if (!interactedEmails.includes(email)) interactedEmails.push(email);
                     if(!interactedEmails1.includes(myEmail)) interactedEmails1.push(myEmail);
-
-                    console.log(myEmail,interactedEmails1);
             
                     await chatUserSchema.findOneAndUpdate(
                         { email: myEmail },
@@ -89,7 +86,34 @@ module.exports = function(io) {
                 return res.status(500).json({ error: 'Database Error!' });
             }
         })
+
+    chat_backend.route('/changeReadStatus/:email')
+        .get(isUser, async(req,res) => {
+            const myEmail = req.email;
+            const {email} = req.params;
+            
+            try {
+                await chatMessagesSchema.updateMany({from: email, to: myEmail},{readStatus: true});
+
+                return res.status(200).json({msg: "message status change successful"});
+            } catch (e) {
+                return res.status(500).json({ error: 'Database Error!' });
+            }
+        })
         
+    chat_backend.route('/getReadStatus/:email')
+        .get(isUser, async(req,res) => {
+            const myEmail = req.email;
+            const {email} = req.params;
+            
+            try {
+                const data = await chatMessagesSchema.find({to: myEmail, readStatus: false});
+
+                return res.status(200).json({data: data});
+            } catch (e) {
+                return res.status(500).json({ error: 'Database Error!' });
+            }
+        })
 
     return chat_backend;
 }

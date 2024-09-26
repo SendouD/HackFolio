@@ -74,7 +74,7 @@ function EditRegisteredHackathonDetails() {
                     <div className='h-[300px] w-[400px] bg-white ml-[50px] rounded-[10px] card-v'>
                         From: To:
                     </div>
-                    <div className=' mt-[50px] w-[600px] bg-white ml-[50px] rounded-[10px] p-10'>
+                    <div className={`mt-[50px] ${(inTeam) ? "w-[400px]" : "w-[600px]"} bg-white ml-[50px] rounded-[10px] p-10`}>
                         {
                             (inTeam) ? 
                             <TeamDisplay func={handle} /> :

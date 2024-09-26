@@ -2,11 +2,13 @@ import { useState } from 'react';
 import EditHackathonDetails from "../../components/HackathonComponents/EditHackathonDetails";
 import EditHackathonWebsite from "../../components/HackathonComponents/EditHackathonWebsite";
 import HackathonDashboard from '../../components/HackathonComponents/HackathonDashboard';
+import AddJudge from '../../components/JudgeComponents/AddJudge';
+import AddEvaluationCriteria from '../../components/JudgeComponents/JudgeCriteria'; // Import your new component
 import Header from '../../components/Header';
 import "../../styles/edit_hack_page.css";
 
 function EditOrganizedHackathonDetails() {
-    const [selected, setSelected] = useState(0); // 0: Details, 1: Webpage, 2: Dashboard
+    const [selected, setSelected] = useState(0); // 0: Details, 1: Webpage, 2: Dashboard, 3: Judges, 4: Criteria
 
     return (
         <>
@@ -29,6 +31,16 @@ function EditOrganizedHackathonDetails() {
                             className={`edit-choice-btn text-2xl font-thin block mt-5 px-5 ${selected === 2 ? 'active' : ''}`}>
                             Dashboard
                         </button>
+                        <button
+                            onClick={() => setSelected(3)}
+                            className={`edit-choice-btn text-2xl font-thin block mt-5 px-5 ${selected === 3 ? 'active' : ''}`}>
+                            Add Judges
+                        </button>
+                        <button
+                            onClick={() => setSelected(4)} // New button for criteria
+                            className={`edit-choice-btn text-2xl font-thin block mt-5 px-5 ${selected === 4 ? 'active' : ''}`}>
+                            Add Evaluation Criteria
+                        </button>
                     </div>
                 </div>
                 <div className="flex justify-center items-center">
@@ -45,6 +57,16 @@ function EditOrganizedHackathonDetails() {
                     {selected === 2 && (
                         <div className='editCard bg-[rgb(251,251,251)]'>
                             <HackathonDashboard />
+                        </div>
+                    )}
+                    {selected === 3 && (
+                        <div className='editCard bg-[rgb(251,251,251)]'>
+                            <AddJudge />
+                        </div>
+                    )}
+                    {selected === 4 && ( // Render new component when selected
+                        <div className='editCard bg-[rgb(251,251,251)]'>
+                            <AddEvaluationCriteria />
                         </div>
                     )}
                 </div>

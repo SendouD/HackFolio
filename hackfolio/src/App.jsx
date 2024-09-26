@@ -9,8 +9,6 @@ import HomePage from "./pages/UserPages/HomePage";
 import AuthCheck from "./components/AuthCheck";
 import AdminDashboard from "./pages/AdminPages/AdminDashboard";
 import AboutPage from "./pages/AboutPages/AboutPage";
-import EditProfile from "./pages/UserPages/EditProfile"
-
 //SuccessRoutes
 import SponsorSuccessPage from "./pages/successPages/SponsorSuccess";
 import ProjectSuccessPage from "./pages/successPages/projectFormSuccess";
@@ -22,6 +20,7 @@ import SubmissionForm from "./pages/UserPages/SubmissionForm";
 import UserProjects from "./pages/ProjectPages/UserProjects";
 import HackathonProjectDispay from "./pages/HackathonPages/Hackathon_projects";
 import UserDashboard from "./pages/UserPages/UserDashboard";
+import HackathonProjectSubmission from "./pages/ProjectPages/HackathonProjectSubmission";
 
 //Hackathons
 import OrganizedHackathonsDisplay from "./pages/HackathonPages/OrganizedHackathonsDisplay";
@@ -37,10 +36,16 @@ import RegisteredHackathonsDisplay from "./pages/HackathonPages/RegisteredHackat
 //Chat
 import ChatPage from "./pages/ChatPages/ChatPage";
 
+// Judge
+import Judge from "./pages/JudgePages/JudgeDshboard"
+
 //Sponsors
 import SponsorList from "./pages/SponsorPages/SponsorsList";
 import SponsorDetail from "./components/SponsorComponents/SponsorDetail";
 import SponsorsDashboard from "./pages/SponsorPages/SponsorsDashboard";
+import EditHackathonProjectSubmission from "./pages/ProjectPages/EditHackathonProjectSubmission";
+
+const token = localStorage.getItem('data');
 
 
 
@@ -55,7 +60,6 @@ function App() {
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/editprofile/:id" element={<EditProfile />} />
           <Route element={<Project_display/>} path="/ProjectDisplay/:projectId" />
           <Route element={<UserDashboard/>} path="/@/:username" />
           <Route element={<SponsorList />} path="/sponsors" />
@@ -83,8 +87,10 @@ function App() {
             <Route path="/organizedHackathons/:name" element={<EditOrganizedHackathonDetails />} /> 
             <Route path="/hackathon/:name/editRegistrationDetails" element={<EditRegisteredHackathonDetails/>} />
             <Route path="/registeredHackathons" element={<RegisteredHackathonsDisplay />} />
-            <Route path="/chat" element={<ChatPage />} />
+            {/* <Route path="/chat" element={<ChatPage currUser={JSON.parse(token).email}/>} /> */}
             <Route path="/sponsorDashboard" element={<SponsorsDashboard />} />
+            <Route path="/hackathon/:name/projectSubmission" element={<HackathonProjectSubmission />} />
+            <Route path="/hackathon/:name/EditProjectSubmission" element={<EditHackathonProjectSubmission/>} />
           </Route>
 
           {/* Admin Private Routes */}

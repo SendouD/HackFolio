@@ -144,4 +144,34 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/updateSponsorDetails',isUser, async(req,res) => {
+  const email = req.email;
+  try {
+    const data = await Sponsor.findOne({ email: email });
+    console.log(data)
+
+    res.status(200).json({data: data});
+  } catch (error) {
+    console.error('Error fetching pending sponsors:', error);
+    res.status(500).json({
+      message: 'Error fetching pending sponsors',
+      error: error.message,
+    });
+  }
+});
+
+router.post('/updateSponsorDetails',isUser, async(req,res) => {
+  const email = req.email;
+  const {formData} = req.body;
+  try {
+    formData.email = email;
+    console.log("inside");
+    const data = await Sponsor.findOneAndUpdate({ email: email },formData);
+
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(400).json({error: "error saving to database.."});
+  }
+});
+
 module.exports = router;

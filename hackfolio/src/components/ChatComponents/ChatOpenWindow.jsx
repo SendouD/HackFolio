@@ -27,7 +27,6 @@ function ChatOpenWindow(props) {
             if (!response.ok) throw new Error('Network response was not ok');
             const data = await response.json();
 
-            console.log(data);
             setMessages(data.data);
             
         } catch (error) {
@@ -79,7 +78,7 @@ function ChatOpenWindow(props) {
                 {
                     (JSON.parse(token).email === props.message.from) ? <div className="bg-white h-[30px] w-[30px] rounded-[20px] text-center mr-[5px] cursor-pointer">...</div> : <></>
                 }
-                <span className="bg-white p-4 pb-2 inline-block rounded mt-[10px] max-w-[43vw] text-wrap break-words">
+                <span className="bg-blue-500 text-white p-4 pb-2 inline-block rounded mt-[10px] max-w-[43vw] text-wrap break-words">
                     <div>
                         <div className={`text-xl font-bold flex justify-start`}>
                             {props.message.from}
@@ -98,7 +97,7 @@ function ChatOpenWindow(props) {
     return(
         <>
             <div className="h-full flex flex-col justify-between">
-                <div className="bg-white p-4 rounded-bl-[5px] rounded-br-[5px] rounded-tr-[5px] text-2xl font-bold">
+                <div className="bg-white p-4 rounded-bl-[5px] rounded-br-[5px] rounded-tr-[5px] text-2xl font-bold border-b">
                     {props.currUser}
                 </div>
                 <div className="h-full p-4 overflow-y-scroll">
@@ -112,10 +111,10 @@ function ChatOpenWindow(props) {
                 <form onSubmit={(e) => sendMessage(e)} className="flex justify-center items-center">
                     <input
                         type="text"
-                        className="w-[89%] text-2xl py-2 px-4 mb-4 rounded-s"
+                        className="w-[83%] text-2xl py-2 px-4 mb-4 rounded-s border"
                         ref={inpRef}
                     />
-                    <button className="mb-4 bg-gray-600  text-white px-6 py-3 rounded-e-[10px]" type="submit">{'>'}</button>
+                    <button className="mb-4 bg-blue-500 hover:bg-blue-700 text-white px-6 py-3 rounded-e-[10px]" type="submit">{'Send >'}</button>
                 </form>
             </div>
         </>
