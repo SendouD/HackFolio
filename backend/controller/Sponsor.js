@@ -148,6 +148,7 @@ router.get('/updateSponsorDetails',isUser, async(req,res) => {
   const email = req.email;
   try {
     const data = await Sponsor.findOne({ email: email });
+    console.log(data)
 
     res.status(200).json({data: data});
   } catch (error) {
