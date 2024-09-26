@@ -61,6 +61,13 @@ function ChatOpenWindow(props) {
             console.error('Error posting data:', error);
         }
     }
+
+    function padZero(str,flag) {
+        if(str === 0 && flag === 1) str = (12).toString();
+        else if(str > 0 && str < 10 ) str = '0' + (str).toString();
+
+        return str;
+    }
     
     function ChatBox(props) {
         let milliseconds = Number(props.message.timestamp);
@@ -69,7 +76,7 @@ function ChatOpenWindow(props) {
         let istOffset = 5 * 60 + 30;
         let istDate = new Date(utcDate.getTime() + istOffset * 60 * 1000);
 
-        let time = (istDate.getHours())%12 + ":" + istDate.getMinutes();
+        let time = padZero((istDate.getHours())%12,1) + ":" + padZero(istDate.getMinutes(),2);
         if(istDate.getHours() >= 12) time += " pm";
         else time+=" am";
         
