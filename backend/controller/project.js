@@ -16,7 +16,7 @@ hack_project.route('/hackathonProject/:name')
                 return res.status(200).json({flag: true});
             else
                 return res.status(200).json({flag: false});
-        } catch (error) {
+        } catch (e) {
             res.status(400).json({Error: e});
         }
     })
@@ -24,6 +24,8 @@ hack_project.route('/hackathonProject/:name')
         const email = req.email;
         const {name} = req.params;
         let formData = req.body;
+
+        console.log(formData);
 
         try {
 
