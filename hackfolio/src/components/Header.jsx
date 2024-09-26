@@ -53,16 +53,14 @@ const Header = () => {
           HackQuest
         </div>
         <div className="space-x-8">
-          <a href="#" className="text-gray-600 hover:text-gray-900">
-            Profile
-          </a>
+      
           <a href="/hackathons" className="text-gray-600 hover:text-gray-900">
             Hackathons
           </a>
           <a href="/sponsors" className="text-gray-600 hover:text-gray-900">
             Sponsors
           </a>
-          <a href="#" className="text-gray-600 hover:text-gray-900">
+          <a href="/userProjects" className="text-gray-600 hover:text-gray-900">
             Projects
           </a>
         </div>
@@ -100,9 +98,6 @@ const Header = () => {
                   ) : (
                     <MenuItem text="Become a sponsor" href="/sponsorForm" />
                   )}
-
-                  <MenuItem text="My Claims" href="#" />
-                  <MenuItem text="Organizer Dashboard" href="#" />
                   <MenuItem text="Account Settings" href="#" />
                   <div onClick={logout}>
                     <MenuItem text="Log Out" />
