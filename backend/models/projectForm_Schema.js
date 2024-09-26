@@ -65,7 +65,20 @@ const projectSchema = new mongoose.Schema({
   imageUrls: {
     type: [String],
     required: false
-  }
+  },
+  reviewed: {
+    type: Boolean,
+    default:false,
+},
+teamCode: {
+    type: String,
+    default: '',
+},
+teamName:{
+    type: String,
+    default: '',
+    
+}
 }, {
   timestamps: true // Adds createdAt and updatedAt fields
 });

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import LoadingPage from "../loading"
 import { useNavigate } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 
 function ProjectForm() {
   const navigate = useNavigate();
@@ -71,7 +72,6 @@ function ProjectForm() {
 
     try {
       // Send data to /api/project
-      console.log(projectData);
       const response = await axios.post('/api/project/submitproject', projectData);
       console.log('Server response:', response.data);
       navigate('/uploadsuccess');
