@@ -1,5 +1,151 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
+import axios from 'axios';
+import { useParams } from "react-router-dom";
 
-const Links = () => <div>Links Section Content</div>;
+const Links = () => {
+    const [formData, setFormData] = useState({
+        linkedinProfile: '',
+        githubProfile: '',
+        additionalLinks: []
+    });
+
+    const [editableFields, setEditableFields] = useState({
+        linkedinProfile: false,
+        githubProfile: false,
+        additionalLinks: false
+    });
+
+    const { id: userId } = useParams();
+
+    // Fetch user links data on component mount
+    useEffect(() => {
+        const fetchData = async () => {
+            if (!userId) {
+                console.error('No userId provided!');
+                return; // Exit early if userId is undefined
+            }
+            console.log(userId);
+            try {
+                const response = await axios.get(`/api/userProfile/${userId}/1`);
+                console.log("Fetched user data:", response.data);
+
+                let userData;
+
+                if (response.data.user) {
+                    userData = response.data.user;
+                } else {
+                    userData = response.data;
+                }
+
+                setFormData({
+                    linkedinProfile: userData.linkedinProfile || '',
+                    githubProfile: userData.githubProfile || '',
+                    additionalLinks: userData.additionalLinks || []
+                });
+            } catch (error) {
+                console.error("Error fetching links data:", error);
+                alert("Failed to fetch links data");
+            }
+        };
+        fetchData();
+    }, [userId]);
+
+    // Handle form change
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    // Handle editing and saving functionality
+    const handleEdit = (field) => {
+        if (editableFields[field]) {
+            updateLinks(); // Update data before disabling edit mode
+        }
+        setEditableFields(prev => ({ ...prev, [field]: !prev[field] }));
+    };
+
+    // Update links data
+    const updateLinks = async () => {
+        try {
+            console.log(formData);
+            const response = await axios.put(`/api/userProfile/${userId}/1`, formData);
+            if (response.status === 200) {
+                console.log(response);
+                alert("Links updated successfully!");
+            }
+        } catch (error) {
+            console.error("Error updating links data:", error);
+            alert("Failed to update links data");
+        }
+    }
+    useEffect(() => {
+        console.log(formData);
+    },[formData]);
+
+    // Add and remove additional links
+    const addLink = () => {
+        setFormData(prev => ({ ...prev, additionalLinks: [...prev.additionalLinks, ""] }));
+    };
+
+    const removeLink = (index) => {
+        const newArr = formData.additionalLinks.filter((_, i) => i !== index);
+        setFormData(prev => ({ ...prev, additionalLinks: newArr }));
+    };
+
+    const renderEditableField = (label, name) => (
+        <div className='mt-4'>
+            <label htmlFor={name}>{label}: </label>
+            <div className='flex items-center'>
+                <input
+                    id={name}
+                    name={name}
+                    value={formData[name]}
+                    disabled={!editableFields[name]}
+                    onChange={handleChange}
+                    className="edit-inp shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+                <button onClick={() => handleEdit(name)} className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2">
+                    {editableFields[name] ? 'Save' : 'Edit'}
+                </button>
+            </div>
+        </div>
+    );
+
+    return (
+        <div className="">
+            <h2 className='text-3xl bold mb-4'>Links Section:</h2>
+
+            {renderEditableField("linkedinProfile Profile", "linkedinProfile", formData.linkedinProfile)}
+            {renderEditableField("githubProfile Profile", "githubProfile", formData.githubProfile)}
+
+            <div className='mt-4'>
+                <label htmlFor="additionalLinks">Additional Links: </label>
+                {formData.additionalLinks.map((link, i) => (
+                    <div key={i} className="flex items-center">
+                        <input
+                            value={link}
+                            onChange={(e) => {
+                                const newLinks = [...formData.additionalLinks];
+                                newLinks[i] = e.target.value;
+                                setFormData(prev => ({ ...prev, additionalLinks: newLinks }));
+                            }}
+                            disabled={!editableFields.additionalLinks}
+                            className="edit-inp shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-2"
+                        />
+                        <button onClick={() => removeLink(i)} className="font-medium edit-btn mt-2 mr-0 ml-2">
+                            Remove
+                        </button>
+                    </div>
+                ))}
+                <button onClick={addLink} className="add-link-btn font-medium edit-btn py-2 px-3">
+                    Add
+                </button>
+                <button onClick={() => handleEdit('additionalLinks')} className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline edit-btn">
+                    {editableFields.additionalLinks ? 'Save' : 'Edit'}
+                </button>
+            </div>
+        </div>
+    );
+};
 
 export default Links;

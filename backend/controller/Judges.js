@@ -2,6 +2,7 @@ const express = require('express');
 const judges = express.Router();
 const HackathonDetails = require('../models/hackathon_full_details');
 const isUser = require('../middleware/isUser');
+const teamCode=require('../models/team_code_schema')
 
 // Route to add judges to a hackathon
 judges.post('/addjudge', async (req, res) => {
@@ -134,5 +135,60 @@ judges.get('/getcriteria/:name', async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 });
+judges.get('/getteams/:name',async(req,res)=>{
+    const {name}=req.params;
+    if (!name) {
+        return res.status(400).json({ message: "Hackathon name is required" });
+    }
+    try{
+    const teams=await teamCode.find({hackathonName:name});
+    console.log(teams)
+    
+    if (!teams) {
+        return res.status(404).json({ message: "Hackathon not found" });
+    }
+    
+    res.status(200).json({teams:teams});}
+    catch (error) {
+        console.error("Error retrieving criteria:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+    
+
+})
+
+judges.post('/update/scores', async (req, res) => {
+    const { teamId, email, scores } = req.body;
+
+    if (!teamId || !email || !Array.isArray(scores)) {
+        return res.status(400).json({ message: "Invalid request data" });
+    }
+
+    try {
+        const team = await teamCode.findById(teamId);
+        if (!team) {
+            return res.status(404).json({ message: "Team not found" });
+        }
+
+        // Create an array of new score objects to push into the Judge array
+        const newScores = scores.map(score => ({
+            email,
+            criterionName: Object.keys(score)[0],
+            value: Object.values(score)[0],
+        }));
+
+        // Use $push with $each to add all the new scores to the Judge array
+        await teamCode.updateOne(
+            { teamCode: teamId },
+            { $push: { Judge: { $each: newScores } } }
+        );
+
+        res.status(200).json({ message: "Scores updated successfully" });
+    } catch (error) {
+        console.error("Error updating scores:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
 
 module.exports = judges;

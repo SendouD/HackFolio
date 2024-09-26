@@ -8,8 +8,10 @@ import SignUp from "./pages/RegistrationPages/SignUp";
 import HomePage from "./pages/UserPages/HomePage";
 import AuthCheck from "./components/AuthCheck";
 import AdminDashboard from "./pages/AdminPages/AdminDashboard";
+import EditProfile from "./pages/UserPages/EditProfile";
+
+
 import AboutPage from "./pages/AboutPages/AboutPage";
-import CodeOfConduct from "./pages/code_ofconduct/code_of_conductpage"
 //SuccessRoutes
 import SponsorSuccessPage from "./pages/successPages/SponsorSuccess";
 import ProjectSuccessPage from "./pages/successPages/projectFormSuccess";
@@ -38,6 +40,7 @@ import RegisteredHackathonsDisplay from "./pages/HackathonPages/RegisteredHackat
 import ChatPage from "./pages/ChatPages/ChatPage";
 
 // Judge
+import Judge from "./pages/JudgePages/JudgeDashboard"
 
 //Sponsors
 import SponsorList from "./pages/SponsorPages/SponsorsList";
@@ -60,13 +63,15 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/editprofile/:id" element={<EditProfile />} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/codeofconduct" element={<CodeOfConduct/>} />
           <Route element={<Project_display/>} path="/ProjectDisplay/:projectId" />
           <Route element={<UserDashboard/>} path="/@/:username" />
           <Route element={<SponsorList />} path="/sponsors" />
           <Route element={<SponsorDetail />} path="/sponsors/:companyName" />
           <Route element={<AboutPage/>} path="/aboutus"/>
+          <Route element={<Judge/>} path="/hackathon/:name/judgeDashboard"/>
+
           {/* <Route path="/HackathonProjects" element={<HackathonProjectDispay/>}/> */}
           <Route path="/hackathons" element={<AllHackathonsDisplay />} />
           <Route path="/hackathon/:name" element={<HackathonWebpage />} />
