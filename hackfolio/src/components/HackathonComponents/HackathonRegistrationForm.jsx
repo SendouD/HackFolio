@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 function HackathonRegistrationForm() {
     const { name } = useParams();
     const navigate = useNavigate();
+    const urlRegex = /\b((http[s]?|ftp):\/\/)?[^\s(["<,>]*\.[^\s[",><]{2,}(\/[^\s[",><]*)?\b/gi;
 
     const [formData, setFormData] = useState({
         aliasname: '',
@@ -37,6 +38,10 @@ function HackathonRegistrationForm() {
 
     async function handleSubmit() {
         try {
+            if(!(formData.githubprofile.match(urlRegex) && formData.linkednprofile.match(urlRegex) && formData.portfoliowebsite.match(urlRegex))){
+                alert('Enter valid URLs!');
+                return;
+            }
             const response = await fetch(`/api/hackathon/registerForHackathon/${name}`, {
                 method: 'POST',
                 headers: {
@@ -59,7 +64,6 @@ function HackathonRegistrationForm() {
                 {inputComponent("What should people call you:","aliasname")}
                 {inputComponent("First Name:","firstname")}
                 {inputComponent("Last Name:","lastname")}
-                {inputComponent("Email: ","email")}
                 {inputComponent("Phone No.:","phoneno")}
                 {inputComponent("Gender:","gender")}
                 {inputComponent("Github URL:","githubprofile")}
