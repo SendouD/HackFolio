@@ -2,6 +2,30 @@ import React, { useState } from "react";
 import axios from "axios";
 import LoadingPage from "../loading";
 import { useNavigate } from 'react-router-dom';
+import { z } from 'zod';
+
+// Define the Zod schema for validation
+const sponsorSchema = z.object({
+  companyName: z.string().min(1, "Company name is required"),
+  website: z.string().url("Must be a valid URL").nonempty("Website is required"),
+  email: z.string().email("Invalid email address").nonempty("Email is required"),
+  phoneNumber: z
+  .string()
+  .length(10, "Phone number must be exactly 10 digits long")
+  .regex(/^[6-9]\d{9}$/, "Phone number must start with 6, 7, 8, or 9 and be followed by 9 digits"),// E.164 format validation
+  verificationStatus: z.enum(["Pending", "Verified", "Rejected"]),
+  registrationNumber: z.string().min(1, "Registration number is required"),
+  taxId: z.string().min(1, "Tax ID is required"),
+  address: z.object({
+    street: z.string().optional(),
+    city: z.string().optional(),
+    state: z.string().optional(),
+    zip: z.string().optional(),
+    country: z.string().optional(),
+  }),
+  description: z.string().optional(),
+});
+
 
 function SponsorForm() {
   const navigate = useNavigate();
@@ -25,6 +49,7 @@ function SponsorForm() {
 
   const [logo, setLogo] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState({}); // State to store validation errors
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -53,13 +78,12 @@ function SponsorForm() {
     formData.append('upload_preset', uploadPreset);
     
     try {
-      const response = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, formData,      {
+      const response = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
         withCredentials: false, 
       });
-      console.log(response.data)
       return response.data.secure_url;
     } catch (error) {
       console.error('Error uploading file:', error.response ? error.response.data : error.message);
@@ -71,23 +95,32 @@ function SponsorForm() {
     e.preventDefault();
     setIsLoading(true);
 
-    // Upload logo and collect URL
-    const logoUrl = logo ? await handleImageUpload(logo) : null;
-
-    // Prepare data for API request
-    const sponsorData = {
-      ...formData,
-      logo: logoUrl,
-    };
-
+    // Validate form data using Zod schema
     try {
+      await sponsorSchema.parseAsync(formData);
+      // Upload logo and collect URL
+      const logoUrl = logo ? await handleImageUpload(logo) : null;
+
+      // Prepare data for API request
+      const sponsorData = {
+        ...formData,
+        logo: logoUrl,
+      };
+
       // Send data to /api/sponsor
-      console.log(sponsorData);
       const response = await axios.post('/api/sponsors', sponsorData);
       console.log('Server response:', response.data);
       navigate('/sponsoruploadsuccess');
     } catch (error) {
-      console.error('Error sending data to /api/sponsor:', error.response ? error.response.data : error.message);
+      if (error instanceof z.ZodError) {
+        const validationErrors = {};
+        error.errors.forEach((issue) => {
+          validationErrors[issue.path[0]] = issue.message; // Collect error messages by field
+        });
+        setErrors(validationErrors);
+      } else {
+        console.error('Error sending data to /api/sponsor:', error.response ? error.response.data : error.message);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -118,6 +151,7 @@ function SponsorForm() {
                   placeholder="Enter company name"
                   required
                 />
+                {errors.companyName && <span className="text-red-500">{errors.companyName}</span>}
               </div>
 
               {/* Website */}
@@ -132,6 +166,7 @@ function SponsorForm() {
                   placeholder="Enter company website"
                   required
                 />
+                {errors.website && <span className="text-red-500">{errors.website}</span>}
               </div>
 
               {/* Email */}
@@ -146,6 +181,7 @@ function SponsorForm() {
                   placeholder="Enter contact email"
                   required
                 />
+                {errors.email && <span className="text-red-500">{errors.email}</span>}
               </div>
 
               {/* Phone Number */}
@@ -160,6 +196,7 @@ function SponsorForm() {
                   placeholder="Enter contact phone number"
                   required
                 />
+                {errors.phoneNumber && <span className="text-red-500">{errors.phoneNumber}</span>}
               </div>
 
               {/* Registration Number */}
@@ -174,6 +211,7 @@ function SponsorForm() {
                   placeholder="Enter registration number"
                   required
                 />
+                {errors.registrationNumber && <span className="text-red-500">{errors.registrationNumber}</span>}
               </div>
 
               {/* Tax ID */}
@@ -188,6 +226,7 @@ function SponsorForm() {
                   placeholder="Enter tax identification number"
                   required
                 />
+                {errors.taxId && <span className="text-red-500">{errors.taxId}</span>}
               </div>
 
               {/* Address */}
@@ -206,7 +245,7 @@ function SponsorForm() {
                   name="address.city"
                   value={formData.address.city}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mt-2"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="City"
                 />
                 <input
@@ -214,7 +253,7 @@ function SponsorForm() {
                   name="address.state"
                   value={formData.address.state}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mt-2"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="State"
                 />
                 <input
@@ -222,7 +261,7 @@ function SponsorForm() {
                   name="address.zip"
                   value={formData.address.zip}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mt-2"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="ZIP Code"
                 />
                 <input
@@ -230,7 +269,7 @@ function SponsorForm() {
                   name="address.country"
                   value={formData.address.country}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mt-2"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="Country"
                 />
               </div>
@@ -243,24 +282,24 @@ function SponsorForm() {
                   value={formData.description}
                   onChange={handleInputChange}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Brief description of the company"
+                  placeholder="Enter a brief description"
                 />
               </div>
 
               {/* Logo Upload */}
               <div className="mb-4">
-                <label className="block text-gray-700 font-semibold mb-2">Company Logo</label>
+                <label className="block text-gray-700 font-semibold mb-2">Logo Upload</label>
                 <input
                   type="file"
                   accept="image/*"
                   onChange={(e) => setLogo(e.target.files[0])}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border file:border-gray-300 file:bg-gray-50 file:text-sm file:font-semibold file:text-gray-700 hover:file:bg-gray-100"
                 />
               </div>
 
               <button
                 type="submit"
-                className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg"
+                className="w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200"
               >
                 Submit
               </button>
