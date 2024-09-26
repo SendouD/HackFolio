@@ -28,6 +28,8 @@ hack_project.route('/hackathonProject/:name')
         let formData = req.body;
         console.log(username)
 
+        console.log(formData);
+
         try {
 
 
