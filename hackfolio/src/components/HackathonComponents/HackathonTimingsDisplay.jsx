@@ -12,17 +12,26 @@ function HackathonTimingsDisplay() {
 
     useEffect(() => {
         getInfo();
-        checkIfRegistered();
+    }, []);
+
+    useEffect(() => {
         checkIfJudge();
         getIfSubmitted();
-    }, []);
+        checkIfRegistered();
+    },[data]);
+
+    useEffect(() => {
+        console.log(flag);
+    },[flag]);
 
     async function getIfSubmitted() {
         try {
             const response = await fetch(`/api/project/hackathonProject/${name}`);
             if (!response.ok) throw new Error('Network response was not ok');
             const arr = await response.json();
-            if(arr.flag === true) setFlag(2)
+            if(arr.flag === true && flag<3) {
+                setFlag(2);
+            }
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -37,7 +46,10 @@ function HackathonTimingsDisplay() {
             setData(arr.data);
             const currTime = new Date();
             const fromTime = new Date(arr.data.fromDate);
-            if(currTime > fromTime && flag!==2) setFlag(1);
+            const toTime = new Date(arr.data.toDate);
+            console.log(currTime,toTime);
+            if(currTime > toTime && flag < 10) setFlag(10);
+            else if(currTime > fromTime && flag<2) setFlag(1);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -48,8 +60,10 @@ function HackathonTimingsDisplay() {
             const response = await fetch(`/api/hackathon/checkRegistration/${name}`);
             
             if (!response.ok) throw new Error('Network response was not ok');
-            const data = await response.json();
-            setRegistered(data.flag);
+            const data1 = await response.json();
+            console.log(new Date(data.fromDate) < new Date() && !data1.flag);
+            if(new Date(data.fromDate) < new Date() && !data1.flag && flag < 7) setFlag(7);
+            setRegistered(data1.flag);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -58,8 +72,7 @@ function HackathonTimingsDisplay() {
     async function checkIfJudge() {
         try {
             const response = await fetch(`/api/judge/isjudge/${name}`);
-            console.log(response)
-
+            
             if (response.ok) {
                 setIsJudge(true); 
             } else {
@@ -114,9 +127,10 @@ function HackathonTimingsDisplay() {
                 <button 
                     className="w-11/12 text-xl bg-indigo-600 text-white py-4 rounded-md font-semibold hover:bg-indigo-700 transition-colors"
                     onClick={() => handleClick()}
+                    disabled = { (flag===10 || flag===7) ? true : false }
                 >
                     {
-                        (flag === 2) ? <>Edit project</> : (flag === 1) ? <>Submit project</> : (registered) ? <>Go to dashboard</> : <>Apply now</>
+                        (flag === 10) ? <>Hackathon Ended</> : (flag === 7) ? <>Registration Ended</> : (flag === 2) ? <>Edit project</> : (flag === 1) ? <>Submit project</> : (registered) ? <>Go to dashboard</> : <>Apply now</>
                     }
                 </button>
             </div>

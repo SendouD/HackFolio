@@ -7,6 +7,14 @@ function HackathonCreationForm(props) {
     const navigate = useNavigate();
 
     async function handleClick() {
+        if(hackName.length < 3 || hackName.length > 20) {
+            alert('length of Hackathon Name should be between 3 to 20 characters!');
+            return;
+        }
+        if(uniName.length < 3 || uniName.length > 20) {
+            alert('length of University Name should be between 3 to 20 characters!');
+            return;
+        }
         try {
             const response = await fetch(`/api/hackathon/hackathonCreate`, {
                 method: 'POST',
@@ -18,6 +26,11 @@ function HackathonCreationForm(props) {
     
             if (!response.ok) {
                 throw new Error('Network response was not ok');
+            }
+
+            if(response.status === 201) {
+                alert('Hackathon name already taken!');
+                return;
             }
     
             const data = await response.json();

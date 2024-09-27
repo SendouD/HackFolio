@@ -8,6 +8,9 @@ import SignUp from "./pages/RegistrationPages/SignUp";
 import HomePage from "./pages/UserPages/HomePage";
 import AuthCheck from "./components/AuthCheck";
 import AdminDashboard from "./pages/AdminPages/AdminDashboard";
+import EditProfile from "./pages/UserPages/EditProfile";
+
+
 import AboutPage from "./pages/AboutPages/AboutPage";
 import ForgotPassword from "./pages/RegistrationPages/ForgotPassword";
 import VerifyOTP from "./pages/RegistrationPages/VerifyOTP";
@@ -39,11 +42,15 @@ import RegisteredHackathonsDisplay from "./pages/HackathonPages/RegisteredHackat
 //Chat
 import ChatPage from "./pages/ChatPages/ChatPage";
 
+// Judge
+import Judge from "./pages/JudgePages/JudgeDashboard"
+
 //Sponsors
 import SponsorList from "./pages/SponsorPages/SponsorsList";
 import SponsorDetail from "./components/SponsorComponents/SponsorDetail";
 import SponsorsDashboard from "./pages/SponsorPages/SponsorsDashboard";
 import EditHackathonProjectSubmission from "./pages/ProjectPages/EditHackathonProjectSubmission";
+import ForgotPassword from "./pages/RegistrationPages/ForgotPassword";
 
 const token = localStorage.getItem('data');
 
@@ -59,6 +66,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/editprofile/:id" element={<EditProfile />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/verifyotp" element={<VerifyOTP />} />
           <Route path="/resetpassword" element={<ResetPassword />} />
@@ -68,9 +76,12 @@ function App() {
           <Route element={<SponsorList />} path="/sponsors" />
           <Route element={<SponsorDetail />} path="/sponsors/:companyName" />
           <Route element={<AboutPage/>} path="/aboutus"/>
+          <Route element={<Judge/>} path="/hackathon/:name/judgeDashboard"/>
+
           {/* <Route path="/HackathonProjects" element={<HackathonProjectDispay/>}/> */}
           <Route path="/hackathons" element={<AllHackathonsDisplay />} />
           <Route path="/hackathon/:name" element={<HackathonWebpage />} />
+          <Route path="/forgotPassword" element={<ForgotPassword />} />
 
           {/* Success Pages */}
           <Route element={<ProjectSuccessPage />} path="/uploadsuccess" />
@@ -90,7 +101,7 @@ function App() {
             <Route path="/organizedHackathons/:name" element={<EditOrganizedHackathonDetails />} /> 
             <Route path="/hackathon/:name/editRegistrationDetails" element={<EditRegisteredHackathonDetails/>} />
             <Route path="/registeredHackathons" element={<RegisteredHackathonsDisplay />} />
-            {/* <Route path="/chat" element={<ChatPage currUser={JSON.parse(token).email}/>} /> */}
+            <Route path="/chat" element={<ChatPage />} />
             <Route path="/sponsorDashboard" element={<SponsorsDashboard />} />
             <Route path="/hackathon/:name/projectSubmission" element={<HackathonProjectSubmission />} />
             <Route path="/hackathon/:name/EditProjectSubmission" element={<EditHackathonProjectSubmission/>} />

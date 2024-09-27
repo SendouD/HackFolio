@@ -12,7 +12,7 @@ const Header = () => {
 
   const logout = async () => {
     const response = await axios.get("/api/userlogin/logout");
-    console.log(response);
+
     localStorage.removeItem("data");
     setUsername("");
     navigate("/");
@@ -50,7 +50,7 @@ const Header = () => {
           className="text-3xl font-semibold cursor-pointer"
           onClick={() => navigate("/")}
         >
-          HackPro
+          HackQuest
         </div>
         <div className="space-x-8">
       
@@ -85,7 +85,7 @@ const Header = () => {
                   {roles.includes("Admin") && (
                     <MenuItem text="Admin Dashboard" href="/adminDashboard" />
                   )}
-                  <MenuItem text="Edit Profile" href="#" />
+                  <MenuItem text="Edit Profile" href={`/editprofile/${username}`} />
                   <MenuItem text="Create Hackathon" href="/createHackathon" />
                   <MenuItem text="Organized Hackathons" href="/organizedHackathons" />
                   <MenuItem text="Registered Hackathons" href="/registeredHackathons" />

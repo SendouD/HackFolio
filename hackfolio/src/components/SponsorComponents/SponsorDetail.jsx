@@ -3,60 +3,96 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import Header from "../Header";
 const token = localStorage.getItem('data');
+import { io } from "socket.io-client";
+
 const SponsorDetail = () => {
-    const { companyName } = useParams(); // Get the sponsor ID from the URL
+    const { companyName } = useParams();
     const [sponsor, setSponsor] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const inpRef = useRef(null);
     const navigate = useNavigate();
-  
+    const [socket, setSocket] = useState(null);
+
     useEffect(() => {
-      const fetchSponsor = async () => {
-        try {
-          const response = await axios.get(`/api/sponsors/user/${companyName}`);
-          setSponsor(response.data);
-          setLoading(false);
-        } catch (err) {
-          console.error("Error fetching sponsor details:", err);
-          setError("Error fetching sponsor details");
-          setLoading(false);
-        }
-      };
-  
-      fetchSponsor();
-    }, [companyName]);
+      const newSocket = io("http://localhost:5000",{
+          transports: ["websocket"],
+          auth: {
+              token
+          },
+          withCredentials: true
+      });
+      setSocket(newSocket);
 
-    async function sendMessage(e) {
-      e.preventDefault();
-      const message = inpRef.current.value;
-      inpRef.current.value = ""
-      try {
-          const response = await fetch(`/api/chat/messages/${sponsor.email}`, {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({message}),
-          });
-          if (!response.ok) throw new Error('Network response was not ok');
-          console.log(await response.json())
-          const msg = {
-              from: JSON.parse(token).email,
-              to: sponsor.email,
-              message: message,
-              timestamp: Date.now(),
-              readStatus: false,
+      newSocket.on('connect', () => {
+          console.log('Connected to WebSocket server');
+      });
+
+      newSocket.on('disconnect', async () => {
+          try {
+              const response = await fetch(`/api/chat/disconnect`);
+              if (!response.ok) throw new Error('Network response was not ok');
+              const data = await response.json();
+              setData(data);
+          } catch (error) {
+              console.error('Error fetching data:', error);
           }
+      });
 
-          navigate('/chat', { state: { currUser: sponsor.email } });
-      } catch (error) {
-          console.error('Error posting data:', error);
+      return () => {
+          newSocket.off('chatMessage');
+          newSocket.disconnect();
+      };
+  }, []);
+
+  
+  useEffect(() => {
+    const fetchSponsor = async () => {
+      try {
+        const response = await axios.get(`/api/sponsors/user/${companyName}`);
+        setSponsor(response.data);
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching sponsor details:", err);
+        setError("Error fetching sponsor details");
+        setLoading(false);
       }
+    };
+
+    fetchSponsor();
+  }, [companyName]);
+
+  async function sendMessage(e) {
+    e.preventDefault();
+    const message = inpRef.current.value;
+    inpRef.current.value = ""
+    try {
+        const response = await fetch(`/api/chat/messages/${sponsor.email}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({message}),
+        });
+        if (!response.ok) throw new Error('Network response was not ok');
+        console.log(await response.json())
+        const msg = {
+            from: JSON.parse(token).email,
+            to: sponsor.email,
+            message: message,
+            timestamp: Date.now(),
+            readStatus: false,
+        }
+        socket.emit('chatMessage', msg);
+        navigate('/chat', { state: { currUser: sponsor.email } });
+    } catch (error) {
+        console.error('Error posting data:', error);
+    }
   }
   
-    if (loading) return <div>Loading sponsor details...</div>;
-    if (error) return <div>{error}</div>;
+  if (loading) return <div>Loading sponsor details...</div>;
+  if (error) return <div>{error}</div>;
+
   return (
     <>
     <Header/>

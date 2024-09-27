@@ -122,7 +122,7 @@ const SignUp = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600"
-                  placeholder="Password"
+                  placeholder="Password (minimum 6 characters)"
                 />
               </div>
 

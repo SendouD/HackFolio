@@ -17,6 +17,7 @@ const chat_backend = require("./controller/chat_backend");
 const chatStatusModel = require("./models/chat_status_model");
 const judges=require('./controller/Judges');
 const hack_project = require('./controller/project');
+const userProfile = require("./controller/userProfileEdit");
 
 app.use(express.json());
 app.use(cookieParser());
@@ -81,6 +82,7 @@ db.once("open", () => {
   console.log("Connected to MongoDB database successfully");
 });
 
+app.use("/api/userProfile",userProfile)
 app.use("/api/project",project_finder);
 app.use("/api/hackathon", hack_create);
 app.use("/api/hackathon", hack_register);
