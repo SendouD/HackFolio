@@ -20,7 +20,7 @@ const HomePage = () => {
     ];
 
     return (
-        <>
+        <div className="body">
             <div className="space-y-3">
                 <Header />
 
@@ -126,7 +126,7 @@ const HomePage = () => {
 
                 <Footer />
             </div>
-        </>
+        </div>
     );
 };
 

@@ -13,7 +13,6 @@ import CodeOfConduct from "./pages/code_ofconduct/code_of_conductpage"
 
 
 import AboutPage from "./pages/AboutPages/AboutPage";
-import ForgotPassword from "./pages/RegistrationPages/ForgotPassword";
 import VerifyOTP from "./pages/RegistrationPages/VerifyOTP";
 import ResetPassword from "./pages/RegistrationPages/ResetPassword";
 //SuccessRoutes
