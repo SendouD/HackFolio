@@ -10,7 +10,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: linear-gradient(#222c31, #111d32);
-  color: #d9e2f1;
+  /* color: #6880ac; */
   min-height: 100vh;
 }
 
@@ -40,6 +40,10 @@ body {
 
 #welcome-header {
   height: 100vh;
+  color: #fff;
+}
+#welcome-content p{
+  color:#fff;
 }
 
 #city-image {
