@@ -12,6 +12,9 @@ import EditProfile from "./pages/UserPages/EditProfile";
 
 
 import AboutPage from "./pages/AboutPages/AboutPage";
+import ForgotPassword from "./pages/RegistrationPages/ForgotPassword";
+import VerifyOTP from "./pages/RegistrationPages/VerifyOTP";
+import ResetPassword from "./pages/RegistrationPages/ResetPassword";
 //SuccessRoutes
 import SponsorSuccessPage from "./pages/successPages/SponsorSuccess";
 import ProjectSuccessPage from "./pages/successPages/projectFormSuccess";
@@ -64,6 +67,9 @@ function App() {
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/editprofile/:id" element={<EditProfile />} />
+          <Route path="/forgotpassword" element={<ForgotPassword />} />
+          <Route path="/verifyotp" element={<VerifyOTP />} />
+          <Route path="/resetpassword" element={<ResetPassword />} />
           <Route path="/about" element={<AboutPage />} />
           <Route element={<Project_display/>} path="/ProjectDisplay/:projectId" />
           <Route element={<UserDashboard/>} path="/@/:username" />

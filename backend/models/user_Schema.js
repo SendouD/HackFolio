@@ -16,10 +16,10 @@ const userSchema = new mongoose.Schema({
   bio: { type: String, default: '' }, // Bio
   roles: { type: [String], default: ['User'] }, // Array of roles, default to 'User'
   workExperience: [{
-    employer: { type: String, required: true },
-    role: { type: String, required: true },
-    fromMonth: { type: String, required: true },
-    fromYear: { type: Number, required: true },
+    employer: { type: String, required: false },
+    role: { type: String, required: false },
+    fromMonth: { type: String, required: false },
+    fromYear: { type: Number, required: false },
     toMonth: { type: String },
     toYear: { type: Number },
     description: { type: String, default: '' },
@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema({
     fieldOfStudy: { type: String, default: '' }, // Field of Study
     graduationMonth: { type: String, default: '' }, // Month of Graduation
     graduationYear: { type: Number, default: new Date().getFullYear() }, // Year of Graduation
-    certificationLinks: { type: [String], default: [] } // Array for certification links
+    certificationLinks: { type: [String], default: null } // Array for certification links
   },
   resume: { type: String, default: '' } // Path to resume file
 }, { timestamps: true });
