@@ -8,7 +8,6 @@ function ChatComponent(props) {
     const [socket, setSocket] = useState(null);
     const [newMessage,setNewMessage] = useState(null);
 
-
     useEffect(() => {
         const newSocket = io("http://localhost:5000",{
             transports: ["websocket"],
@@ -28,7 +27,6 @@ function ChatComponent(props) {
                 const response = await fetch(`/api/chat/disconnect`);
                 if (!response.ok) throw new Error('Network response was not ok');
                 const data = await response.json();
-                setData(data);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -45,7 +43,6 @@ function ChatComponent(props) {
         console.log(socket);
 
         const handleMessage = (msg) => {
-            console.log('Current user in ChatComponent:', props.currUser);
             props.setFlag(prev => !prev);
             msgstatus();
             if (msg.to === JSON.parse(token).email && msg.from === props.currUser) {

@@ -12,7 +12,7 @@ const Header = () => {
 
   const logout = async () => {
     const response = await axios.get("/api/userlogin/logout");
-    console.log(response);
+
     localStorage.removeItem("data");
     setUsername("");
     navigate("/");

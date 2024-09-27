@@ -40,12 +40,14 @@ import RegisteredHackathonsDisplay from "./pages/HackathonPages/RegisteredHackat
 import ChatPage from "./pages/ChatPages/ChatPage";
 
 // Judge
+import Judge from "./pages/JudgePages/JudgeDashboard"
 
 //Sponsors
 import SponsorList from "./pages/SponsorPages/SponsorsList";
 import SponsorDetail from "./components/SponsorComponents/SponsorDetail";
 import SponsorsDashboard from "./pages/SponsorPages/SponsorsDashboard";
 import EditHackathonProjectSubmission from "./pages/ProjectPages/EditHackathonProjectSubmission";
+import ForgotPassword from "./pages/RegistrationPages/ForgotPassword";
 
 const token = localStorage.getItem('data');
 
@@ -68,9 +70,12 @@ function App() {
           <Route element={<SponsorList />} path="/sponsors" />
           <Route element={<SponsorDetail />} path="/sponsors/:companyName" />
           <Route element={<AboutPage/>} path="/aboutus"/>
+          <Route element={<Judge/>} path="/hackathon/:name/judgeDashboard"/>
+
           {/* <Route path="/HackathonProjects" element={<HackathonProjectDispay/>}/> */}
           <Route path="/hackathons" element={<AllHackathonsDisplay />} />
           <Route path="/hackathon/:name" element={<HackathonWebpage />} />
+          <Route path="/forgotPassword" element={<ForgotPassword />} />
 
           {/* Success Pages */}
           <Route element={<ProjectSuccessPage />} path="/uploadsuccess" />

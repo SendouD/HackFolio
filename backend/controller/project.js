@@ -3,6 +3,7 @@ const hack_project = express.Router();
 const isUser = require('../middleware/isUser');
 const hackParticipantDetails = require('../models/hackathon_participants_schema');
 const projectSchema = require('../models/projectForm_Schema');
+const { CostExplorer } = require('aws-sdk');
 
 
 hack_project.route('/hackathonProject/:name')
@@ -12,7 +13,7 @@ hack_project.route('/hackathonProject/:name')
         
         try {
             const data = await hackParticipantDetails.findOne({email: email, hackathonName: name}).select('teamCode');
-            const response = await hackathonProjectsModel.findOne({hackathonName: name, teamCode: data.teamCode});
+            const response = await projectSchema.findOne({hackathonName: name, teamCode: data.teamCode});
             if(response) 
                 return res.status(200).json({flag: true});
             else
@@ -59,10 +60,30 @@ hack_project.route('/hackathonProject/:name')
 hack_project.route('/hackathonProject/getallprojects/:name')
     .get(isUser,async(req,res)=>{
         const {name} = req.params;
-        const response = await hackathonProjectsModel.findOne({hackathonName: name});
+        const response = await projectSchema.findOne({hackathonName: name});
         console.log(response)
  
 
     })
+    hack_project.route('/hackathonProject/judge/projects/:teamCode')
+    .get(isUser, async (req, res) => {
+        try {
+            const {teamCode} = req.params;
+            
+            // Query to find the document by teamCode and only return the _id field
+            const response = await projectSchema.findOne({ teamCode: teamCode }, '_id');
+            
+            
+            if (response) {
+                res.json({ id: response._id }); // Send only the object id
+            } else {
+                res.status(404).json({ message: 'Project not found' });
+            }
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Server error' });
+        }
+    });
+
 
 module.exports = hack_project

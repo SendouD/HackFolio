@@ -17,6 +17,7 @@ function HackathonDetailsForm(props) {
     const [prizesDesc, setPrizesDesc] = useState("");
     const navigate = useNavigate();
     const { name } = useParams();
+    const urlRegex = /\b((http[s]?|ftp):\/\/)?[^\s(["<,>]*\.[^\s[",><]{2,}(\/[^\s[",><]*)?\b/gi;
 
     useEffect(() => {
         getDetails();
@@ -71,7 +72,18 @@ function HackathonDetailsForm(props) {
 
     async function handleSubmit(e) {
         const payload = { hackName, uniName, tech, teamSize, partProf, contactLinks, fromDate, toDate, prizesDesc };
-        console.log(payload);
+        if(contactLinks) {
+            for(let i=0;i<contactLinks.length;i++) {
+                if(!contactLinks[i].match(urlRegex)) {
+                    alert("Enter valid urls!");
+                    return;
+                }
+            }
+        }
+        if(new Date(fromDate) > new Date(toDate)) {
+            alert("Time goes forward boss! from date should be less than to data");
+            return;
+        }
         try {
             const response = await fetch(`/api/hackathon/hackathonCreate/${name}/1`, {
                 method: 'POST',

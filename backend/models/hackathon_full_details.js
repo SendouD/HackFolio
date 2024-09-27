@@ -59,7 +59,7 @@ const hackFullDetails = new mongoose.Schema({
                 maxMarks: { type: Number, required: true }
             }
         ],
-        default: null// Sets the default value to null
+        default: []// Sets the default value to null
     }
 
 });
