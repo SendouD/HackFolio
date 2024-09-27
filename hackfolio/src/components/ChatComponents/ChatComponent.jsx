@@ -43,7 +43,6 @@ function ChatComponent(props) {
         console.log(socket);
 
         const handleMessage = (msg) => {
-            console.log('Current user in ChatComponent:', props.currUser);
             props.setFlag(prev => !prev);
             msgstatus();
             if (msg.to === JSON.parse(token).email && msg.from === props.currUser) {

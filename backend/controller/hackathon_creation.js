@@ -22,7 +22,7 @@ hack_create.route("/hackathonCreate")
         try {
             const existingHackathon = await hackathon_form.findOne({ hackathonName: hackName });
             if (existingHackathon) {
-                return res.status(400).json({ Error: "Name already exists" });
+                return res.status(201).json({ Error: "Name already exists" });
             }
 
             const newHackathonData = new hackathon_form({
