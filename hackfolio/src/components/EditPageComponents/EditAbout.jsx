@@ -159,7 +159,7 @@ const About = () => {
             <div className="flex space-x-8">
                 {/* Left Section */}
                 <div className="w-1/2 bg-white shadow-md rounded p-6">
-                    {renderEditableField("Username", "username", formData.username)}
+                    {/* {renderEditableField("Username", "username", formData.username)} */}
                     {renderEditableField("First Name", "firstName", formData.firstName)}
                     {renderEditableField("Last Name", "lastName", formData.lastName)}
                     {renderEditableField("I identify as", "gender", formData.gender, ["Male", "Female", "Non-binary", "Other"])}
