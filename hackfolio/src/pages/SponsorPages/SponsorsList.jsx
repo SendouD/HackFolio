@@ -36,7 +36,7 @@ const SponsorList = () => {
   if (error) return <div>{error}</div>;
 
   return (
-    <>
+    <div>
     <Header/>
       <h1 className="text-4xl text-center font-bold mt-6">Our Sponsors</h1>
 
@@ -56,7 +56,7 @@ const SponsorList = () => {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 };
 

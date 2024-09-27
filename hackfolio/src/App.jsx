@@ -9,10 +9,10 @@ import HomePage from "./pages/UserPages/HomePage";
 import AuthCheck from "./components/AuthCheck";
 import AdminDashboard from "./pages/AdminPages/AdminDashboard";
 import EditProfile from "./pages/UserPages/EditProfile";
+import CodeOfConduct from "./pages/code_ofconduct/code_of_conductpage"
 
 
 import AboutPage from "./pages/AboutPages/AboutPage";
-import ForgotPassword from "./pages/RegistrationPages/ForgotPassword";
 import VerifyOTP from "./pages/RegistrationPages/VerifyOTP";
 import ResetPassword from "./pages/RegistrationPages/ResetPassword";
 //SuccessRoutes
@@ -71,6 +71,7 @@ function App() {
           <Route path="/verifyotp" element={<VerifyOTP />} />
           <Route path="/resetpassword" element={<ResetPassword />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/codeofconduct" element={<CodeOfConduct />} />
           <Route element={<Project_display/>} path="/ProjectDisplay/:projectId" />
           <Route element={<UserDashboard/>} path="/@/:username" />
           <Route element={<SponsorList />} path="/sponsors" />
