@@ -84,6 +84,10 @@ function HackathonDetailsForm(props) {
             alert("Time goes forward boss! from date should be less than to data");
             return;
         }
+        if(new Date(fromDate) < new Date() || new Date(toDate) < new Date()) {
+            alert("Live in present and fill a valid from date!");
+            return;
+        }
         try {
             const response = await fetch(`/api/hackathon/hackathonCreate/${name}/1`, {
                 method: 'POST',

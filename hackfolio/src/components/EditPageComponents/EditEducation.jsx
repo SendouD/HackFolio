@@ -9,6 +9,7 @@ function Education() {
         fieldOfStudy: '',
         graduationMonth: '',
         graduationYear: '',
+        dateofgraduation:'',
         certificationLinks: []
     });
 
@@ -18,6 +19,7 @@ function Education() {
         fieldOfStudy: false,
         graduationMonth: false,
         graduationYear: false,
+        dateofgraduation:false,
         certificationLinks: false
     });
 
@@ -139,6 +141,7 @@ function Education() {
                 {renderEditableField("Field of Study", "fieldOfStudy")}
                 {renderEditableField("Month of Graduation", "graduationMonth", months)}
                 {renderEditableField("Year of Graduation", "graduationYear", years)}
+                {renderEditableField("Date Of Graduation","dateofgraduation")}
 
                 <div className='mt-4'>
                     <label htmlFor="certificationLinks">Certification Links: </label>

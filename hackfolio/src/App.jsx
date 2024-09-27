@@ -50,6 +50,7 @@ import SponsorList from "./pages/SponsorPages/SponsorsList";
 import SponsorDetail from "./components/SponsorComponents/SponsorDetail";
 import SponsorsDashboard from "./pages/SponsorPages/SponsorsDashboard";
 import EditHackathonProjectSubmission from "./pages/ProjectPages/EditHackathonProjectSubmission";
+import ForgotPassword from "./pages/RegistrationPages/ForgotPassword"
 
 
 const token = localStorage.getItem('data');
