@@ -20,4 +20,18 @@ async function donation_success(recieverID, amount) {
     
   
   }
-  module.exports={donation_success}
+
+  async function sendOtp(receiverEmail, otp) {
+    const mailOptions = {
+      from: '"hackfolio" <jananathan.m22@iiits.in>',
+      to: receiverEmail,
+      subject: 'Your OTP for Password Reset',
+      text: `Your OTP for password reset is: ${otp}. It is valid for 10 minutes.`,
+    };
+  
+    await transporter.sendMail(mailOptions);
+  }
+  module.exports={
+    donation_success,
+    sendOtp
+  }

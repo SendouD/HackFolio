@@ -67,6 +67,15 @@ const SignIn = () => {
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600"
                 />
               </div>
+              <div>
+                {/* "Forgot Password?" Link with styling */}
+                <p
+                  className="text-red-600 text-md cursor-pointer hover:underline mb-4"
+                  onClick={() => navigate('/forgotpassword')}
+                >
+                  Forgot Password?
+                </p>
+              </div>
               <div className="flex items-center justify-between">
                 <button
                   type="submit"
