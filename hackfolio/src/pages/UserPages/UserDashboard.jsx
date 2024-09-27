@@ -2,17 +2,15 @@ import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import UserDashBoardProject from "../../components/ProjectComponents/UserDashboardProject";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom"; // Import Link for navigation
 
 const UserDashboard = () => {
-  const {username}=useParams()
+  const { username } = useParams();
 
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [user, setUserdetails] = useState("");
-
-
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -104,6 +102,14 @@ const UserDashboard = () => {
                   )}
                 </ul>
               </div>
+
+              {/* Button to Edit Profile */}
+              <Link
+                to={`/editprofile/${username}`} // Assuming edit profile path includes username
+                className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+              >
+                Edit Profile
+              </Link>
             </div>
           </div>
         </div>
@@ -113,6 +119,3 @@ const UserDashboard = () => {
 };
 
 export default UserDashboard;
-
-
-
