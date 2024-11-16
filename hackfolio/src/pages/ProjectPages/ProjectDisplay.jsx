@@ -3,11 +3,12 @@ import ProjectDetails from "../../components/ProjectComponents/ProjectDetails";
 import axios from "axios";
 import { useParams } from "react-router-dom"; // Import useParams to extract route params
 import Header from "../../components/Header";
+import ReactingNavBar from "../../components/ReactingNavBar";
 
 const Project_display = () => {
   const { projectId } = useParams(); // Extract projectId from the URL
-  const [project, setProject] = useState(null); 
-  const [loading, setLoading] = useState(true); 
+  const [project, setProject] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -29,13 +30,19 @@ const Project_display = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div>
-    <Header/>
-      {project ? (
-        <ProjectDetails project={project} />
-      ) : (
-        <div>No project details available</div>
-      )}
+    <div className="flex">
+
+      <ReactingNavBar />
+
+      <div className="space-y-3 size-full">
+
+        <Header />
+        {project ? (
+          <ProjectDetails project={project} />
+        ) : (
+          <div>No project details available</div>
+        )}
+      </div>
     </div>
   );
 };

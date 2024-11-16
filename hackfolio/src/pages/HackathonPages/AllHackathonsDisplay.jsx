@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import HackathonsDisplayCard from "../../components/HackathonComponents/HackathonsDisplayCard";
 import Header from "../../components/Header";
 import "../../styles/hack_card.css"
+import ReactingNavBar from "../../components/ReactingNavBar";
 
 function AllHackathonsDisplay() {
     const [data,setData] = useState([]);
@@ -32,7 +33,10 @@ function AllHackathonsDisplay() {
     },[])
 
     return(
-        <div className="bg-gray-100">
+        <div className="flex">
+            <ReactingNavBar/>
+            <div className="space-y-3 size-full">
+            <div className="bg-gray-100">
             <Header />
             <div className="flex justify-center">
                 <div className="flex flex-wrap justify-center w-4/5">
@@ -42,6 +46,8 @@ function AllHackathonsDisplay() {
                         })
                     }
                 </div>
+            </div>
+        </div>
             </div>
         </div>
     );

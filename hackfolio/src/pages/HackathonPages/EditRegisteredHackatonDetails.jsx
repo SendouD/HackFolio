@@ -7,6 +7,7 @@ import HackathonPrizesDescription from "../../components/HackathonComponents/Hac
 import TeamFormation from "../../components/HackathonComponents/TeamFormation";
 import TeamDisplay from "../../components/HackathonComponents/TeamDisplay";
 import Header from '../../components/Header';
+import ReactingNavBar from '../../components/ReactingNavBar';
 
 function EditRegisteredHackathonDetails() {
     const [selection, setSelection] = useState(0);
@@ -31,6 +32,9 @@ function EditRegisteredHackathonDetails() {
 
     return(
         <>
+        <div className='flex'>
+            <ReactingNavBar/>
+            <div className='space-y-3 size-full'>
             <Header></Header>
             <div className='flex justify-center items-center h-[150px] my-3 text-gray-500 text-xl'>
                 <div className='bg-white p-4 rounded-[10px] card-v'>
@@ -84,6 +88,9 @@ function EditRegisteredHackathonDetails() {
                 </div>
 
             </div>
+            </div>
+        </div>
+            
         </>
     );
 }

@@ -7,6 +7,7 @@ import Education from "../../components/EditPageComponents/EditEducation"
 import Links from "../../components/EditPageComponents/EditLinks";
 import Contacts from "../../components/EditPageComponents/EditContacts"
 import Experience from "../../components/EditPageComponents/EditExperience"
+import ReactingNavBar from "../../components/ReactingNavBar";
 
 const EditPage = () => {
     const [activeTab, setActiveTab] = useState('about');
@@ -30,7 +31,10 @@ const EditPage = () => {
 
     return (
         <>
-            <div className="space-y-4">
+            <div className="flex">
+            <ReactingNavBar/>
+                <div className="space-y-3 size-full">
+                <div className="space-y-4">
                 {/* Header Component */}
                 <div>
                     <Header />
@@ -83,6 +87,8 @@ const EditPage = () => {
             </div>
             <div>
                 <Footer/>
+            </div>
+                </div>
             </div>
         </>
     );
