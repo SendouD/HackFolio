@@ -50,7 +50,8 @@ import SponsorList from "./pages/SponsorPages/SponsorsList";
 import SponsorDetail from "./components/SponsorComponents/SponsorDetail";
 import SponsorsDashboard from "./pages/SponsorPages/SponsorsDashboard";
 import EditHackathonProjectSubmission from "./pages/ProjectPages/EditHackathonProjectSubmission";
-import ForgotPassword from "./pages/RegistrationPages/ForgotPassword";
+import ForgotPassword from "./pages/RegistrationPages/ForgotPassword"
+
 
 //Error Pages
 import Error404 from "./pages/ErrorPages/Error404";

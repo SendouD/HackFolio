@@ -8,7 +8,6 @@ import { z } from 'zod';
 const sponsorSchema = z.object({
   companyName: z.string().min(1, "Company name is required"),
   website: z.string().url("Must be a valid URL").nonempty("Website is required"),
-  email: z.string().email("Invalid email address").nonempty("Email is required"),
   phoneNumber: z
   .string()
   .length(10, "Phone number must be exactly 10 digits long")
@@ -29,6 +28,8 @@ const sponsorSchema = z.object({
 
 function SponsorForm() {
   const navigate = useNavigate();
+  const email = JSON.parse(localStorage.getItem("data")).email;
+  console.log(email)
   const [formData, setFormData] = useState({
     companyName: "",
     website: "",
@@ -52,6 +53,7 @@ function SponsorForm() {
   const [errors, setErrors] = useState({}); // State to store validation errors
 
   const handleInputChange = (e) => {
+
     const { name, value } = e.target;
     if (name.startsWith("address.")) {
       const addressField = name.split(".")[1];
@@ -97,6 +99,7 @@ function SponsorForm() {
 
     // Validate form data using Zod schema
     try {
+     
       await sponsorSchema.parseAsync(formData);
       // Upload logo and collect URL
       const logoUrl = logo ? await handleImageUpload(logo) : null;
@@ -105,7 +108,9 @@ function SponsorForm() {
       const sponsorData = {
         ...formData,
         logo: logoUrl,
+        email: email,
       };
+
 
       // Send data to /api/sponsor
       const response = await axios.post('/api/sponsors', sponsorData);
@@ -167,21 +172,6 @@ function SponsorForm() {
                   required
                 />
                 {errors.website && <span className="text-red-500">{errors.website}</span>}
-              </div>
-
-              {/* Email */}
-              <div className="mb-4">
-                <label className="block text-gray-700 font-semibold mb-2">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Enter contact email"
-                  required
-                />
-                {errors.email && <span className="text-red-500">{errors.email}</span>}
               </div>
 
               {/* Phone Number */}

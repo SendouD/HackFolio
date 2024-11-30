@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema({
     fieldOfStudy: { type: String, default: '' }, // Field of Study
     graduationMonth: { type: String, default: '' }, // Month of Graduation
     graduationYear: { type: Number, default: new Date().getFullYear() }, // Year of Graduation
-    certificationLinks: { type: [String], default: null } // Array for certification links
+    certificationLinks: { type: [String], default: [] } // Array for certification links
   },
   resume: { type: String, default: '' } // Path to resume file
 }, { timestamps: true });
