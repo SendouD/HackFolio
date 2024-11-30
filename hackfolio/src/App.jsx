@@ -52,6 +52,10 @@ import SponsorsDashboard from "./pages/SponsorPages/SponsorsDashboard";
 import EditHackathonProjectSubmission from "./pages/ProjectPages/EditHackathonProjectSubmission";
 import ForgotPassword from "./pages/RegistrationPages/ForgotPassword";
 
+//Error Pages
+import Error404 from "./pages/ErrorPages/Error404";
+import Error403 from "./pages/ErrorPages/Error403";
+
 const token = localStorage.getItem('data');
 
 
@@ -60,6 +64,8 @@ function App() {
   return (
     <>
       <Routes>
+        <Route path="/Error404" element={<Error404 />} />
+        <Route path="/Error403" element={<Error403 />} />
         <Route element={<AuthCheck/>}>
 
           {/* Normal Routes */}

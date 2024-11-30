@@ -3,12 +3,12 @@ import EditHackathonDetails from "../../components/HackathonComponents/EditHacka
 import EditHackathonWebsite from "../../components/HackathonComponents/EditHackathonWebsite";
 import HackathonDashboard from '../../components/HackathonComponents/HackathonDashboard';
 import AddJudge from '../../components/JudgeComponents/AddJudge';
-import AddEvaluationCriteria from '../../components/JudgeComponents/JudgeCriteria'; // Import your new component
+import AddEvaluationCriteria from '../../components/JudgeComponents/JudgeCriteria';
 import Header from '../../components/Header';
 import "../../styles/edit_hack_page.css";
 
 function EditOrganizedHackathonDetails() {
-    const [selected, setSelected] = useState(0); // 0: Details, 1: Webpage, 2: Dashboard, 3: Judges, 4: Criteria
+    const [selected, setSelected] = useState(0); 
 
     return (
         <>

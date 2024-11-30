@@ -148,8 +148,6 @@ router.get('/updateSponsorDetails',isUser, async(req,res) => {
   const email = req.email;
   try {
     const data = await Sponsor.findOne({ email: email });
-    console.log(data)
-
     res.status(200).json({data: data});
   } catch (error) {
     console.error('Error fetching pending sponsors:', error);
@@ -165,7 +163,6 @@ router.post('/updateSponsorDetails',isUser, async(req,res) => {
   const {formData} = req.body;
   try {
     formData.email = email;
-    console.log("inside");
     const data = await Sponsor.findOneAndUpdate({ email: email },formData);
 
     res.status(200).json(data);

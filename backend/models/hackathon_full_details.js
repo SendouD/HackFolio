@@ -59,9 +59,12 @@ const hackFullDetails = new mongoose.Schema({
                 maxMarks: { type: Number, required: true }
             }
         ],
-        default: []// Sets the default value to null
+        default: []
+    },
+    completelyFilled: {
+        type: Boolean,
+        default: false,
     }
-
 });
 
 module.exports = mongoose.model("HackathonDetails", hackFullDetails);

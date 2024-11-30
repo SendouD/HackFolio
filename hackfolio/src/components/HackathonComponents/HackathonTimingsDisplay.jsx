@@ -27,6 +27,7 @@ function HackathonTimingsDisplay() {
     async function getIfSubmitted() {
         try {
             const response = await fetch(`/api/project/hackathonProject/${name}`);
+            if(response.status === 403) navigate('/Error403');
             if (!response.ok) throw new Error('Network response was not ok');
             const arr = await response.json();
             if(arr.flag === true && flag<3) {
@@ -39,8 +40,8 @@ function HackathonTimingsDisplay() {
 
     async function getInfo() {
         try {
-            const response = await fetch(`/api/hackathon/updateHackDetails/${name}`);
-            
+            const response = await fetch(`/api/hackathon/getHackDetails/${name}`);
+            if(response.status === 403) navigate('/Error403');
             if (!response.ok) throw new Error('Network response was not ok');
             const arr = await response.json();
             setData(arr.data);
@@ -58,7 +59,7 @@ function HackathonTimingsDisplay() {
     async function checkIfRegistered() {
         try {
             const response = await fetch(`/api/hackathon/checkRegistration/${name}`);
-            
+            if(response.status === 403) navigate('/Error403');
             if (!response.ok) throw new Error('Network response was not ok');
             const data1 = await response.json();
             console.log(new Date(data.fromDate) < new Date() && !data1.flag);
@@ -72,11 +73,10 @@ function HackathonTimingsDisplay() {
     async function checkIfJudge() {
         try {
             const response = await fetch(`/api/judge/isjudge/${name}`);
-            
             if (response.ok) {
-                setIsJudge(true); 
+                setIsJudge(true);
             } else {
-                setIsJudge(false); 
+                setIsJudge(false);
             }
         } catch (error) {
             console.error('Error checking judge status:', error);
@@ -90,6 +90,7 @@ function HackathonTimingsDisplay() {
         else {
             try {
                 const response = await fetch(`/api/hackathon/hackathonTeam/${name}/create`);
+                if(response.status === 403) navigate('/Error403');
                 console.log(response);
                 if (!response.ok) throw new Error('Network response was not ok');
                 const arr = await response.json();

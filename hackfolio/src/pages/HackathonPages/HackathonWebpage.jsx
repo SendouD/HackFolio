@@ -7,6 +7,10 @@ import { useParams } from 'react-router-dom';
 function HackathonWebpage() {
     const { name } = useParams();
 
+    useEffect(() => {
+
+    },[]);
+
     return(
         <>
             <Header></Header>

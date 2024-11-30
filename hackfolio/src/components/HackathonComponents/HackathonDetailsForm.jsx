@@ -56,6 +56,7 @@ function HackathonDetailsForm(props) {
                     'Content-Type': 'application/json'
                 },
             });
+            if(response.status === 403) navigate('/Error403');
 
             let data = await response.json();
             setHackName(data.hackathonName);
@@ -92,6 +93,7 @@ function HackathonDetailsForm(props) {
                 },
                 body: JSON.stringify({ hackName, uniName, eventMode, tech, teamSize, partProf, contactLinks, fromDate, toDate, prizesDesc }),
             });
+            if(response.status === 403) navigate('/Error403');
 
             if (!response.ok) {
                 throw new Error('Network response was not ok');

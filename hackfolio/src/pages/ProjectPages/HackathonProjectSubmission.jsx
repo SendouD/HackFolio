@@ -1,4 +1,3 @@
-import HackathonDetailsDisplay from "../../components/HackathonComponents/HackathonDetailsDisplay";
 import Header from "../../components/Header";
 import HackathonProjectSubmissionForm from "../../components/ProjectComponents/HackathonProjectSubmissionForm";
 

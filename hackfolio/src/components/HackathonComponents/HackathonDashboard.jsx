@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 const HackathonDashboard = () => {
   const { name } = useParams();
+  const navigate = useNavigate();
   const [teams, setTeams] = useState([]); // List of teams
   const [teamMembers, setTeamMembers] = useState([]); // Members of the selected team
   const [showDetails, setShowDetails] = useState(false); // Show modal for team members
@@ -31,6 +32,7 @@ const HackathonDashboard = () => {
       const response = await axios.get(
         `/api/hackathon/registeredParticipants/teamDetails/${teamCode}`
       );
+      if(response.status === 403) navigate('/Error403');
       setTeamMembers(response.data.response); // Assume the API returns an array of team members
       setSelectedTeamCode(teamCode); // Store the selected team code
       setShowDetails(true); // Show the modal
@@ -42,24 +44,26 @@ const HackathonDashboard = () => {
   // Handle team verification
   const handleVerifyTeam = async () => {
     try {
-        await axios.post(`/api/hackathon/registeredParticipants/${name}/verify`, {
+        const response = await axios.post(`/api/hackathon/registeredParticipants/${name}/verify`, {
         teamCode: selectedTeamCode,
       });
+
+      if(response.status === 403) navigate('/Error403');
     
-      setShowDetails(false); // Close modal after verification
+      setShowDetails(false);
     } catch (error) {
       console.error("Error verifying team:", error);
       alert("Failed to verify the team.");
     }
   };
 
-  // Handle team decline
   const handleDeclineTeam = async () => {
     try {
-      await axios.post(`/api/hackathon/registeredParticipants/${name}/decline`, {
+      const response = await axios.post(`/api/hackathon/registeredParticipants/${name}/decline`, {
         teamCode: selectedTeamCode,
       });
-      setShowDetails(false); // Close modal after declining
+      if(response.status === 403) navigate('/Error403');
+      setShowDetails(false);
     } catch (error) {
       console.error("Error declining team:", error);
       alert("Failed to decline the team.");

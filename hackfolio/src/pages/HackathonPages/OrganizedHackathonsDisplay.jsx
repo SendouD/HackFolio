@@ -16,7 +16,7 @@ function OrganizedHackathonsDisplay() {
                     'Content-Type': 'application/json'
                 },
             });
-    
+            if(response.status === 403) navigate('/Error403');
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
@@ -50,7 +50,7 @@ function OrganizedHackathonsDisplay() {
                     'Content-Type': 'application/json'
                 },
             });
-
+            if(response.status === 403) navigate('/Error403');
             const data = await response.json();
 
             navFunction(data.completelyFilled,data.hackathonName);

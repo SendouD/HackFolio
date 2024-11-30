@@ -66,7 +66,7 @@ function EditHackathonWebsite() {
     async function getWebInfo() {
         try {
             const response = await fetch(`/api/hackathon/updateHackWebsite/${name}`);
-            if (!response.ok) throw new Error('Network response was not ok');
+            if(response.status === 403) navigate('/Error403');
             const arr = await response.json();
             setData(arr.data);
             setHackName(arr.data.hackathonName);
@@ -99,7 +99,7 @@ function EditHackathonWebsite() {
                     otherFields,
                 }),
             });
-            if (!response.ok) throw new Error('Network response was not ok');
+            if(response.status === 403) navigate('/Error403');
             setLoading(false);
             setImageUrl(imageUrl);
             getWebInfo();
