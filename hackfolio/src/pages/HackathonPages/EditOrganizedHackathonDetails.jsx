@@ -45,6 +45,11 @@ function EditOrganizedHackathonDetails() {
                             className={`edit-choice-btn text-2xl font-thin block mt-5 px-5 ${selected === 4 ? 'active' : ''}`}>
                             Add Evaluation Criteria
                         </button>
+                        <button                     onClick={()=>setSelected(5)}
+                                                    className={`edit-choice-btn text-2xl font-thin block mt-5 px-5 ${selected === 5 ? 'active' : ''}`}>\
+                                                    Stats
+                            
+                        </button>
                     </div>
                 </div>
                 <div className="flex justify-center items-center">
@@ -69,6 +74,11 @@ function EditOrganizedHackathonDetails() {
                         </div>
                     )}
                     {selected === 4 && ( // Render new component when selected
+                        <div className='editCard bg-[rgb(251,251,251)]'>
+                            <AddEvaluationCriteria />
+                        </div>
+                    )}
+                       {selected === 5 && ( // Render new component when selected
                         <div className='editCard bg-[rgb(251,251,251)]'>
                             <AddEvaluationCriteria />
                         </div>

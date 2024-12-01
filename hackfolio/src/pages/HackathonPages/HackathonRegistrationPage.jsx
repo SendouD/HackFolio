@@ -11,7 +11,6 @@ function HackathonRegistrationPage() {
     return (
         <>
             <div className='flex'>
-                <ReactingNavBar />
                 <div className='space-y-3 size-full'>
                     <Header></Header>
                     <div className='flex justify-center items-center h-[150px] my-3 text-gray-500 text-xl'>

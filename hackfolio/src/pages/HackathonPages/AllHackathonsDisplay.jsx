@@ -16,7 +16,7 @@ function AllHackathonsDisplay() {
         if(pageNo < 1) return;
         if(pageNo > totalPages) return;
         try {
-            const response = await fetch(`/api/hackathon?page=${pageNo}&limit=20`, {
+            const response = await fetch(`/api/hackathon?page=${pageNo}&limit=8`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -67,27 +67,31 @@ function AllHackathonsDisplay() {
 
         return (
             <div className="flex justify-center mt-[40px]">
-                <button 
-                    onClick={() => getData(page-1)}
-                    className="py-1 px-2 bg-indigo-600 text-white rounded mr-2 hover:bg-indigo-700"
-                >
-                    {"< prev"}
-                </button>
-              {pages.map((ele,i) => (
-                <button 
-                    key={i} 
-                    onClick={() => getData(i+1)} 
-                    className={(page === i+1) ? "py-1 px-2 bg-indigo-600 text-white rounded mr-2" : "py-1 px-2 rounded text-gray-600 underline mr-2"}
-                >
-                  {ele}
-                </button>
-              ))}
-              <button 
-                    onClick={() => getData(page+1)}
-                    className="py-1 px-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
-                >
-                    {"Next >"}
-                </button>
+                {pages.length != 0 && 
+                    <button 
+                        onClick={() => getData(page-1)}
+                        className="py-1 px-2 bg-indigo-600 text-white rounded mr-2 hover:bg-indigo-700"
+                    >
+                        {"< prev"}
+                    </button>
+                }
+                {pages.map((ele,i) => (
+                    <button 
+                        key={i} 
+                        onClick={() => getData(i+1)} 
+                        className={(page === i+1) ? "py-1 px-2 bg-indigo-600 text-white rounded mr-2" : "py-1 px-2 rounded text-gray-600 underline mr-2"}
+                    >
+                        {ele}
+                    </button>
+                ))}
+                {pages.length != 0 && 
+                    <button 
+                        onClick={() => getData(page+1)}
+                        className="py-1 px-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
+                    >
+                        {"Next >"}
+                    </button>
+                }
             </div>
           );
     }
@@ -123,29 +127,26 @@ function AllHackathonsDisplay() {
     return(
         <>
             <div className="flex">
-                <ReactingNavBar/>
+                {/* <ReactingNavBar/> */}
                 <div className="space-y-3 size-full">
-                <div className="bg-gray-100">
-                <Header />
-                <SearchBar />
-                <div className="flex justify-center">
-                    <div className="flex flex-wrap justify-center w-4/5">
-                        {
-                            data.map((element,i) => {
-                                return <HackathonsDisplayCard key={i} data={element}/>
-                            })
-                        }
+                    <div className="bg-gray-100">
+                        <Header />
+                        <SearchBar />
+                        <div className="flex justify-center">
+                            <div className="flex flex-wrap justify-center w-4/5">
+                                {
+                                    data.map((element,i) => {
+                                        return <HackathonsDisplayCard key={i} data={element}/>
+                                    })
+                                }
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-                </div>
-                <div>
-                    <PageNumbers />
                 </div>
             </div>
             <div>
                 <PageNumbers />
-            </div>        
+            </div>
         </>
 
     );

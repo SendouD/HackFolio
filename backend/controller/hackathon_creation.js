@@ -8,13 +8,13 @@ const ownHackathon = require('../middleware/ownHackathon');
 
 hack_create.route('/')
     .get(async (req,res) => {
-        const page = parseInt(req.query.page) || 1;
+        let page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 20;
         const search = req.query.search || "";
         const query = (search.length !== 0) ? {completelyFilled: true, hackathonName: { $regex: search, $options: 'i' }} : {completelyFilled: true};
 
         const totalHackathons = await hackathon_form.countDocuments(query);
-        if(page > Math.ceil(totalHackathons / limit)) page = math.ceil(totalHackathons / limit)
+        if(page > Math.ceil(totalHackathons / limit)) page = Math.ceil(totalHackathons / limit)
         if(page < 1) page = 1;
         const hackathons = await hackFullDetails.find(query).skip((page-1)*limit).limit(limit);
         return res.status(200).json({
