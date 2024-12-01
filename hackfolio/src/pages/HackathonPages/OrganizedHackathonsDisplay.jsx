@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import MyHackathonsCard from "../../components/HackathonComponents/MyHackathonsCard"
 import Header from "../../components/Header";
 import "../../styles/hack_card.css"
+import ReactingNavBar from "../../components/ReactingNavBar";
 
 function OrganizedHackathonsDisplay() {
     const [data,setData] = useState([]);
@@ -65,7 +66,9 @@ function OrganizedHackathonsDisplay() {
     }
 
     return(
-        <div className="">
+        <div className="flex">
+            <ReactingNavBar/>
+        <div className="space-y-3 size-full">
             <Header></Header>
             <div className="block">
                 <div className="text-4xl font-medium flex justify-center my-[50px]">Organized Hackathons :</div>
@@ -75,6 +78,7 @@ function OrganizedHackathonsDisplay() {
                     })
                 }
             </div>
+        </div>
         </div>
     );
 }

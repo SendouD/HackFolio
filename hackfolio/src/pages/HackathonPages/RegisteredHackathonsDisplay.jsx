@@ -4,6 +4,7 @@ import MyHackathonsCard from "../../components/HackathonComponents/MyHackathonsC
 import Header from "../../components/Header";
 import "../../styles/hack_card.css"
 import EditHackathonRegistrationForm from "../../components/HackathonComponents/EditHackathonRegistrationForm";
+import ReactingNavBar from "../../components/ReactingNavBar";
 
 function RegisteredHackathonsDisplay() {
     const [data,setData] = useState([]);
@@ -39,7 +40,12 @@ function RegisteredHackathonsDisplay() {
     }
 
     return(
-        <div className="">
+        <>
+        <div className="flex">
+           
+            <ReactingNavBar/>
+            
+            <div className="space-y-3 size-full">
             <Header></Header>
             <div className="block">
                 <div className="text-4xl font-medium flex justify-center my-[50px]">Registered Hackathons :</div>
@@ -49,7 +55,9 @@ function RegisteredHackathonsDisplay() {
                     })
                 }
             </div>
+            </div>
         </div>
+        </>
     );
 }
 

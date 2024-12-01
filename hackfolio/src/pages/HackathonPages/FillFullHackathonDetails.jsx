@@ -3,15 +3,16 @@ import { useNavigate, useParams } from 'react-router-dom';
 import HackathonDetailsForm from "../../components/HackathonComponents/HackathonDetailsForm";
 import HackathonWebpageContentForm from "../../components/HackathonComponents/HackathonWebpageContentForm";
 import Header from "../../components/Header";
+import ReactingNavBar from "../../components/ReactingNavBar";
 
 function FillFullHackathonDetails() {
     const [completed, setCompleted] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
     const { name } = useParams();
 
-    useEffect(()=> {
+    useEffect(() => {
         getCompletionStatus();
-    },[]);
+    }, []);
 
     async function getCompletionStatus() {
         let arr = [];
@@ -22,13 +23,13 @@ function FillFullHackathonDetails() {
                     'Content-Type': 'application/json'
                 },
             });
-    
+
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            
+
             arr = await response.json();
-    
+
         } catch (error) {
             console.error('Error posting data:', error);
         }
@@ -38,21 +39,24 @@ function FillFullHackathonDetails() {
 
     return (
         <>
-            <Header/>
-            {isLoading && <div>Loading....</div>}
-            {completed === 0 && !isLoading &&
-            <div className="flex items-center justify-center min-h-screen bg-gray-50">
-                <div className="w-full max-w-4xl bg-white rounded-lg shadow-lg p-8">
-                    <div className="text-center mb-8">
-                        <h1 className="text-4xl font-bold text-gray-800">
-                            You're Almost There: Just 2 Steps to Launch Your Hackathon!
-                        </h1>
-                    </div>
-                    <div className="space-y-8">
-                        <HackathonDetailsForm completed={completed} setCompleted={setCompleted} />
-                        {/* {completed === 2 && <Org_form4 completed={completed} setCompleted={setCompleted} />} */}
-                    </div>
-                    {/* <div className="mt-8">
+            <div className="flex">
+                <ReactingNavBar />
+                <div className="space-y-3 size-full">
+                    <Header />
+                    {isLoading && <div>Loading....</div>}
+                    {completed === 0 && !isLoading &&
+                        <div className="flex items-center justify-center min-h-screen bg-gray-50">
+                            <div className="w-full max-w-4xl bg-white rounded-lg shadow-lg p-8">
+                                <div className="text-center mb-8">
+                                    <h1 className="text-4xl font-bold text-gray-800">
+                                        You're Almost There: Just 2 Steps to Launch Your Hackathon!
+                                    </h1>
+                                </div>
+                                <div className="space-y-8">
+                                    <HackathonDetailsForm completed={completed} setCompleted={setCompleted} />
+                                    {/* {completed === 2 && <Org_form4 completed={completed} setCompleted={setCompleted} />} */}
+                                </div>
+                                {/* <div className="mt-8">
                         <div className="w-full bg-gray-200 rounded-full h-2.5">
                             <div
                                 className="bg-indigo-600 h-2.5 rounded-full transition-all duration-300"
@@ -63,10 +67,14 @@ function FillFullHackathonDetails() {
                             Step {completed + 1} of 3
                         </div>
                     </div> */}
+                            </div>
+                        </div>
+                    }
+                    {completed === 1 && !isLoading && <HackathonWebpageContentForm completed={completed} setCompleted={setCompleted} />}
                 </div>
             </div>
-            }
-            {completed === 1 && !isLoading && <HackathonWebpageContentForm completed={completed} setCompleted={setCompleted} />}
+
+
         </>
     );
 }

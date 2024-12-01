@@ -6,13 +6,17 @@ import AddJudge from '../../components/JudgeComponents/AddJudge';
 import AddEvaluationCriteria from '../../components/JudgeComponents/JudgeCriteria';
 import Header from '../../components/Header';
 import "../../styles/edit_hack_page.css";
+import ReactingNavBar from '../../components/ReactingNavBar';
 
 function EditOrganizedHackathonDetails() {
     const [selected, setSelected] = useState(0); 
 
     return (
         <>
-            <Header />
+            <div className='flex'>
+                <ReactingNavBar/>
+                <div className='space-y-3 size-full'>
+                <Header />
             <div className='flex justify-center mt-2'>
                 <div className="edit-selection-card">
                     <div className='edit-choice-card'>
@@ -71,6 +75,9 @@ function EditOrganizedHackathonDetails() {
                     )}
                 </div>
             </div>
+                </div>
+            </div>
+            
         </>
     );
 }
