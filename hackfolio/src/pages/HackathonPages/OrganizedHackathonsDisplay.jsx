@@ -35,6 +35,10 @@ function OrganizedHackathonsDisplay() {
         getData();
     },[])
 
+    useEffect(() =>{
+        console.log(data)
+    },[data]);
+
     function navFunction(completelyFilled,hackathonName,step) {
         if (completelyFilled) {
             navigate(`/organizedHackathons/${hackathonName}`);

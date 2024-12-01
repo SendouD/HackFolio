@@ -7,6 +7,7 @@ import AddEvaluationCriteria from '../../components/JudgeComponents/JudgeCriteri
 import Header from '../../components/Header';
 import "../../styles/edit_hack_page.css";
 import ReactingNavBar from '../../components/ReactingNavBar';
+import Stats from '../../components/HackathonComponents/Stats';
 
 function EditOrganizedHackathonDetails() {
     const [selected, setSelected] = useState(0); 
@@ -80,7 +81,7 @@ function EditOrganizedHackathonDetails() {
                     )}
                        {selected === 5 && ( // Render new component when selected
                         <div className='editCard bg-[rgb(251,251,251)]'>
-                            <AddEvaluationCriteria />
+                            <Stats />
                         </div>
                     )}
                 </div>
