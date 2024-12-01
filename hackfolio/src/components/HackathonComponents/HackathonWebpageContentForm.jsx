@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import ResizableTextArea from './ResizableTextArea';
 import axios from "axios";
-import LoadingPage from '../Loading';
+import LoadingPage from '../loading';
 
 function HackathonWebpageContentForm(props) {
     const aboutRef = useRef(null);

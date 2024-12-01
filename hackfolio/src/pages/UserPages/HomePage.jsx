@@ -5,7 +5,7 @@ import "../../styles/Homepage.css";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import { Typewriter } from 'react-simple-typewriter';
-import cityImg from '../../assets/code.jpg';
+import cityImg from '../../Assets/code.jpg';
 
 const HomePage = () => {
     const { scrollY } = useScroll();
