@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
 import Header from "../../components/Header";
+import ReactingNavBar from "../../components/ReactingNavBar";
 
 const SponsorList = () => {
   const [sponsors, setSponsors] = useState([]);
@@ -36,6 +37,11 @@ const SponsorList = () => {
   if (error) return <div>{error}</div>;
 
   return (
+    <div className="flex">
+
+      <ReactingNavBar />
+
+      <div className="space-y-3 size-full">
     <div>
     <Header/>
       <h1 className="text-4xl text-center font-bold mt-6">Our Sponsors</h1>
@@ -56,6 +62,8 @@ const SponsorList = () => {
           </div>
         ))}
       </div>
+    </div>
+    </div>
     </div>
   );
 };

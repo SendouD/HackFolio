@@ -56,6 +56,7 @@ function HackathonDetailsForm(props) {
                     'Content-Type': 'application/json'
                 },
             });
+            if(response.status === 403) navigate('/Error403');
 
             let data = await response.json();
             setHackName(data.hackathonName);
@@ -96,6 +97,7 @@ function HackathonDetailsForm(props) {
                 },
                 body: JSON.stringify({ hackName, uniName, eventMode, tech, teamSize, partProf, contactLinks, fromDate, toDate, prizesDesc }),
             });
+            if(response.status === 403) navigate('/Error403');
 
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -180,8 +182,24 @@ function HackathonDetailsForm(props) {
                             type="number"
                             placeholder="e.g. 4-6 members"
                             value={teamSize}
-                            onChange={(e) => setTeamSize(e.target.value)}
+                            onChange={(e) => {
+                                let value = e.target.value;
+                                
+                                // Ensure the value is within range (1-10)
+                                if (value < 1) {
+                                    value = "";
+                                } else if (value > 10) {
+                                    value = 10;
+                                }
+                        
+                                setTeamSize(value);
+                            }}
+                            min="1"
+                            max="10"
                         />
+                        {teamSize < 1 || teamSize > 10 ? (
+    <p className="text-red-500 text-xs mt-1">Team size must be between 1 and 10 members.</p>
+) : null}
                         <label className="block text-gray-500 font-medium text-sm mt-4">Required Participant Fields</label>
                         <select 
                             name="participantFields" 

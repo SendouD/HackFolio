@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import ResizableTextArea from './ResizableTextArea';
 import axios from "axios";
-// import LoadingPage from '../Loading';
+import LoadingPage from '../loading';
 
 function HackathonWebpageContentForm(props) {
     const aboutRef = useRef(null);
@@ -79,6 +79,7 @@ function HackathonWebpageContentForm(props) {
                     otherFields,
                 }),
             });
+            if(response.status === 403) navigate('/Error403');
 
             if (!response.ok) {
                 throw new Error('Network response was not ok');

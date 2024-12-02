@@ -1,9 +1,16 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { useParams } from "react-router-dom";
 
 const Contacts = () => {
     const [formData, setFormData] = useState({
+        phoneNumber: '',
+        email: '',
+        city: '',
+        country: ''
+    });
+
+    const [errors, setErrors] = useState({
         phoneNumber: '',
         email: '',
         city: '',
@@ -44,6 +51,13 @@ const Contacts = () => {
                     city: userData.city || '',
                     country: userData.country || ''
                 });
+
+                setErrors({
+                    phoneNumber: '',
+                    email: '',
+                    city: '',
+                    country: ''
+                });
             } catch (error) {
                 console.error("Error fetching contact details:", error.response || error.message);
                 alert("Failed to fetch contact details.");
@@ -53,14 +67,48 @@ const Contacts = () => {
         fetchData();
     }, [userId]);
 
+    // Validation rules
+    const validateField = (name, value) => {
+        switch (name) {
+            case 'phoneNumber':
+                const phoneRegex = /^[+]?[0-9]{7,15}$/;
+                if (!phoneRegex.test(value)) {
+                    return 'Invalid phone number format';
+                }
+                if (value.replace(/^\+/, '').length !== 10) {
+                    return 'Phone number must be exactly 10 digits';
+                }
+                return '';
+            case 'email':
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(value) ? '' : 'Invalid email address format';
+            case 'city':
+                return value.trim() === '' ? 'City cannot be empty' : '';
+            case 'country':
+                return value.trim() === '' ? 'Country cannot be empty' : '';
+            default:
+                return '';
+        }
+    };
+
     const handleChange = (event) => {
         const { name, value } = event.target;
+
+        // Validate field
+        const error = validateField(name, value);
+
         setFormData(prev => ({ ...prev, [name]: value }));
+        setErrors(prev => ({ ...prev, [name]: error }));
     };
 
     const toggleEdit = (field) => {
         if (editableFields[field]) {
-            updateUser(); // Update before toggling back to non-edit mode
+            if (!errors[field]) {
+                updateUser(); // Update only if there are no errors
+            } else {
+                alert("Please fix validation errors before saving.");
+                return;
+            }
         }
         setEditableFields(prev => ({ ...prev, [field]: !prev[field] }));
     };
@@ -77,10 +125,6 @@ const Contacts = () => {
         }
     };
 
-    useEffect(() => {
-        console.log(formData);
-    },[formData]);
-
     const renderEditableField = (label, name) => (
         <div className='mt-4'>
             <label htmlFor={name}>{label}: </label>
@@ -91,7 +135,9 @@ const Contacts = () => {
                     value={formData[name]}
                     disabled={!editableFields[name]}
                     onChange={handleChange}
-                    className="edit-inp shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className={`edit-inp shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                        errors[name] ? 'border-red-500' : ''
+                    }`}
                 />
                 <button 
                     onClick={() => toggleEdit(name)} 
@@ -100,6 +146,7 @@ const Contacts = () => {
                     {editableFields[name] ? 'Save' : 'Edit'}
                 </button>
             </div>
+            {errors[name] && <p className="text-red-500 text-sm mt-1">{errors[name]}</p>}
         </div>
     );
 

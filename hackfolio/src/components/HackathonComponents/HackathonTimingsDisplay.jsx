@@ -20,14 +20,11 @@ function HackathonTimingsDisplay() {
         checkIfRegistered();
     },[data]);
 
-    useEffect(() => {
-        console.log(flag);
-    },[flag]);
-
     async function getIfSubmitted() {
         try {
             const response = await fetch(`/api/project/hackathonProject/${name}`);
-            if (!response.ok) throw new Error('Network response was not ok');
+            if(response.status === 403) navigate('/Error403');
+            if(!response.ok) return;
             const arr = await response.json();
             if(arr.flag === true && flag<3) {
                 setFlag(2);
@@ -39,15 +36,14 @@ function HackathonTimingsDisplay() {
 
     async function getInfo() {
         try {
-            const response = await fetch(`/api/hackathon/updateHackDetails/${name}`);
-            
+            const response = await fetch(`/api/hackathon/getHackDetails/${name}`);
+            if(response.status === 403) navigate('/Error403');
             if (!response.ok) throw new Error('Network response was not ok');
             const arr = await response.json();
             setData(arr.data);
             const currTime = new Date();
             const fromTime = new Date(arr.data.fromDate);
             const toTime = new Date(arr.data.toDate);
-            console.log(currTime,toTime);
             if(currTime > toTime && flag < 10) setFlag(10);
             else if(currTime > fromTime && flag<2) setFlag(1);
         } catch (error) {
@@ -58,10 +54,9 @@ function HackathonTimingsDisplay() {
     async function checkIfRegistered() {
         try {
             const response = await fetch(`/api/hackathon/checkRegistration/${name}`);
-            
+            if(response.status === 403) navigate('/Error403');
             if (!response.ok) throw new Error('Network response was not ok');
             const data1 = await response.json();
-            console.log(new Date(data.fromDate) < new Date() && !data1.flag);
             if(new Date(data.fromDate) < new Date() && !data1.flag && flag < 7) setFlag(7);
             setRegistered(data1.flag);
         } catch (error) {
@@ -72,11 +67,10 @@ function HackathonTimingsDisplay() {
     async function checkIfJudge() {
         try {
             const response = await fetch(`/api/judge/isjudge/${name}`);
-            
             if (response.ok) {
-                setIsJudge(true); 
+                setIsJudge(true);
             } else {
-                setIsJudge(false); 
+                setIsJudge(false);
             }
         } catch (error) {
             console.error('Error checking judge status:', error);
@@ -84,13 +78,16 @@ function HackathonTimingsDisplay() {
     }
 
     async function handleClick() {
+        if(!localStorage.getItem("lastname")) {
+            navigate("/signin") 
+         }
         if(flag === true) {
             navigate(`/hackathon/${name}/projectSubmission`);
         }
         else {
             try {
                 const response = await fetch(`/api/hackathon/hackathonTeam/${name}/create`);
-                console.log(response);
+                if(response.status === 403) navigate('/Error403');
                 if (!response.ok) throw new Error('Network response was not ok');
                 const arr = await response.json();
                 if(flag === 0) {

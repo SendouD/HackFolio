@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Header from '../../components/Header';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import ReactingNavBar from '../../components/ReactingNavBar';
 
 const JudgeDashboard = () => {
     const [teams, setTeams] = useState([]); 
@@ -83,6 +84,11 @@ const JudgeDashboard = () => {
 
     return (
         <>
+        <div className="flex">
+
+<ReactingNavBar />
+
+<div className="space-y-3 size-full">
             <Header />
             <div className="judge-dashboard p-4">
                 <h1 className="text-2xl font-bold mb-4">Judge Dashboard</h1>
@@ -126,6 +132,8 @@ const JudgeDashboard = () => {
                 ) : (
                     <p>Loading teams...</p>
                 )}
+            </div>
+            </div>
             </div>
         </>
     );

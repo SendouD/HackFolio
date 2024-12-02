@@ -19,6 +19,7 @@ function TeamFormation(props) {
                 },
                 body: JSON.stringify({teamName}),
             });
+            if(response.status === 403) navigate('/Error403');
             if(response.status === 400) {
                 alert(response.msg);
             }
@@ -46,7 +47,7 @@ function TeamFormation(props) {
                     },
                     body: JSON.stringify({ teamCode }),
                 });
-                
+                if(response.status === 403) navigate('/Error403');
                 const data = await response.json();
                 console.log(data);
                 props.func();

@@ -3,6 +3,7 @@ import Header from "../../components/Header";
 import UserDashBoardProject from "../../components/ProjectComponents/UserDashboardProject";
 import axios from "axios";
 import { useParams, Link } from "react-router-dom"; // Import Link for navigation
+import ReactingNavBar from "../../components/ReactingNavBar";
 
 const UserDashboard = () => {
   const { username } = useParams();
@@ -48,6 +49,11 @@ const UserDashboard = () => {
 
   return (
     <>
+    <div className="flex">
+
+<ReactingNavBar />
+
+<div className="space-y-3 size-full">
       <Header />
       <div className="min-h-screen bg-gray-100 flex flex-col items-center">
         <div className="bg-white shadow-lg rounded-lg p-8 mt-8 w-3/4">
@@ -113,6 +119,8 @@ const UserDashboard = () => {
             </div>
           </div>
         </div>
+      </div>
+      </div>
       </div>
     </>
   );

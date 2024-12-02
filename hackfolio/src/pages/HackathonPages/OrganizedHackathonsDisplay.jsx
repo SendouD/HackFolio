@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import MyHackathonsCard from "../../components/HackathonComponents/MyHackathonsCard"
 import Header from "../../components/Header";
 import "../../styles/hack_card.css"
+import ReactingNavBar from "../../components/ReactingNavBar";
 
 function OrganizedHackathonsDisplay() {
     const [data,setData] = useState([]);
@@ -16,7 +17,7 @@ function OrganizedHackathonsDisplay() {
                     'Content-Type': 'application/json'
                 },
             });
-    
+            if(response.status === 403) navigate('/Error403');
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
@@ -34,6 +35,10 @@ function OrganizedHackathonsDisplay() {
         getData();
     },[])
 
+    useEffect(() =>{
+        console.log(data)
+    },[data]);
+
     function navFunction(completelyFilled,hackathonName,step) {
         if (completelyFilled) {
             navigate(`/organizedHackathons/${hackathonName}`);
@@ -50,7 +55,7 @@ function OrganizedHackathonsDisplay() {
                     'Content-Type': 'application/json'
                 },
             });
-
+            if(response.status === 403) navigate('/Error403');
             const data = await response.json();
 
             navFunction(data.completelyFilled,data.hackathonName);
@@ -65,7 +70,9 @@ function OrganizedHackathonsDisplay() {
     }
 
     return(
-        <div className="">
+        <div className="flex">
+            <ReactingNavBar/>
+        <div className="space-y-3 size-full">
             <Header></Header>
             <div className="block">
                 <div className="text-4xl font-medium flex justify-center my-[50px]">Organized Hackathons :</div>
@@ -75,6 +82,7 @@ function OrganizedHackathonsDisplay() {
                     })
                 }
             </div>
+        </div>
         </div>
     );
 }

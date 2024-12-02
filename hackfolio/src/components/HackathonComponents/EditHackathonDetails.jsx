@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams,useNavigate } from 'react-router-dom';
 
 function EditHackathonDetails(props) {
     const { name } = useParams();
@@ -27,6 +27,7 @@ function EditHackathonDetails(props) {
         toDate: false,
         prizesDesc: false,
     });
+    const navigate = useNavigate();
 
     useEffect(() => {
         getHackInfo();
@@ -35,7 +36,7 @@ function EditHackathonDetails(props) {
     async function getHackInfo() {
         try {
             const response = await fetch(`/api/hackathon/updateHackDetails/${name}`);
-            if (!response.ok) throw new Error('Network response was not ok');
+            if(response.status === 403) navigate('/Error403');
             const arr = await response.json();
             setData(arr.data);
             setHackName(arr.data.hackathonName);
@@ -64,7 +65,7 @@ function EditHackathonDetails(props) {
                 },
                 body: JSON.stringify(formData),
             });
-            if (!response.ok) throw new Error('Network response was not ok');
+            if(response.status === 403) navigate('/Error403');
             console.log(await response.json())
         } catch (error) {
             console.error('Error posting data:', error);

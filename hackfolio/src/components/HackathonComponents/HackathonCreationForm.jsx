@@ -23,10 +23,8 @@ function HackathonCreationForm(props) {
                 },
                 body: JSON.stringify({ hackName, uniName }),
             });
-    
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
+
+            if(response.status === 403) navigate('/Error403');
 
             if(response.status === 201) {
                 alert('Hackathon name already taken!');

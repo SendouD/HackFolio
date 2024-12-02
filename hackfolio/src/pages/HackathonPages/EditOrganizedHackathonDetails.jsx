@@ -3,16 +3,21 @@ import EditHackathonDetails from "../../components/HackathonComponents/EditHacka
 import EditHackathonWebsite from "../../components/HackathonComponents/EditHackathonWebsite";
 import HackathonDashboard from '../../components/HackathonComponents/HackathonDashboard';
 import AddJudge from '../../components/JudgeComponents/AddJudge';
-import AddEvaluationCriteria from '../../components/JudgeComponents/JudgeCriteria'; // Import your new component
+import AddEvaluationCriteria from '../../components/JudgeComponents/JudgeCriteria';
 import Header from '../../components/Header';
 import "../../styles/edit_hack_page.css";
+import ReactingNavBar from '../../components/ReactingNavBar';
+import Stats from '../../components/HackathonComponents/Stats';
 
 function EditOrganizedHackathonDetails() {
-    const [selected, setSelected] = useState(0); // 0: Details, 1: Webpage, 2: Dashboard, 3: Judges, 4: Criteria
+    const [selected, setSelected] = useState(0); 
 
     return (
         <>
-            <Header />
+            <div className='flex'>
+                <ReactingNavBar/>
+                <div className='space-y-3 size-full'>
+                <Header />
             <div className='flex justify-center mt-2'>
                 <div className="edit-selection-card">
                     <div className='edit-choice-card'>
@@ -40,6 +45,11 @@ function EditOrganizedHackathonDetails() {
                             onClick={() => setSelected(4)} // New button for criteria
                             className={`edit-choice-btn text-2xl font-thin block mt-5 px-5 ${selected === 4 ? 'active' : ''}`}>
                             Add Evaluation Criteria
+                        </button>
+                        <button                     onClick={()=>setSelected(5)}
+                                                    className={`edit-choice-btn text-2xl font-thin block mt-5 px-5 ${selected === 5 ? 'active' : ''}`}>\
+                                                    Stats
+                            
                         </button>
                     </div>
                 </div>
@@ -69,8 +79,16 @@ function EditOrganizedHackathonDetails() {
                             <AddEvaluationCriteria />
                         </div>
                     )}
+                       {selected === 5 && ( // Render new component when selected
+                        <div className='editCard bg-[rgb(251,251,251)]'>
+                            <Stats />
+                        </div>
+                    )}
                 </div>
             </div>
+                </div>
+            </div>
+            
         </>
     );
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import AdminSponsorCard from "../../components/SponsorComponents/AdminSponsorCard";
 import axios from "axios";
+import ReactingNavBar from "../../components/ReactingNavBar";
 
 const AdminDashboard = () => {
   const [sponsors, setSponsors] = useState([]);
@@ -53,7 +54,10 @@ const AdminDashboard = () => {
 
   return (
     <>
-      <Header />
+      <div className="flex">
+        <ReactingNavBar/>
+        <div className="space-y-3 size-full">
+        <Header />
       <div className="container mx-auto p-4">
         <h1 className="text-2xl font-bold mb-4">Sponsor Applications</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -80,6 +84,8 @@ const AdminDashboard = () => {
           />
         )}
       </div> 
+        </div>
+      </div>
     </>
   );
 };
