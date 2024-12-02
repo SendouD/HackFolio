@@ -5,7 +5,7 @@ import "../../styles/Homepage.css";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import { Typewriter } from 'react-simple-typewriter';
-import cityImg from '../../assets/code.jpg';
+// import cityImg from '../../assets/code.jpg';
 
 const HomePage = () => {
     const { scrollY } = useScroll();
@@ -33,7 +33,7 @@ const HomePage = () => {
                             alignItems: 'center',
                             position: 'relative',
                             height: '100vh', // Ensure it takes full height
-                            backgroundImage: `url(${cityImg})`, // Set the background image
+                            backgroundImage: `url()`, // Set the background image
                             backgroundSize: 'cover', // Cover the entire header
                             backgroundPosition: 'center', // Center the background image
                         }}

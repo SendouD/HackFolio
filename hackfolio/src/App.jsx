@@ -12,7 +12,7 @@ import EditProfile from "./pages/UserPages/EditProfile";
 import CodeOfConduct from "./pages/code_ofconduct/code_of_conductpage"
 
 
-import AboutPage from "./pages/AboutPages/AboutPage";
+// import AboutPage from "./pages/AboutPages/AboutPage";
 import VerifyOTP from "./pages/RegistrationPages/VerifyOTP";
 import ResetPassword from "./pages/RegistrationPages/ResetPassword";
 //SuccessRoutes
@@ -71,13 +71,13 @@ function App() {
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/verifyotp" element={<VerifyOTP />} />
           <Route path="/resetpassword" element={<ResetPassword />} />
-          <Route path="/about" element={<AboutPage />} />
+          {/* <Route path="/about" element={<AboutPage />} /> */}
           <Route path="/codeofconduct" element={<CodeOfConduct />} />
           <Route element={<Project_display/>} path="/ProjectDisplay/:projectId" />
           <Route element={<UserDashboard/>} path="/@/:username" />
           <Route element={<SponsorList />} path="/sponsors" />
           <Route element={<SponsorDetail />} path="/sponsors/:companyName" />
-          <Route element={<AboutPage/>} path="/aboutus"/>
+          {/* <Route element={<AboutPage/>} path="/aboutus"/> */}
           <Route element={<Judge/>} path="/hackathon/:name/judgeDashboard"/>
 
           {/* <Route path="/HackathonProjects" element={<HackathonProjectDispay/>}/> */}

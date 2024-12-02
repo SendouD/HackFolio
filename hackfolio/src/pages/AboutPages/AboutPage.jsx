@@ -3,15 +3,14 @@ import './AboutPage.css';
 import { Link } from 'react-router-dom';
 import Footer from '../../components/Footer'
 
-import janeImg from '../../Assets/janeImg.jpg';
-import mikeImg from '../../Assets/mike.jpg';
-import johnImg from '../../Assets/john.jpg';
-import jennieImg from '../../Assets/jennie.jpeg';
-import jennieferImg from '../../Assets/jenniefer.jpeg';
-import ranjithImg from '../../Assets/Ranjith.jpeg';
-import christinaImg from '../../Assets/christina.jpeg';
-import suhasImg from '../../Assets/suhas.jpeg';
-import RichardImg from '../../Assets/Richard.jpeg';
+// import mikeImg from '../../Assets/mike.jpg';
+// import johnImg from '../../Assets/john.jpg';
+// import jennieImg from '../../Assets/jennie.jpeg';
+// import jennieferImg from '../../Assets/jenniefer.jpeg';
+// import ranjithImg from '../../Assets/Ranjith.jpeg';
+// import christinaImg from '../../Assets/christina.jpeg';
+// import suhasImg from '../../Assets/suhas.jpeg';
+// import RichardImg from '../../Assets/Richard.jpeg';
 
 const teamMembers = [
   {
