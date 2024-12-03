@@ -110,8 +110,8 @@ function AllHackathonsDisplay() {
 
     return (
         <>
-            <div className="flex">
-                <ReactingNavBar />
+            <div className="flex relative ">
+                <ReactingNavBar className=""/>
                 <div className="space-y-3 size-full">
                     <div className="">
                         <Header />
@@ -138,7 +138,7 @@ function AllHackathonsDisplay() {
                 </div>
 
                 {/* Background Animations */}
-                <div className="absolute inset-0 -z-10">
+                <div className=" inset-0 -z-10">
                     <motion.div
                         className="line-animation absolute top-[400px] left-[30px] w-32 h-32"
                         initial={{ pathLength: 0 }}
