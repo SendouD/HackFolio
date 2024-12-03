@@ -25,7 +25,7 @@ import ProjectSuccessPage from "./pages/successPages/projectFormSuccess";
 import Project_display from "./pages/ProjectPages/ProjectDisplay";
 import SubmissionForm from "./pages/UserPages/SubmissionForm";
 import UserProjects from "./pages/ProjectPages/UserProjects";
-import HackathonProjectDispay from "./pages/HackathonPages/Hackathon_projects";
+import HackathonProjectDispay from "./components/HackathonComponents/Hackathon_projects";
 import UserDashboard from "./pages/UserPages/UserDashboard";
 import HackathonProjectSubmission from "./pages/ProjectPages/HackathonProjectSubmission";
 
