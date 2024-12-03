@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import LoadingPage from "../loading";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 // Define Zod schema for form validation
@@ -15,7 +15,7 @@ const projectFormSchema = z.object({
   videoDemo: z.string().url("Please enter a valid URL").optional(),
   logo: z.any().optional(),
   coverimage: z.any().optional(),
-  images: z.any().optional()
+  images: z.any().optional(),
 });
 
 function ProjectForm() {
@@ -29,7 +29,7 @@ function ProjectForm() {
     links: "",
     videoDemo: "",
   });
-  
+
   const [logo, setLogo] = useState(null);
   const [images, setImages] = useState([]);
   const [coverimage, setCoverimage] = useState(null);
@@ -53,22 +53,26 @@ function ProjectForm() {
   };
 
   const handleImageUpload = async (file) => {
-    const uploadPreset = 'projectform'; // Replace with your Cloudinary upload preset
-    const cloudName = 'dv1a0uvfm'; // Replace with your Cloudinary cloud name
+    const uploadPreset = "projectform"; // Replace with your Cloudinary upload preset
+    const cloudName = "dv1a0uvfm"; // Replace with your Cloudinary cloud name
     const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', uploadPreset);
-    
+    formData.append("file", file);
+    formData.append("upload_preset", uploadPreset);
+
     try {
-      const response = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-        withCredentials: false, 
-      });
+      const response = await axios.post(
+        `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: false,
+        }
+      );
       return response.data.secure_url;
     } catch (error) {
-      console.error('Error uploading file:', error.response ? error.response.data : error.message);
+      console.error("Error uploading file:", error.response ? error.response.data : error.message);
       return null;
     }
   };
@@ -78,7 +82,12 @@ function ProjectForm() {
     setIsLoading(true);
 
     // Validate form data with Zod
-    const validationResult = projectFormSchema.safeParse({...formData, logo, coverimage, images});
+    const validationResult = projectFormSchema.safeParse({
+      ...formData,
+      logo,
+      coverimage,
+      images,
+    });
     if (!validationResult.success) {
       setErrors(validationResult.error.format()); // Set validation errors
       setIsLoading(false);
@@ -100,174 +109,110 @@ function ProjectForm() {
 
     try {
       // Send data to /api/project
-      const response = await axios.post('/api/project/submitproject', projectData);
-      console.log('Server response:', response.data);
-      navigate('/uploadsuccess');
-      
+      const response = await axios.post("/api/project/submitproject", projectData);
+      console.log("Server response:", response.data);
+      navigate("/uploadsuccess");
     } catch (error) {
-      console.error('Error sending data to /api/project:', error.response ? error.response.data : error.message);
+      console.error("Error sending data to /api/project:", error.response ? error.response.data : error.message);
     }
     setIsLoading(false);
   };
 
   return (
     <>
-    {isLoading ? (<LoadingPage />) : (
-      <div className="bg-gray-100 p-6">
-        <div className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-          Give more details about your project
+      {isLoading ? (
+        <LoadingPage />
+      ) : (
+        <div className="bg-[#0f172a] text-white min-h-screen p-8 flex flex-col items-center">
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-extrabold uppercase tracking-wide">
+              Submit Your <span className="text-[#5f3abd]">Project</span>
+            </h1>
+            <p className="text-gray-400 mt-2">
+              Share your innovation and let the world see your incredible work.
+            </p>
+          </div>
+          <div className="w-full max-w-4xl bg-[#1e293b] p-8 rounded-lg shadow-lg">
+            <form onSubmit={handleSubmit}>
+              {/* Input Fields */}
+              {[
+                { name: "projectName", label: "Project Name", type: "text", placeholder: "Name your project", maxLength: 50 },
+                { name: "tagline", label: "Tagline", type: "text", placeholder: "Brief description or slogan", maxLength: 200 },
+                { name: "problem", label: "The Problem It Solves", type: "textarea", placeholder: "What issue does it address?", maxLength: 2000 },
+                { name: "challenges", label: "Challenges I Ran Into", type: "textarea", placeholder: "Any obstacles?", maxLength: 2000 },
+                { name: "technologies", label: "Technologies Used", type: "text", placeholder: "e.g., React, Node.js", maxLength: 100 },
+                { name: "links", label: "Relevant Links", type: "text", placeholder: "e.g., GitHub or live demo link" },
+                { name: "videoDemo", label: "Video Demo", type: "text", placeholder: "e.g., YouTube demo link" },
+              ].map((field, index) => (
+                <div key={index} className="mb-6">
+                  <label className="block text-sm font-bold mb-2">{field.label}</label>
+                  {field.type === "textarea" ? (
+                    <textarea
+                      name={field.name}
+                      value={formData[field.name]}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-2 bg-[#3f40bb] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5f3abd]"
+                      placeholder={field.placeholder}
+                      maxLength={field.maxLength}
+                    ></textarea>
+                  ) : (
+                    <input
+                      type={field.type}
+                      name={field.name}
+                      value={formData[field.name]}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-2 bg-[#3f40bb] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5f3abd]"
+                      placeholder={field.placeholder}
+                      maxLength={field.maxLength}
+                    />
+                  )}
+                  {errors[field.name] && (
+                    <p className="text-red-500 text-sm mt-1">{errors[field.name]._errors[0]}</p>
+                  )}
+                </div>
+              ))}
+
+              {/* File Inputs */}
+              <div className="mb-6">
+                <label className="block text-sm font-bold mb-2">Project Logo</label>
+                <input
+                  type="file"
+                  name="logo"
+                  onChange={(e) => handleFileChange(e, setLogo)}
+                  className="w-full px-4 py-2 bg-[#3f40bb] text-white rounded-lg focus:outline-none"
+                />
+              </div>
+              <div className="mb-6">
+                <label className="block text-sm font-bold mb-2">Cover Image</label>
+                <input
+                  type="file"
+                  name="coverimage"
+                  onChange={(e) => handleFileChange(e, setCoverimage)}
+                  className="w-full px-4 py-2 bg-[#3f40bb] text-white rounded-lg focus:outline-none"
+                />
+              </div>
+              <div className="mb-6">
+                <label className="block text-sm font-bold mb-2">Project Images</label>
+                <input
+                  type="file"
+                  name="images"
+                  multiple
+                  onChange={handleMultipleFileChange}
+                  className="w-full px-4 py-2 bg-[#3f40bb] text-white rounded-lg focus:outline-none"
+                />
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                className="w-full py-3 bg-[#5f3abd] text-white rounded-lg font-bold uppercase tracking-wide hover:bg-[#3f40bb] transition duration-200"
+              >
+                Submit Project
+              </button>
+            </form>
+          </div>
         </div>
-        <br />
-        <div className="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-lg">
-          <h1 className="text-2xl font-bold mb-6">Project Submission Form</h1>
-          <form onSubmit={handleSubmit}>
-            {/* Project Name */}
-            <div className="mb-4">
-              <label className="block text-gray-700 font-semibold mb-2">Project Name</label>
-              <input
-                type="text"
-                name="projectName"
-                value={formData.projectName}
-                onChange={handleInputChange}
-                className={`w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 ${errors.projectName ? "border-red-500" : "focus:ring-blue-500"}`}
-                placeholder="What are you calling it?"
-                maxLength="50"
-              />
-              {errors.projectName && <p className="text-red-500">{errors.projectName._errors[0]}</p>}
-            </div>
-
-            {/* Tagline */}
-            <div className="mb-4">
-              <label className="block text-gray-700 font-semibold mb-2">Tagline</label>
-              <input
-                type="text"
-                name="tagline"
-                value={formData.tagline}
-                onChange={handleInputChange}
-                className={`w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 ${errors.tagline ? "border-red-500" : "focus:ring-blue-500"}`}
-                placeholder="Brief description or slogan"
-                maxLength="200"
-              />
-              {errors.tagline && <p className="text-red-500">{errors.tagline._errors[0]}</p>}
-            </div>
-
-            {/* Problem */}
-            <div className="mb-4">
-              <label className="block text-gray-700 font-semibold mb-2">The Problem it Solves</label>
-              <textarea
-                name="problem"
-                value={formData.problem}
-                onChange={handleInputChange}
-                className={`w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 ${errors.problem ? "border-red-500" : "focus:ring-blue-500"}`}
-                rows="4"
-                placeholder="Describe the problem your project addresses"
-                maxLength="2000"
-              ></textarea>
-              {errors.problem && <p className="text-red-500">{errors.problem._errors[0]}</p>}
-            </div>
-
-            {/* Challenges */}
-            <div className="mb-4">
-              <label className="block text-gray-700 font-semibold mb-2">Challenges I Ran Into</label>
-              <textarea
-                name="challenges"
-                value={formData.challenges}
-                onChange={handleInputChange}
-                className={`w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 ${errors.challenges ? "border-red-500" : "focus:ring-blue-500"}`}
-                rows="4"
-                placeholder="Describe any specific bug or hurdle and how you overcame it"
-                maxLength="2000"
-              ></textarea>
-              {errors.challenges && <p className="text-red-500">{errors.challenges._errors[0]}</p>}
-            </div>
-
-            {/* Technologies */}
-            <div className="mb-4">
-              <label className="block text-gray-700 font-semibold mb-2">Technologies I Used</label>
-              <input
-                type="text"
-                name="technologies"
-                value={formData.technologies}
-                onChange={handleInputChange}
-                className={`w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 ${errors.technologies ? "border-red-500" : "focus:ring-blue-500"}`}
-                placeholder="Comma-separated list of technologies"
-                maxLength="100"
-              />
-              {errors.technologies && <p className="text-red-500">{errors.technologies._errors[0]}</p>}
-            </div>
-
-            {/* Links */}
-            <div className="mb-4">
-              <label className="block text-gray-700 font-semibold mb-2">Links</label>
-              <input
-                type="text"
-                name="links"
-                value={formData.links}
-                onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Add any relevant project links (e.g., GitHub, live demo)"
-              />
-              {errors.links && <p className="text-red-500">{errors.links._errors[0]}</p>}
-            </div>
-
-            {/* Video Demo */}
-            <div className="mb-4">
-              <label className="block text-gray-700 font-semibold mb-2">Video Demo</label>
-              <input
-                type="text"
-                name="videoDemo"
-                value={formData.videoDemo}
-                onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Add link to video demo"
-              />
-              {errors.videoDemo && <p className="text-red-500">{errors.videoDemo._errors[0]}</p>}
-            </div>
-
-            {/* Logo Upload */}
-            <div className="mb-4">
-              <label className="block text-gray-700 font-semibold mb-2">Logo</label>
-              <input
-                type="file"
-                name="logo"
-                onChange={(e) => handleFileChange(e, setLogo)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-
-            {/* Cover Image Upload */}
-            <div className="mb-4">
-              <label className="block text-gray-700 font-semibold mb-2">Cover Image</label>
-              <input
-                type="file"
-                name="coverimage"
-                onChange={(e) => handleFileChange(e, setCoverimage)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-
-            {/* Multiple Image Upload */}
-            <div className="mb-4">
-              <label className="block text-gray-700 font-semibold mb-2">Project Images</label>
-              <input
-                type="file"
-                name="images"
-                multiple
-                onChange={handleMultipleFileChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-200"
-            >
-              Submit
-            </button>
-          </form>
-        </div>
-      </div>
-    )}
+      )}
     </>
   );
 }
