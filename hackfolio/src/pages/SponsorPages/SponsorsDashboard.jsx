@@ -3,49 +3,65 @@ import ChatPage from "../ChatPages/ChatPage";
 import Header from "../../components/Header";
 import EditSponsorsDetails from "../../components/SponsorComponents/EditSponsorsDetails";
 import ReactingNavBar from "../../components/ReactingNavBar";
-const token = localStorage.getItem('data');
+
+const token = localStorage.getItem("data");
 
 function SponsorsDashboard() {
-    const [selected, setSelected] = useState(0);
+  const [selected, setSelected] = useState(0);
 
-    return (
-        <>
-            <div className="flex">
+  return (
+    <div>
+      <div className="flex bg-dark-blue min-h-screen">
+        {/* Side Navigation */}
+        <ReactingNavBar />
 
-                <ReactingNavBar />
+        {/* Main Content */}
+        <div className="flex-1 p-6 space-y-6 text-white">
+          <Header />
 
-                <div className="space-y-3 size-full">
-                    <Header />
-                    <div className='flex justify-center mt-2'>
-                        <div className="edit-selection-card mt-[40px]">
-                            <div className='edit-choice-card'>
-                                <button
-                                    onClick={() => setSelected(0)}
-                                    className={`edit-choice-btn text-2xl font-thin block mt-5 px-5 ${selected === 0 ? 'active' : ''}`}>
-                                    Details
-                                </button>
-                                <button
-                                    onClick={() => setSelected(1)}
-                                    className={`edit-choice-btn text-2xl font-thin block mt-5 px-5 ${selected === 2 ? 'active' : ''}`}>
-                                    Chatbox
-                                </button>
-                            </div>
-                        </div>
-                        <div className="flex justify-center items-center">
-                            {selected === 0 && (
-                                <div className='editCard mt-[40px]'>
-                                    <EditSponsorsDetails />
-                                </div>
-                            )}
-                            {selected === 1 && (
-                                <ChatPage flag="true" />
-                            )}
-                        </div>
-                    </div>
-                </div>
+          <div className="flex flex-col items-center mt-4">
+            {/* Card for Editing Options */}
+            <div className="w-full max-w-4xl p-6 bg-purple-800 rounded-lg shadow-lg">
+              <div className="flex justify-around">
+                <button
+                  onClick={() => setSelected(0)}
+                  className={`px-6 py-2 text-xl font-semibold rounded-md transition ${
+                    selected === 0 ? "bg-purple-600 text-white" : "text-gray-300 hover:text-white"
+                  }`}
+                >
+                  Details
+                </button>
+                <button
+                  onClick={() => setSelected(1)}
+                  className={`px-6 py-2 text-xl font-semibold rounded-md transition ${
+                    selected === 1 ? "bg-purple-600 text-white" : "text-gray-300 hover:text-white"
+                  }`}
+                >
+                  Chatbox
+                </button>
+              </div>
             </div>
-        </>
-    );
+
+            {/* Content Section */}
+            <div className="w-full max-w-4xl mt-8 bg-dark-blue rounded-lg shadow-lg p-6">
+              {selected === 0 && (
+                <div className="text-white">
+                  <h2 className="text-2xl font-bold mb-4"></h2>
+                  <EditSponsorsDetails />
+                </div>
+              )}
+              {selected === 1 && (
+                <div className="text-white">
+                  <h2 className="text-2xl font-bold mb-4">Chat with Sponsors</h2>
+                  <ChatPage flag="true" />
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default SponsorsDashboard
+export default SponsorsDashboard;

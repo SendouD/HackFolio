@@ -100,7 +100,7 @@ function EditSponsorsDetails() {
     function renderEditableField(label, name, value) {
         return (
             <div className='mt-10'>
-                <label htmlFor={name}>{label}: </label>
+                <label htmlFor={name} className="text-white">{label}: </label>
                 <div className='flex items-center'>
                     <input
                         id={name}
@@ -108,7 +108,7 @@ function EditSponsorsDetails() {
                         value={formData[name]}
                         disabled={!editableFields[name]}
                         onChange={handleChange}
-                        className="edit-inp shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className={`edit-inp shadow appearance-none border rounded w-full py-2 px-3 ${editableFields[name] ? 'text-black' : 'text-white'} leading-tight focus:outline-none focus:shadow-outline`}
                     />
                     <button onClick={() => handleEdit(name)} className="bg-blue-500 font-medium hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2 edit-btn">
                         {editableFields[name] ? 'Save' : 'Edit'}
@@ -118,17 +118,17 @@ function EditSponsorsDetails() {
         );
     }
 
-    if (data === null) return <div>Loading...</div>;
+    if (data === null) return <div className="text-white">Loading...</div>;
 
     return (
-        <div className="">
+        <div className="text-white">
             <div className='text-3xl bold mb-4'>Edit Sponsor Details:</div>
             <div className="">
                 {renderEditableField("User Name", "userName", formData.userName)}
                 {renderEditableField("Company Name", "companyName", formData.companyName)}
                 {renderEditableField("Website", "website", formData.website)}
                 <div className='mt-10'>
-                    <label htmlFor="email">Email: </label>
+                    <label htmlFor="email" className="text-white">Email: </label>
                     <div className='flex items-center'>
                         <input
                             id="email"
@@ -136,7 +136,7 @@ function EditSponsorsDetails() {
                             value={formData["email"]}
                             disabled={!editableFields["email"]}
                             onChange={handleChange}
-                            className="edit-inp shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            className={`text-white edit-inp shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline`}
                         />
                     </div>
                 </div>
@@ -146,7 +146,7 @@ function EditSponsorsDetails() {
                 {renderEditableField("Tax ID", "taxId", formData.taxId)}
 
                 <div className='mt-10'>
-                    <label>Address:</label>
+                    <label className="text-white">Address:</label>
                     <div>
                         {['street', 'city', 'state', 'zip', 'country'].map(field => (
                             <div key={field} className='flex items-center'>
@@ -155,7 +155,7 @@ function EditSponsorsDetails() {
                                     value={formData.address[field]}
                                     onChange={handleAddressChange}
                                     disabled={!editableFields.address}
-                                    className="edit-inp shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-2"
+                                    className={`edit-inp shadow appearance-none border rounded w-full py-2 px-3 ${editableFields.address ? 'text-black' : 'text-white'} leading-tight focus:outline-none focus:shadow-outline mt-2`}
                                     placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
                                 />
                             </div>

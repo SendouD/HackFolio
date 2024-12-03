@@ -1,23 +1,26 @@
 import { useState } from "react";
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 
 function MyHackathonsCard(props) {
     const { name } = useParams();
-    const [hackathonName] = useState(props.data.hackathonName.split('-').join(' '));
+    const [hackathonName] = useState(
+        props.data.hackathonName.split("-").join(" ")
+    );
 
     return (
-        <div 
-            className="hc bg-white rounded-lg shadow-lg p-6 m-4 border border-gray-300 transition-transform transform"
+        <div
+            className="hc bg-[#c4b5fd] rounded-lg shadow-lg p-12 m-6 w-full max-w-lg border border-[#5f3abd] hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out animate__animated animate__fadeInUp"
             onClick={() => props.handleClick(props.data.hackathonName)}
         >
-            <div className="flex justify-between items-center mb-4">
-                <h2 className="hn font-semibold text-xl text-gray-800">{hackathonName}</h2>
-                <div className="flex space-x-2">
+            {/* Header Section */}
+            <div className="flex justify-between items-start mb-8">
+                <h2 className="hn font-bold text-4xl text-[#5f3abd] flex items-center justify-center">{hackathonName}</h2>
+                <div className="flex space-x-5">
                     {props.data.contactLinks.map((link, i) => (
-                        <a 
-                            key={i} 
-                            href={"https://" + link} 
-                            className="text-blue-500 text-lg hover:text-blue-200 transition-colors"
+                        <a
+                            key={i}
+                            href={"https://" + link}
+                            className="text-[#3f40bb] text-3xl hover:text-[#5f3abd] transition-colors"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
@@ -26,17 +29,28 @@ function MyHackathonsCard(props) {
                     ))}
                 </div>
             </div>
-            <div className="flex justify-between mb-4">
-                <div>
-                    <div className="font-bold text-gray-400">THEME</div>
-                    <div className="font-medium text-gray-600">{props.data.tech}</div>
+
+            {/* Theme and Tech Details */}
+            <div className="flex justify-between items-center mb-8">
+                <div className="flex flex-col">
+                    <div className="font-semibold text-black-400">THEME</div>
+                    <div className="font-medium text-white text-lg">{props.data.tech}</div>
                 </div>
-                <div className="font-bold text-gray-500">2.5k</div>
+                <div className="text-2xl font-bold text-[#5f3abd]">
+                    Participants: 2.5k
+                </div>
             </div>
+
+            {/* Event Mode and Start Date */}
             <div className="flex justify-between">
-                <div className="flex space-x-2">
-                    <span className="bg-gray-200 text-gray-700 py-1 px-3 rounded-full transition-colors">{props.data.eventMode.toUpperCase()}</span>
-                    <span className="bg-gray-200 text-gray-700 py-1 px-3 rounded-full transition-colors">STARTS {props.data.fromDate}</span>
+                <div className="flex space-x-6">
+                    <span className="bg-[#5f3abd] text-white py-3 px-6 rounded-full text-lg shadow-lg hover:bg-[#4720a2] transition-all duration-300 ease-in-out flex items-center justify-center">
+                        {props.data.eventMode.toUpperCase()}
+                    </span>
+
+                    <span className="bg-[#3f40bb] text-white py-3 px-6 rounded-full text-lg shadow-lg hover:bg-[#2d2a87] transition-all duration-300 ease-in-out">
+                        STARTS: {props.data.fromDate}
+                    </span>
                 </div>
             </div>
         </div>
