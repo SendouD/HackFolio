@@ -1,6 +1,7 @@
 const express = require("express");
 const Project = require("../models/projectForm_Schema");
 const teamCodeSchema = require('../models/team_code_schema');
+const hackParticipantDetails = require('../models/hackathon_participants_schema');
 const isUser = require("../middleware/isUser");
 
 const router = express.Router();
@@ -178,8 +179,19 @@ router.get("/hackathonprojects/:id", isUser, async (req, res) => {
   }
 });
 
-router.get("/getProject", isUser, async (req, res) => {
-
+router.get("/getProject/:name", isUser, async (req, res) => {
+  const email = req.email;
+  const {name} = req.params;
+  try {
+    const teamCode = await hackParticipantDetails.findOne(
+      { hackathonName: name, email: email },
+      { teamCode: 1}
+    );
+    const projectId = await Project.findOne({hackathonName: name, teamCode: teamCode.teamCode},{_id: 1});
+    return res.status(200).json({projectId: projectId._id});
+  } catch(e) {
+    return res.status(400).json({ Error: e.message });
+  }
 });
 
 module.exports = router;
