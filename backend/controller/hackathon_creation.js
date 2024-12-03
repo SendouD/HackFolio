@@ -87,6 +87,9 @@ hack_create.route("/hackathonCreate/:name/1")
         const email = req.email;
 
         try{
+            if(teamSize > 8) {
+                return res.status(400).json({ Error: "Team max size limit exceeded!" });
+            }
             const data = {
                 hackathonName: hackName,
                 uniName: uniName,
@@ -221,7 +224,6 @@ hack_create.route("/getHackWebsite/:name")
 hack_create.route("/getHackDetails/:name")
     .get(async(req,res) => {
         const name = req.params.name;
-        const email = req.email;
         try {
             const data = await hackFullDetails.findOne({hackathonName: name});
             res.status(200).json({data: data});

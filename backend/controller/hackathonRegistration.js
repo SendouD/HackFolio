@@ -160,10 +160,13 @@ hack_register.route('/hackathonTeam/:name/join')
             if(!data || data.teamCode !== "") {
                 return res.status(200).json({msg: "User not registered for Hackathon or user already in a team"});
             }
-
+            const hackDetails = await hackFullDetails.findOne({ hackathonName: name });
             const team = await teamCodeSchema.findOne({hackathonName: name, teamCode: teamCode});
             if(!team) {
                 return res.status(400).json({msg: "Team code not found!"});
+            }
+            if(team.members.length >= Number(hackDetails.teamSize)) {
+                return res.status(400).json({msg: "Team Full!"});
             }
             const newMember = {
                 email: email,
