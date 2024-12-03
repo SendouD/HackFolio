@@ -41,13 +41,16 @@ const SponsorList = () => {
 
   return (
     <div className="flex">
-      <ReactingNavBar />
+  <ReactingNavBar />
 
-      <div className="space-y-3 size-full bg-[#0f172a]">
-        <Header />
-        <DisplaySponsor/>
-      </div>
+  <div className="space-y-3 size-full bg-[#0f172a] min-h-screen">
+    <Header />
+    <div className="align-middle">
+      <DisplaySponsor />
     </div>
+  </div>
+</div>
+
   );
 };
 

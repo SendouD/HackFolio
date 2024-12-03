@@ -16,7 +16,7 @@ function SponsorsDashboard() {
 
                 <div className="space-y-3 size-full">
                     <Header />
-                    <div className='flex justify-center mt-2'>
+                    <div className='flex justify-center mt-2 min-h-screen bg-[#0f172a]'>
                         <div className="edit-selection-card mt-[40px]">
                             <div className='edit-choice-card'>
                                 <button

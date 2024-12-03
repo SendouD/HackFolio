@@ -39,7 +39,7 @@ const DisplaySponsor = () => {
   if (error) return <div>{error}</div>;
 
   return (
-    <div className="">
+    <div className="min-h-screen ">
       <motion.div
         className="featured-sponsors py-20 bg-[#1f2937] dark:bg-[#2e1065] dark:text-white text-white "
         initial={{ opacity: 0, y: 50 }}
