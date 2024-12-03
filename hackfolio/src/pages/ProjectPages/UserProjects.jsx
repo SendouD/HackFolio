@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import Header from '../../components/Header';
-import ProjectCard from '../../components/ProjectComponents/UserProjectCard';
-import axios from 'axios';
-import { Link, Navigate, useNavigate } from 'react-router-dom'; // Import Link from react-router-dom
+import React, { useState, useEffect } from "react";
+import Header from "../../components/Header";
+import ProjectCard from "../../components/ProjectComponents/UserProjectCard";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 import ReactingNavBar from "../../components/ReactingNavBar";
+import ParaAnimation from "./ParaAnimation";
 
 function UserProjects() {
   const [projects, setProjects] = useState([]);
@@ -19,7 +20,7 @@ function UserProjects() {
         setLoading(false);
       } catch (err) {
         if (err.response && err.response.status === 404) {
-          setProjects("No projects found"); // Set message directly
+          setProjects("No projects found");
         } else {
           console.error("Error fetching project:", err);
           setError(err.message);
@@ -37,18 +38,32 @@ function UserProjects() {
 
   return (
     <div className="flex">
-
       <ReactingNavBar />
 
       <div className="space-y-3 size-full">
         <div className="min-h-screen bg-gray-100">
           <Header />
+
+          {/* Full-Screen ParaAnimation */}
+          <div className="ParaAnimation-container">
+            <ParaAnimation />
+          </div>
+
+          {/* Content Section */}
           <main className="max-w-7xl mx-auto p-6">
             <section className="text-center my-8">
               <h1 className="text-3xl font-bold">Share what you built</h1>
-              <p className="text-gray-500 mt-2">Give your weekend projects, side projects, serious ventures a place to breathe, invite collaborators and inspire others.</p>
+              <p className="text-gray-500 mt-2">
+                Give your weekend projects, side projects, serious ventures a
+                place to breathe, invite collaborators and inspire others.
+              </p>
               <div className="mt-6">
-                <span className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow hover:bg-blue-500" onClick={() => { navigate('/projectForm') }}>
+                <span
+                  className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow hover:bg-blue-500"
+                  onClick={() => {
+                    navigate("/projectForm");
+                  }}
+                >
                   ADD A NEW SIDE PROJECT
                 </span>
               </div>
@@ -64,7 +79,7 @@ function UserProjects() {
                     </Link>
                   ))
                 ) : (
-                  <p>{projects}</p> // Display the message directly
+                  <p>{projects}</p>
                 )}
               </div>
             </section>
