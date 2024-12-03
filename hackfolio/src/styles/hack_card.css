@@ -21,7 +21,7 @@
 }
 
 .hackathon-card:hover .hack-name {
-    color: hsl(245, 58%, 51%);
+    color: #5f3abd;
 }
 
 .hack-themes {
@@ -55,7 +55,7 @@
 
 .hc:hover {
     cursor: pointer;
-    border: solid 2px hsl(245, 58%, 61%);
+    border: solid 2px #5434a5;
 }
 
 .hn {
@@ -63,7 +63,7 @@
 }
 
 .hc:hover .hn {
-    color: hsl(245, 58%, 51%);
+    color: #5535a5;
 }
 /* Add some general styles for the shapes */
 .bubbles {

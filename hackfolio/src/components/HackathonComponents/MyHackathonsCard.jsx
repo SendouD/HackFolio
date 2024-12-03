@@ -1,59 +1,80 @@
-import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import "animate.css"; // Import Animate.css for animations
 
 function MyHackathonsCard(props) {
-    const { name } = useParams();
-    const [hackathonName] = useState(
-        props.data.hackathonName.split("-").join(" ")
-    );
+    const navigate = useNavigate();
+
+    function handleClick() {
+        props.handleClick(props.data.hackathonName);
+    }
 
     return (
-        <div
-            className="hc bg-[#c4b5fd] rounded-lg shadow-lg p-12 m-6 w-full max-w-lg border border-[#5f3abd] hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out animate__animated animate__fadeInUp"
-            onClick={() => props.handleClick(props.data.hackathonName)}
+        <motion.div
+            className="hackathon-card flex flex-col justify-between p-6 bg-gray-100 rounded-lg shadow-lg animate__animated animate__fadeInUp"
+            whileHover="hover"
+            transition={{
+                duration: 0.5,
+                ease: "easeInOut",
+            }}
+            variants={{
+                hover: {
+                    scale: 1.05,
+                },
+            }}
+            onClick={handleClick}
         >
-            {/* Header Section */}
-            <div className="flex justify-between items-start mb-8">
-                <h2 className="hn font-bold text-4xl text-[#5f3abd] flex items-center justify-center">{hackathonName}</h2>
-                <div className="flex space-x-5">
+            <div className="flex justify-between items-center">
+                {/* Hackathon Name */}
+                <div className="hack-name font-semibold text-3xl text-gray-900">
+                    {props.data.hackathonName.split("-").join(" ")}
+                </div>
+
+                {/* Contact Links */}
+                <div className="flex space-x-3">
                     {props.data.contactLinks.map((link, i) => (
                         <a
                             key={i}
                             href={"https://" + link}
-                            className="text-[#3f40bb] text-3xl hover:text-[#5f3abd] transition-colors"
                             target="_blank"
                             rel="noopener noreferrer"
+                            className="text-xl text-indigo-600 hover:text-indigo-800"
                         >
-                            <span>&#128279;</span>
+                            &#128279;
                         </a>
                     ))}
                 </div>
             </div>
 
-            {/* Theme and Tech Details */}
-            <div className="flex justify-between items-center mb-8">
-                <div className="flex flex-col">
-                    <div className="font-semibold text-black-400">THEME</div>
-                    <div className="font-medium text-white text-lg">{props.data.tech}</div>
+            <div className="flex justify-between mt-4">
+                <div>
+                    <div className="font-bold text-gray-500">THEME</div>
+                    <div className="hack-themes font-medium text-gray-700">
+                        {props.data.tech}
+                    </div>
                 </div>
-                <div className="text-2xl font-bold text-[#5f3abd]">
+                <div className="font-bold text-gray-400">
                     Participants: 2.5k
                 </div>
             </div>
 
-            {/* Event Mode and Start Date */}
-            <div className="flex justify-between">
-                <div className="flex space-x-6">
-                    <span className="bg-[#5f3abd] text-white py-3 px-6 rounded-full text-lg shadow-lg hover:bg-[#4720a2] transition-all duration-300 ease-in-out flex items-center justify-center">
+            <div className="flex justify-between items-center mt-4">
+                <div className="flex space-x-4">
+                    <span className="hack-status font-medium text-gray-600">
                         {props.data.eventMode.toUpperCase()}
                     </span>
-
-                    <span className="bg-[#3f40bb] text-white py-3 px-6 rounded-full text-lg shadow-lg hover:bg-[#2d2a87] transition-all duration-300 ease-in-out">
+                    <span className="hack-status font-medium text-gray-600">
                         STARTS: {props.data.fromDate}
                     </span>
                 </div>
+                <motion.button
+                    className="w-36 text-xl bg-[#5f3abd] text-white py-2 rounded-md font-semibold hover:bg-[#5635aa] transition-colors"
+                    whileHover={{ scale: 1.1 }}
+                >
+                    Apply Now
+                </motion.button>
             </div>
-        </div>
+        </motion.div>
     );
 }
 

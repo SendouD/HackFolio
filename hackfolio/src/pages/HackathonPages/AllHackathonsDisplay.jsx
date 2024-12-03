@@ -78,7 +78,7 @@ function AllHackathonsDisplay() {
                 {pages.length !== 0 && (
                     <button
                         onClick={() => getData(page - 1)}
-                        className="py-1 px-2 bg-indigo-600 text-white rounded mr-2 hover:bg-indigo-700"
+                        className="py-1 px-2 bg-[#5f3abd] text-white rounded mr-2 hover:bg-[#5635ac]"
                     >
                         {"< prev"}
                     </button>
@@ -89,7 +89,7 @@ function AllHackathonsDisplay() {
                         onClick={() => getData(i + 1)}
                         className={
                             page === i + 1
-                                ? "py-1 px-2 bg-indigo-600 text-white rounded mr-2"
+                                ? "py-1 px-2 bg-[#5f3abd] text-white rounded mr-2"
                                 : "py-1 px-2 rounded text-gray-600 underline mr-2"
                         }
                     >
@@ -99,7 +99,7 @@ function AllHackathonsDisplay() {
                 {pages.length !== 0 && (
                     <button
                         onClick={() => getData(page + 1)}
-                        className="py-1 px-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
+                        className="py-1 px-2 bg-[#5f3abd] text-white rounded hover:bg-[#5635ac]"
                     >
                         {"Next >"}
                     </button>
@@ -110,7 +110,7 @@ function AllHackathonsDisplay() {
 
     return (
         <>
-            <div className="flex relative overflow-hidden">
+            <div className="flex">
                 <ReactingNavBar />
                 <div className="space-y-3 size-full">
                     <div className="">
