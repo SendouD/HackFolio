@@ -49,6 +49,9 @@ function TeamFormation(props) {
                 });
                 if(response.status === 403) navigate('/Error403');
                 const data = await response.json();
+                if(data.msg === "Team Full!") {
+                    alert("Team Full!");
+                }
                 console.log(data);
                 props.func();
             } catch (error) {
