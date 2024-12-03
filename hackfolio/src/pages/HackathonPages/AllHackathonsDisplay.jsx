@@ -127,7 +127,7 @@ function AllHackathonsDisplay() {
     return(
         <>
             <div className="flex">
-                {/* <ReactingNavBar/> */}
+                <ReactingNavBar/>
                 <div className="space-y-3 size-full">
                     <div className="bg-gray-100">
                         <Header />

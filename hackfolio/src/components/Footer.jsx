@@ -13,19 +13,15 @@ const Footer = () => {
           <div>
             <h3><b>Community</b></h3>
             <ul>
-              <li><a href="#">Organize a hackathon</a></li>
-              <li><a href="#">Explore hackathons</a></li>
+              <li><a href="/CreateHackathon">Organize a hackathon</a></li>
+              <li><a href="/hackathons">Explore hackathons</a></li>
               <li><a href="/codeofconduct">Code of Conduct</a></li>
-              <li><a href="#">Brand Assets</a></li>
             </ul>
           </div>
           <div>
             <h3><b>Company</b></h3>
             <ul>
               <li><a href="/about">About</a></li>
-              <li><a href="#">Blog</a></li>
-              <li><a href="#">Jobs</a></li>
-              <li><a href="#">Changelog</a></li>
               <li><a href="#">Privacy</a></li>
               <li><a href="#">Terms</a></li>
             </ul>

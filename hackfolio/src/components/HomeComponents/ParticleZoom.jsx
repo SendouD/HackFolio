@@ -26,7 +26,7 @@ const ParticleRing = () => {
       <div
         className="sticky top-0"
         style={{
-          height: "90vh", // Keeps the canvas visible during scrolling
+          height: "35vh", // Keeps the canvas visible during scrolling
           overflow: "hidden", // Prevents scrollbars
         }}
       >
@@ -34,7 +34,7 @@ const ParticleRing = () => {
           camera={{
             position: [10, -7.5, -5],
           }}
-          style={{ height: "100vh", pointerEvents: "auto" }}
+          style={{ height: "60vh", pointerEvents: "auto" }}
           className="bg-slate-900"
           onWheel={handleWheel} // Attach custom scroll handler
         >
@@ -45,7 +45,7 @@ const ParticleRing = () => {
         </Canvas>
 
         {/* Centered text */}
-        <h1 className="absolute top-[30%] left-[50%] -translate-x-[50%] -translate-y-[50%] text-slate-200 font-medium text-2xl md:text-5xl pointer-events-none">
+        <h1 className="absolute top-[38%] left-[50%] -translate-x-[50%] -translate-y-[50%] text-slate-200 font-medium text-2xl md:text-5xl pointer-events-none">
           Welcome to{" "}
           <span className="text-primary">
             <Typewriter

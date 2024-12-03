@@ -6,7 +6,7 @@ import About from "../../components/EditPageComponents/EditAbout";
 import Education from "../../components/EditPageComponents/EditEducation"
 import Links from "../../components/EditPageComponents/EditLinks";
 import Contacts from "../../components/EditPageComponents/EditContacts"
-import Experience from "../../components/EditPageComponents/EditExperience"
+
 import ReactingNavBar from "../../components/ReactingNavBar";
 
 const EditPage = () => {
@@ -18,8 +18,6 @@ const EditPage = () => {
                 return <About />;
             case 'education':
                 return <Education />;
-            case 'experience':
-                return <Experience />;
             case 'links':
                 return <Links />;
             case 'contacts':
@@ -56,12 +54,7 @@ const EditPage = () => {
                             >
                                 Education
                             </button>
-                            <button
-                                onClick={() => setActiveTab('experience')}
-                                className={`p-2 ${activeTab === 'experience' ? 'text-blue-500 font-bold border-b-2 border-blue-500' : ''}`}
-                            >
-                                Experience
-                            </button>
+                            
                             <button
                                 onClick={() => setActiveTab('links')}
                                 className={`p-2 ${activeTab === 'links' ? 'text-blue-500 font-bold border-b-2 border-blue-500' : ''}`}

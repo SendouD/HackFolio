@@ -1,19 +1,21 @@
 import { Routes, Route } from "react-router-dom"
+import React from "react";
 
-//common
-
+//common components
 import PrivateRoute from "./components/PrivateRoute";
+import AuthCheck from "./components/AuthCheck";
+
+//Pages
 import SignIn from "./pages/RegistrationPages/SignIn";
 import SignUp from "./pages/RegistrationPages/SignUp";
 import HomePage from "./pages/UserPages/HomePage";
-import AuthCheck from "./components/AuthCheck";
-import AdminDashboard from "./pages/AdminPages/AdminDashboard";
 import EditProfile from "./pages/UserPages/EditProfile";
-import CodeOfConduct from "./pages/code_ofconduct/code_of_conductpage"
-
-
+import ForgotPassword from "./pages/RegistrationPages/ForgotPassword";
 import VerifyOTP from "./pages/RegistrationPages/VerifyOTP";
 import ResetPassword from "./pages/RegistrationPages/ResetPassword";
+import CodeOfConduct from "./pages/code_ofconduct/code_of_conductpage"
+import AdminDashboard from "./pages/AdminPages/AdminDashboard";
+
 //SuccessRoutes
 import SponsorSuccessPage from "./pages/successPages/SponsorSuccess";
 import ProjectSuccessPage from "./pages/successPages/projectFormSuccess";
@@ -49,12 +51,13 @@ import SponsorList from "./pages/SponsorPages/SponsorsList";
 import SponsorDetail from "./components/SponsorComponents/SponsorDetail";
 import SponsorsDashboard from "./pages/SponsorPages/SponsorsDashboard";
 import EditHackathonProjectSubmission from "./pages/ProjectPages/EditHackathonProjectSubmission";
-import ForgotPassword from "./pages/RegistrationPages/ForgotPassword"
+
 
 
 //Error Pages
 import Error404 from "./pages/ErrorPages/Error404";
 import Error403 from "./pages/ErrorPages/Error403";
+
 
 const token = localStorage.getItem('data');
 
@@ -64,59 +67,69 @@ function App() {
   return (
     <>
       <Routes>
+
+        {/* Error Pages */}
         <Route path="/Error404" element={<Error404 />} />
         <Route path="/Error403" element={<Error403 />} />
-        <Route element={<AuthCheck/>}>
 
-          {/* Normal Routes */}
-          <Route path="/" element={<HomePage />} />
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/editprofile/:id" element={<EditProfile />} />
-          <Route path="/forgotpassword" element={<ForgotPassword />} />
-          <Route path="/verifyotp" element={<VerifyOTP />} />
-          <Route path="/resetpassword" element={<ResetPassword />} />
-          <Route path="/codeofconduct" element={<CodeOfConduct />} />
-          <Route element={<Project_display/>} path="/ProjectDisplay/:projectId" />
-          <Route element={<UserDashboard/>} path="/@/:username" />
-          <Route element={<SponsorList />} path="/sponsors" />
-          <Route element={<SponsorDetail />} path="/sponsors/:companyName" />
-          <Route element={<Judge/>} path="/hackathon/:name/judgeDashboard"/>
 
-          {/* <Route path="/HackathonProjects" element={<HackathonProjectDispay/>}/> */}
-          <Route path="/hackathons" element={<AllHackathonsDisplay />} />
-          <Route path="/hackathon/:name" element={<HackathonWebpage />} />
-          <Route path="/forgotPassword" element={<ForgotPassword />} />
-
-          {/* Success Pages */}
-          <Route element={<ProjectSuccessPage />} path="/uploadsuccess" />
-          <Route element={<SponsorSuccessPage />} path="/sponsoruploadsuccess" />
+        {/* Authenticated Routes */}
+        <Route element={<AuthCheck />}>
+          {/* <Route element={<Layout />}> */}
           
 
 
-          {/* User private routes */}
-          <Route element={<PrivateRoute role="User" />}>
-            <Route path="/projectForm" element={<SubmissionForm formName="projectForm" />}/>
-            <Route path="/sponsorForm" element={<SubmissionForm formName="sponsorForm" />}/>
-            <Route path="/createHackathon" element={<CreateHackathon />} />
-            <Route path="/completeHackathonCreation/:name" element={<FillFullHackathonDetails />} />
-            <Route path="/organizedHackathons" element={<OrganizedHackathonsDisplay />} />
-            <Route path="/hackathon/:name/register" element={<HackathonRegistrationPage />} />
-            <Route path="/userProjects" element={<UserProjects />} />
-            <Route path="/organizedHackathons/:name" element={<EditOrganizedHackathonDetails />} /> 
-            <Route path="/hackathon/:name/editRegistrationDetails" element={<EditRegisteredHackathonDetails/>} />
-            <Route path="/registeredHackathons" element={<RegisteredHackathonsDisplay />} />
-            <Route path="/chat" element={<ChatPage />} />
-            <Route path="/sponsorDashboard" element={<SponsorsDashboard />} />
-            <Route path="/hackathon/:name/projectSubmission" element={<HackathonProjectSubmission />} />
-            <Route path="/hackathon/:name/EditProjectSubmission" element={<EditHackathonProjectSubmission/>} />
-          </Route>
+            {/* Normal Routes */}
+            <Route path="/" element={<HomePage />} />
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/editprofile/:id" element={<EditProfile />} />
+            <Route path="/forgotpassword" element={<ForgotPassword />} />
+            <Route path="/verifyotp" element={<VerifyOTP />} />
+            <Route path="/resetpassword" element={<ResetPassword />} />
+            <Route path="/codeofconduct" element={<CodeOfConduct />} />
+            <Route element={<Project_display />} path="/ProjectDisplay/:projectId" />
+            <Route element={<UserDashboard />} path="/@/:username" />
+            <Route element={<SponsorList />} path="/sponsors" />
+            <Route element={<SponsorDetail />} path="/sponsors/:companyName" />
+            <Route element={<Judge />} path="/hackathon/:name/judgeDashboard" />
 
-          {/* Admin Private Routes */}
-          <Route element={<PrivateRoute role="Admin" />}>
-            <Route element={<AdminDashboard />} path="/adminDashboard" />
-          </Route>
-              
+            {/* <Route path="/HackathonProjects" element={<HackathonProjectDispay/>}/> */}
+            <Route path="/hackathons" element={<AllHackathonsDisplay />} />
+            <Route path="/hackathon/:name" element={<HackathonWebpage />} />
+            <Route path="/forgotPassword" element={<ForgotPassword />} />
+
+            {/* Success Pages */}
+            <Route element={<ProjectSuccessPage />} path="/uploadsuccess" />
+            <Route element={<SponsorSuccessPage />} path="/sponsoruploadsuccess" />
+
+
+
+            {/* User private routes */}
+            <Route element={<PrivateRoute role="User" />}>
+              <Route path="/projectForm" element={<SubmissionForm formName="projectForm" />} />
+              <Route path="/sponsorForm" element={<SubmissionForm formName="sponsorForm" />} />
+              <Route path="/createHackathon" element={<CreateHackathon />} />
+              <Route path="/completeHackathonCreation/:name" element={<FillFullHackathonDetails />} />
+              <Route path="/organizedHackathons" element={<OrganizedHackathonsDisplay />} />
+              <Route path="/hackathon/:name/register" element={<HackathonRegistrationPage />} />
+              <Route path="/userProjects" element={<UserProjects />} />
+              <Route path="/organizedHackathons/:name" element={<EditOrganizedHackathonDetails />} />
+              <Route path="/hackathon/:name/editRegistrationDetails" element={<EditRegisteredHackathonDetails />} />
+              <Route path="/registeredHackathons" element={<RegisteredHackathonsDisplay />} />
+              <Route path="/chat" element={<ChatPage />} />
+              <Route path="/sponsorDashboard" element={<SponsorsDashboard />} />
+              <Route path="/hackathon/:name/projectSubmission" element={<HackathonProjectSubmission />} />
+              <Route path="/hackathon/:name/EditProjectSubmission" element={<EditHackathonProjectSubmission />} />
+            </Route>
+
+            {/* Admin Private Routes */}
+            <Route element={<PrivateRoute role="Admin" />}>
+              <Route element={<AdminDashboard />} path="/adminDashboard" />
+            </Route>
+
+          {/* </Route> */}
+
         </Route>
 
       </Routes>

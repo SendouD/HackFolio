@@ -19,6 +19,7 @@ const judges=require('./controller/Judges');
 const hack_project = require('./controller/project');
 const userProfile = require("./controller/userProfileEdit");
 
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
@@ -74,12 +75,53 @@ io.on('connection', async (socket) => {
   });
 });
 
-mongoose.connect(`mongodb://127.0.0.1:27017/hackpro`, {});
+const mongoUri = `mongodb://127.0.0.1:27017/hackpro`;
+
+mongoose.connect(mongoUri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 const db = mongoose.connection;
+
+// MongoDB connection event handlers
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 db.once("open", () => {
   console.log("Connected to MongoDB database successfully");
+});
+
+// Express route to fetch all collections and their data
+app.get("/get-all-collections", async (req, res) => {
+  try {
+    // Get a list of all collections in the 'hackpro' database
+    const collections = await db.db.listCollections().toArray();
+
+    const allData = {};
+
+    // Iterate over each collection, fetch its data, and add it to the result
+    for (const collection of collections) {
+      const collectionName = collection.name;
+
+      // Fetch documents from each collection
+      const collectionData = await db.collection(collectionName).find({}).toArray();
+
+      // Add the collection's data to the result object
+      allData[collectionName] = collectionData;
+    }
+
+    // Send the collections data as the response
+    res.status(200).json({
+      success: true,
+      data: allData,
+    });
+  } catch (error) {
+    console.error("Error fetching collections data:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching collections data",
+      error: error.message,
+    });
+  }
 });
 
 app.use("/api/userProfile",userProfile)
@@ -93,6 +135,8 @@ app.use("/api/sponsors",sponsor);
 app.use("/api/chat",chat_backend(io));
 app.use("/api/judge",judges);
 app.use("/api/project",hack_project);
+
+
 
 
 server.listen(5000, () => { console.log("Server started on port 5000 ... (http://localhost:5000/)") });
