@@ -25,7 +25,6 @@ function HackathonsDisplayCard(props) {
                     <p className="py-1 text-sm text-gray-900">
                         Starts: <span className="font-medium">{props.data.fromDate}</span>
                     </p>
-                    <p className="py-1 text-sm text-gray-600">Prize: $2.5k</p>
                     <div className="pt-3 flex flex-col gap-2">
                         <button
                             className="w-full bg-[#38bdf8] text-white font-medium text-center py-2 mt-3 rounded-md hover:bg-sky-500 transition-colors"
