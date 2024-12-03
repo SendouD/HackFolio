@@ -5,6 +5,7 @@ const ProjectCards = ({ project }) => {
   
   return (
 
+  <div className="p-4 rounded-lg bg-violet-950">
     <div className="bg-white rounded-lg shadow p-4">
       <div className="flex justify-between items-center">
         <div>
@@ -25,6 +26,8 @@ const ProjectCards = ({ project }) => {
       </div>
    
     </div>
+  </div>
+    
   );
 };
 

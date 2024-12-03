@@ -14,11 +14,11 @@ function HackathonWebpage() {
 
     return(
         <>
-        <div className='flex'>
+        <div className='flex bg-[#0f172a]'>
             <ReactingNavBar/>
             <div className='space-y-3 size-full'>
             <Header></Header>
-            <div style={{display:"flex", justifyContent:"center"}}>
+            <div className='bg-[#0f172a]'style={{display:"flex", justifyContent:"center"}}>
                 <div style={{marginTop:"30px"}}>
                     {/* <div style={{height:"300px",width:"100px"}}/> */}
                     <div className="flex">
