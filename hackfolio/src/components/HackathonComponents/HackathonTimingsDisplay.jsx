@@ -101,7 +101,10 @@ function HackathonTimingsDisplay() {
                     navigate(`/hackathon/${name}/projectSubmission`);
                 }
                 else if(flag === 2) {
-                    navigate(`/hackathon/${name}/EditProjectSubmission`);
+                    console.log(name);
+                    const response = await fetch(`/api/project/getProject/${name}`);
+                    const data = await response.json();
+                    navigate(`/editprojectdetails/${data.projectId}`);
                 }
 
             } catch (error) {
