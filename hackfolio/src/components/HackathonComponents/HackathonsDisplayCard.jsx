@@ -4,7 +4,6 @@ import "animate.css"; // Import Animate.css for animations
 
 function HackathonsDisplayCard(props) {
     const navigate = useNavigate();
-    const hackathonName = props.data.hackathonName.split('-').join(' ');
 
     async function handleClick() {
         navigate(`/hackathon/${props.data.hackathonName}`);
@@ -12,6 +11,7 @@ function HackathonsDisplayCard(props) {
 
     return (
         <motion.div
+            className="hackathon-card flex flex-col justify-between p-6 bg-gray-100 rounded-lg shadow-lg animate__animated animate__fadeInDown"
             whileHover="hover"
             transition={{
                 duration: 0.5,
@@ -22,96 +22,62 @@ function HackathonsDisplayCard(props) {
                     scale: 1.05,
                 },
             }}
-            className="hackathon-card relative flex flex-col justify-between p-6 rounded-xl bg-gradient-to-r from-indigo-500 via-violet-500 to-blue-500 overflow-hidden w-96 h-[30rem] shadow-lg text-white animate__animated animate__fadeInDown"
         >
-            <div className="relative z-10 flex flex-col h-full justify-between">
-                <div>
-                    {/* Hackathon Name */}
-                    <div className="font-bold text-2xl mb-2">{hackathonName}</div>
-
-                    {/* Contact Links */}
-                    <div className="flex space-x-2 mb-4">
-                        {props.data.contactLinks.map((link, index) => (
-                            <a
-                                key={index}
-                                href={`https://${link}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-lg hover:text-yellow-400"
-                            >
-                                🌐
-                            </a>
-                        ))}
-                    </div>
+            <div className="flex justify-between items-center">
+                {/* Hackathon Name */}
+                <div className="hack-name font-semibold text-3xl text-gray-900">
+                    {props.data.hackathonName.split('-').join(' ')}
                 </div>
 
-                {/* Hackathon Details */}
+                {/* Contact Links */}
+                <div className="flex space-x-3">
+                    {props.data.contactLinks.map((ele, i) => (
+                        <a
+                            key={i}
+                            href={"https://" + ele}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-xl text-indigo-600 hover:text-indigo-800"
+                        >
+                            &#128279;
+                        </a>
+                    ))}
+                </div>
+            </div>
+
+            <div className="flex justify-between mt-4">
                 <div>
-                    <div className="mb-3">
-                        <span className="font-medium">Theme: </span>
+                    <div className="font-bold text-gray-500">THEME</div>
+                    <div className="hack-themes font-medium text-gray-700">
                         {props.data.tech}
                     </div>
-                    <div className="mb-3">
-                        <span className="font-medium">Mode: </span>
+                </div>
+                <div className="font-bold text-gray-400">
+                    2.5k
+                </div>
+            </div>
+
+            <div className="flex justify-between items-center mt-4">
+                <div className="flex space-x-4">
+                    <span className="hack-status font-medium text-gray-600">
                         {props.data.eventMode.toUpperCase()}
-                    </div>
-                    <div>
-                        <span className="font-medium">Starts: </span>
-                        {props.data.fromDate}
-                    </div>
+                    </span>
+                    <span className="hack-status font-medium text-gray-600">
+                        STARTS {props.data.fromDate}
+                    </span>
                 </div>
 
                 {/* Apply Now Button */}
-                <button
-                    className="mt-4 w-full py-3 bg-[#e0e7ff] text-black rounded-lg font-semibold hover:bg-[#9ca3af] transition-all"
+                <motion.button
+                    className="w-36 text-xl bg-indigo-600 text-white py-2 rounded-md font-semibold hover:bg-indigo-700 transition-colors"
                     onClick={handleClick}
+                    whileHover={{ scale: 1.1 }}
                 >
                     Apply Now
-                </button>
+                </motion.button>
             </div>
-
-            {/* Background Effects */}
-            <Background />
         </motion.div>
     );
 }
-
-const Background = () => {
-    return (
-        <motion.svg
-            width="500"
-            height="384"
-            viewBox="0 0 500 384"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="absolute inset-0 z-0 opacity-30"
-            variants={{
-                hover: {
-                    scale: 1.2,
-                },
-            }}
-            transition={{
-                duration: 0.5,
-                ease: "easeInOut",
-            }}
-        >
-            <motion.circle
-                cx="160.5"
-                cy="114.5"
-                r="101.5"
-                fill="#f8fafc"
-                opacity="50"
-            />
-            <motion.ellipse
-                cx="160.5"
-                cy="265.5"
-                rx="101.5"
-                ry="43.5"
-                fill="#f8fafc"
-                opacity="20"
-            />
-        </motion.svg>
-    );
-};
 
 export default HackathonsDisplayCard;

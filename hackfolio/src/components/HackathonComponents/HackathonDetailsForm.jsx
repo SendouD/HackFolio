@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-
+import { motion } from "framer-motion";
 
 function HackathonDetailsForm(props) {
     const [step, setStep] = useState(1);
@@ -111,7 +111,7 @@ function HackathonDetailsForm(props) {
 
     return (
         <>
-            <div className="card-v bg-white p-20 rounded-md border-solid border-gray-200 border-2 mb-4 w-12/12">
+            <div className="card-v bg-white p-20 rounded-md border-solid border-gray-200 border-2 mb-4 w-12/12 relative">
                 <div className="flex justify-between items-center mb-4">
                     <div className="font-semibold text-3xl text-gray-950/80">Let’s get you started!</div>
                 </div>
@@ -295,6 +295,70 @@ function HackathonDetailsForm(props) {
                     )}
                 </div>
             </div>
+
+                            {/* Background Animations */}
+                <div className="absolute inset-0 -z-10">
+                    <motion.div
+                        className="line-animation absolute top-[400px] left-[30px] w-32 h-32"
+                        initial={{ pathLength: 0 }}
+                        whileInView={{ pathLength: 1 }}
+                        transition={{ duration: 2 }}
+                    >
+                        <motion.svg
+                            viewBox="0 0 100 100"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <motion.path
+                                d="M10 10 L 50 50 L 90 10"
+                                fill="transparent"
+                                stroke="#3b82f6"
+                                strokeWidth="4"
+                            />
+                        </motion.svg>
+                    </motion.div>
+
+                    <motion.div
+                        className="absolute bottom-[1000px] right-[250px] w-32 h-32 bg-blue-100 rounded-full"
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 1 }}
+                    />
+
+                    <motion.div
+                        className="absolute bottom-[50px] left-[10px] w-48 h-48 bg-purple-300 rounded-full"
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1.2 }}
+                        transition={{ duration: 0.8 }}
+                    />
+
+                    <motion.div
+                        className="absolute bottom-[700px] left-[250px] w-48 h-48 bg-purple-300 rounded-full"
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1.2 }}
+                        transition={{ duration: 0.8 }}
+                    />
+
+                    <motion.div
+                        className="absolute bottom-[800px] left-[1500px] w-48 h-48 bg-purple-300 rounded-full"
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1.2 }}
+                        transition={{ duration: 0.8 }}
+                    />
+
+                    <motion.div
+                        className="absolute bottom-[720px] right-[200px] w-32 h-32 bg-blue-100 rounded-full"
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 1 }}
+                    />
+
+                    <motion.div
+                        className="absolute bottom-[400px] right-[500px] w-32 h-32 bg-blue-100 rounded-full"
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 1 }}
+                    />
+                </div>
         </>
     );
 }

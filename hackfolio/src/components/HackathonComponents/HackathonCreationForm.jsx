@@ -5,6 +5,7 @@ function HackathonCreationForm(props) {
     const [hackName, setHackName] = useState("");
     const [uniName, setUniName] = useState("");
     const navigate = useNavigate();
+    
 
     async function handleClick() {
         if(hackName.length < 3 || hackName.length > 20) {
@@ -77,7 +78,7 @@ function HackathonCreationForm(props) {
                             onChange={(e) => setUniName(e.target.value)} 
                         />
                         <button 
-                            className="w-full bg-indigo-600 text-white py-2 rounded-md font-semibold hover:bg-indigo-700 transition-colors"
+                            className="w-full bg-[#5f3abd] text-white py-2 rounded-md font-semibold hover:bg-[#5534a8] transition-colors"
                             onClick={handleClick}
                         >
                             Submit

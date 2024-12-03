@@ -35,15 +35,15 @@ function HackathonRegisterWebpage(props) {
 
     return (
         <>
-            <div className="flex justify-center items-center min-h-screen bg-[#0f172a] pt-16 overflow-hidden relative">
+            <div className="flex justify-center items-center min-h-screen pt-16 overflow-hidden relative">
                 <div className="text-center z-10">
                     {/* Heading */}
-                    <div className="font-bold text-4xl sm:text-5xl md:text-6xl mb-6 text-white tracking-tight leading-tight">
+                    <div className="font-bold text-4xl sm:text-5xl md:text-6xl mb-6 tracking-tight leading-tight">
                         Organize a Hackathon on <span className="text-[#5f3abd]">HackQuest</span>
                     </div>
 
                     {/* Description */}
-                    <div className="w-4/12 mx-auto text-center mb-8 text-lg sm:text-xl text-gray-300">
+                    <div className="w-4/12 mx-auto text-center mb-8 text-lg sm:text-xl text-gray-500">
                         Experience the excitement of organizing your own hackathon with HackQuest!
                         Manage applications, submissions, communications, reimbursements,
                         and judging alongside hundreds of other innovative events.

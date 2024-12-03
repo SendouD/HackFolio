@@ -45,7 +45,7 @@ function FillFullHackathonDetails() {
                     <Header />
                     {isLoading && <div>Loading....</div>}
                     {completed === 0 && !isLoading &&
-                        <div className="flex items-center justify-center min-h-screen bg-[#0f172a]">
+                        <div className="flex items-center justify-center min-h-screen">
                             <div className="w-full max-w-4xl bg-white rounded-lg shadow-lg p-8">
                                 <div className="text-center mb-8">
                                     <h1 className="text-4xl font-bold text-gray-800">

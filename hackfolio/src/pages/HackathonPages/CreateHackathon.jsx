@@ -24,7 +24,7 @@ function CreateHackathon() {
         <>
             <div className="flex ">
                 <ReactingNavBar />
-                <div className="space-y-3 size-full bg-[#0f172a] ">
+                <div className="space-y-3 size-full">
                     <Header />
                     <div>
                         <HackathonRegisterWebpage setTrue={setTrue} />
