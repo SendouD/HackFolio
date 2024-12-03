@@ -22,7 +22,7 @@ const hackFullDetails = new mongoose.Schema({
         default: "",
     },
     teamSize: {
-        type: String,
+        type: Number,
         required: true,
         default: "",
     },
