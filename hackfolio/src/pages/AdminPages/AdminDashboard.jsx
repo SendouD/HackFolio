@@ -58,14 +58,77 @@ const AdminDashboard = () => {
 
   return (
     <>
-      <div className="relative flex bg-[#0f172a] min-h-screen"> {/* Full page background */}
+      <div className="relative flex min-h-screen"> {/* Full page background */}
         {/* Wave animation for the background */}
-        <div className="absolute top-0 left-0 w-full h-full bg-[#0f172a] z-0">
+        <div className="absolute top-0 left-0 w-full h-full z-0">
           <div className="wave"></div>
         </div>
 
         <ReactingNavBar />
-        <div className="space-y-6 size-full bg-[#0f172a] text-white w-full z-20">
+
+      {/* Animated Shapes */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 0.7, scale: 0.7 }}
+        transition={{ duration: 3}}
+        className="absolute top-10 left-10 w-32 h-32 bg-yellow-400 rounded-full z-[-10]"
+      />          
+      
+    
+      <motion.div
+        initial={{ opacity: 0, x: -200 }}
+        animate={{ opacity: 1, scale: 0.7 }}
+        transition={{ duration: 3}}
+        className="absolute top-40 right-10 w-28 h-28 bg-blue-300"
+      />
+      <motion.div
+        initial={{ opacity: 0, scale: 0.5 }}
+        animate={{ opacity: 1, scale: 0.7 }}
+        transition={{ duration: 3}}
+        className="absolute bottom-20 left-20 w-20 h-20 bg-purple-400 rounded-full"
+      />
+      <motion.div
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, scale: 0.7 }}
+        transition={{ duration: 3}}
+        className="absolute bottom-0 right-0 w-40 h-40 bg-green-300"
+      />
+        <motion.div>
+          <motion.svg
+              className="line-animation absolute bottom-1/4 left-1/2 w-32 h-32"
+              initial={{ pathLength: 0 }}
+              whileInView={{ pathLength: 1 }}
+              transition={{ duration: 2 }}
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <motion.path
+                d="M10 10 C 20 20, 40 20, 50 10 S 90 10, 100 50"
+                fill="transparent"
+                stroke="#3b82f6"
+                strokeWidth="4"
+              />
+            </motion.svg>
+          </motion.div>
+          <motion.div>
+  <motion.svg
+    className="line-animation absolute top-[100px]  left-1/4 w-32 h-32"
+    initial={{ pathLength: 0 }}
+    whileInView={{ pathLength: 1 }}
+    transition={{ duration: 2 }}
+    viewBox="0 0 100 100"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <motion.path
+      d="M10 10 L 50 50 L 90 10"
+      fill="transparent"
+      stroke="#3b82f6"
+      strokeWidth="4"
+    />
+  </motion.svg>
+</motion.div>
+
+        <div className="space-y-6 size-full text-white w-full z-20">
           <Header />
           <div className="container mx-auto px-8 py-12 relative z-30">
             {/* Title section with enhanced font styling */}

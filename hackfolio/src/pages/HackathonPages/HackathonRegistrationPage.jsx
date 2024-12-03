@@ -5,13 +5,18 @@ import HackathonTimelineDescription from "../../components/HackathonComponents/H
 import HackathonPrizesDescription from "../../components/HackathonComponents/HackathonPrizesDescription";
 import Header from '../../components/Header';
 import ReactingNavBar from '../../components/ReactingNavBar';
+import HackathonTimingsDisplay from '../../components/HackathonComponents/HackathonTimingsDisplay';
+
+import { useParams } from 'react-router-dom';
 
 function HackathonRegistrationPage() {
     const [selection, setSelection] = useState(0);
+    const { name } = useParams();
+
 
     return (
         <>
-            <div className='flex bg-[#0f172a]'>
+            <div className='flex '>
                 <ReactingNavBar/>
                 <div className='space-y-3 size-full'>
                     <Header></Header>
@@ -34,9 +39,8 @@ function HackathonRegistrationPage() {
                             {selection === 3 && <HackathonPrizesDescription />}
                         </div>
                         <div>
-                            <div className='h-[300px] w-[400px] bg-white ml-[50px] rounded-[10px] card-v'>
-                                From: To:
-                            </div>
+                        <HackathonTimingsDisplay id={name} flag={2} />
+
                         </div>
 
                     </div>

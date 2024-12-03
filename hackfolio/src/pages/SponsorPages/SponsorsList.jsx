@@ -43,7 +43,7 @@ const SponsorList = () => {
     <div className="flex">
   <ReactingNavBar />
 
-  <div className="space-y-3 size-full bg-[#0f172a] min-h-screen">
+  <div className="space-y-3 size-full min-h-screen">
     <Header />
     <div className="justify-center align-baseline">
       <DisplaySponsor />

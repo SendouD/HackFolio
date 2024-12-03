@@ -73,8 +73,8 @@ function HackathonsDisplayCard(props) {
                     onClick={handleClick}
                     whileHover={{ scale: 1.1 }}
                 >
-                    Apply Now
-                </motion.button>
+                    More Info
+                </button>
             </div>
         </motion.div>
     );

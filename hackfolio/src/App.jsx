@@ -59,6 +59,7 @@ import EditHackathonProjectSubmission from "./pages/ProjectPages/EditHackathonPr
 import Error404 from "./pages/ErrorPages/Error404";
 import Error403 from "./pages/ErrorPages/Error403";
 import EditHackathonProjectSubmissionDetails from "./components/ProjectComponents/EditHackathonProjectSubmissionDetails";
+import EditHackathonProjectSubmissionDetails from "./components/ProjectComponents/EditHackathonProjectSubmissionDetails";
 
 
 const token = localStorage.getItem('data');
@@ -96,7 +97,6 @@ function App() {
             <Route element={<SponsorList />} path="/sponsors" />
             <Route element={<SponsorDetail />} path="/sponsors/:companyName" />
             <Route element={<EditHackathonProjectSubmissionDetails />} path="/editprojectdetails/:projectId" />
-
             {/* <Route path="/HackathonProjects" element={<HackathonProjectDispay/>}/> */}
             <Route path="/hackathons" element={<AllHackathonsDisplay />} />
             <Route path="/hackathon/:name" element={<HackathonWebpage />} />
