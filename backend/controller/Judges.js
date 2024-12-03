@@ -157,7 +157,7 @@ judges.get('/getteams/:name',async(req,res)=>{
 })
 judges.post('/update/scores', async (req, res) => {
     const { teamId, email, scores } = req.body;
-
+    // console.log(teamId)
     // Validate input
     if (!teamId || !email || !Array.isArray(scores)) {
         return res.status(400).json({ message: "Invalid request data" });

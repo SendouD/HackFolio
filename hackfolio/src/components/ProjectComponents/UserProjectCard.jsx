@@ -21,21 +21,12 @@ const ProjectCards = ({ project }) => {
      
       </div>
       <div className="mt-4 text-sm text-gray-400">
-        Last updated: {project.createdAt}
+        Last updated: {project.createdAt.split("T")[0]}
       </div>
-      <div className="mt-2 flex space-x-4">
-        <a href="#" className="text-blue-600 hover:underline">
-          Copy Devfolio Link
-        </a>
-        <a href="#" className="text-blue-600 hover:underline">
-          Share it on LinkedIn
-        </a>
-        <a href="#" className="text-blue-600 hover:underline">
-          Tweet
-        </a>
-      </div>
+   
     </div>
   );
 };
 
 export default ProjectCards;
+ 

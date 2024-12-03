@@ -13,6 +13,7 @@ const UserDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [user, setUserdetails] = useState("");
+  const [dropdownVisible, setDropdownVisible] = useState(false); // State to manage dropdown visibility
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -48,6 +49,10 @@ const UserDashboard = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
+  const handleProfileClick = () => {
+    setDropdownVisible(!dropdownVisible); // Toggle dropdown visibility
+  };
+
   return (
     <>
       <div className="flex">
@@ -60,7 +65,7 @@ const UserDashboard = () => {
               {/* Additional animated shapes in the background */}
             </div>
             <div className="bg-white shadow-lg rounded-lg p-8 mt-8 w-3/4 z-10 relative card-shapes">
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center relative">
                 <div>
                   <img
                     src="https://via.placeholder.com/100"
@@ -82,7 +87,7 @@ const UserDashboard = () => {
                   </div>
                 </div>
 
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col items-center relative">
                   <div className="flex space-x-3 mb-4">
                     {/* Social Media Links */}
                     <a href="#" className="bg-gray-200 rounded-full p-3 hover:bg-gray-300">
@@ -119,6 +124,8 @@ const UserDashboard = () => {
                   >
                     Edit Profile
                   </Link>
+
+                  
                 </div>
               </div>
             </div>

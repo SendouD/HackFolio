@@ -121,7 +121,7 @@ function HackathonWebpageContentForm(props) {
     }
 
     return (
-        <div style={{ display: "flex", justifyContent: "center" }}>
+        <div style={{ display: "flex", justifyContent: "center" }} className='bg-[#0f172a]'>
             <div style={{ marginTop: "30px" }}>
                 <div className="flex">
                     <div>

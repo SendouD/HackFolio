@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import '../../styles/SignUp.css'
 
 const SignUp = () => {
   // State variables for form inputs
@@ -29,6 +30,7 @@ const SignUp = () => {
       console.log(response);
       // If successful, handle the success
       setSuccess('User created successfully!');
+      navigate('/signin');
       setError(null);
     } catch (err) {
       // Handle errors
@@ -144,8 +146,25 @@ const SignUp = () => {
         </div>
 
         {/* Right side - Welcome Section */}
-        <div className="w-1/2 bg-gray-900 text-white flex items-center justify-center p-8">
-          <div className="text-center">
+        <div className="w-1/2 bg-[#6366f1] text-white flex items-center justify-center p-8 relative overflow-hidden">
+          {/* Animated Wave */}
+          <svg
+            className="absolute bottom-0 left-0 w-full h-[150px] transform rotate-180 animate-wave"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 1440 320"
+          >
+            <path
+              fill="#2dd4bf"
+              fillOpacity="1"
+              d="M0,128L48,106.7C96,85,192,43,288,42.7C384,43,480,85,576,128C672,171,768,213,864,202.7C960,192,1056,128,1152,122.7C1248,117,1344,171,1392,213.3L1440,256V0H1392C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0H0Z"
+              className='animate-linear-move'
+            ></path>
+            <circle cx='300' cy='170' r='150' fill='#172554' className='animate-bounce' style={{animationDuration:"3.5s"}}></circle>
+            <circle cx='200' cy='300' r='100' fill='#facc15' className='animate-bounce'style={{animationDuration:"3.0s"}}></circle>
+          </svg>
+
+          {/* Content */}
+          <div className="text-center z-10">
             <h2 className="text-4xl font-bold mb-4">Welcome Back!</h2>
             <p className="mb-6 text-lg">
               Sign in with your personal details to keep connected with your projects.
@@ -158,11 +177,10 @@ const SignUp = () => {
             </button>
           </div>
         </div>
+
       </div>
     </div>
   );
 };
 
 export default SignUp;
-
-
