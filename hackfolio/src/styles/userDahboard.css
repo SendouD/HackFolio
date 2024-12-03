@@ -3,7 +3,11 @@
 }
 
 .z-20 {
-  z-index: 20;
+  z-index: 10;
+}
+
+.z-50 {
+  z-index: 5000;
 }
 
 .absolute {

@@ -16,9 +16,9 @@ function EditOrganizedHackathonDetails() {
         <>
             <div className='flex'>
                 <ReactingNavBar/>
-                <div className='space-y-3 size-full'>
+                <div className='space-y-3 size-full bg-[#0f172a]'>
                 <Header />
-            <div className='flex justify-center mt-2'>
+            <div className='flex justify-center mt-2 bg-[#0f172a]'>
                 <div className="edit-selection-card">
                     <div className='edit-choice-card'>
                         <button

@@ -121,12 +121,6 @@ function EditSponsorsDetails() {
     if (data === null) return <div>Loading...</div>;
 
     return (
-        <div className="flex">
-
-                <ReactingNavBar />
-
-                <div className="space-y-3 size-full">
-                    <Header />
         <div className="">
             <div className='text-3xl bold mb-4'>Edit Sponsor Details:</div>
             <div className="">
@@ -179,8 +173,6 @@ function EditSponsorsDetails() {
                     Save Changes
                 </button>
             </div>
-        </div>
-        </div>
         </div>
     );
 }

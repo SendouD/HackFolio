@@ -45,7 +45,7 @@ const SponsorList = () => {
 
   <div className="space-y-3 size-full bg-[#0f172a] min-h-screen">
     <Header />
-    <div className="align-middle">
+    <div className="justify-center align-baseline">
       <DisplaySponsor />
     </div>
   </div>
