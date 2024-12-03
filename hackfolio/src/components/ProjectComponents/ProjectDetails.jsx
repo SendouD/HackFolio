@@ -1,6 +1,11 @@
 import React from "react";
 
+import { useNavigate, useParams } from "react-router-dom";
+
 const ProjectDetails = ({ project, error }) => {
+  const navigate = useNavigate();
+  const {projectId} = useParams();
+
   // Function to check if the video link is valid and convert it to embed format
   const getEmbedUrl = (link) => {
     if (!link) return null;
@@ -22,18 +27,28 @@ const ProjectDetails = ({ project, error }) => {
     <div className="container mx-auto p-6">
       {/* Header Section */}
       <div className="flex items-center mb-8">
-        {/* Logo Section */}
-        {project.logoUrl && (
-          <div className="mr-4">
-            <img src={project.logoUrl} alt="logo" className="h-20 w-20 rounded-lg shadow-lg" />
-          </div>
-        )}
-
-        {/* Project Name and Tagline */}
         <div>
-          <h1 className="text-4xl font-bold">{project.projectName}</h1>
-          <p className="text-gray-600 mt-2">{project.tagline}</p>
+
         </div>
+          {/* Logo Section */}
+          {project.logoUrl && (
+            <div className="mr-4">
+              <img src={project.logoUrl} alt="logo" className="h-20 w-20 rounded-lg shadow-lg" />
+            </div>
+          )}
+
+          {/* Project Name and Tagline */}
+          <div>
+            <h1 className="text-4xl font-bold">{project.projectName}</h1>
+            <p className="text-gray-600 mt-2">{project.tagline}</p>
+          </div>
+
+        <button
+          className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+          onClick={() => navigate(`/editprojectdetails/${projectId}`)}
+        >
+          Edit Project
+        </button>
       </div>
 
       {/* Error Section */}
