@@ -68,7 +68,7 @@ function HackathonsDisplayCard(props) {
                 </div>
 
                 {/* Apply Now Button */}
-                <motion.button
+                <button
                     className="w-36 text-xl bg-indigo-600 text-white py-2 rounded-md font-semibold hover:bg-indigo-700 transition-colors"
                     onClick={handleClick}
                     whileHover={{ scale: 1.1 }}
