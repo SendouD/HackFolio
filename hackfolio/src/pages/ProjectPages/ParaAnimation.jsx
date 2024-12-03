@@ -1,9 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link, useNavigate } from "react-router-dom";
+
 
 const AnimatedBanner = () => {
+    const navigate = useNavigate();
     return (
-        <div className="w-full bg-white py-12">
+        <div className="w-full bg-gray py-12">
             <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
                 {/* Left Pattern */}
                 <div className="relative h-[300px] overflow-hidden">
@@ -26,7 +29,7 @@ const AnimatedBanner = () => {
                         <motion.button
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            className="bg-blue-500 text-white px-6 py-2 rounded-lg shadow-lg hover:bg-purple-600 transition-colors"
+                            className="bg-[#5f3abd] text-white px-6 py-2 rounded-lg shadow-lg hover:bg-[#3f40bb] -600 transition-colors"
                             onClick={() => {
                                 navigate("/projectForm");
                             }}
@@ -40,6 +43,7 @@ const AnimatedBanner = () => {
                 <div className="relative h-[300px] overflow-hidden">
                     <PatternSection isRight={true} />
                 </div>
+                
             </div>
         </div>
     );

@@ -59,7 +59,7 @@ const DisplaySponsor = () => {
             {sponsors.map((sponsor) => (
               <motion.div
                 key={sponsor._id}
-                className="sponsor-card rounded-xl shadow-2xl p-6 bg-[#c4b5fd] hover:bg-[#3a4c60] transition duration-300 cursor-pointer inline-block"
+                className="sponsor-card rounded-xl shadow-2xl p-6 bg-white hover:bg-[#5f3abd] transition duration-300 cursor-pointer inline-block"
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.6 }}
@@ -118,17 +118,17 @@ const DisplaySponsor = () => {
           {/* Background Shapes */}
           <motion.div
             className="absolute bottom-[-310px] left-[40px] w-32 h-32 bg-yellow-400 rounded-full z-[-10]"
-            animate={{ scale: [1, 1.2, 1] }}
+            animate={{ opacity: 0.5, scale: [1, 1.2, 1] }}
             transition={{ duration: 1}}
           />
           <motion.div
             className="absolute bottom-[110px] right-10 w-40 h-40 bg-pink-400 rounded-full z-[-10]"
-            animate={{ scale: [1, 1.2, 1] }}
+            animate={{opacity:0.7, scale: [1, 1.2, 1] }}
             transition={{ duration: 3 }}
           />
           <motion.div
             className="absolute top-1/4 right-[10px] w-24 h-24 bg-blue-300 rounded-md z-[-10]"
-            animate={{ rotate: [0, 180] }}
+            animate={{opacity:0.5, rotate: [0, 180] }}
             transition={{ duration: 1}}
           />
         </div>

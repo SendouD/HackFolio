@@ -3,6 +3,8 @@ import axios from "axios";
 import LoadingPage from "../loading";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
+import { motion } from "framer-motion";
+
 
 // Define Zod schema for form validation
 const projectFormSchema = z.object({
@@ -123,16 +125,16 @@ function ProjectForm() {
       {isLoading ? (
         <LoadingPage />
       ) : (
-        <div className="bg-[#0f172a] text-white min-h-screen p-8 flex flex-col items-center">
+        <div className=" text-white min-h-screen p-8 flex flex-col items-center">
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-extrabold uppercase tracking-wide">
+            <h1 className="text-4xl font-extrabold uppercase tracking-wide text-black">
               Submit Your <span className="text-[#5f3abd]">Project</span>
             </h1>
             <p className="text-gray-400 mt-2">
               Share your innovation and let the world see your incredible work.
             </p>
           </div>
-          <div className="w-full max-w-4xl bg-[#1e293b] p-8 rounded-lg shadow-lg">
+          <div className="w-full max-w-4xl bg-white p-8 rounded-lg shadow-lg">
             <form onSubmit={handleSubmit}>
               {/* Input Fields */}
               {[
@@ -145,13 +147,13 @@ function ProjectForm() {
                 { name: "videoDemo", label: "Video Demo", type: "text", placeholder: "e.g., YouTube demo link" },
               ].map((field, index) => (
                 <div key={index} className="mb-6">
-                  <label className="block text-sm font-bold mb-2">{field.label}</label>
+                  <label className="block  font-bold mb-2 text-black">{field.label}</label>
                   {field.type === "textarea" ? (
                     <textarea
                       name={field.name}
                       value={formData[field.name]}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-2 bg-[#3f40bb] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5f3abd]"
+                      className="w-full px-4 py-2 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5f3abd]"
                       placeholder={field.placeholder}
                       maxLength={field.maxLength}
                     ></textarea>
@@ -161,7 +163,7 @@ function ProjectForm() {
                       name={field.name}
                       value={formData[field.name]}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-2 bg-[#3f40bb] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5f3abd]"
+                      className="w-full px-4 py-2 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5f3abd]"
                       placeholder={field.placeholder}
                       maxLength={field.maxLength}
                     />
@@ -174,43 +176,115 @@ function ProjectForm() {
 
               {/* File Inputs */}
               <div className="mb-6">
-                <label className="block text-sm font-bold mb-2">Project Logo</label>
+                <label className="block text-black font-bold mb-2">Project Logo</label>
                 <input
                   type="file"
                   name="logo"
                   onChange={(e) => handleFileChange(e, setLogo)}
-                  className="w-full px-4 py-2 bg-[#3f40bb] text-white rounded-lg focus:outline-none"
+                  className="w-full px-4 py-2  text-white rounded-lg focus:outline-none"
                 />
               </div>
               <div className="mb-6">
-                <label className="block text-sm font-bold mb-2">Cover Image</label>
+                <label className="block text-black font-bold mb-2">Cover Image</label>
                 <input
                   type="file"
                   name="coverimage"
                   onChange={(e) => handleFileChange(e, setCoverimage)}
-                  className="w-full px-4 py-2 bg-[#3f40bb] text-white rounded-lg focus:outline-none"
+                  className="w-full px-4 py-2  text-white rounded-lg focus:outline-none"
                 />
               </div>
               <div className="mb-6">
-                <label className="block text-sm font-bold mb-2">Project Images</label>
+                <label className="block text-black font-bold mb-2">Project Images</label>
                 <input
                   type="file"
                   name="images"
                   multiple
                   onChange={handleMultipleFileChange}
-                  className="w-full px-4 py-2 bg-[#3f40bb] text-white rounded-lg focus:outline-none"
+                  className="w-full px-4 py-2  text-white rounded-lg focus:outline-none"
                 />
               </div>
 
               {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full py-3 bg-[#5f3abd] text-white rounded-lg font-bold uppercase tracking-wide hover:bg-[#3f40bb] transition duration-200"
+                className="w-full py-3 bg-[#5f3abd]  text-white rounded-lg font-bold uppercase tracking-wide hover:bg-[#3f40bb] transition duration-200"
               >
                 Submit Project
               </button>
             </form>
           </div>
+          <div className=" inset-0 -z-10">
+                    <motion.div
+                        className="line-animation absolute top-[400px] left-[30px] w-32 h-32"
+                        initial={{ pathLength: 0 }}
+                        whileInView={{ pathLength: 1 }}
+                        transition={{ duration: 2 }}
+                    >
+                        <motion.svg
+                            viewBox="0 0 100 100"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <motion.path
+                                d="M10 10 L 50 50 L 90 10"
+                                fill="transparent"
+                                stroke="#3b82f6"
+                                strokeWidth="4"
+                            />
+                        </motion.svg>
+                    </motion.div>
+
+
+                    
+
+                    <motion.div
+                        className="absolute bottom-[1000px] right-[250px] w-32 h-32 bg-blue-100 rounded-full"
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 1 }}
+                    />
+
+<motion.div
+                        className="absolute top-[1000px] right-[250px] w-32 h-32 bg-blue-100 rounded-full"
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 1 }}
+                    />
+
+                    <motion.div
+                        className="absolute bottom-[50px] left-[10px] w-48 h-48 bg-purple-300 rounded-full"
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1.2 }}
+                        transition={{ duration: 0.8 }}
+                    />
+
+                    <motion.div
+                        className="absolute bottom-[700px] left-[250px] w-48 h-48 bg-purple-300 rounded-full"
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1.2 }}
+                        transition={{ duration: 0.8 }}
+                    />
+
+                    <motion.div
+                        className="absolute bottom-[800px] left-[1500px] w-48 h-48 bg-purple-300 rounded-full"
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1.2 }}
+                        transition={{ duration: 0.8 }}
+                    />
+
+                    <motion.div
+                        className="absolute bottom-[720px] right-[200px] w-32 h-32 bg-blue-100 rounded-full"
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 1 }}
+                    />
+
+                    <motion.div
+                        className="absolute bottom-[400px] right-[500px] w-32 h-32 bg-blue-100 rounded-full"
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 1 }}
+                    />
+                </div>
         </div>
       )}
     </>

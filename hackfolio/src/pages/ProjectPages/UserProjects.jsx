@@ -46,18 +46,18 @@ function UserProjects() {
           <Header />
 
           {/* Full-Screen ParaAnimation */}
-          <div className="ParaAnimation-container">
+          <div className="ParaAnimation-container ">
             <ParaAnimation />
           </div>
 
           {/* Content Section */}
-          <main className="max-w-7xl mx-auto p-6">
+          <main className="max-w-7xl mx-auto p-6 bg-white">
   
          
 
             <section className="my-12">
               <h2 className="text-2xl font-bold">Public Projects</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 ">
                 {Array.isArray(projects) && projects.length > 0 ? (
                   projects.map((project) => (
                     <Link key={project.id} to={`/ProjectDisplay/${project._id}`}>

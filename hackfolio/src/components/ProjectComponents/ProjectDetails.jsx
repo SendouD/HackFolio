@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -24,7 +25,70 @@ const ProjectDetails = ({ project, error }) => {
   const embedUrl = getEmbedUrl(project.videoDemo);
 
   return (
-    <div className="bg-[#0f172a] min-h-screen w-full p-6">
+    <div className=" min-h-screen w-full p-6">
+         {/* Background Animations */}
+         <div className=" inset-0 -z-10">
+                    <motion.div
+                        className="line-animation absolute top-[400px] right-[30px] w-32 h-32"
+                        initial={{ pathLength: 0 }}
+                        whileInView={{ pathLength: 1 }}
+                        transition={{ duration: 2 }}
+                    >
+                        <motion.svg
+                            viewBox="0 0 100 100"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <motion.path
+                                d="M10 10 L 50 50 L 90 10"
+                                fill="transparent"
+                                stroke="#3b82f6"
+                                strokeWidth="4"
+                            />
+                        </motion.svg>
+                    </motion.div>
+
+                    <motion.div
+                        className="absolute bottom-[1000px] right-[250px] w-32 h-32 bg-blue-100 rounded-full"
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 1 }}
+                    />
+{/* 
+                    <motion.div
+                        className="absolute bottom-[50px] left-[10px] w-48 h-48 bg-purple-300 rounded-full"
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1.2 }}
+                        transition={{ duration: 0.8 }}
+                    /> */}
+
+                    <motion.div
+                        className="absolute top-[700px] right-[250px] w-48 h-48 bg-purple-300 rounded-full"
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1.2 }}
+                        transition={{ duration: 0.8 }}
+                    />
+
+                    <motion.div
+                        className="absolute bottom-[800px] left-[1500px] w-48 h-48 bg-purple-300 rounded-full -z-10"
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1.2 }}
+                        transition={{ duration: 0.8 }}
+                    />
+
+                    <motion.div
+                        className="absolute bottom-[720px] right-[200px] w-32 h-32 bg-blue-100 rounded-full"
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 1 }}
+                    />
+
+                    <motion.div
+                        className="absolute bottom-[400px] right-[500px] w-32 h-32 bg-blue-100 rounded-full"
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 1 }}
+                    />
+                </div>
       {/* Header Section */}
       <div className="flex items-center mb-8">
         <div>
@@ -39,8 +103,8 @@ const ProjectDetails = ({ project, error }) => {
 
         {/* Project Name and Tagline */}
         <div>
-          <h1 className="text-4xl text-white font-bold">{project.projectName}</h1>
-          <p className="text-white mt-2">{project.tagline}</p>
+          <h1 className="text-4xl text-black font-bold">{project.projectName}</h1>
+          <p className="text-black mt-2">{project.tagline}</p>
         </div>
 
         <button
