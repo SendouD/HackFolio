@@ -214,7 +214,7 @@ function Education() {
             {renderEditableField("Field of Study", "fieldOfStudy")}
             {renderEditableField("Month of Graduation", "graduationMonth", months)}
             {renderEditableField("Year of Graduation", "graduationYear", years)}
-            {renderEditableField("Date of Graduation", "dateofgraduation")}
+            {/* {renderEditableField("Date of Graduation", "dateofgraduation")} */}
 
             <div className="mt-4">
                 <label>Certification Links: </label>
