@@ -4,13 +4,15 @@ import HackathonLinks from "../../components/HackathonComponents/HackathonLinks"
 import HackathonTimelineDescription from "../../components/HackathonComponents/HackathonTimelineDescription";
 import HackathonPrizesDescription from "../../components/HackathonComponents/HackathonPrizesDescription";
 import Header from '../../components/Header';
+import ReactingNavBar from '../../components/ReactingNavBar';
 
 function HackathonRegistrationPage() {
     const [selection, setSelection] = useState(0);
 
     return (
         <>
-            <div className='flex'>
+            <div className='flex bg-[#0f172a]'>
+                <ReactingNavBar/>
                 <div className='space-y-3 size-full'>
                     <Header></Header>
                     <div className='flex justify-center items-center h-[150px] my-3 text-gray-500 text-xl'>
@@ -20,26 +22,6 @@ function HackathonRegistrationPage() {
                                 className={`cursor-pointer p-5 ${selection === 0 && 'text-blue-500 border p-[19px]'} rounded-[10px] hover:bg-gray-200`}
                             >
                                 APPLICATION
-                            </div>
-                        </div>
-                        <div className='flex bg-white p-4 ml-10 rounded-[10px] card-v'>
-                            <div
-                                onClick={(e) => setSelection(1)}
-                                className={`cursor-pointer p-5 ${selection === 1 && 'text-blue-500 border p-[19px]'} rounded-[10px] hover:bg-gray-200`}
-                            >
-                                LINKS
-                            </div>
-                            <div
-                                onClick={(e) => setSelection(2)}
-                                className={`cursor-pointer ml-10 p-5 ${selection === 2 && 'text-blue-500 border p-[19px]'} rounded-[10px] hover:bg-gray-200`}
-                            >
-                                TIMELINE
-                            </div>
-                            <div
-                                onClick={(e) => setSelection(3)}
-                                className={`cursor-pointer ml-10 p-5 ${selection === 3 && 'text-blue-500 border p-[19px]'} rounded-[10px] hover:bg-gray-200`}
-                            >
-                                PRIZES
                             </div>
                         </div>
                     </div>

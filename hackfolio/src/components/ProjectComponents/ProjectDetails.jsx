@@ -24,7 +24,7 @@ const ProjectDetails = ({ project, error }) => {
   const embedUrl = getEmbedUrl(project.videoDemo);
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="bg-[#0f172a] min-h-screen w-full p-6">
       {/* Header Section */}
       <div className="flex items-center mb-8">
         <div>
@@ -37,11 +37,11 @@ const ProjectDetails = ({ project, error }) => {
             </div>
           )}
 
-          {/* Project Name and Tagline */}
-          <div>
-            <h1 className="text-4xl font-bold">{project.projectName}</h1>
-            <p className="text-gray-600 mt-2">{project.tagline}</p>
-          </div>
+        {/* Project Name and Tagline */}
+        <div>
+          <h1 className="text-4xl text-white font-bold">{project.projectName}</h1>
+          <p className="text-white mt-2">{project.tagline}</p>
+        </div>
 
         <button
           className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
