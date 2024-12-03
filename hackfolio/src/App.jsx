@@ -59,6 +59,7 @@ import EditHackathonProjectSubmission from "./pages/ProjectPages/EditHackathonPr
 import Error404 from "./pages/ErrorPages/Error404";
 import Error403 from "./pages/ErrorPages/Error403";
 import EditHackathonProjectSubmissionDetails from "./components/ProjectComponents/EditHackathonProjectSubmissionDetails";
+import EditHackathonProjectSubmissionDetails from "./components/ProjectComponents/EditHackathonProjectSubmissionDetails";
 
 
 const token = localStorage.getItem('data');

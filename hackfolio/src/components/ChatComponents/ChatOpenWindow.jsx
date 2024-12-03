@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 const token = localStorage.getItem('data');
 import io from 'socket.io-client';
+import { motion } from "framer-motion";
+import gsap from "gsap";
 
 function ChatOpenWindow(props) {
     const inpRef = useRef(null);
@@ -85,7 +87,7 @@ function ChatOpenWindow(props) {
                 {
                     (JSON.parse(token).email === props.message.from) ? <div className="bg-white h-[30px] w-[30px] rounded-[20px] text-center mr-[5px] cursor-pointer">...</div> : <></>
                 }
-                <span className="bg-blue-500 text-white p-4 pb-2 inline-block rounded mt-[10px] max-w-[43vw] text-wrap break-words">
+                <span className="bg-[#5f3abd] text-white p-4 pb-2 inline-block rounded mt-[10px] max-w-[43vw] text-wrap break-words">
                     <div>
                         <div className={`text-xl font-bold flex justify-start`}>
                             {props.message.from}
@@ -121,7 +123,7 @@ function ChatOpenWindow(props) {
                         className="w-[83%] text-2xl py-2 px-4 mb-4 rounded-s border"
                         ref={inpRef}
                     />
-                    <button className="mb-4 bg-blue-500 hover:bg-blue-700 text-white px-6 py-3 rounded-e-[10px]" type="submit">{'Send >'}</button>
+                    <button className="mb-4 bg-[#5f3abd] hover:bg-[#5131a1] text-white px-6 py-3 rounded-e-[10px]" type="submit">{'Send >'}</button>
                 </form>
             </div>
         </>

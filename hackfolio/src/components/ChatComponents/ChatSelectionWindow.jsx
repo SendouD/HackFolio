@@ -48,7 +48,7 @@ function ChatSelectionWindow(props) {
     function SelectionCard(email,i) {
 
         return(
-            <div className="flex justify-center items-center w-[95%] h-[70px] bg-white rounded cursor-pointer hover:bg-blue-500 hover:text-white transition-all ease border-y" key={i} onClick={() => props.setCurrUser(email)}>
+            <div className="flex justify-center items-center w-[95%] h-[70px] bg-white rounded cursor-pointer hover:bg-[#5f3abd] hover:text-white transition-all ease border-y" key={i} onClick={() => props.setCurrUser(email)}>
                 {email}
             </div>
         );
@@ -58,7 +58,7 @@ function ChatSelectionWindow(props) {
         <div>
             <form onSubmit={(e) => handleAdd(e)} className="flex justify-center items-center my-[10px]">
                 <input type="text" className="p-2 rounded text-xl w-[220px] border" ref={addInpRef}/>
-                <button className="text-4xl bg-blue-500 px-3 py-1 rounded-[40px] m-[5px] hover:bg-blue-700 transition-all text-white" type="submit">+</button>
+                <button className="text-4xl bg-[#5f3abd] px-3 py-1 rounded-[40px] m-[5px] hover:bg-[#5735ad] transition-all text-white" type="submit">+</button>
             </form>
             <div className="flex justify-center overflow-y-scroll">
                 <div className="w-[95%]">
