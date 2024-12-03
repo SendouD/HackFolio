@@ -31,8 +31,6 @@ hack_project.route('/hackathonProject/:name')
 
 
         try {
-
-
             formData.hackathonName = name;
             const data = await hackParticipantDetails.findOne({email: email, hackathonName: name}).select('teamCode');
             if(!data) return res.status(200).json({msg: "participant is not in team or not a participant!"});
@@ -60,7 +58,8 @@ hack_project.route('/hackathonProject/getallprojects/:name')
  
 
     })
-    hack_project.route('/hackathonProject/judge/projects/:teamCode')
+    
+hack_project.route('/hackathonProject/judge/projects/:teamCode')
     .get(isUser, async (req, res) => {
         try {
             const {teamCode} = req.params;
@@ -79,6 +78,7 @@ hack_project.route('/hackathonProject/getallprojects/:name')
             res.status(500).json({ message: 'Server error' });
         }
     });
+
 
 
 module.exports = hack_project
