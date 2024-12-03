@@ -10,7 +10,7 @@ import jennieImg from '../../Assets/jennie.jpeg';
 import jennieferImg from '../../Assets/jenniefer.jpeg';
 import ranjithImg from '../../Assets/Ranjith.jpeg';
 import christinaImg from '../../Assets/christina.jpeg';
-import suhasImg from '../../Assets/suhas.jpeg';
+import suhasImg from '../../Assets/Suhas.jpeg';
 import RichardImg from '../../Assets/Richard.jpeg';
 
 const teamMembers = [
