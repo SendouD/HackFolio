@@ -54,6 +54,7 @@ const HackathonProjectDisplay = () => {
                   projects.map((project) => (
                     <Link key={project.id} to={`/ProjectDisplay/${project._id}`}>
                       <ProjectCard project={project} />
+                      <br />
                     </Link>
                   ))
                 ) : (
