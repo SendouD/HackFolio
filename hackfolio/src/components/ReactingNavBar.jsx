@@ -34,7 +34,7 @@ const ReactingNavBar = () => {
 };
 
 const Sidebar = ({username}) => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
 
   return (
