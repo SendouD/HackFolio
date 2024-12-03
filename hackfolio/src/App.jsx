@@ -57,6 +57,7 @@ import EditHackathonProjectSubmission from "./pages/ProjectPages/EditHackathonPr
 //Error Pages
 import Error404 from "./pages/ErrorPages/Error404";
 import Error403 from "./pages/ErrorPages/Error403";
+import EditHackathonProjectSubmissionDetails from "./components/ProjectComponents/EditHackathonProjectSubmissionDetails";
 
 
 const token = localStorage.getItem('data');
@@ -89,6 +90,7 @@ function App() {
             <Route path="/resetpassword" element={<ResetPassword />} />
             <Route path="/codeofconduct" element={<CodeOfConduct />} />
             <Route element={<Project_display />} path="/ProjectDisplay/:projectId" />
+            <Route element={<EditHackathonProjectSubmissionDetails />} path="/editprojectdetails/:projectId" />
             <Route element={<UserDashboard />} path="/@/:username" />
             <Route element={<SponsorList />} path="/sponsors" />
             <Route element={<SponsorDetail />} path="/sponsors/:companyName" />
