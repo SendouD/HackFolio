@@ -5,6 +5,7 @@ import axios from "axios";
 import { useParams, Link } from "react-router-dom"; // Import Link for navigation
 import ReactingNavBar from "../../components/ReactingNavBar";
 import "../../styles/userDahboard.css"; // Import custom CSS for background animation
+import { motion } from "framer-motion"; // Import motion for animations
 
 const UserDashboard = () => {
   const { username } = useParams();
@@ -58,12 +59,105 @@ const UserDashboard = () => {
       <div className="flex">
         <ReactingNavBar />
 
-        <div className="space-y-3 size-full">
+        <div className="size-full">
           <Header />
-          <div className="min-h-screen bg-white flex flex-col items-center relative overflow-hidden">
-  <div className="animated-shapes">
-    {/* Additional animated shapes in the background */}
-  </div>
+          <div className="min-h-[95vh] flex flex-col items-center relative overflow-hidden">
+            {/* Background Animations */}
+            <div className="inset-0 -z-10">
+              <motion.div
+                className="line-animation absolute top-[400px] left-[30px] w-32 h-32"
+                initial={{ pathLength: 0 }}
+                whileInView={{ pathLength: 1 }}
+                transition={{ duration: 2 }}
+              >
+                <motion.svg
+                  viewBox="0 0 100 100"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <motion.path
+                    d="M10 10 L 50 50 L 90 10"
+                    fill="transparent"
+                    stroke="#3b82f6"
+                    strokeWidth="4"
+                  />
+                </motion.svg>
+              </motion.div>
+
+              <motion.div
+                className="line-animation absolute top-[600px] left-[1000px] w-32 h-32"
+                initial={{ pathLength: 0 }}
+                whileInView={{ pathLength: 1 }}
+                transition={{ duration: 2 }}
+              >
+                <motion.svg
+                  viewBox="0 0 100 100"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <motion.path
+                    d="M10 10 L 50 50 L 90 10"
+                    fill="transparent"
+                    stroke="#3b82f6"
+                    strokeWidth="4"
+                  />
+                </motion.svg>
+              </motion.div>
+
+              <motion.div
+                className="absolute bottom-[1000px] right-[250px] w-32 h-32 bg-blue-100 rounded-full"
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1 }}
+              />
+
+              <motion.div
+                className="absolute bottom-[50px] left-[10px] w-48 h-48 bg-purple-300 rounded-full"
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1.2 }}
+                transition={{ duration: 0.8 }}
+              />
+
+              <motion.div
+                className="absolute bottom-[700px] left-[250px] w-48 h-48 bg-purple-300 rounded-full"
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1.2 }}
+                transition={{ duration: 0.8 }}
+              />
+
+              <motion.div
+                className="absolute bottom-[800px] left-[1500px] w-48 h-48 bg-purple-300 rounded-full"
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1.2 }}
+                transition={{ duration: 0.8 }}
+              />
+
+              <motion.div
+                className="absolute bottom-[720px] right-[200px] w-32 h-32 bg-blue-100 rounded-full"
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1 }}
+              />
+
+              <motion.div
+                className="absolute bottom-[10px] left-[1300px] w-48 h-48 bg-purple-300 rounded-full"
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1.2 }}
+                transition={{ duration: 0.8 }}
+              />
+
+              <motion.div
+                className="absolute bottom-[10px] left-[1200px] w-32 h-32 bg-blue-100 rounded-full"
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1 }}
+              />
+
+              <motion.div
+                className="absolute bottom-[200px] right-[800px] w-32 h-32 bg-blue-100 rounded-full"
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1 }}
+              />
+            </div>
 
             <div className="bg-white shadow-lg rounded-lg p-8 mt-8 w-3/4 z-10 relative card-shapes">
               <div className="flex justify-between items-center relative">
@@ -117,16 +211,6 @@ const UserDashboard = () => {
                       )}
                     </ul>
                   </div>
-
-                  {/* Button to Edit Profile */}
-                  <Link
-                    to={`/editprofile/${username}`} // Assuming edit profile path includes username
-                    className="mt-4 bg-[#5f3abd] text-white px-4 py-2 rounded hover:bg-blue-600"
-                  >
-                    Edit Profile
-                  </Link>
-
-                  
                 </div>
               </div>
             </div>
