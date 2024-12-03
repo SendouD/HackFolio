@@ -193,6 +193,8 @@ judges.post('/update/scores', async (req, res) => {
             { Judge: judgeUpdate },
             { new: true }
         );
+        console.log(updatedTeam)
+
 
         // Check if the update was successful
         if (!updatedTeam) {
