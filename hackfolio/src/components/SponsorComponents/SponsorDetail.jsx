@@ -217,7 +217,7 @@ const SponsorDetail = () => {
                     href={sponsor.website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-500 underline"
+                    className="text-[#5f3abd] underline"
                   >
                     {sponsor.website}
                   </a>
@@ -238,7 +238,7 @@ const SponsorDetail = () => {
                       Email:{" "}
                       <a
                         href={`mailto:${sponsor.email}`}
-                        className="text-blue-500 underline"
+                        className="text-[#5f3abd] underline"
                       >
                         {sponsor.email}
                       </a>
@@ -295,7 +295,7 @@ const SponsorDetail = () => {
                   placeholder="Got questions? Don't hesitate—reaching out is never too much! We're just a message away, ready to help."
                 />
                 <button
-                  className="mb-4 bg-blue-500 hover:bg-blue-700 text-white px-6 py-3 rounded font-bold"
+                  className="mb-4 bg-[#5f3abd] hover:bg-[#5f3abd] text-white px-6 py-3 rounded font-bold"
                   type="submit"
                 >
                   Send Message

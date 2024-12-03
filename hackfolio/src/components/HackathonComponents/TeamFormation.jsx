@@ -72,7 +72,7 @@ function TeamFormation(props) {
                             ref={inpNameRef}
                         />
                         <button 
-                            className="bg-blue-500 font-medium hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2 edit-btn mt-2 w-[200px]"
+                            className="bg-[#5f3abd] font-medium hover:bg-[#5f3abd] text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2 edit-btn mt-2 w-[200px]"
                             onClick={handleCreate}
                         >
                             Create a team
@@ -88,7 +88,7 @@ function TeamFormation(props) {
                             ref={inpCodeRef}
                         />
                         <button 
-                            className="bg-blue-500 font-medium hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2 edit-btn mt-2"
+                            className="bg-[#5f3abd] font-medium hover:bg-[#5f3abd] text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2 edit-btn mt-2"
                             onClick={handleJoin}
                         >
                             Join

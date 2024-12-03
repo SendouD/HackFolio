@@ -88,7 +88,7 @@ const HackathonDashboard = () => {
                 <strong>Status:</strong> {team.verificationStatus}
               </p>
               <button
-                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+                className="bg-[#5f3abd] hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
                 onClick={() => handleViewDetails(team.teamCode)}
               >
                 View Details
@@ -127,19 +127,19 @@ const HackathonDashboard = () => {
                   <p><strong>Gender:</strong> {member.gender}</p>
                   <p>
                     <strong>GitHub:</strong>{" "}
-                    <a href={member.githubprofile} target="_blank" className="text-blue-500 underline">
+                    <a href={member.githubprofile} target="_blank" className="text-[#5f3abd] underline">
                       {member.githubprofile}
                     </a>
                   </p>
                   <p>
                     <strong>LinkedIn:</strong>{" "}
-                    <a href={member.linkednprofile} target="_blank" className="text-blue-500 underline">
+                    <a href={member.linkednprofile} target="_blank" className="text-[#5f3abd] underline">
                       {member.linkednprofile}
                     </a>
                   </p>
                   <p>
                     <strong>Portfolio:</strong>{" "}
-                    <a href={member.portfoliowebsite} target="_blank" className="text-blue-500 underline">
+                    <a href={member.portfoliowebsite} target="_blank" className="text-[#5f3abd] underline">
                       {member.portfoliowebsite}
                     </a>
                   </p>

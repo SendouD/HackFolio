@@ -156,7 +156,7 @@ const Header = () => {
         ) : (
           <a
             href="/signin"
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="bg-[#5f3abd] text-white px-4 py-2 rounded hover:bg-[#4f309c] focus:outline-none focus:ring-2 focus:ring-[#6941ce]"
           >
             Sign In
           </a>

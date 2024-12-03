@@ -10,7 +10,7 @@ const HackathonProjectCard = ({ project }) => (
       </div>
       <div className="mt-4 flex justify-between items-center">
         <span className="text-sm text-gray-600">Likes: {project.Likes}</span>
-        <button className="bg-blue-500 text-white px-4 py-2 rounded">
+        <button className="bg-[#5f3abd] text-white px-4 py-2 rounded">
           Like
         </button>
       </div>

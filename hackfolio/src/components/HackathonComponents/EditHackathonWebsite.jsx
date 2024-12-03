@@ -210,7 +210,7 @@ function EditHackathonWebsite() {
                             </div>
 
                             <div className='flex'>
-                                <button onClick={handleSubmit} className="edit-inp w-auto bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline edit-btn mt-4">
+                                <button onClick={handleSubmit} className="edit-inp w-auto bg-[#5f3abd] hover:bg-[#5f3abd] text-white font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline edit-btn mt-4">
                                     Save Changes
                                 </button>
                             </div>

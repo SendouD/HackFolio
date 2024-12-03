@@ -97,7 +97,7 @@ const ViewScore = () => {
         <div className="container mx-auto p-4">
             <button
                 onClick={downloadCSV}
-                className="bg-blue-500 text-white p-2 rounded mb-4 hover:bg-blue-700"
+                className="bg-[#5f3abd] text-white p-2 rounded mb-4 hover:bg-[#5f3abd]"
             >
                 Download CSV
             </button>

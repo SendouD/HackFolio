@@ -144,7 +144,7 @@ const Links = () => {
                         errors[name] ? 'border-red-500' : ''
                     }`}
                 />
-                <button onClick={() => handleEdit(name)} className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2">
+                <button onClick={() => handleEdit(name)} className="bg-[#5f3abd] hover:bg-[#5634ac] text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2">
                     {editableFields[name] ? 'Save' : 'Edit'}
                 </button>
             </div>
@@ -185,7 +185,7 @@ const Links = () => {
                 <button onClick={addLink} className="add-link-btn font-medium edit-btn py-2 px-3">
                     Add
                 </button>
-                <button onClick={() => handleEdit('additionalLinks')} className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline edit-btn">
+                <button onClick={() => handleEdit('additionalLinks')} className="bg-[#5f3abd] hover:bg-[#5333a3] text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline edit-btn">
                     {editableFields.additionalLinks ? 'Save' : 'Edit'}
                 </button>
             </div>

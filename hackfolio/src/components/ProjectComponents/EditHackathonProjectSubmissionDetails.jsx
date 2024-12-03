@@ -96,7 +96,7 @@ const EditHackathonProjectSubmissionDetails = () => {
         <div className="p-4">
           <button
             onClick={handleEditToggle}
-            className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+            className="mb-4 px-4 py-2 bg-[#5f3abd] text-white rounded hover:bg-blue-600 transition-colors"
           >
             {isEditing ? "Cancel Edit" : "Edit Project"}
           </button>
@@ -194,8 +194,8 @@ const EditHackathonProjectSubmissionDetails = () => {
                 <p className="mb-2"><strong>Problem It Solves:</strong> {project.problem}</p>
                 <p className="mb-2"><strong>Challenges I Ran Into:</strong> {project.challenges}</p>
                 <p className="mb-2"><strong>Technologies:</strong> {Array.isArray(project.technologies) ? project.technologies.join(", ") : project.technologies}</p>
-                <p className="mb-2"><strong>GitHub URL:</strong> <a href={project.links} className="text-blue-500 hover:underline">{project.links}</a></p>
-                <p className="mb-2"><strong>Demo URL:</strong> <a href={project.videoDemo} className="text-blue-500 hover:underline">{project.videoDemo}</a></p>
+                <p className="mb-2"><strong>GitHub URL:</strong> <a href={project.links} className="text-[#5f3abd] hover:underline">{project.links}</a></p>
+                <p className="mb-2"><strong>Demo URL:</strong> <a href={project.videoDemo} className="text-[#5f3abd] hover:underline">{project.videoDemo}</a></p>
               </div>
             )
           ) : (

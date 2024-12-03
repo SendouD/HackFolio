@@ -110,7 +110,7 @@ function EditSponsorsDetails() {
                         onChange={handleChange}
                         className={`edit-inp shadow appearance-none border rounded w-full py-2 px-3 ${editableFields[name] ? 'text-black' : 'text-white'} leading-tight focus:outline-none focus:shadow-outline`}
                     />
-                    <button onClick={() => handleEdit(name)} className="bg-blue-500 font-medium hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2 edit-btn">
+                    <button onClick={() => handleEdit(name)} className="bg-[#5f3abd] font-medium hover:bg-[#5f3abd] text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2 edit-btn">
                         {editableFields[name] ? 'Save' : 'Edit'}
                     </button>
                 </div>
@@ -160,7 +160,7 @@ function EditSponsorsDetails() {
                                 />
                             </div>
                         ))}
-                        <button onClick={() => handleEdit('address')} className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline edit-btn">
+                        <button onClick={() => handleEdit('address')} className="bg-[#5f3abd] hover:bg-[#5f3abd] text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline edit-btn">
                             {editableFields.address ? 'Save' : 'Edit'}
                         </button>
                     </div>
@@ -169,7 +169,7 @@ function EditSponsorsDetails() {
                 {renderEditableField("Description", "description", formData.description)}
                 {renderEditableField("Verification Status", "verificationStatus", formData.verificationStatus)}
 
-                <button onClick={submitHandle} className="edit-inp w-auto bg-blue-500 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded focus:outline-none focus:shadow-outline edit-btn mt-4">
+                <button onClick={submitHandle} className="edit-inp w-auto bg-[#5f3abd] hover:bg-[#5f3abd] text-white font-medium py-3 px-6 rounded focus:outline-none focus:shadow-outline edit-btn mt-4">
                     Save Changes
                 </button>
             </div>

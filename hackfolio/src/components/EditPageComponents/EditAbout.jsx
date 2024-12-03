@@ -144,7 +144,7 @@ const About = () => {
                 )}
                 <button
                     onClick={() => toggleEdit(name)}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2"
+                    className="bg-[#5f3abd] hover:bg-[#5836af] text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2"
                 >
                     {editableFields[name] ? 'Save' : 'Edit'}
                 </button>
@@ -180,7 +180,7 @@ const About = () => {
                             />
                             <button
                                 onClick={() => toggleEdit('bio')}
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2"
+                                className="bg-[#5f3abd] hover:bg-[#5333a3] text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2"
                             >
                                 {editableFields.bio ? 'Save' : 'Edit'}
                             </button>
@@ -199,7 +199,7 @@ const About = () => {
                         />
                         <button
                             onClick={addSkill}
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-1 px-2 rounded focus:outline-none focus:shadow-outline text-sm"
+                            className="bg-[#5f3abd] hover:bg-[#5534a8] text-white font-medium py-1 px-2 rounded focus:outline-none focus:shadow-outline text-sm"
                         >
                             Add Skill
                         </button>

@@ -170,7 +170,7 @@ const ProjectsHackathonsSection = () => {
           </p>
           {/* Button for Hackathons */}
           <Link to="/hackathons"> {/* Link to /hackathons */}
-            <button className="mt-6 px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-200">
+            <button className="mt-6 px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-[#5f3abd] transition duration-200">
               Participate in Hackathon
             </button>
           </Link>

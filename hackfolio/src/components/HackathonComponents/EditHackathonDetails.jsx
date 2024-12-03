@@ -94,7 +94,7 @@ function EditHackathonDetails(props) {
                         onChange={handleChange}
                         className="edit-inp shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     />
-                    <button onClick={() => handleEdit(name)} className="bg-blue-500 font-medium hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2 edit-btn">
+                    <button onClick={() => handleEdit(name)} className="bg-[#5f3abd] font-medium hover:bg-[#5333a5] text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2 edit-btn">
                         {editableFields[name] ? 'Save' : 'Edit'}
                     </button>
                 </div>
@@ -157,7 +157,7 @@ function EditHackathonDetails(props) {
                     <button onClick={addLink} className="add-link-btn font-medium edit-btn py-2 px-3">
                         Add
                     </button>
-                    <button onClick={() => handleEdit('contactLinks')} className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline edit-btn">
+                    <button onClick={() => handleEdit('contactLinks')} className="bg-[#5f3abd] hover:bg-[#5f3abd] text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline edit-btn">
                         {editableFields.contactLinks ? 'Save' : 'Edit'}
                     </button>
                 </div>
@@ -166,7 +166,7 @@ function EditHackathonDetails(props) {
                 {renderEditableField("To Date", "toDate", formData.toDate)}
                 {renderEditableField("Prizes Desc", "prizesDesc", formData.prizesDesc)}
 
-                <button onClick={submitHandle} className="edit-inp w-auto bg-blue-500 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded focus:outline-none focus:shadow-outline edit-btn mt-4">
+                <button onClick={submitHandle} className="edit-inp w-auto bg-[#5f3abd] hover:bg-[#5f3abd] text-white font-medium py-3 px-6 rounded focus:outline-none focus:shadow-outline edit-btn mt-4">
                     Save Changes
                 </button>
             </div>

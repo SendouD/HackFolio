@@ -18,7 +18,7 @@ const ProjectSuccessPage = () => {
           Your project has been successfully uploaded and is now live. You can view and manage your project in your dashboard.
         </p>
         <button
-          className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-full shadow-md transform transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-300"
+          className="px-6 py-3 bg-gradient-to-r from-[#5f3abd] to-purple-600 text-white font-semibold rounded-full shadow-md transform transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-300"
           onClick={handleGoHome}
         >
           Go to Dashboard

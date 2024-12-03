@@ -24,7 +24,7 @@ function HackathonRegistrationPage() {
                         <div className='bg-white p-4 rounded-[10px] card-v'>
                             <div
                                 onClick={(e) => setSelection(0)}
-                                className={`cursor-pointer p-5 ${selection === 0 && 'text-blue-500 border p-[19px]'} rounded-[10px] hover:bg-gray-200`}
+                                className={`cursor-pointer p-5 ${selection === 0 && 'text-[#5f3abd] border p-[19px]'} rounded-[10px] hover:bg-gray-200`}
                             >
                                 APPLICATION
                             </div>

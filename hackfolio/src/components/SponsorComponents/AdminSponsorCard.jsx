@@ -42,7 +42,7 @@ const AdminSponsorDetail = ({ sponsor, onClose, onUpdate }) => {
         <h2 className="text-xl font-bold mb-2">{sponsor.companyName}</h2>
         <p><strong>Email:</strong> {sponsor.email}</p>
         <p><strong>Phone:</strong> {sponsor.phoneNumber}</p>
-        <p><strong>Website:</strong> <a href={sponsor.website} target="_blank" rel="noopener noreferrer" className="text-blue-500">{sponsor.website}</a></p>
+        <p><strong>Website:</strong> <a href={sponsor.website} target="_blank" rel="noopener noreferrer" className="text-[#5f3abd]">{sponsor.website}</a></p>
         <p><strong>Registration Number:</strong> {sponsor.registrationNumber}</p>
         <p><strong>Tax ID:</strong> {sponsor.taxId}</p>
         <p><strong>Address:</strong> {`${sponsor.address.street}, ${sponsor.address.city}, ${sponsor.address.state}, ${sponsor.address.zip}, ${sponsor.address.country}`}</p>
