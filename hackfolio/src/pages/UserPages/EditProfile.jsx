@@ -44,26 +44,26 @@ const EditPage = () => {
                                 <div className="space-x-11">
                                     <button
                                         onClick={() => setActiveTab('about')}
-                                        className={`p-2 ${activeTab === 'about' ? 'text-blue-500 font-bold border-b-2 border-blue-500' : ''}`}
+                                        className={`p-2 ${activeTab === 'about' ? 'text-[#5f3abd] font-bold border-b-2 border-[#5f3abd]' : ''}`}
                                     >
                                         About
                                     </button>
                                     <button
                                         onClick={() => setActiveTab('education')}
-                                        className={`p-2 ${activeTab === 'education' ? 'text-blue-500 font-bold border-b-2 border-blue-500' : ''}`}
+                                        className={`p-2 ${activeTab === 'education' ? 'text-[#5f3abd] font-bold border-b-2 border-[#5f3abd]' : ''}`}
                                     >
                                         Education
                                     </button>
 
                                     <button
                                         onClick={() => setActiveTab('links')}
-                                        className={`p-2 ${activeTab === 'links' ? 'text-blue-500 font-bold border-b-2 border-blue-500' : ''}`}
+                                        className={`p-2 ${activeTab === 'links' ? 'text-[#5f3abd] font-bold border-b-2 border-[#5f3abd]' : ''}`}
                                     >
                                         Links
                                     </button>
                                     <button
                                         onClick={() => setActiveTab('contacts')}
-                                        className={`p-2 ${activeTab === 'contacts' ? 'text-blue-500 font-bold border-b-2 border-blue-500' : ''}`}
+                                        className={`p-2 ${activeTab === 'contacts' ? 'text-[#5f3abd] font-bold border-b-2 border-[#5f3abd]' : ''}`}
                                     >
                                         Contacts
                                     </button>

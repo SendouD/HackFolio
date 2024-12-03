@@ -108,7 +108,7 @@ const ProjectDetails = ({ project, error }) => {
         </div>
 
         <button
-          className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+          className="mb-4 px-4 py-2 bg-[#5f3abd] text-white rounded hover:bg-blue-600 transition-colors"
           onClick={() => navigate(`/editprojectdetails/${projectId}`)}
         >
           Edit Project
@@ -186,7 +186,7 @@ const ProjectDetails = ({ project, error }) => {
       {/* Links Section */}
       <div className="bg-gray-100 p-6 rounded-lg shadow-lg w-full max-w-4xl mb-6">
         <h2 className="text-xl font-semibold mb-4">Useful Links</h2>
-        <a href={project.links} className="text-blue-500 underline">
+        <a href={project.links} className="text-[#5f3abd] underline">
           {project.links}
         </a>
       </div>

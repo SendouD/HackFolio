@@ -126,7 +126,7 @@ function HackathonTimingsDisplay(props) {
             {props.flag === 1 && <div>
                 <div className='flex justify-center'>
                     <button 
-                        className="w-11/12 text-xl bg-indigo-600 text-white py-4 rounded-md font-semibold hover:bg-indigo-700 transition-colors"
+                        className="w-11/12 text-xl bg-[#5f3abd] text-white py-4 rounded-md font-semibold hover:bg-[#4d2f97] transition-colors"
                         onClick={() => handleClick()}
                         disabled = { (flag===10 || flag===7) ? true : false }
                     >

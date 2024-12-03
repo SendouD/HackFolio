@@ -152,7 +152,7 @@ const JudgeDashboard = () => {
                                         <p><strong>Members:</strong> {team.members.length}</p>
 
                                         <button 
-                                            className="bg-blue-500 text-white px-4 py-2 rounded mt-4" 
+                                            className="bg-[#5f3abd] text-white px-4 py-2 rounded mt-4" 
                                             onClick={() => getProject(team.teamCode)}
                                         >
                                             View Project
@@ -194,7 +194,7 @@ const JudgeDashboard = () => {
                                         </div>
 
                                         <button
-                                            className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
+                                            className="bg-[#5f3abd] text-white px-4 py-2 rounded mt-4"
                                             onClick={() => submitEvaluation(team._id)}
                                         >
                                             Submit Evaluation

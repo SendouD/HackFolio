@@ -171,7 +171,7 @@ function SponsorForm() {
                   name="website"
                   value={formData.website}
                   onChange={handleInputChange}
-                  className="w-full text-black px-3 py-2 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full text-black px-3 py-2 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5f3abd]"
                   placeholder="Enter company website"
                   required
                 />
@@ -186,7 +186,7 @@ function SponsorForm() {
                   name="phoneNumber"
                   value={formData.phoneNumber}
                   onChange={handleInputChange}
-                  className="w-full text-black px-3 py-2 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full text-black px-3 py-2 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5f3abd]"
                   placeholder="Enter contact phone number"
                   required
                 />
@@ -201,7 +201,7 @@ function SponsorForm() {
                   name="registrationNumber"
                   value={formData.registrationNumber}
                   onChange={handleInputChange}
-                  className="w-full text-black px-3 py-2 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full text-black px-3 py-2 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5f3abd]"
                   placeholder="Enter registration number (must start with 'HQ')"
                   required
                 />
@@ -216,7 +216,7 @@ function SponsorForm() {
                   name="taxId"
                   value={formData.taxId}
                   onChange={handleInputChange}
-                  className="w-full text-black px-3 py-2 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full text-black px-3 py-2 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5f3abd]"
                   placeholder="Enter tax identification number"
                   required
                 />
@@ -231,7 +231,7 @@ function SponsorForm() {
                   name="address.street"
                   value={formData.address.street}
                   onChange={handleInputChange}
-                  className="w-full text-black px-3 py-2 mb-2 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full text-black px-3 py-2 mb-2 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5f3abd]"
                   placeholder="Street"
                 />
                 <input
@@ -239,7 +239,7 @@ function SponsorForm() {
                   name="address.city"
                   value={formData.address.city}
                   onChange={handleInputChange}
-                  className="w-full text-black px-3 py-2 mb-2 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full text-black px-3 py-2 mb-2 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5f3abd]"
                   placeholder="City"
                 />
                 <input
@@ -247,7 +247,7 @@ function SponsorForm() {
                   name="address.state"
                   value={formData.address.state}
                   onChange={handleInputChange}
-                  className="w-full text-black px-3 py-2 mb-2 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full text-black px-3 py-2 mb-2 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5f3abd]"
                   placeholder="State"
                 />
                 <input
@@ -255,7 +255,7 @@ function SponsorForm() {
                   name="address.zip"
                   value={formData.address.zip}
                   onChange={handleInputChange}
-                  className="w-full text-black px-3 py-2 mb-2 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full text-black px-3 py-2 mb-2 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5f3abd]"
                   placeholder="ZIP Code (5-6 digits)"
                 />
                 {errors.address?.zip && <span className="text-red-500">{errors.address.zip}</span>}
@@ -263,7 +263,7 @@ function SponsorForm() {
                   name="address.country"
                   value={formData.address.country}
                   onChange={handleInputChange}
-                  className="w-full text-black px-3 py-2 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full text-black px-3 py-2 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5f3abd]"
                   required
                 >
                   <option value="">Select a country</option>
@@ -283,7 +283,7 @@ function SponsorForm() {
                   name="description"
                   value={formData.description}
                   onChange={handleInputChange}
-                  className="w-full text-black px-3 py-2 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-300
+                  className="w-full text-black px-3 py-2 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5f3abd] placeholder-gray-300
 "
                   placeholder="Enter a description of your company"
                 />

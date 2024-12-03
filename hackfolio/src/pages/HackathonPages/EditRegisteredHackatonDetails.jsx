@@ -42,7 +42,7 @@ function EditRegisteredHackathonDetails() {
                             <div className='bg-white p-4 rounded-[10px] card-v'>
                                 <div
                                     onClick={(e) => setSelection(0)}
-                                    className={`cursor-pointer p-5 ${selection === 0 && 'text-blue-500 border p-[19px]'} rounded-[10px] hover:bg-gray-200`}
+                                    className={`cursor-pointer p-5 ${selection === 0 && 'text-[#5f3abd] border p-[19px]'} rounded-[10px] hover:bg-gray-200`}
                                 >
                                     APPLICATION
                                 </div>
@@ -57,7 +57,7 @@ function EditRegisteredHackathonDetails() {
                                 {selection === 3 && <HackathonPrizesDescription />}
                             </div>
                             <div>
-                            <HackathonTimingsDisplay id={name} flag={2}/>
+                            <HackathonTimingsDisplay className="fixed" id={name} flag={2}/>
 
                                 <div className={`mt-[50px] ${(inTeam) ? "w-[400px]" : "w-[600px]"} bg-white ml-[50px] rounded-[10px] p-10`}>
                                     {

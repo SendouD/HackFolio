@@ -84,12 +84,12 @@ const AddCriteria = () => {
                             />
                         </div>
                     ))}
-                    <button type="button" onClick={addCriteriaField} className="text-blue-500">
+                    <button type="button" onClick={addCriteriaField} className="text-[#5f3abd]">
                         + Add More Criteria
                     </button>
                 </div>
 
-                <button type="submit" className="bg-blue-500 text-white rounded px-4 py-2 mt-4">
+                <button type="submit" className="bg-[#5f3abd] text-white rounded px-4 py-2 mt-4">
                     Submit
                 </button>
             </form>

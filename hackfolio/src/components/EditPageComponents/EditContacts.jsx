@@ -141,7 +141,7 @@ const Contacts = () => {
                 />
                 <button 
                     onClick={() => toggleEdit(name)} 
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2"
+                    className="bg-[#5f3abd] hover:bg-[#5534a7] text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2"
                 >
                     {editableFields[name] ? 'Save' : 'Edit'}
                 </button>

@@ -167,7 +167,7 @@ const Logo = () => {
   return (
     <motion.div
       layout
-      className="grid place-content-center w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-800 rounded-lg shadow-md"
+      className="grid place-content-center w-12 h-12 bg-gradient-to-br from-[#5f3abd] to-purple-800 rounded-lg shadow-md"
     >
       <svg
         width="36"

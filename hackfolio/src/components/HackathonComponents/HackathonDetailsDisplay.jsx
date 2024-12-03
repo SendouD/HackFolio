@@ -42,13 +42,13 @@ function HackathonDetailsDisplay() {
             {/* Tab Navigation */}
             <div className="flex mb-4">
                 <button 
-                    className={`px-4 py-2 mr-2 ${activeTab === 'details' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                    className={`px-4 py-2 mr-2 ${activeTab === 'details' ? 'bg-[#5f3abd] text-white' : 'bg-gray-200'}`}
                     onClick={() => setActiveTab('details')}
                 >
                     Details
                 </button>
                 <button 
-                    className={`px-4 py-2 ${activeTab === 'projects' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                    className={`px-4 py-2 ${activeTab === 'projects' ? 'bg-[#5f3abd] text-white' : 'bg-gray-200'}`}
                     onClick={() => setActiveTab('projects')}
                 >
                     Submitted Projects

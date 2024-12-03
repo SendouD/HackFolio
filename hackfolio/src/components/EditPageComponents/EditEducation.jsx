@@ -197,7 +197,7 @@ function Education() {
                 )}
                 <button
                     onClick={() => handleEdit(name)}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2"
+                    className="bg-[#5f3abd] hover:bg-[#5433a5] text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2"
                 >
                     {editableFields[name] ? 'Save' : 'Edit'}
                 </button>
@@ -236,7 +236,7 @@ function Education() {
                         <button onClick={() => removeLink(index)} className="ml-2 text-red-500 font-medium">Remove</button>
                     </div>
                 ))}
-                <button onClick={addLink} className="bg-blue-500 text-white font-medium py-2 px-4 rounded mt-2">Add Link</button>
+                <button onClick={addLink} className="bg-[#5f3abd] text-white font-medium py-2 px-4 rounded mt-2">Add Link</button>
             </div>
         </div>
     );

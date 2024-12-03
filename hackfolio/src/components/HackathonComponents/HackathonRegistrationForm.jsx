@@ -74,7 +74,7 @@ function HackathonRegistrationForm() {
                 <div className="mt-4">
                     <button
                         onClick={handleSubmit}
-                        className="edit-inp w-auto bg-blue-500 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-[5px] focus:outline-none focus:shadow-outline edit-btn mt-4"
+                        className="edit-inp w-auto bg-[#5f3abd] hover:bg-[#5f3abd] text-white font-medium py-3 px-6 rounded-[5px] focus:outline-none focus:shadow-outline edit-btn mt-4"
                     >
                         Submit
                     </button>

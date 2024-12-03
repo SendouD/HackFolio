@@ -94,10 +94,10 @@ const UserDashboard = () => {
                     <a href="#" className="bg-gray-200 rounded-full p-3 hover:bg-gray-300">
                       <i className="fab fa-github text-gray-600"></i>
                     </a>
-                    <a href="#" className="bg-blue-600 text-white rounded-full p-3 hover:bg-blue-700">
+                    <a href="#" className="bg-blue-600 text-white rounded-full p-3 hover:bg-[#5f3abd]">
                       <i className="fab fa-linkedin-in"></i>
                     </a>
-                    <a href="#" className="bg-blue-500 text-white rounded-full p-3 hover:bg-blue-600">
+                    <a href="#" className="bg-[#5f3abd] text-white rounded-full p-3 hover:bg-blue-600">
                       <i className="fab fa-twitter"></i>
                     </a>
                     <a href="#" className="bg-gray-300 rounded-full p-3 hover:bg-gray-400">
@@ -121,7 +121,7 @@ const UserDashboard = () => {
                   {/* Button to Edit Profile */}
                   <Link
                     to={`/editprofile/${username}`} // Assuming edit profile path includes username
-                    className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                    className="mt-4 bg-[#5f3abd] text-white px-4 py-2 rounded hover:bg-blue-600"
                   >
                     Edit Profile
                   </Link>
