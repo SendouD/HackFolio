@@ -29,4 +29,14 @@ authController.get('/:username', async (req, res) => {
   }
 });
 
+authController.get('/getUsers/:username', async (req, res) => {
+  const { username } = req.params;
+  try{
+    const users = (await User.find({username: { $regex: username, $options: 'i' }},'username'))
+    return res.status(200).json({users: users});
+  } catch(e) {
+    return res.status(400).json({ Error: "Error accessing the Database!" });
+  }
+});
+
 module.exports = authController;
