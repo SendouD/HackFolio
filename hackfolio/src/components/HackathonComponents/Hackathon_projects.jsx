@@ -42,13 +42,13 @@ const HackathonProjectDisplay = () => {
   }
 
   if (!projects || projects.length === 0) {
-    return <div>No projects found</div>;
+    return <div className='text-indigo-500'>No projects found</div>;
   }
 
   return (
     <div className="container mx-auto px-4">
       <header className="my-8">
-        <h1 className="text-3xl font-bold text-center">Projects</h1>
+        <h1 className="text-3xl text-white font-bold text-center">Projects</h1>
       </header>
       {Array.isArray(projects) && projects.length > 0 ? (
                   projects.map((project) => (
@@ -57,7 +57,7 @@ const HackathonProjectDisplay = () => {
                     </Link>
                   ))
                 ) : (
-                  <p>{projects}</p>
+                  <p className='text-white'>{projects}</p>
                 )}    </div>
   );
 };

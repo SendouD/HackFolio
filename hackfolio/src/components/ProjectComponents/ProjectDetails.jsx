@@ -19,7 +19,7 @@ const ProjectDetails = ({ project, error }) => {
   const embedUrl = getEmbedUrl(project.videoDemo);
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="bg-[#0f172a] min-h-screen w-full p-6">
       {/* Header Section */}
       <div className="flex items-center mb-8">
         {/* Logo Section */}
@@ -31,8 +31,8 @@ const ProjectDetails = ({ project, error }) => {
 
         {/* Project Name and Tagline */}
         <div>
-          <h1 className="text-4xl font-bold">{project.projectName}</h1>
-          <p className="text-gray-600 mt-2">{project.tagline}</p>
+          <h1 className="text-4xl text-white font-bold">{project.projectName}</h1>
+          <p className="text-white mt-2">{project.tagline}</p>
         </div>
       </div>
 
