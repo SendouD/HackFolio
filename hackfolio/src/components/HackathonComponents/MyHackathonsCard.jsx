@@ -71,7 +71,7 @@ function MyHackathonsCard(props) {
                     className="w-36 text-xl bg-[#5f3abd] text-white py-2 rounded-md font-semibold hover:bg-[#5635aa] transition-colors"
                     whileHover={{ scale: 1.1 }}
                 >
-                    Apply Now
+                    More info
                 </motion.button>
             </div>
         </motion.div>

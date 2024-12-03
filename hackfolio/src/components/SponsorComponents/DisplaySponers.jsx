@@ -47,7 +47,7 @@ const DisplaySponsor = () => {
         transition={{ duration: 1 }}
         viewport={{ once: true }}
       >
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-center text-black pb-10">
+        <h2 className="text-3xl sm:text-4xl font-extrabold text-center text-purple-800 pb-10">
           Our Sponsors
         </h2>
 
