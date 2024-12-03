@@ -86,6 +86,7 @@ function HackathonProjectSubmissionForm() {
         <LoadingPage></LoadingPage>
       ) : (
         <div className=" min-w-[1000px] p-6">
+          
           {/* Background Animations */}
           <div className="inset-0 -z-10">
             <motion.div
