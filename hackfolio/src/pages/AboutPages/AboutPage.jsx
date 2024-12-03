@@ -3,41 +3,42 @@ import './AboutPage.css';
 import { Link } from 'react-router-dom';
 import Footer from '../../components/Footer'
 
-// import mikeImg from '../../Assets/mike.jpg';
-// import johnImg from '../../Assets/john.jpg';
-// import jennieImg from '../../Assets/jennie.jpeg';
-// import jennieferImg from '../../Assets/jenniefer.jpeg';
-// import ranjithImg from '../../Assets/Ranjith.jpeg';
-// import christinaImg from '../../Assets/christina.jpeg';
-// import suhasImg from '../../Assets/suhas.jpeg';
-// import RichardImg from '../../Assets/Richard.jpeg';
+import janeImg from '../../Assets/janeImg.jpg';
+import mikeImg from '../../Assets/mike.jpg';
+import johnImg from '../../Assets/john.jpg';
+import jennieImg from '../../Assets/jennie.jpeg';
+import jennieferImg from '../../Assets/jenniefer.jpeg';
+import ranjithImg from '../../Assets/Ranjith.jpeg';
+import christinaImg from '../../Assets/christina.jpeg';
+import suhasImg from '../../Assets/suhas.jpeg';
+import RichardImg from '../../Assets/Richard.jpeg';
 
 const teamMembers = [
   {
     name: 'Jane Doe',
     title: 'CEO',
-    description: 'Jane is a visionary leader with over 15 years of experience in technology innovation and strategic growth. She founded the company with a mission to foster creativity and innovation through hackathons.',
+    description: 'Jane is a visionary leader with over 15 years of experience in technology innovation and growth.',
     email: 'jane.doe@example.com',
     img: janeImg,
   },
   {
     name: 'Mike Ross',
     title: 'Art Director',
-    description: 'Mike is an accomplished art director known for his creative campaigns and design leadership. His work drives the visual storytelling of the team’s projects.',
+    description: 'Mike is an accomplished art director known for his creative campaigns and design leadership. ',
     email: 'mike.ross@example.com',
     img: mikeImg,
   },
   {
     name: 'John Doe',
     title: 'Designer',
-    description: 'John is a talented UI/UX designer with a passion for creating intuitive and beautiful user experiences. He excels at bridging the gap between functionality and aesthetics.',
+    description: 'John is a talented UI/UX designer with a passion for creating intuitive and beautiful user experiences.',
     email: 'john.doe@example.com',
     img: johnImg,
   },
   {
     name: 'Jennie Richards',
     title: 'Operations',
-    description: 'Jennie oversees the smooth operation of events and projects, ensuring everything runs efficiently. She has a background in project management and team coordination.',
+    description: 'Jennie oversees the smooth operation of events and projects, ensuring everything runs efficiently. She has a background in project management.',
     email: 'jennie.richards@example.com',
     img: jennieImg,
   },
@@ -87,6 +88,11 @@ const memorySection = [
 const AboutSection = () => {
   return (
     <div className="about-section">
+      <div className="home-redirect">
+        <Link to="/">
+          <button className="animated-button">Homepage</button>
+        </Link>
+      </div>
       <h1>Welcome to Our HackQuest!!!</h1>
       <p>We are dedicated to empowering innovators, developers, and creators by providing a platform to participate in hackathons, collaborate on projects, and showcase their skills.</p>
       <p>Join us and be part of a dynamic community where learning meets creativity, and ideas turn into reality. Discover, build, and grow with us.</p>
@@ -109,7 +115,7 @@ const TeamSection = ({ title, members }) => {
                 <p>{member.description}</p>
                 {member.email && (
                   <p>
-                    <a href={`mailto:${member.email}`} className="button">
+                    <a href={`mailto:${member.email}`} className="animated-button">
                       Contact via Email
                     </a>
                   </p>
@@ -130,11 +136,6 @@ const AboutPage = () => {
       <TeamSection title="Our Team" members={teamMembers} />
       <TeamSection title="Advisors" members={advisors} />
       <TeamSection title="In Memory Of" members={memorySection} />
-      <div className="home-redirect">
-        <Link to="/">
-          <button className="button">Go to Homepage</button>
-        </Link>
-      </div>
       {/* Add Footer at the end of the page */}
       <Footer />
     </div>
@@ -142,4 +143,3 @@ const AboutPage = () => {
 };
 
 export default AboutPage;
-

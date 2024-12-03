@@ -13,7 +13,8 @@ import EditProfile from "./pages/UserPages/EditProfile";
 import ForgotPassword from "./pages/RegistrationPages/ForgotPassword";
 import VerifyOTP from "./pages/RegistrationPages/VerifyOTP";
 import ResetPassword from "./pages/RegistrationPages/ResetPassword";
-import CodeOfConduct from "./pages/code_ofconduct/code_of_conductpage"
+import CodeOfConduct from "./pages/code_ofconduct/code_of_conductpage";
+import AboutPage from "./pages/AboutPages/AboutPage";
 import AdminDashboard from "./pages/AdminPages/AdminDashboard";
 
 //SuccessRoutes
@@ -57,7 +58,6 @@ import EditHackathonProjectSubmission from "./pages/ProjectPages/EditHackathonPr
 //Error Pages
 import Error404 from "./pages/ErrorPages/Error404";
 import Error403 from "./pages/ErrorPages/Error403";
-import EditHackathonProjectSubmissionDetails from "./components/ProjectComponents/EditHackathonProjectSubmissionDetails";
 
 
 const token = localStorage.getItem('data');
@@ -89,8 +89,8 @@ function App() {
             <Route path="/verifyotp" element={<VerifyOTP />} />
             <Route path="/resetpassword" element={<ResetPassword />} />
             <Route path="/codeofconduct" element={<CodeOfConduct />} />
+            <Route path = "/about" element = {<AboutPage/>}/>
             <Route element={<Project_display />} path="/ProjectDisplay/:projectId" />
-            <Route element={<EditHackathonProjectSubmissionDetails />} path="/editprojectdetails/:projectId" />
             <Route element={<UserDashboard />} path="/@/:username" />
             <Route element={<SponsorList />} path="/sponsors" />
             <Route element={<SponsorDetail />} path="/sponsors/:companyName" />

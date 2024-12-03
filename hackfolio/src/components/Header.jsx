@@ -145,7 +145,7 @@ const Header = () => {
                   ) : (
                     <MenuItem text="Become a sponsor" href="/sponsorForm" />
                   )}
-                  <MenuItem text="Account Settings" href="#" />
+                 
                   <div onClick={logout}>
                     <MenuItem text="Log Out" />
                   </div>
