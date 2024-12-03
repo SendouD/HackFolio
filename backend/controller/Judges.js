@@ -142,7 +142,6 @@ judges.get('/getteams/:name',async(req,res)=>{
     }
     try{
     const teams=await teamCode.find({hackathonName:name});
-    console.log(teams)
     
     if (!teams) {
         return res.status(404).json({ message: "Hackathon not found" });
@@ -156,39 +155,61 @@ judges.get('/getteams/:name',async(req,res)=>{
     
 
 })
-
 judges.post('/update/scores', async (req, res) => {
     const { teamId, email, scores } = req.body;
 
+    // Validate input
     if (!teamId || !email || !Array.isArray(scores)) {
         return res.status(400).json({ message: "Invalid request data" });
     }
 
     try {
+        // Find the team by ID
         const team = await teamCode.findById(teamId);
         if (!team) {
             return res.status(404).json({ message: "Team not found" });
         }
 
-        // Create an array of new score objects to push into the Judge array
-        const newScores = scores.map(score => ({
-            email,
-            criterionName: Object.keys(score)[0],
-            value: Object.values(score)[0],
-        }));
+        // Prepare the update for Judge field
+        const judgeUpdate = { ...team.Judge };
+        
+        // Add or update scores for each criterion
+        scores.forEach(score => {
+            const criterionName = Object.keys(score)[0];
+            const value = Object.values(score)[0];
+            
+            // Ensure an object for this email exists
+            if (!judgeUpdate[email]) {
+                judgeUpdate[email] = {};
+            }
+            
+            // Update the specific criterion score
+            judgeUpdate[email][criterionName] = value;
+        });
 
-        // Use $push with $each to add all the new scores to the Judge array
-        await teamCode.updateOne(
-            { teamCode: teamId },
-            { $push: { Judge: { $each: newScores } } }
+        // Update the team document
+        const updatedTeam = await teamCode.findByIdAndUpdate(
+            teamId, 
+            { Judge: judgeUpdate },
+            { new: true }
         );
+        console.log(updatedTeam)
 
-        res.status(200).json({ message: "Scores updated successfully" });
+
+        // Check if the update was successful
+        if (!updatedTeam) {
+            return res.status(500).json({ message: "Failed to update scores" });
+        }
+
+        res.status(200).json({ 
+            message: "Scores updated successfully",
+            updatedTeam: updatedTeam 
+        });
+
     } catch (error) {
         console.error("Error updating scores:", error);
         res.status(500).json({ message: "Internal server error" });
     }
 });
-
 
 module.exports = judges;

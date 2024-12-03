@@ -8,7 +8,7 @@ import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import ReactingNavBar from "../../components/ReactingNavBar";
 import ParticalZoom from "../../components/HomeComponents/ParticleZoom";
-import HackList from "../../components/HomeComponents/HackList";
+import HackList from "../../components/HomeComponents/Hacklist";
 import DisplaySponsor from "../../components/SponsorComponents/DisplaySponers";
 import ProjectsHackathonsSection from "../../components/HomeComponents/ProjectsHackathonsSection";
 

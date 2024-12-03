@@ -72,6 +72,26 @@ router.get("/userprojects/:username", async (req, res) => {
     });
   }
 });
+router.get("/hackathonprojects/:hackathonname", async (req, res) => {
+  try {
+    let hackathonname = req.params.hackathonname;  // Correctly accessing the parameter
+    const projects = await Project.find({ hackathonName: hackathonname });
+    if (projects.length === 0) {
+      return res.status(404).json({
+        message: "No projects found",
+      });
+    }
+
+    res.status(200).json(projects);
+  } catch (error) {
+    console.error("Error fetching project details:", error);
+    res.status(500).json({
+      message: "Error fetching project details",
+      error: error.message,
+    });
+  }
+});
+
 router.get("/:id", async (req, res) => {
   try {
     let projectId = req.params.id;

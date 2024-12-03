@@ -11,7 +11,6 @@ function NotificationsComponent(props) {
     },[props.currUser,props.flag]);
 
     useEffect(() => {
-        console.log("in");
         let temp = [];
         if(data.length !== 0) {
             data.data.map((ele,i) => {

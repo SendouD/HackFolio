@@ -29,14 +29,13 @@ const teamCodeSchema = new mongoose.Schema({
         default: "pending",
     },
     Judge: {
-        type: [{
-            email: String,
-            criteria:String,
-            value: String,
-        }],default: [],
-    }}
-    
-);
+        type: Schema.Types.Mixed,
+        default: {},
+    },
+    submittedAt: {
+        type: Date,
+        default: Date.now, // Automatically sets the current date when the document is created
+    }
+});
 
 module.exports = mongoose.model("HackathonTeamCodes", teamCodeSchema);
-

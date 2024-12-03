@@ -23,7 +23,6 @@ hack_register.route('/registerForHackathon/:name')
         const email = req.email;
         try{
             const flag = await hackParticipantDetails.find({hackathonName: name, email: email});
-            console.log(flag);
             if(flag.length === 0) {
                 const newHackParticipantDetails = new hackParticipantDetails({
                     hackathonName: name,
@@ -39,12 +38,10 @@ hack_register.route('/registerForHackathon/:name')
                     skills: formData.skills,
                     reviewed: false,
                 });
-                console.log(newHackParticipantDetails);
                 await newHackParticipantDetails.save();
                 return res.status(200).json({ msg: "Registered" });
             }
             else {
-                console.log("Already Registered");
                 return res.status(200).json({ Error: "Already Registered" });
             }
         } catch(e) {
