@@ -18,6 +18,7 @@ const JudgeDashboard = () => {
         const getTeams = async () => {
             try {
                 const response = await axios.get(`/api/judge/getteams/${name}`);
+                console.log(response.data.teams)
                 setTeams(response.data.teams);
             } catch (error) {
                 console.error("Error fetching teams:", error);
@@ -194,7 +195,7 @@ const JudgeDashboard = () => {
 
                                         <button
                                             className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
-                                            onClick={() => submitEvaluation(team.id)}
+                                            onClick={() => submitEvaluation(team._id)}
                                         >
                                             Submit Evaluation
                                         </button>

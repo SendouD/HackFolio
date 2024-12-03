@@ -126,7 +126,7 @@ const Header = () => {
             </div>
 
             {isMenuOpen && (
-              <div className="absolute right-0 mt-2 w-60 bg-white border border-gray-200 rounded-md shadow-lg z-10">
+              <div className="absolute right-0 mt-2 w-60 bg-white border border-gray-200 rounded-md shadow-lg z-50">
                 <ul className="py-1">
                   <MenuItem text="My Portfolio" href={`/@/${username}`} />
                   {roles.includes("Admin") && (

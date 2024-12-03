@@ -92,7 +92,6 @@ function App() {
             <Route element={<UserDashboard />} path="/@/:username" />
             <Route element={<SponsorList />} path="/sponsors" />
             <Route element={<SponsorDetail />} path="/sponsors/:companyName" />
-            <Route element={<Judge />} path="/hackathon/:name/judgeDashboard" />
 
             {/* <Route path="/HackathonProjects" element={<HackathonProjectDispay/>}/> */}
             <Route path="/hackathons" element={<AllHackathonsDisplay />} />
@@ -121,6 +120,8 @@ function App() {
               <Route path="/sponsorDashboard" element={<SponsorsDashboard />} />
               <Route path="/hackathon/:name/projectSubmission" element={<HackathonProjectSubmission />} />
               <Route path="/hackathon/:name/EditProjectSubmission" element={<EditHackathonProjectSubmission />} />
+              <Route element={<Judge />} path="/hackathon/:name/judgeDashboard" />
+
             </Route>
 
             {/* Admin Private Routes */}

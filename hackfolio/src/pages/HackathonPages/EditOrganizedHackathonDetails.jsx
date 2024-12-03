@@ -8,6 +8,7 @@ import Header from '../../components/Header';
 import "../../styles/edit_hack_page.css";
 import ReactingNavBar from '../../components/ReactingNavBar';
 import Stats from '../../components/HackathonComponents/Stats';
+import ViewScore from '../../components/HackathonComponents/Viewteamscores';
 
 function EditOrganizedHackathonDetails() {
     const [selected, setSelected] = useState(0); 
@@ -47,8 +48,13 @@ function EditOrganizedHackathonDetails() {
                             Add Evaluation Criteria
                         </button>
                         <button                     onClick={()=>setSelected(5)}
-                                                    className={`edit-choice-btn text-2xl font-thin block mt-5 px-5 ${selected === 5 ? 'active' : ''}`}>\
+                                                    className={`edit-choice-btn text-2xl font-thin block mt-5 px-5 ${selected === 5 ? 'active' : ''}`}>
                                                     Stats
+                            
+                        </button>
+                        <button                     onClick={()=>setSelected(6)}
+                                                    className={`edit-choice-btn text-2xl font-thin block mt-5 px-5 ${selected === 5 ? 'active' : ''}`}>
+                                                    View team scores
                             
                         </button>
                     </div>
@@ -84,6 +90,12 @@ function EditOrganizedHackathonDetails() {
                             <Stats />
                         </div>
                     )}
+                        {selected === 6 && ( // Render new component when selected
+                        <div className='editCard bg-[rgb(251,251,251)]'>
+                            <ViewScore/>
+                            </div>
+                    )}
+                    
                 </div>
             </div>
                 </div>
