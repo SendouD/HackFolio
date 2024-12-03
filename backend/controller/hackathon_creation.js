@@ -219,12 +219,10 @@ hack_create.route("/getHackWebsite/:name")
     })
 
 hack_create.route("/getHackDetails/:name")
-    .get(isUser, async(req,res) => {
+    .get(async(req,res) => {
         const name = req.params.name;
         const email = req.email;
         try {
-            const flag = await hackathon_form.findOne({hackathonName: name, email: email});
-            if(!flag) return res.status(400).json({error: "Permission denied!"});
             const data = await hackFullDetails.findOne({hackathonName: name});
             res.status(200).json({data: data});
         } catch(e) {

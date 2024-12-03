@@ -10,6 +10,8 @@ const JudgeDashboard = () => {
     const [scores, setScores] = useState([]) // Store scores for each team and criterion
     const navigate = useNavigate();
     const { name } = useParams();
+    const [MaxScore, setMaxscores] = useState([]); 
+
 
     // Fetching teams and criteria when the component loads
     useEffect(() => {
@@ -25,6 +27,7 @@ const JudgeDashboard = () => {
         const getCriteria = async () => {
             try {
                 const response = await axios.get(`/api/judge/getcriteria/${name}`);
+                console.log(response.data.criteria);
                 setCriteria(response.data.criteria);
             } catch (error) {
                 console.error("Error fetching criteria:", error);
@@ -106,18 +109,36 @@ const JudgeDashboard = () => {
                             <div className="criteria mt-4">
                                 <h3 className="text-lg font-semibold">Evaluate Team:</h3>
                                 {criteria.filter(criterion => Object.keys(criterion).length > 0).map((criterion) => (
-                                    <div key={criterion.name} className="criterion mb-2">
-                                        <label className="block text-sm">
-                                            {criterion.name} (Max: {criterion.maxMarks})
-                                        </label>
-                                        <input
-                                            type="number"
-                                            onChange={(e) => handleScoreChange(criterion.name, e.target.value)}
-                                            min={0}
-                                            max={criterion.maxMarks}
-                                            className="border px-2 py-1 w-full"
-                                        />
-                                    </div>
+                                   <div key={criterion.name} className="criterion mb-2">
+                                   <label className="block text-sm">
+                                       {criterion.name} (Max: {criterion.maxMarks})
+                                   </label>
+                                   <input
+                                       type="number"
+                                       onChange={(e) => {
+                                           const value = parseInt(e.target.value);
+                                           // Validate that the input is not greater than maxMarks
+                                           if (value <= criterion.maxMarks && value >= 0) {
+                                               handleScoreChange(criterion.name, value);
+                                           } else if (value > criterion.maxMarks) {
+                                               // Optionally, you can add additional handling
+                                               // For example, set the input to the max value
+                                               e.target.value = criterion.maxMarks;
+                                               handleScoreChange(criterion.name, criterion.maxMarks);
+                                           }
+                                       }}
+                                       min={0}
+                                       max={criterion.maxMarks}
+                                       className="border px-2 py-1 w-full"
+                                       placeholder={`Enter score (0-${criterion.maxMarks})`}
+                                   />
+                                   {/* Optional: Add an error message for invalid inputs */}
+                                   {handleScoreChange && (
+                                       <p className="text-red-500 text-xs mt-1">
+                                           {/* You can add a conditional error message here */}
+                                       </p>
+                                   )}
+                               </div>
                                 ))}
                             </div>
 

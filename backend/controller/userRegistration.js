@@ -55,7 +55,6 @@ authController.route('/signup')
 
             return res.status(201).json({ id: newUser._id, username, email });
         } catch (e) {
-            console.log(e);
             return res.status(400).json({ Error: `Error saving data to Database ${e}` });
         }
     });
@@ -123,7 +122,6 @@ authController.route('/signin')
         };
 
         const user = await User.findOne({ email });
-        console.log("hitt");
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }

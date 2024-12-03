@@ -69,20 +69,18 @@ const projectSchema = new mongoose.Schema({
   reviewed: {
     type: Boolean,
     default:false,
-},
-teamCode: {
-    type: String,
-    default: '',
-},
-teamName:{
-    type: String,
-    default: '',
-    
-}
+  },
+  teamCode: {
+      type: String,
+      default: '',
+  },
+  teamName:{
+      type: String,
+      default: '',
+      
+  }
 }, {
   timestamps: true // Adds createdAt and updatedAt fields
 });
 
-const Project = mongoose.model('Project', projectSchema);
-
-module.exports = Project;
+module.exports = mongoose.model("Project", projectSchema);

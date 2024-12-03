@@ -24,8 +24,7 @@ const Header = () => {
         const response = await axios.get("/api/jwtverify");
 
         setRoles(response.data.roles);
-        console.log(response.data.roles)
-
+        
         const storedData = localStorage.getItem("data");
         if (storedData) {
           const parsedData = JSON.parse(storedData);
