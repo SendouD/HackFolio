@@ -89,17 +89,86 @@ authController.route('/signin')
             return res.status(400).json({ Error: "Error signing in!" });
         }
     });
-    // authController.route('/checkmail').post(async(req,res)=>{
-    //     try{
-          
-    //     const id=mailSender.donation_success(req.body.email,req.body.amount);
-    //     return res.status(200).json({id:id});}
-    //     catch(error){
-    //         console.log(error)
-    //     }
 
+// Forgot Password Route
+authController.route('/forgotpassword')
+    .post(async (req, res) => {
+        const { email } = req.body;  // Extract email from body
 
-    // })
+        mailSender.sendOtp = async function(email, otp) {
+            const mailOptions = {
+                from: 'dumdum69069@gmail.com',
+                to: email,
+                subject: 'Your OTP Code',
+                text: `Your OTP code is ${otp}. It is valid for 10 minutes.`
+            };
+        
+            try {
+                await this.sendMail(mailOptions);
+                console.log('OTP email sent');
+            } catch (error) {
+                console.error('Error sending OTP email:', error);
+                throw error;
+            }
+        };
+
+        const user = await User.findOne({ email });
+        console.log("hitt");
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Generate OTP
+        const otp = crypto.randomInt(100000, 999999).toString();
+
+        // Store OTP in memory (should use Redis in production)
+        otpStore[email] = { otp, expiresAt: Date.now() + 10 * 60 * 1000 };  // OTP valid for 10 minutes
+
+        // Send OTP to user's email
+        await mailSender.sendOtp(email, otp);  // Assuming sendOtp sends the OTP email
+
+        return res.status(200).json({ message: 'OTP sent to email' });
+    });
+
+// Verify OTP Route
+authController.route('/verifyotp')
+    .post((req, res) => {
+        const { email, otp } = req.body;
+
+        // Check if OTP exists and is not expired
+        if (!otpStore[email] || otpStore[email].expiresAt < Date.now()) {
+            return res.status(400).json({ message: 'OTP expired or invalid' });
+        }
+
+        if (otpStore[email].otp === otp) {
+            return res.status(200).json({ message: 'OTP verified' });
+        } else {
+            return res.status(400).json({ message: 'Invalid OTP' });
+        }
+    });
+
+// Reset Password Route
+authController.route('/resetpassword')
+    .post(async (req, res) => {
+        const { email, otp, newPassword } = req.body;
+
+        // Check if OTP is correct and not expired
+        if (!otpStore[email] || otpStore[email].otp !== otp || otpStore[email].expiresAt < Date.now()) {
+            return res.status(400).json({ message: 'Invalid or expired OTP' });
+        }
+
+        // Hash the new password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+        // Update user's password
+        await User.updateOne({ email }, { password: hashedPassword });
+
+        // Clear OTP after successful reset
+        delete otpStore[email];
+
+        return res.status(200).json({ message: 'Password reset successful' });
+    });
 
     authController.route('/forgotpassword')
     .post(async (req, res) => {
