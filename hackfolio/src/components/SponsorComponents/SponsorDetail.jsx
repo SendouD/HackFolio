@@ -106,7 +106,7 @@ const SponsorDetail = () => {
         <div className="space-y-3 size-full">
           <Header />
 
-          <div className="container mx-auto p-6 bg-[#0f172a]">
+          <div className="container mx-auto p-6 ">
             <motion.div
               className="flex flex-col items-center"
               initial={{ opacity: 0 }}
@@ -120,7 +120,7 @@ const SponsorDetail = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1 }}
               >
-                <h1 className="text-4xl font-bold text-[#5f3abd]">{sponsor.companyName}</h1>
+                <h1 className="text-4xl font-bold text-black">{sponsor.companyName}</h1>
                 <p className="text-gray-600 mt-2">{sponsor.userName}</p>
               </motion.div>
 
@@ -214,14 +214,14 @@ const SponsorDetail = () => {
               )}
 
               {/* Random Shape Animation */}
-              <motion.div
+              {/* <motion.div
                 className="absolute top-20 right-20 bg-[#5f3abd] rounded-full w-32 h-32 opacity-60"
                 animate={{ rotate: 360 }}
                 transition={{ repeat: Infinity, duration: 5, ease: "linear" }}
-              ></motion.div>
+              ></motion.div> */}
 
               {/* Contact Us Form */}
-              <div className="font-bold text-3xl my-[20px] text-indigo-300">Contact Us</div>
+              <div className="font-bold text-3xl my-[20px] text-black">Contact Us</div>
 
               <form onSubmit={sendMessage} className="items-center w-[60%] rounded">
                 <textarea

@@ -46,9 +46,9 @@ const HackathonProjectDisplay = () => {
   }
 
   return (
-    <div className="container mx-auto px-4">
+    <div className="container mx-auto px-4 bg-white">
       <header className="my-8">
-        <h1 className="text-3xl text-white font-bold text-center">Projects</h1>
+        <h1 className="text-3xl text-black font-bold text-center">Projects</h1>
       </header>
       {Array.isArray(projects) && projects.length > 0 ? (
                   projects.map((project) => (
@@ -58,7 +58,7 @@ const HackathonProjectDisplay = () => {
                     </Link>
                   ))
                 ) : (
-                  <p className='text-white'>{projects}</p>
+                  <p className='text-black'>{projects}</p>
                 )}    </div>
   );
 };

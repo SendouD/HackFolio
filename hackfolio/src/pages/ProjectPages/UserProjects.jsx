@@ -5,6 +5,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import ReactingNavBar from "../../components/ReactingNavBar";
 import ParaAnimation from "./ParaAnimation";
+import { motion } from "framer-motion";
 
 function UserProjects() {
   const [projects, setProjects] = useState([]);
@@ -51,23 +52,8 @@ function UserProjects() {
 
           {/* Content Section */}
           <main className="max-w-7xl mx-auto p-6">
-            <section className="text-center my-8">
-              <h1 className="text-3xl font-bold">Share what you built</h1>
-              <p className="text-gray-500 mt-2">
-                Give your weekend projects, side projects, serious ventures a
-                place to breathe, invite collaborators and inspire others.
-              </p>
-              <div className="mt-6">
-                <span
-                  className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow hover:bg-blue-500"
-                  onClick={() => {
-                    navigate("/projectForm");
-                  }}
-                >
-                  ADD A NEW SIDE PROJECT
-                </span>
-              </div>
-            </section>
+  
+         
 
             <section className="my-12">
               <h2 className="text-2xl font-bold">Public Projects</h2>

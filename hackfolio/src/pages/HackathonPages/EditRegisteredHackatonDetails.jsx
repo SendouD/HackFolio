@@ -8,6 +8,7 @@ import TeamFormation from "../../components/HackathonComponents/TeamFormation";
 import TeamDisplay from "../../components/HackathonComponents/TeamDisplay";
 import Header from '../../components/Header';
 import ReactingNavBar from '../../components/ReactingNavBar';
+import HackathonTimingsDisplay from '../../components/HackathonComponents/HackathonTimingsDisplay';
 
 function EditRegisteredHackathonDetails() {
     const [selection, setSelection] = useState(0);
@@ -36,7 +37,7 @@ function EditRegisteredHackathonDetails() {
                 <ReactingNavBar />
                 <div className='space-y-3 size-full'>
                     <Header></Header>
-                    <div className='bg-[#0f172a]'>
+                    <div className=''>
                         <div className='flex justify-center items-center h-[150px] my-3 text-gray-500 text-xl'>
                             <div className='bg-white p-4 rounded-[10px] card-v'>
                                 <div
@@ -56,9 +57,8 @@ function EditRegisteredHackathonDetails() {
                                 {selection === 3 && <HackathonPrizesDescription />}
                             </div>
                             <div>
-                                <div className=' p-3 h-[300px] w-[400px] bg-white ml-[50px] rounded-[10px] card-v'>
-                                    From: To:
-                                </div>
+                            <HackathonTimingsDisplay id={name} flag={2}/>
+
                                 <div className={`mt-[50px] ${(inTeam) ? "w-[400px]" : "w-[600px]"} bg-white ml-[50px] rounded-[10px] p-10`}>
                                     {
                                         (inTeam) ?

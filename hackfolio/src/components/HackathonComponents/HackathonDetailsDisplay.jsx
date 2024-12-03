@@ -57,7 +57,7 @@ function HackathonDetailsDisplay() {
 
             {/* Conditional Rendering Based on Active Tab */}
             {activeTab === 'details' && (
-                <div style={{ padding: "30px", paddingTop: "0px", border: "solid 3px #c084fc", borderRadius: "20px" }}>
+                <div style={{ padding: "30px", paddingTop: "0px", border: "solid 2px rgb(220, 220, 220)", borderRadius: "20px" }}>
                     <img 
                         src={formData.imageUrl} 
                         alt="Hackathon Poster" 

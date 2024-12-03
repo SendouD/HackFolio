@@ -60,10 +60,11 @@ const UserDashboard = () => {
 
         <div className="space-y-3 size-full">
           <Header />
-          <div className="min-h-screen bg-dark-blue flex flex-col items-center relative overflow-hidden">
-            <div className="animated-shapes">
-              {/* Additional animated shapes in the background */}
-            </div>
+          <div className="min-h-screen bg-white flex flex-col items-center relative overflow-hidden">
+  <div className="animated-shapes">
+    {/* Additional animated shapes in the background */}
+  </div>
+
             <div className="bg-white shadow-lg rounded-lg p-8 mt-8 w-3/4 z-10 relative card-shapes">
               <div className="flex justify-between items-center relative">
                 <div>

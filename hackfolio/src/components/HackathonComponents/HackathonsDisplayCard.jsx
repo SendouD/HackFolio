@@ -66,7 +66,7 @@ function HackathonsDisplayCard(props) {
                     className="mt-4 w-full py-3 bg-[#e0e7ff] text-black rounded-lg font-semibold hover:bg-[#9ca3af] transition-all"
                     onClick={handleClick}
                 >
-                    Apply Now
+                    More Info
                 </button>
             </div>
 

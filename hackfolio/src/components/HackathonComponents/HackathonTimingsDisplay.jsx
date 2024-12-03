@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import "../../styles/hack_info_card.css";
 
-function HackathonTimingsDisplay() {
+function HackathonTimingsDisplay(props) {
     const { name } = useParams();
     const navigate = useNavigate();
     const [data, setData] = useState(null);
@@ -123,28 +123,30 @@ function HackathonTimingsDisplay() {
                 <div>To: {data.toDate}</div>
             </div>
 
-            <div className='flex justify-center'>
-                <button 
-                    className="w-11/12 text-xl bg-indigo-600 text-white py-4 rounded-md font-semibold hover:bg-indigo-700 transition-colors"
-                    onClick={() => handleClick()}
-                    disabled = { (flag===10 || flag===7) ? true : false }
-                >
-                    {
-                        (flag === 10) ? <>Hackathon Ended</> : (flag === 7) ? <>Registration Ended</> : (flag === 2) ? <>Edit project</> : (flag === 1) ? <>Submit project</> : (registered) ? <>Go to dashboard</> : <>Apply now</>
-                    }
-                </button>
-            </div>
-
-            {isJudge && (
-                <div className='flex justify-center mt-4'>
+            {props.flag === 1 && <div>
+                <div className='flex justify-center'>
                     <button 
-                        className="w-11/12 text-xl bg-green-600 text-white py-4 rounded-md font-semibold hover:bg-green-700 transition-colors"
-                        onClick={() => navigate(`/hackathon/${name}/judgeDashboard`)}
+                        className="w-11/12 text-xl bg-indigo-600 text-white py-4 rounded-md font-semibold hover:bg-indigo-700 transition-colors"
+                        onClick={() => handleClick()}
+                        disabled = { (flag===10 || flag===7) ? true : false }
                     >
-                        Judge Dashboard
+                        {
+                            (flag === 10) ? <>Hackathon Ended</> : (flag === 7) ? <>Registration Ended</> : (flag === 2) ? <>Edit project</> : (flag === 1) ? <>Submit project</> : (registered) ? <>Go to dashboard</> : <>Apply now</>
+                        }
                     </button>
                 </div>
-            )}
+
+                {isJudge && (
+                    <div className='flex justify-center mt-4'>
+                        <button 
+                            className="w-11/12 text-xl bg-green-600 text-white py-4 rounded-md font-semibold hover:bg-green-700 transition-colors"
+                            onClick={() => navigate(`/hackathon/${name}/judgeDashboard`)}
+                        >
+                            Judge Dashboard
+                        </button>
+                    </div>
+                )}
+            </div>}
         </div>
     );
 }
