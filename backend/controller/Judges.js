@@ -157,9 +157,10 @@ judges.get('/getteams/:name',async(req,res)=>{
 })
 judges.post('/update/scores', async (req, res) => {
     const { teamId, email, scores } = req.body;
-    // console.log(teamId)
+    console.log(scores)
     // Validate input
-    if (!teamId || !email || !Array.isArray(scores)) {
+    const scoresArr = Object.entries(scores).map(([key, value]) => ({ [key]: value }));
+    if (!teamId || !email || !Array.isArray(scoresArr)) {
         return res.status(400).json({ message: "Invalid request data" });
     }
 
@@ -174,7 +175,7 @@ judges.post('/update/scores', async (req, res) => {
         const judgeUpdate = { ...team.Judge };
         
         // Add or update scores for each criterion
-        scores.forEach(score => {
+        scoresArr.forEach(score => {
             const criterionName = Object.keys(score)[0];
             const value = Object.values(score)[0];
             

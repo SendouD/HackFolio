@@ -80,7 +80,7 @@ const DisplaySponsor = () => {
           </div>
           <motion.div>
               <motion.svg
-                className="line-animation absolute bottom-[50px] right-[110px] w-32 h-32"
+                className="line-animation absolute bottom-[50px] right-[110px] w-32 h-32 -z-10"
                 initial={{ pathLength: 0 }}
                 whileInView={{ pathLength: 1 }}
                 transition={{ duration: 2 }}
@@ -122,7 +122,7 @@ const DisplaySponsor = () => {
             transition={{ duration: 1}}
           />
           <motion.div
-            className="absolute bottom-[110px] right-10 w-40 h-40 bg-pink-400 rounded-full z-[-10]"
+            className="absolute bottom-[110px] right-10 w-40 h-40 bg-pink-400 rounded-full -z-10"
             animate={{opacity:0.7, scale: [1, 1.2, 1] }}
             transition={{ duration: 3 }}
           />

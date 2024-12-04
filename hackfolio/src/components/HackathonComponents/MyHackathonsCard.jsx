@@ -54,7 +54,6 @@ function MyHackathonsCard(props) {
                     </div>
                 </div>
                 <div className="font-bold text-gray-400">
-                    Participants: 2.5k
                 </div>
             </div>
 

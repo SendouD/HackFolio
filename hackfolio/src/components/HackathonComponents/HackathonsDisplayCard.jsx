@@ -53,7 +53,7 @@ function HackathonsDisplayCard(props) {
                     </div>
                 </div>
                 <div className="font-bold text-gray-400">
-                    2.5k
+                    
                 </div>
             </div>
 

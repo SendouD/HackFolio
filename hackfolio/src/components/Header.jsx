@@ -3,7 +3,9 @@ import MenuItem from "./MenuDropdowns";
 import axios from "axios";
 import DefaultUserIcon from "/DefaultUserIcon.jpeg";
 import { useNavigate } from "react-router-dom";
-
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../store/slice/authSlice";
+import { logout } from "../../store/slice/authSlice";
 const Header = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
@@ -11,11 +13,14 @@ const Header = () => {
   const [roles, setRoles] = useState([]);
   const [searchUsers, setSearchUsers] = useState([]);
   const [isSearchDropdownOpen, setIsSearchDropdownOpen] = useState(false);
+  const dispatch = useDispatch();
+
+  const name = useSelector((state) => state.auth.user); 
 
   const logout = async () => {
     const response = await axios.get("/api/userlogin/logout");
-
     localStorage.removeItem("data");
+    // dispatch(logout()); 
     setUsername("");
     navigate("/");
   };
@@ -30,6 +35,7 @@ const Header = () => {
         const storedData = localStorage.getItem("data");
         if (storedData) {
           const parsedData = JSON.parse(storedData);
+          dispatch(login(parsedData?.username)); 
           setUsername(parsedData?.username);
         }
       } catch (error) {
@@ -85,6 +91,12 @@ const Header = () => {
           <a href="/userProjects" className="text-gray-600 hover:text-gray-900">
             Projects
           </a>
+          <a href="/chat" className="text-gray-600 hover:text-gray-900">
+            Chats
+          </a>
+
+
+          {/* () => navigate('/chat') */}
         </div>
         <div className="relative">
           <input
@@ -122,7 +134,7 @@ const Header = () => {
                 alt="User avatar"
                 className="rounded-full mr-2 w-10 h-10 object-cover"
               />
-              {username}
+              {name}
             </div>
 
             {isMenuOpen && (
@@ -137,6 +149,7 @@ const Header = () => {
                   <MenuItem text="Organized Hackathons" href="/organizedHackathons" />
                   <MenuItem text="Registered Hackathons" href="/registeredHackathons" />
                   <MenuItem text="My Projects" href="/userProjects" />
+
                   {roles.includes("Sponsor") ? (
                     <MenuItem
                       text="Sponsor Dashboard"

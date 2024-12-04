@@ -87,8 +87,8 @@ function ChatComponent(props) {
                     <ChatOpenWindow currUser={props.currUser} newMessage={newMessage} socket={socket}/>
                 </div>
             </div>
-                            {/* Background Animations */}
-                            <div className="absolute inset-0 -z-10">
+                {/* Background Animations */}
+                <div className="absolute inset-0 -z-10">
                     <motion.div
                         className="line-animation absolute top-[400px] left-[30px] w-32 h-32"
                         initial={{ pathLength: 0 }}

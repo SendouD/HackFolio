@@ -88,28 +88,25 @@ function SponsorForm() {
   };
 
   const handleImageUpload = async (file) => {
-    const uploadPreset = "sponsor";
-    const cloudName = "dv1a0uvfm";
+    const uploadPreset = 'hackathonform';
+    const cloudName = 'dgjqg72wo';
     const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", uploadPreset);
+    formData.append('file', file);
+    formData.append('upload_preset', uploadPreset);
 
     try {
-      const response = await axios.post(
-        `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      return response.data.secure_url;
+        const response = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+            withCredentials: false,
+        });
+        return response.data.secure_url;
     } catch (error) {
-      console.error("Error uploading file:", error);
-      return null;
+        console.error('Error uploading file:', error.response ? error.response.data : error.message);
+        return null;
     }
-  };
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();

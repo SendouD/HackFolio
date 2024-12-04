@@ -54,30 +54,27 @@ function ProjectForm() {
     setImages([...e.target.files]);
   };
 
+
   const handleImageUpload = async (file) => {
-    const uploadPreset = "projectform"; // Replace with your Cloudinary upload preset
-    const cloudName = "dv1a0uvfm"; // Replace with your Cloudinary cloud name
+    const uploadPreset = 'hackathonform';
+    const cloudName = 'dgjqg72wo';
     const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", uploadPreset);
+    formData.append('file', file);
+    formData.append('upload_preset', uploadPreset);
 
     try {
-      const response = await axios.post(
-        `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          withCredentials: false,
-        }
-      );
-      return response.data.secure_url;
+        const response = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+            withCredentials: false,
+        });
+        return response.data.secure_url;
     } catch (error) {
-      console.error("Error uploading file:", error.response ? error.response.data : error.message);
-      return null;
+        console.error('Error uploading file:', error.response ? error.response.data : error.message);
+        return null;
     }
-  };
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -153,7 +150,7 @@ function ProjectForm() {
                       name={field.name}
                       value={formData[field.name]}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-2 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5f3abd]"
+                      className="w-full px-4 py-2 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5f3abd]"
                       placeholder={field.placeholder}
                       maxLength={field.maxLength}
                     ></textarea>
@@ -163,7 +160,7 @@ function ProjectForm() {
                       name={field.name}
                       value={formData[field.name]}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-2 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5f3abd]"
+                      className="w-full px-4 py-2 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5f3abd]"
                       placeholder={field.placeholder}
                       maxLength={field.maxLength}
                     />
@@ -181,7 +178,7 @@ function ProjectForm() {
                   type="file"
                   name="logo"
                   onChange={(e) => handleFileChange(e, setLogo)}
-                  className="w-full px-4 py-2  text-white rounded-lg focus:outline-none"
+                  className="w-full px-4 py-2  text-black rounded-lg focus:outline-none"
                 />
               </div>
               <div className="mb-6">
@@ -190,7 +187,7 @@ function ProjectForm() {
                   type="file"
                   name="coverimage"
                   onChange={(e) => handleFileChange(e, setCoverimage)}
-                  className="w-full px-4 py-2  text-white rounded-lg focus:outline-none"
+                  className="w-full px-4 py-2  text-black rounded-lg focus:outline-none"
                 />
               </div>
               <div className="mb-6">
@@ -200,7 +197,7 @@ function ProjectForm() {
                   name="images"
                   multiple
                   onChange={handleMultipleFileChange}
-                  className="w-full px-4 py-2  text-white rounded-lg focus:outline-none"
+                  className="w-full px-4 py-2  text-black rounded-lg focus:outline-none"
                 />
               </div>
 

@@ -23,13 +23,11 @@ const ViewScore = () => {
         fetchTeams();
     }, [name]);
 
-    // Function to convert team data to CSV format
     const downloadCSV = () => {
-        // Generate dynamic headers based on the criteria
         const header = ["Team Name", "Team Lead Email", "Judge Emails"];
         const allCriteria = new Set();
 
-        // Collect all unique criteria
+    
         teams.forEach(team => {
             if (team.Judge && Object.keys(team.Judge).length > 0) {
                 Object.values(team.Judge).forEach(criteria => {
@@ -40,7 +38,6 @@ const ViewScore = () => {
             }
         });
 
-        // Convert the Set to an array and append to the header
         const criteriaArray = Array.from(allCriteria);
         const finalHeader = [...header, ...criteriaArray, "Total Score"];
 

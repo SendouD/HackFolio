@@ -57,6 +57,7 @@ const JudgeDashboard = () => {
 
     // Handle score change for each team and criterion
     const handleScoreChange = (teamId, criterionName, score) => {
+        console.log(teamId, criterionName, score);
         setScores(prev => ({
             ...prev,
             [teamId]: {
@@ -69,7 +70,8 @@ const JudgeDashboard = () => {
     // Submit evaluation and send the scores to the server
     const submitEvaluation = async (teamId) => {
         const teamScores = scores[teamId];
-        
+        // console.log(teamId);
+        // console.log(scores);    
         if (!teamScores || Object.keys(teamScores).length === 0) {
             console.error("No scores to submit for team:", teamId);
             return;
@@ -142,7 +144,7 @@ const JudgeDashboard = () => {
                         {teams.length > 0 ? (
                             teams.map((team) => (
                                 <motion.div
-                                    key={team.id}
+                                    key={team._id}
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.5 }}
@@ -178,10 +180,10 @@ const JudgeDashboard = () => {
                                                         onChange={(e) => {
                                                             const value = parseInt(e.target.value);
                                                             if (value >= 0 && value <= criterion.maxMarks) {
-                                                                handleScoreChange(team.id, criterion.name, value);
+                                                                handleScoreChange(team._id, criterion.name, value);
                                                             } else {
                                                                 e.target.value = Math.min(Math.max(value, 0), criterion.maxMarks);
-                                                                handleScoreChange(team.id, criterion.name, e.target.value);
+                                                                handleScoreChange(team._id, criterion.name, e.target.value);
                                                             }
                                                         }}
                                                         min={0}

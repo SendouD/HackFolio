@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import ResizableTextArea from './ResizableTextArea';
 import axios from "axios";
 import LoadingPage from '../loading';
+import { motion } from 'framer-motion';
 
 function HackathonWebpageContentForm(props) {
     const aboutRef = useRef(null);
@@ -12,13 +13,13 @@ function HackathonWebpageContentForm(props) {
     const [otherFields, setOtherFields] = useState([]);
     const navigate = useNavigate();
     const { name } = useParams();
-    const [file,setFile] = useState("");
+    const [file, setFile] = useState("");
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const inputElement = imgInpRef.current;
 
-        const handleImageChange = async(e) => {
+        const handleImageChange = async (e) => {
             const file = e.target.files[0];
             setFile(file);
             if (file) {
@@ -43,20 +44,20 @@ function HackathonWebpageContentForm(props) {
         const formData = new FormData();
         formData.append('file', file);
         formData.append('upload_preset', uploadPreset);
-    
+
         try {
-          const response = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, formData,{
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-            withCredentials: false, 
-          });
-          return response.data.secure_url;
+            const response = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+                withCredentials: false,
+            });
+            return response.data.secure_url;
         } catch (error) {
-          console.error('Error uploading file:', error.response ? error.response.data : error.message);
-          return null;
+            console.error('Error uploading file:', error.response ? error.response.data : error.message);
+            return null;
         }
-      };
+    };
 
     async function handleSubmit(e) {
         const aboutHack = aboutRef.current.value;
@@ -65,7 +66,7 @@ function HackathonWebpageContentForm(props) {
         try {
             setLoading(true);
             let imageUrl;
-            if(file !== "") imageUrl = await handleImageUpload(file);
+            if (file !== "") imageUrl = await handleImageUpload(file);
             else imageUrl = "a"
             const response = await fetch(`/api/hackathon/hackathonCreate/${name}/2`, {
                 method: 'POST',
@@ -74,12 +75,12 @@ function HackathonWebpageContentForm(props) {
                 },
                 body: JSON.stringify({
                     imageUrl,
-                    aboutHack, 
-                    aboutPrize, 
+                    aboutHack,
+                    aboutPrize,
                     otherFields,
                 }),
             });
-            if(response.status === 403) navigate('/Error403');
+            if (response.status === 403) navigate('/Error403');
 
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -108,20 +109,20 @@ function HackathonWebpageContentForm(props) {
         setOtherFields(updatedFields);
     }
 
-    function handleTextChange(e,textRef) {
+    function handleTextChange(e, textRef) {
         textRef.current.style.height = "0px";
         const scrollHeight = textRef.current.scrollHeight;
         textRef.current.style.height = scrollHeight + "px";
     }
 
-    if(loading) {
-        return(
-            <LoadingPage/>
+    if (loading) {
+        return (
+            <LoadingPage />
         );
     }
 
     return (
-        <div style={{ display: "flex", justifyContent: "center" }} className='bg-[#0f172a]'>
+        <div style={{ display: "flex", justifyContent: "center" }} className='relative'>
             <div style={{ marginTop: "30px" }}>
                 <div className="flex">
                     <div>
@@ -133,14 +134,14 @@ function HackathonWebpageContentForm(props) {
                             <input type="file" id="img" name="img" accept="image/*" style={{ marginTop: "20px" }} ref={imgInpRef} />
 
                             <div className="about-hack" style={{ marginTop: "20px" }}>
-                                <div className='text-4xl font-medium mb-5'>About Hackathon </div>
+                                <div className='text-4xl font-medium mb-5'>About Hackathon</div>
                                 <div className='flex justify-center'>
                                     <textarea
                                         type="text"
                                         className="min-h-[150px] w-11/12 resize-y border rounded-md p-2 overflow-y-hidden"
                                         placeholder="Enter about the hackathon"
                                         ref={aboutRef}
-                                        onChange={(e)=>handleTextChange(e,aboutRef)}
+                                        onChange={(e) => handleTextChange(e, aboutRef)}
                                     />
                                 </div>
                             </div>
@@ -153,37 +154,35 @@ function HackathonWebpageContentForm(props) {
                                         className="min-h-[150px] w-11/12 resize-y border rounded-md p-2 overflow-y-hidden"
                                         placeholder="Enter about prizes"
                                         ref={prizeRef}
-                                        onChange={(e)=>handleTextChange(e,prizeRef)}
+                                        onChange={(e) => handleTextChange(e, prizeRef)}
                                     />
                                 </div>
                             </div>
 
-                            {
-                                otherFields.map((field, i) => (
-                                    <div key={i} className="about-hack" style={{ marginTop: "20px" }}>
-                                        <div>
-                                            <input
-                                                type="text"
-                                                className="h-[25%] w-11/12 mb-3 font-medium text-2xl border rounded-md p-2"
-                                                placeholder="Enter field name"
-                                                value={field.key}
-                                                onChange={(e) => handleFieldChange(i, 'key', e.target.value)}
-                                            />
-                                            <ResizableTextArea
-                                                className="h-[75%] w-11/12 resize-y border rounded-md p-2"
-                                                placeholder="Enter field value"
-                                                val={field.value}
-                                                otherFields={otherFields}
-                                                setOtherFields={setOtherFields}
-                                                ind={i}
-                                            />
-                                            <div className='flex justify-end'>
-                                                <button className='remove-link-btn1 edit-btn mt-2 mr-0 ml-2' onClick={() => removeField(i)}>Remove</button>
-                                            </div>
+                            {otherFields.map((field, i) => (
+                                <div key={i} className="about-hack" style={{ marginTop: "20px" }}>
+                                    <div>
+                                        <input
+                                            type="text"
+                                            className="h-[25%] w-11/12 mb-3 font-medium text-2xl border rounded-md p-2"
+                                            placeholder="Enter field name"
+                                            value={field.key}
+                                            onChange={(e) => handleFieldChange(i, 'key', e.target.value)}
+                                        />
+                                        <ResizableTextArea
+                                            className="h-[75%] w-11/12 resize-y border rounded-md p-2"
+                                            placeholder="Enter field value"
+                                            val={field.value}
+                                            otherFields={otherFields}
+                                            setOtherFields={setOtherFields}
+                                            ind={i}
+                                        />
+                                        <div className='flex justify-end'>
+                                            <button className='remove-link-btn1 edit-btn mt-2 mr-0 ml-2' onClick={() => removeField(i)}>Remove</button>
                                         </div>
                                     </div>
-                                ))
-                            }
+                                </div>
+                            ))}
 
                             <button onClick={addField} className="add-link-btn edit-btn py-2 px-3 mt-[20px]">
                                 Add more fields
@@ -216,6 +215,108 @@ function HackathonWebpageContentForm(props) {
                             </div>
                         </div>
                     </div>
+                </div>
+
+                {/* Background Animations */}
+                <div className=" inset-0 -z-10">
+                    <motion.div
+                        className="line-animation absolute top-[400px] left-[30px] w-32 h-32 -z-10"
+                        initial={{ pathLength: 0 }}
+                        whileInView={{ pathLength: 1 }}
+                        transition={{ duration: 2 }}
+                    >
+                        <motion.svg
+                            viewBox="0 0 100 100"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <motion.path
+                                d="M10 10 L 50 50 L 90 10"
+                                fill="transparent"
+                                stroke="#3b82f6"
+                                strokeWidth="4"
+                            />
+                        </motion.svg>
+                    </motion.div>
+
+                    <motion.div
+                        className="line-animation absolute top-[800px] left-[1200px] w-32 h-32 -z-10"
+                        initial={{ pathLength: 0 }}
+                        whileInView={{ pathLength: 1 }}
+                        transition={{ duration: 2 }}
+                    >
+                        <motion.svg
+                            viewBox="0 0 100 100"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <motion.path
+                                d="M10 10 L 50 50 L 90 10"
+                                fill="transparent"
+                                stroke="#3b82f6"
+                                strokeWidth="4"
+                            />
+                        </motion.svg>
+                    </motion.div>
+
+                    <motion.div
+                        className="line-animation absolute top-[200px] left-[1500px] w-32 h-32 -z-10"
+                        initial={{ pathLength: 0 }}
+                        whileInView={{ pathLength: 1 }}
+                        transition={{ duration: 2 }}
+                    >
+                        <motion.svg
+                            viewBox="0 0 100 100"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <motion.path
+                                d="M10 10 L 50 50 L 90 10"
+                                fill="transparent"
+                                stroke="#3b82f6"
+                                strokeWidth="4"
+                            />
+                        </motion.svg>
+                    </motion.div>
+
+                    {/* <motion.div
+                        className="absolute bottom-[1000px] right-[250px] w-32 h-32 bg-blue-100 rounded-full -z-10"
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 1 }}
+                    /> */}
+{/* 
+                    <motion.div
+                        className="absolute bottom-[50px] left-[10px] w-48 h-48 bg-purple-300 rounded-full -z-10"
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1.2 }}
+                        transition={{ duration: 0.8 }}
+                    /> */}
+
+                    {/* <motion.div
+                        className="absolute bottom-[700px] left-[250px] w-48 h-48 bg-purple-300 rounded-full -z-10"
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1.2 }}
+                        transition={{ duration: 0.8 }}
+                    /> */}
+
+                    {/* <motion.div
+                        className="absolute bottom-[800px] left-[1500px] w-48 h-48 bg-purple-300 rounded-full -z-10"
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1.2 }}
+                        transition={{ duration: 0.8 }}
+                    /> */}
+{/* 
+                    <motion.div
+                        className="absolute bottom-[720px] right-[200px] w-32 h-32 bg-blue-100 rounded-full -z-10"
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 1 }}
+                    /> */}
+
+                    {/* <motion.div
+                        className="absolute bottom-[400px] right-[500px] w-32 h-32 bg-blue-100 rounded-full -z-10"
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 1 }}
+                    /> */}
                 </div>
             </div>
         </div>

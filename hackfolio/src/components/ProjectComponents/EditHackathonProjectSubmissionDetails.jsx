@@ -49,29 +49,25 @@ const EditHackathonProjectSubmissionDetails = () => {
   };
 
   const handleImageUpload = async (file) => {
-    const uploadPreset = 'projectform'; // Replace with your Cloudinary upload preset
-    const cloudName = 'dv1a0uvfm'; // Replace with your Cloudinary cloud name
+    const uploadPreset = 'hackathonform';
+    const cloudName = 'dgjqg72wo';
     const formData = new FormData();
     formData.append('file', file);
     formData.append('upload_preset', uploadPreset);
-    
 
     try {
-      const response = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-          withCredentials: false, 
-        }
-      );
-      return response.data.secure_url;
+        const response = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+            withCredentials: false,
+        });
+        return response.data.secure_url;
     } catch (error) {
-      console.error('Error uploading file:', error.response ? error.response.data : error.message);
-      return null;
+        console.error('Error uploading file:', error.response ? error.response.data : error.message);
+        return null;
     }
-  };
-
+};
   const handleSave = async (e) => {
     e.preventDefault();
     try {
