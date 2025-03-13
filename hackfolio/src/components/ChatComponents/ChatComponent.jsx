@@ -24,7 +24,13 @@ function ChatComponent(props) {
 
         newSocket.on('disconnect', async () => {
             try {
-                const response = await fetch(`/api/chat/disconnect`);
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/chat/disconnect`, {
+                    method: "GET",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    credentials: 'include',
+                });
                 if (!response.ok) throw new Error('Network response was not ok');
                 await response.json();
             } catch (error) {
@@ -62,11 +68,12 @@ function ChatComponent(props) {
 
     async function msgstatus() {
         try {
-            const response = await fetch(`/api/chat/changeReadStatus/${props.currUser}`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/chat/changeReadStatus/${props.currUser}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include',
             });
             if (!response.ok) throw new Error('Network response was not ok');
         } catch (error) {

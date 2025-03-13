@@ -25,7 +25,13 @@ function ChatOpenWindow(props) {
 
     async function getMessages() {
         try {
-            const response = await fetch(`/api/chat/messages/${props.currUser}`);
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/chat/messages/${props.currUser}`, {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                credentials: 'include',
+            });
             if (!response.ok) throw new Error('Network response was not ok');
             const data = await response.json();
 
@@ -41,12 +47,13 @@ function ChatOpenWindow(props) {
         const message = inpRef.current.value;
         inpRef.current.value = ""
         try {
-            const response = await fetch(`/api/chat/messages/${props.currUser}`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/chat/messages/${props.currUser}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({message}),
+                credentials: 'include',
             });
             if (!response.ok) throw new Error('Network response was not ok');
             console.log(await response.json())

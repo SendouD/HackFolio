@@ -12,8 +12,8 @@ const chatUserSchema = require('../models/chat_user_schema');
 const mailSender = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
-        user: 'jananathan.m22@iiits.in',
-        pass: 'otcc afkt puer wdca'
+        user: process.env.gmail_auth_mail,
+        pass: process.env.gmail_auth_pass
     }
 });
 
@@ -77,13 +77,12 @@ authController.route('/signin')
 
             const token = jwt.sign({ username: user.username, userId: user._id, email: user.email }, 'secret', { expiresIn: '1d' });
 
-            res.cookie('jwt', token, {
-                httpOnly: true,
-                secure: false,
+            return res.cookie('jwt', token, {
+                httpOnly:true,
+                secure:true,
+                sameSite:'none',
                 maxAge: 1000 * 60 * 60 * 24, 
-            });
-
-            return res.status(200).json({ message: 'Success',username:user.username,email:user.email});
+            }).status(200).json({ message: 'Success',username:user.username,email:user.email});
         } catch (e) {
             return res.status(400).json({ Error: "Error signing in!" });
         }
@@ -129,46 +128,6 @@ authController.route('/forgotpassword')
         return res.status(200).json({ message: 'OTP sent to email' });
     });
 
-// Verify OTP Route
-authController.route('/verifyotp')
-    .post((req, res) => {
-        const { email, otp } = req.body;
-
-        // Check if OTP exists and is not expired
-        if (!otpStore[email] || otpStore[email].expiresAt < Date.now()) {
-            return res.status(400).json({ message: 'OTP expired or invalid' });
-        }
-
-        if (otpStore[email].otp === otp) {
-            return res.status(200).json({ message: 'OTP verified' });
-        } else {
-            return res.status(400).json({ message: 'Invalid OTP' });
-        }
-    });
-
-// Reset Password Route
-authController.route('/resetpassword')
-    .post(async (req, res) => {
-        const { email, otp, newPassword } = req.body;
-
-        // Check if OTP is correct and not expired
-        if (!otpStore[email] || otpStore[email].otp !== otp || otpStore[email].expiresAt < Date.now()) {
-            return res.status(400).json({ message: 'Invalid or expired OTP' });
-        }
-
-        // Hash the new password
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(newPassword, salt);
-
-        // Update user's password
-        await User.updateOne({ email }, { password: hashedPassword });
-
-        // Clear OTP after successful reset
-        delete otpStore[email];
-
-        return res.status(200).json({ message: 'Password reset successful' });
-    });
-
     authController.route('/forgotpassword')
     .post(async (req, res) => {
         const { email } = req.body;  // Extract email from body
@@ -207,8 +166,7 @@ authController.route('/resetpassword')
         return res.status(200).json({ message: 'OTP sent to email' });
     });
 
-// Verify OTP Route
-authController.route('/verifyotp')
+    authController.route('/verifyotp')
     .post((req, res) => {
         const { email, otp } = req.body;
 
@@ -224,8 +182,7 @@ authController.route('/verifyotp')
         }
     });
 
-// Reset Password Route
-authController.route('/resetpassword')
+    authController.route('/resetpassword')
     .post(async (req, res) => {
         const { email, otp, newPassword } = req.body;
 
@@ -247,10 +204,8 @@ authController.route('/resetpassword')
         return res.status(200).json({ message: 'Password reset successful' });
     });
 
-// Fetch All Users Route
-authController.route('/logout')
+    authController.route('/logout')
     .get(async (req, res) => {
-
             res.clearCookie("jwt")
             return res.status(200).json({message:"Successfully logged out"});
     

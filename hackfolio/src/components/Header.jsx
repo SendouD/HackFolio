@@ -18,32 +18,33 @@ const Header = () => {
   const name = useSelector((state) => state.auth.user); 
 
   const logout = async () => {
-    const response = await axios.get("/api/userlogin/logout");
+    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/userlogin/logout`);
     localStorage.removeItem("data");
     // dispatch(logout()); 
     setUsername("");
     navigate("/");
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("/api/jwtverify");
+  async function fetchData() {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/jwtverify/`);
+      console.log(response);
 
-        setRoles(response.data.roles);
-        
-        const storedData = localStorage.getItem("data");
-        if (storedData) {
-          const parsedData = JSON.parse(storedData);
-          dispatch(login(parsedData?.username)); 
-          setUsername(parsedData?.username);
-        }
-      } catch (error) {
-        console.error("Error fetching JWT verification data:", error);
+      setRoles(response?.data?.roles);
+      
+      const storedData = localStorage.getItem("data");
+      if (storedData) {
+        const parsedData = JSON.parse(storedData);
+        dispatch(login(parsedData?.username)); 
+        setUsername(parsedData?.username);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching JWT verification data:", error);
+    }
+  }
 
-    fetchData(); // Call the async function
+  useEffect(() => {
+    fetchData();
   }, []);
 
   useEffect(() => {
@@ -57,11 +58,12 @@ const Header = () => {
   async function searchUser(e) {
     const query = e.target.value;
     try {
-      const response = await fetch(`/api/user/getUsers/${query}`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/user/getUsers/${query}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: 'include',
       });
 
       if (response.status === 403) navigate("/Error403");
@@ -150,7 +152,7 @@ const Header = () => {
                   <MenuItem text="Registered Hackathons" href="/registeredHackathons" />
                   <MenuItem text="My Projects" href="/userProjects" />
 
-                  {roles.includes("Sponsor") ? (
+                  {roles?.includes("Sponsor") ? (
                     <MenuItem
                       text="Sponsor Dashboard"
                       href="/sponsorDashboard"

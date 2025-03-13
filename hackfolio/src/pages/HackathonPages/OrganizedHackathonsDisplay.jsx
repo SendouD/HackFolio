@@ -12,11 +12,12 @@ function OrganizedHackathonsDisplay() {
 
     async function getData() {
         try {
-            const response = await fetch(`/api/hackathon/organizedHackathons`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/organizedHackathons`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                 },
+                credentials: "include",
             });
             if (response.status === 403) navigate("/Error403");
             if (!response.ok) {
@@ -36,11 +37,12 @@ function OrganizedHackathonsDisplay() {
 
     async function handleClick(hackathonName) {
         try {
-            const response = await fetch(`/api/hackathon/hackathonCreate/${hackathonName}/1`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/hackathonCreate/${hackathonName}/1`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                 },
+                credentials: "include",
             });
             if (response.status === 403) navigate("/Error403");
             const data = await response.json();

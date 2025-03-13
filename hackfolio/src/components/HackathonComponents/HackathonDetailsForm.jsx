@@ -50,11 +50,12 @@ function HackathonDetailsForm(props) {
 
     async function getDetails() {
         try {
-            const response = await fetch(`/api/hackathon/hackathonCreate/${name}/1`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/hackathonCreate/${name}/1`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
                 },
+                credentials: 'include',
             });
             if(response.status === 403) navigate('/Error403');
 
@@ -82,7 +83,7 @@ function HackathonDetailsForm(props) {
             }
         }
         if(new Date(fromDate) > new Date(toDate)) {
-            alert("Time goes forward boss! from date should be less than to data");
+            alert("Time goes forward! ... 'from' date should be less than 'to' data");
             return;
         }
         if(new Date(fromDate) < new Date() || new Date(toDate) < new Date()) {
@@ -90,12 +91,13 @@ function HackathonDetailsForm(props) {
             return;
         }
         try {
-            const response = await fetch(`/api/hackathon/hackathonCreate/${name}/1`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/hackathonCreate/${name}/1`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ hackName, uniName, eventMode, tech, teamSize, partProf, contactLinks, fromDate, toDate, prizesDesc }),
+                credentials: 'include',
             });
             if(response.status === 403) navigate('/Error403');
 

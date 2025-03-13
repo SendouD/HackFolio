@@ -12,12 +12,13 @@ function TeamFormation(props) {
             alert("Name should have atleast 3 characters.");
         }
         try {
-            const response = await fetch(`/api/hackathon/hackathonTeam/${name}/create`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/hackathonTeam/${name}/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({teamName}),
+                credentials: 'include',
             });
             if(response.status === 403) navigate('/Error403');
             if(response.status === 400) {
@@ -40,12 +41,13 @@ function TeamFormation(props) {
         }
         else {
             try {
-                const response = await fetch(`/api/hackathon/hackathonTeam/${name}/join`, {
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/hackathonTeam/${name}/join`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({ teamCode }),
+                    credentials: 'include',
                 });
                 if(response.status === 403) navigate('/Error403');
                 const data = await response.json();

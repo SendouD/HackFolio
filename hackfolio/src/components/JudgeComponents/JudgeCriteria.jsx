@@ -38,7 +38,7 @@ const AddCriteria = () => {
         );
 
         try {
-            const response = await axios.post('/api/judge/addcriteria', {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/judge/addcriteria`, {
                 name, // Use the hackathon name from params
                 criteria: filteredCriteria // Only send valid criteria
             });

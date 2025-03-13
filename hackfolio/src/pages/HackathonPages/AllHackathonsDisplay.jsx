@@ -16,11 +16,12 @@ function AllHackathonsDisplay() {
     async function getData(pageNo) {
         if (pageNo < 1 || pageNo > totalPages) return;
         try {
-            const response = await fetch(`/api/hackathon?page=${pageNo}&limit=4`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon?page=${pageNo}&limit=4`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                 },
+                credentials: "include",
             });
 
             if (response.status === 403) navigate("/Error403");
@@ -44,7 +45,13 @@ function AllHackathonsDisplay() {
 
     async function handleSearch(query) {
         try {
-            const response = await fetch(`/api/hackathon?search=${query}`);
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon?search=${query}`, {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                credentials: 'include',
+              });
             if (!response.ok) {
                 throw new Error("Network response was not ok");
             }

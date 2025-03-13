@@ -35,7 +35,13 @@ const SponsorDetail = () => {
 
     newSocket.on('disconnect', async () => {
       try {
-        const response = await fetch(`/api/chat/disconnect`);
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/chat/disconnect`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: 'include',
+        });
         if (!response.ok) throw new Error('Network response was not ok');
         await response.json();
       } catch (error) {
@@ -52,7 +58,7 @@ const SponsorDetail = () => {
   useEffect(() => {
     const fetchSponsor = async () => {
       try {
-        const response = await axios.get(`/api/sponsors/user/${companyName}`);
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/sponsors/user/${companyName}`);
         setSponsor(response.data);
         setLoading(false);
       } catch (err) {
@@ -72,12 +78,13 @@ const SponsorDetail = () => {
     inpRef.current.value = ""; // Clear input after sending message
 
     try {
-      const response = await fetch(`/api/chat/messages/${sponsor.email}`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/chat/messages/${sponsor.email}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ message }),
+        credentials: 'include',
       });
 
       if (!response.ok) throw new Error('Network response was not ok');

@@ -44,7 +44,7 @@ const HackathonDashboard = () => {
   // Handle team verification
   const handleVerifyTeam = async () => {
     try {
-        const response = await axios.post(`/api/hackathon/registeredParticipants/${name}/verify`, {
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/registeredParticipants/${name}/verify`, {
         teamCode: selectedTeamCode,
       });
 
@@ -59,7 +59,7 @@ const HackathonDashboard = () => {
 
   const handleDeclineTeam = async () => {
     try {
-      const response = await axios.post(`/api/hackathon/registeredParticipants/${name}/decline`, {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/registeredParticipants/${name}/decline`, {
         teamCode: selectedTeamCode,
       });
       if(response.status === 403) navigate('/Error403');

@@ -32,7 +32,7 @@ const Links = () => {
             }
             console.log(userId);
             try {
-                const response = await axios.get(`/api/userProfile/${userId}/1`);
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/userProfile/${userId}/1`);
                 console.log("Fetched user data:", response.data);
 
                 let userData;
@@ -102,7 +102,7 @@ const Links = () => {
     const updateLinks = async () => {
         try {
             console.log(formData);
-            const response = await axios.put(`/api/userProfile/${userId}/1`, formData);
+            const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/userProfile/${userId}/1`, formData);
             if (response.status === 200) {
                 console.log(response);
                 alert("Links updated successfully!");

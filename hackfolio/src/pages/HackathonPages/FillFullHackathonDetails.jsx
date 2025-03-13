@@ -17,11 +17,12 @@ function FillFullHackathonDetails() {
     async function getCompletionStatus() {
         let arr = [];
         try {
-            const response = await fetch(`/api/hackathon/hackathonCreate/${name}/1`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/hackathonCreate/${name}/1`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
                 },
+                credentials: 'include'
             });
 
             if (!response.ok) {

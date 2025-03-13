@@ -13,11 +13,12 @@ function TeamDisplay(props) {
 
     async function getTeamDetails() {
         try {
-            const response = await fetch(`/api/hackathon/hackathonTeam/${name}/join`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/hackathonTeam/${name}/join`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include',
             });
             if(response.status === 403) navigate('/Error403');
             const data = await response.json();

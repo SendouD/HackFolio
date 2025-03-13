@@ -27,7 +27,7 @@ hack_create.route('/')
 
 hack_create.route("/hackathonCreate")
     .get(async (req, res) => {
-        
+        return res.status(200).send("hereee");
     })
     .post(isUser,async (req, res) => {
         const { hackName, uniName } = req.body;

@@ -4,7 +4,7 @@ import axios from "axios";
 const AdminSponsorDetail = ({ sponsor, onClose, onUpdate }) => {
   const handleVerify = async () => {
     try {
-      await axios.patch(`/api/sponsors/admin/verify/${sponsor.companyName}`, {
+      await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/api/sponsors/admin/verify/${sponsor.companyName}`, {
         verificationStatus: 'Verified',
       });
       
@@ -18,7 +18,7 @@ const AdminSponsorDetail = ({ sponsor, onClose, onUpdate }) => {
 
   const handleDecline = async () => {
     try {
-      await axios.patch(`/api/sponsors/admin/decline/${sponsor.companyName}`, {
+      await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/api/sponsors/admin/decline/${sponsor.companyName}`, {
         verificationStatus: 'Rejected',
       });
       onUpdate(); // Call onUpdate to refresh the sponsor list

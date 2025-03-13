@@ -14,7 +14,7 @@ const Project_display = () => {
   useEffect(() => {
     const fetchUserProject = async () => {
       try {
-        const response = await axios.get(`/api/project/${projectId}`);
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/project/${projectId}`);
         setProject(response.data);
         setLoading(false);
       } catch (err) {

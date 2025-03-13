@@ -122,7 +122,7 @@ function SponsorForm() {
         logo: logoUrl,
       };
 
-      const response = await axios.post("/api/sponsors", sponsorData);
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/sponsors`, sponsorData);
       console.log("Server response:", response.data);
       navigate("/sponsoruploadsuccess");
     } catch (error) {

@@ -11,7 +11,7 @@ const CriteriaList = () => {
     useEffect(() => {
         const fetchCriteria = async () => {
             try {
-                const response = await axios.get(`/api/judge/getcriteria/${name}`); // Adjust the API endpoint as needed
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/judge/getcriteria/${name}`); // Adjust the API endpoint as needed
                 if (response.data && response.data.criteria) {
                     setCriteria(response.data.criteria); // Set the fetched criteria
                 }

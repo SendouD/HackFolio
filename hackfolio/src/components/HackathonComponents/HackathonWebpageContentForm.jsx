@@ -68,7 +68,7 @@ function HackathonWebpageContentForm(props) {
             let imageUrl;
             if (file !== "") imageUrl = await handleImageUpload(file);
             else imageUrl = "a"
-            const response = await fetch(`/api/hackathon/hackathonCreate/${name}/2`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/hackathonCreate/${name}/2`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -79,6 +79,7 @@ function HackathonWebpageContentForm(props) {
                     aboutPrize,
                     otherFields,
                 }),
+                credentials: 'include',
             });
             if (response.status === 403) navigate('/Error403');
 

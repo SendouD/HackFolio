@@ -12,11 +12,12 @@ function RegisteredHackathonsDisplay() {
 
   async function getData() {
     try {
-      const response = await fetch(`/api/hackathon/registeredHackathons`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/registeredHackathons`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
         },
+        credentials: 'include'
       });
       if (response.status === 403) navigate('/Error403');
       if (!response.ok) {

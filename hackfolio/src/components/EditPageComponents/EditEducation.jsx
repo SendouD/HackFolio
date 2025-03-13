@@ -45,7 +45,7 @@ function Education() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`/api/userProfile/${userId}/2`);
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/userProfile/${userId}/2`);
                 const userData = response.data;
 
                 setFormData({
@@ -144,7 +144,7 @@ function Education() {
 
     const updateEducation = async () => {
         try {
-            const response = await axios.put(`/api/userProfile/${userId}/2`, formData);
+            const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/userProfile/${userId}/2`, formData);
             if (response.status === 200) {
                 alert("Education details updated successfully!");
             }

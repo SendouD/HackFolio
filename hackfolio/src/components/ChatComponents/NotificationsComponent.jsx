@@ -23,11 +23,12 @@ function NotificationsComponent(props) {
 
     async function getMessagesStatus() {
         try {
-            const response = await fetch(`/api/chat/getReadStatus/${props.currUser}`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/chat/getReadStatus/${props.currUser}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include',
             });
             if (!response.ok) throw new Error('Network response was not ok');
             setData(await response.json());

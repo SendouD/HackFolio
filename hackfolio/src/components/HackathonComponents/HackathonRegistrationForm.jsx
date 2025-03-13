@@ -43,12 +43,13 @@ function HackathonRegistrationForm() {
                 alert('Enter valid URLs!');
                 return;
             }
-            const response = await fetch(`/api/hackathon/registerForHackathon/${name}`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/registerForHackathon/${name}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(formData),
+                credentials: 'include',
             });
             if(response.status === 403) navigate('/Error403');
             if (!response.ok) throw new Error('Network response was not ok');

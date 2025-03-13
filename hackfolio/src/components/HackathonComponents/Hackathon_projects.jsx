@@ -15,7 +15,7 @@ const HackathonProjectDisplay = () => {
     const fetchProject = async () => {
       try {
         console.log(name);
-        const response = await axios.get(`/api/project/hackathonprojects/${name}`);
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/project/hackathonprojects/${name}`);
         setProjects(response.data);
         setLoading(false);
       } catch (err) {

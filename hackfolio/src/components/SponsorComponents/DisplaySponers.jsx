@@ -12,20 +12,20 @@ const DisplaySponsor = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  async function fetchSponsors() {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/sponsors`);
+      setSponsors(response.data);
+      setLoading(false);
+    } catch (err) {
+      console.error("Error fetching sponsors:", err);
+      setError("Error fetching sponsors");
+      setLoading(false);
+    }
+  }
+
   // Fetch sponsors on component mount
   useEffect(() => {
-    const fetchSponsors = async () => {
-      try {
-        const response = await axios.get("/api/sponsors");
-        setSponsors(response.data);
-        setLoading(false);
-      } catch (err) {
-        console.error("Error fetching sponsors:", err);
-        setError("Error fetching sponsors");
-        setLoading(false);
-      }
-    };
-
     fetchSponsors();
   }, []);
 

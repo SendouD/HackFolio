@@ -19,7 +19,7 @@ const SignUp = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('/api/userlogin/signup', {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/userlogin/signup`, {
         email,
         password,
         username,

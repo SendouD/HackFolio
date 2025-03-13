@@ -19,7 +19,7 @@ const UserDashboard = () => {
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const projectResponse = await axios.get(`/api/project/userprojects/${username}`);
+        const projectResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/project/userprojects/${username}`);
         setProjects(projectResponse.data);
       } catch (err) {
         if (err.response && err.response.status === 404) {
@@ -33,7 +33,7 @@ const UserDashboard = () => {
       }
 
       try {
-        const userResponse = await axios.get(`/api/user/${username}`);
+        const userResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/user/${username}`);
         setUserdetails(userResponse.data);
       } catch (err) {
         console.error("Error fetching user:", err);
