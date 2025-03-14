@@ -33,7 +33,7 @@ const Stats = () => {
     const fetchTeams = async () => {
       try {
         const response = await axios.get(
-          `/api/hackathon/registeredParticipants/${name}`
+          `${import.meta.env.VITE_BACKEND_URL}/api/hackathon/registeredParticipants/${name}`
         );
         console.log(response.data.response);
         setTeams(response.data.response);
