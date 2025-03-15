@@ -182,7 +182,7 @@ const Stats = () => {
         {chartData && chartData.labels.length > 0 ? (
           <Bar data={chartData} options={options} />
         ) : (
-          <p>Loading chart...</p>
+          <LoadingPage/>
         )}
       </div>
 

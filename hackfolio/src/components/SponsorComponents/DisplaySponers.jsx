@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { useNavigate } from "react-router-dom";
 import "../../styles/Homepage.css"; // Assuming the custom styles are available
 import Header from "../../components/Header";
+import LoadingPage from "../loading";
 import ReactingNavBar from "../../components/ReactingNavBar";
 
 const DisplaySponsor = () => {
@@ -35,7 +36,7 @@ const DisplaySponsor = () => {
   };
 
   // Loading and error states
-  if (loading) return <div>Loading sponsors...</div>;
+  if (loading) return <LoadingPage/>;
   if (error) return <div>{error}</div>;
 
   return (

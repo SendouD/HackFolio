@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import ProjectCard from "../ProjectComponents/UserProjectCard";
 import { Link, useNavigate } from "react-router-dom";
+import LoadingPage from '../loading';
 
 const HackathonProjectDisplay = () => {
   const [projects, setProjects] = useState([]);
@@ -34,7 +35,7 @@ const HackathonProjectDisplay = () => {
   }, [name]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <LoadingPage/>;
   }
 
   if (error) {

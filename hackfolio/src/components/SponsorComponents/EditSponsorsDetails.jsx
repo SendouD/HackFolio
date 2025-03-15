@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-
+import LoadingPage from '../loading';
 const token = localStorage.getItem('data');
 
 function EditSponsorsDetails() {
@@ -126,7 +126,7 @@ function EditSponsorsDetails() {
         );
     }
 
-    if (data === null) return <div className="text-black">Loading...</div>;
+    if (data === null) return <LoadingPage/>;
 
     return (
         <div className="text-black">

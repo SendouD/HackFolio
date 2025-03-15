@@ -32,9 +32,7 @@ function TeamDisplay(props) {
 
     if(loading) {
         return(
-            <div className="flex justify-center">
-                Loading....
-            </div>
+            <LoadingPage/>
         );
     }
 
