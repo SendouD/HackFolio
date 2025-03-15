@@ -44,6 +44,7 @@ function EditHackathonDetails(props) {
               });
             if(response.status === 403) navigate('/Error403');
             const arr = await response.json();
+            console.log(arr);
             setData(arr.data);
             setHackName(arr.data.hackathonName);
             setFormData({
