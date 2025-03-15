@@ -3,7 +3,7 @@ import { Bar } from 'react-chartjs-2';
 import 'chart.js/auto';
 import { useParams } from "react-router-dom";
 import axios from 'axios';
-
+import LoadingPage from '../loading';
 const Stats = () => {
   const { name } = useParams();
   const [teams, setTeams] = useState([]);
