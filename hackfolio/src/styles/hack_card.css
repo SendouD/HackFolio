@@ -1,19 +1,23 @@
+body {
+    background-color: rgb(154, 175, 193);
+}
 .hackathon-card {
     height: 350px;
-    width: 550px;
-    background-color: white;
+    width: 540px;
+    background-color: rgb(170, 163, 232);
+    border: solid 2px hsl(0, 8%, 20%);
     margin: 30px;
     border-radius: 20px;
     transition: all 0.05s ease-out;
     cursor: pointer;
-    box-shadow: 2px 2px 5px hsl(0, 0%, 88%);
+    box-shadow: 2px 2px 5px hsl(0, 4%, 14%);
     padding: 20px;
     box-sizing: border-box;
     border:solid 2px transparent;
 }
 
 .hackathon-card:hover {
-    border: solid 2px hsl(245, 58%, 61%);
+    border: solid 2px hsl(245, 31%, 14%);
 }
 
 .hack-name {
@@ -21,23 +25,24 @@
 }
 
 .hackathon-card:hover .hack-name {
-    color: #5f3abd;
+    color: #0e32e4;
 }
 
 .hack-themes {
     display: inline-block;
     margin: 10px;
     padding: 10px 20px;
-    border: solid 2px hsl(0, 0%, 88%);
+    border: solid 2px hsl(0, 8%, 20%);
     border-radius: 20px;
 }
 
 .hack-status {
-    background-color: hsl(0, 0%, 88%);
+    background-color: hsl(239, 78%, 78%);
+    border: solid 2px hsl(0, 8%, 20%);
     border-radius: 10px;
     padding: 10px 20px;
     font-weight: 600;
-    color: hsl(0, 0%, 28%);
+    color: hsl(0, 7%, 14%);
     margin-right: 10px;
 }
 
@@ -55,7 +60,7 @@
 
 .hc:hover {
     cursor: pointer;
-    border: solid 2px #5434a5;
+    border: solid 2px #302d37;
 }
 
 .hn {

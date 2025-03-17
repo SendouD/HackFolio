@@ -11,7 +11,7 @@ function HackathonsDisplayCard(props) {
 
     return (
         <motion.div
-            className="hackathon-card flex flex-col justify-between p-6 bg-gray-100 rounded-lg shadow-lg animate__animated animate__fadeInDown"
+            className="hackathon-card flex flex-col justify-between p-6 bg-gray-200 rounded-lg shadow-gray-200 mx-4 my-4"
             whileHover="hover"
             transition={{
                 duration: 0.5,

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import LoadingPage from '../loading';
+
 const token = localStorage.getItem('data');
 
 function EditSponsorsDetails() {
@@ -70,8 +70,35 @@ function EditSponsorsDetails() {
             console.error('Error fetching data:', error);
         }
     }
+    function validateForm() {
+        const usernameRegex = /^[A-Za-z][A-Za-z0-9\s]*$/;
+        const websiteRegex = /^(https?:\/\/)[\w.-]+(?:\.[\w.-]+)+[/#?]?.*$/;
+        const phoneRegex = /^[6-9]\d{9}$/;
+        const registrationRegex = /^HQ\d+$/;
+        const taxIdRegex = /^[A-Za-z0-9]+$/;
+        const verificationRegex = /^(Verified|Pending)$/i;
+
+        const validators = {
+            userName: usernameRegex,
+            companyName: usernameRegex,
+            website: websiteRegex,
+            phoneNumber: phoneRegex,
+            registrationNumber: registrationRegex,
+            taxId: taxIdRegex,
+            verificationStatus: verificationRegex,
+        };
+
+        for (const field in validators) {
+            if (!validators[field].test(formData[field])) {
+                alert(`Invalid input for ${field}`);
+                return false;
+            }
+        }
+        return true;
+    }
 
     async function submitHandle() {
+        if (!validateForm()) return;
         try {
             const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/sponsors/updateSponsorDetails`, {
                 method: 'POST',
@@ -126,7 +153,7 @@ function EditSponsorsDetails() {
         );
     }
 
-    if (data === null) return <LoadingPage/>;
+    if (data === null) return <div className="text-black">Loading...</div>;
 
     return (
         <div className="text-black">
@@ -175,6 +202,7 @@ function EditSponsorsDetails() {
                 </div>
 
                 {renderEditableField("Description", "description", formData.description)}
+                {renderEditableField("Verification Status", "verificationStatus", formData.verificationStatus)}
 
                 <button onClick={submitHandle} className="edit-inp w-auto bg-[#5f3abd] hover:bg-[#5f3abd] text-white font-medium py-3 px-6 rounded focus:outline-none focus:shadow-outline edit-btn mt-4">
                     Save Changes
