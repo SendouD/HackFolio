@@ -1,31 +1,34 @@
-import React, { useEffect, useState } from "react";
+"use client";
+
+import { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import UserDashBoardProject from "../../components/ProjectComponents/UserDashboardProject";
 import axios from "axios";
-import { useParams, Link } from "react-router-dom"; // Import Link for navigation
+import { useParams } from "react-router-dom";
 import ReactingNavBar from "../../components/ReactingNavBar";
-import "../../styles/userDahboard.css"; // Import custom CSS for background animation
-import { motion } from "framer-motion"; // Import motion for animations
+import "../../styles/userboard.css";
+import { motion } from "framer-motion";
 import LoadingPage from "../../components/loading";
+
 const UserDashboard = () => {
   const { username } = useParams();
-
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [user, setUserdetails] = useState("");
-  const [dropdownVisible, setDropdownVisible] = useState(false); // State to manage dropdown visibility
+  const [dropdownVisible, setDropdownVisible] = useState(false);
 
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const projectResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/project/userprojects/${username}`);
+        const projectResponse = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/api/project/userprojects/${username}`
+        );
         setProjects(projectResponse.data);
       } catch (err) {
         if (err.response && err.response.status === 404) {
-          setProjects("No projects found"); // Set message directly
+          setProjects([]); // Set empty array instead of error
         } else {
-          console.error("Error fetching project:", err);
           setError(err.message);
         }
       } finally {
@@ -33,12 +36,12 @@ const UserDashboard = () => {
       }
 
       try {
-        const userResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/user/${username}`);
+        const userResponse = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/api/user/${username}`
+        );
         setUserdetails(userResponse.data);
       } catch (err) {
-        console.error("Error fetching user:", err);
         setError(err.message);
-        setLoading(false);
       }
     };
 
@@ -47,173 +50,141 @@ const UserDashboard = () => {
     }
   }, [username]);
 
-  if (loading) return <LoadingPage/>;
+  if (loading) return <LoadingPage />;
   if (error) return <div>Error: {error}</div>;
 
   const handleProfileClick = () => {
-    setDropdownVisible(!dropdownVisible); // Toggle dropdown visibility
+    setDropdownVisible(!dropdownVisible);
   };
 
   return (
     <>
-      <div className="flex">
+      <div className="flex min-h-screen">
         <ReactingNavBar />
 
         <div className="size-full">
           <Header />
           <div className="min-h-[95vh] flex flex-col items-center relative overflow-hidden">
-            {/* Background Animations */}
-            <div className="inset-0 -z-10">
-              <motion.div
-                className="line-animation absolute top-[400px] left-[30px] w-32 h-32"
-                initial={{ pathLength: 0 }}
-                whileInView={{ pathLength: 1 }}
-                transition={{ duration: 2 }}
-              >
-                <motion.svg
-                  viewBox="0 0 100 100"
-                  xmlns="http://www.w3.org/2000/svg"
+            <motion.div
+              className="absolute inset-0 -z-10 bg-gradient-to-br from-white via-blue-100 to-purple-200"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1 }}
+            />
+
+            <motion.div
+              className="bg-white/90 backdrop-blur-md shadow-xl rounded-xl p-8 mt-8 w-3/4 z-10 relative border border-slate-200"
+              initial={{ y: -50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            >
+              <div className="flex flex-col md:flex-row justify-between items-start gap-8">
+                <div className="w-full md:w-2/3">
+                  <div className="flex items-center gap-4 mb-6">
+                    <motion.img
+                      src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${Math.random()}`}
+                      alt="User Avatar"
+                      className="rounded-full w-24 h-24 object-cover border-4 border-white shadow-md"
+                      whileHover={{ scale: 1.1 }}
+                    />
+                    <div>
+                      <h1 className="text-3xl font-bold text-slate-800">{user.firstName}</h1>
+                      <p className="text-slate-600 text-sm">{user.bio || "No bio available"}</p>
+                    </div>
+                  </div>
+
+                  <motion.div
+                    className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-slate-100"
+                    whileHover={{ scale: 1.02 }}
+                  >
+                    <h1 className="text-2xl font-bold text-slate-800 mb-2">
+                      {user.education?.institution || "Institution not available"},
+                      {user.education?.degreeType || "Degree not specified"}
+                    </h1>
+                    <p className="text-slate-600 text-sm mb-1">
+                      {user.githubProfile ? (
+                        <a href={user.githubProfile} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+                          GitHub Profile
+                        </a>
+                      ) : (
+                        "Github link not available"
+                      )}
+                    </p>
+                    <p className="text-slate-600 text-sm mb-1">
+                      {user.linkedinProfile ? (
+                        <a href={user.linkedinProfile} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+                          LinkedIn Profile
+                        </a>
+                      ) : (
+                        "LinkedIn not available"
+                      )}
+                    </p>
+                  </motion.div>
+                </div>
+
+                <motion.div
+                  className="w-full md:w-1/3 bg-gradient-to-br from-blue-100 to-blue-50 p-6 rounded-lg shadow-sm border border-slate-100"
+                  whileHover={{ scale: 1.05 }}
                 >
-                  <motion.path
-                    d="M10 10 L 50 50 L 90 10"
-                    fill="transparent"
-                    stroke="#3b82f6"
-                    strokeWidth="4"
-                  />
-                </motion.svg>
-              </motion.div>
-
-              <motion.div
-                className="line-animation absolute top-[600px] left-[1000px] w-32 h-32"
-                initial={{ pathLength: 0 }}
-                whileInView={{ pathLength: 1 }}
-                transition={{ duration: 2 }}
-              >
-                <motion.svg
-                  viewBox="0 0 100 100"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <motion.path
-                    d="M10 10 L 50 50 L 90 10"
-                    fill="transparent"
-                    stroke="#3b82f6"
-                    strokeWidth="4"
-                  />
-                </motion.svg>
-              </motion.div>
-
-              <motion.div
-                className="absolute bottom-[1000px] right-[250px] w-32 h-32 bg-blue-100 rounded-full"
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1 }}
-              />
-
-              <motion.div
-                className="absolute bottom-[50px] left-[10px] w-48 h-48 bg-purple-300 rounded-full"
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1.2 }}
-                transition={{ duration: 0.8 }}
-              />
-
-              <motion.div
-                className="absolute bottom-[700px] left-[250px] w-48 h-48 bg-purple-300 rounded-full"
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1.2 }}
-                transition={{ duration: 0.8 }}
-              />
-
-              <motion.div
-                className="absolute bottom-[800px] left-[1500px] w-48 h-48 bg-purple-300 rounded-full"
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1.2 }}
-                transition={{ duration: 0.8 }}
-              />
-
-              <motion.div
-                className="absolute bottom-[720px] right-[200px] w-32 h-32 bg-blue-100 rounded-full"
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1 }}
-              />
-
-              <motion.div
-                className="absolute bottom-[10px] left-[1300px] w-48 h-48 bg-purple-300 rounded-full"
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1.2 }}
-                transition={{ duration: 0.8 }}
-              />
-
-              <motion.div
-                className="absolute bottom-[10px] left-[1200px] w-32 h-32 bg-blue-100 rounded-full"
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1 }}
-              />
-
-              <motion.div
-                className="absolute bottom-[200px] right-[800px] w-32 h-32 bg-blue-100 rounded-full"
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1 }}
-              />
-            </div>
-
-            <div className="bg-white shadow-lg rounded-lg p-8 mt-8 w-3/4 z-10 relative card-shapes">
-              <div className="flex justify-between items-center relative">
-                <div>
-                  <img
-                    src="https://via.placeholder.com/100"
-                    alt="User Avatar"
-                    className="rounded-full w-24 h-24 mb-4"
-                  />
-                  <h1 className="text-2xl font-bold mb-2">{user.firstName}</h1>
-                  <p className="text-gray-600 mb-4">{user.bio}</p>
-
-                  <div>
-                    <h2 className="font-semibold text-lg mb-2">Projects</h2>
-                    {Array.isArray(projects) && projects.length > 0 ? (
-                      projects.map((project) => (
-                        <UserDashBoardProject key={project.id} project={project} />
-                      ))
+                  <div className="w-full mb-3">
+                    <h2 className="font-semibold text-lg text-slate-800 mb-4 border-b border-slate-400 pb-2">
+                      Skills
+                    </h2>
+                    {user.skills && user.skills.length > 0 ? (
+                      <div className="flex flex-wrap gap-2">
+                        {user.skills.map((skill, index) => (
+                          <motion.span
+                            key={index}
+                            className="bg-white px-3 py-1 rounded-full text-sm font-medium text-slate-700 shadow-sm border border-slate-200"
+                            whileHover={{ scale: 1.1 }}
+                          >
+                            {skill}
+                          </motion.span>
+                        ))}
+                      </div>
                     ) : (
-                      <p>{projects}</p> // Display the message directly
+                      <p className="text-slate-500 text-center">No skills available</p>
                     )}
                   </div>
-                </div>
 
-                <div className="flex flex-col items-center relative">
-                  <div className="flex space-x-3 mb-4">
-                    {/* Social Media Links */}
-                    <a href="#" className="bg-gray-200 rounded-full p-3 hover:bg-gray-300">
-                      <i className="fab fa-github text-gray-600"></i>
-                    </a>
-                    <a href="#" className="bg-blue-600 text-white rounded-full p-3 hover:bg-[#5f3abd]">
-                      <i className="fab fa-linkedin-in"></i>
-                    </a>
-                    <a href="#" className="bg-[#5f3abd] text-white rounded-full p-3 hover:bg-blue-600">
-                      <i className="fab fa-twitter"></i>
-                    </a>
-                    <a href="#" className="bg-gray-300 rounded-full p-3 hover:bg-gray-400">
-                      <i className="fas fa-globe"></i>
-                    </a>
+                  <div className="bg-white/80 backdrop-blur-sm rounded-xl p-3 shadow-md border border-slate-100 mt-4">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-slate-800 font-medium">Total Projects</h3>
+                    </div>
+                    <p className="text-3xl font-bold text-slate-800 mt-2">
+                      {projects.length}
+                    </p>
                   </div>
-
-                  <div className="w-full">
-                    <h2 className="font-semibold text-lg mb-2">Skills</h2>
-                    <ul className="text-gray-600">
-                      {user.skills && user.skills.length > 0 ? (
-                        user.skills.map((skill, index) => (
-                          <li key={index}>{skill}</li>
-                        ))
-                      ) : (
-                        <li>No skills available</li>
-                      )}
-                    </ul>
-                  </div>
-                </div>
+                </motion.div>
               </div>
-            </div>
+            </motion.div>
+
+            <motion.div
+              className="grid grid-cols-1 gap-6 w-3/4 mt-8 z-10"
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            >
+              <motion.div
+                className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-slate-100"
+                whileHover={{ scale: 1.02 }}
+              >
+                <h2 className="font-semibold text-lg text-slate-800 mb-4 border-b border-slate-200 pb-2">
+                  Projects
+                </h2>
+                <div className="space-y-4">
+                  {projects.length > 0 ? (
+                    projects.map((project) => (
+                      <UserDashBoardProject key={project.id} project={project} />
+                    ))
+                  ) : (
+                    <div className="bg-slate-50 rounded-lg p-4 text-slate-500 text-center">
+                      No projects yet
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
       </div>

@@ -26,7 +26,6 @@ const Contacts = () => {
 
     const { id: userId } = useParams();
 
-    // Fetch user data on component mount
     useEffect(() => {
         const fetchData = async () => {
             if (!userId) {
@@ -37,13 +36,7 @@ const Contacts = () => {
             try {
                 const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/userProfile/${userId}/1`);
                 console.log("Fetched user data:", response.data);
-                let userData;
-
-                if (response.data.user) {
-                    userData = response.data.user;
-                } else {
-                    userData = response.data;
-                }
+                let userData = response.data.user || response.data;
 
                 setFormData({
                     phoneNumber: userData.phoneNumber || '',
@@ -67,25 +60,30 @@ const Contacts = () => {
         fetchData();
     }, [userId]);
 
-    // Validation rules
     const validateField = (name, value) => {
         switch (name) {
             case 'phoneNumber':
-                const phoneRegex = /^[+]?[0-9]{7,15}$/;
+                const phoneRegex = /^[+]?[0-9]{10,15}$/;
                 if (!phoneRegex.test(value)) {
                     return 'Invalid phone number format';
                 }
-                if (value.replace(/^\+/, '').length !== 10) {
+                if (/^0+$/.test(value.replace(/^\+/, ''))) {
+                    return 'Phone number cannot be all zeros';
+                }
+                if (value.replace(/[^0-9]/g, '').length !== 10) {
                     return 'Phone number must be exactly 10 digits';
                 }
                 return '';
+
             case 'email':
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                return emailRegex.test(value) ? '' : 'Invalid email address format';
+                const strictEmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                return strictEmailRegex.test(value) ? '' : 'Invalid email address format';
+
             case 'city':
-                return value.trim() === '' ? 'City cannot be empty' : '';
             case 'country':
-                return value.trim() === '' ? 'Country cannot be empty' : '';
+                const locationRegex = /^[a-zA-Z\s-]+$/;
+                return locationRegex.test(value) ? '' : `${name} must contain only letters, spaces, and hyphens`;
+
             default:
                 return '';
         }
@@ -94,17 +92,20 @@ const Contacts = () => {
     const handleChange = (event) => {
         const { name, value } = event.target;
 
-        // Validate field
         const error = validateField(name, value);
 
         setFormData(prev => ({ ...prev, [name]: value }));
         setErrors(prev => ({ ...prev, [name]: error }));
     };
 
-    const toggleEdit = (field) => {
+    const toggleEdit = async (field) => {
         if (editableFields[field]) {
-            if (!errors[field]) {
-                updateUser(); // Update only if there are no errors
+            if (!errors[field] && formData[field].trim() !== '') {
+                try {
+                    await updateUser();
+                } catch (error) {
+                    console.error("Error updating:", error);
+                }
             } else {
                 alert("Please fix validation errors before saving.");
                 return;
@@ -141,7 +142,10 @@ const Contacts = () => {
                 />
                 <button 
                     onClick={() => toggleEdit(name)} 
-                    className="bg-[#5f3abd] hover:bg-[#5534a7] text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2"
+                    className={`bg-[#5f3abd] hover:bg-[#5534a7] text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2 ${
+                        errors[name] ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
+                    disabled={errors[name] !== ""}
                 >
                     {editableFields[name] ? 'Save' : 'Edit'}
                 </button>

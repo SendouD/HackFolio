@@ -146,8 +146,8 @@ app.use((err, req, res, next) => {
     });
 });
 
-server.listen(5000, () => {
-    console.log("Server started on port 5000 ... (http://localhost:5000/)");
+server.listen(5001, () => {
+    console.log("Server started on port 5001 ... (http://localhost:5001/)");
 });
 
 // module.exports = server;

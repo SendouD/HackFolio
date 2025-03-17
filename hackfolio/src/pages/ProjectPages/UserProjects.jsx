@@ -38,7 +38,7 @@ function UserProjects() {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="flex">
+    <div className="flex ">
       <ReactingNavBar />
 
       <div className="space-y-3 size-full">
@@ -51,13 +51,13 @@ function UserProjects() {
           </div>
 
           {/* Content Section */}
-          <main className="max-w-7xl mx-auto p-6 bg-white">
+          <main className="max-w-10xl mx-auto p-6 bg-white bg-gradient-to-br from-slate-50 to-blue-100">
   
          
 
-            <section className="my-12">
+            <section className="my-12 ">
               <h2 className="text-2xl font-bold">Public Projects</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 ">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 max-w-5xl ">
                 {Array.isArray(projects) && projects.length > 0 ? (
                   projects.map((project) => (
                     <Link key={project.id} to={`/ProjectDisplay/${project._id}`}>
