@@ -69,7 +69,6 @@ const SponsorComp = () => {
         <div className="absolute top-0 left-0 w-full h-full z-0">
           <div className="wave"></div>
         </div>
-        <ReactingNavBar />
         {/* Animated Shapes */}
         <motion.div
           initial={{ opacity: 0, scale: 0 }}
@@ -130,7 +129,6 @@ const SponsorComp = () => {
           </motion.svg>
         </motion.div>
         <div className="space-y-6 size-full text-white w-full z-20">
-          <Header />
           <div className="container mx-auto px-8 py-12 relative z-30">
             {/* Title section with enhanced font styling */}
             <motion.h1
