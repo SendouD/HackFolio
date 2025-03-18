@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 const AnimatedBanner = () => {
     const navigate = useNavigate();
     return (
-        <div className="w-full bg-gray py-12">
+        <div className="w-full bg-gray py-12 bg-gradient-to-br from-slate-50 to-blue-100">
             <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
                 {/* Left Pattern */}
                 <div className="relative h-[300px] overflow-hidden">

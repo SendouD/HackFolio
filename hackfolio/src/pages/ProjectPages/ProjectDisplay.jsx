@@ -30,7 +30,7 @@ const Project_display = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="flex">
+    <div className="flex ">
 
       <ReactingNavBar />
 

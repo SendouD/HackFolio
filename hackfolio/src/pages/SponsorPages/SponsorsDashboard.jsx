@@ -12,12 +12,12 @@ function SponsorsDashboard() {
  const navigate=useNavigate();
   return (
     <div>
-      <div className="flex min-h-screen">
+      <div className="flex min-h-screen bg-gradient-to-br from-slate-50 to-blue-100">
         {/* Side Navigation */}
         <ReactingNavBar />
 
         {/* Main Content */}
-        <div className="flex-1 space-y-6 text-white">
+        <div className="flex-1 space-y-6 text-white ">
           <Header />
 
           <div className="flex flex-col items-center mt-4">
@@ -36,7 +36,7 @@ function SponsorsDashboard() {
             </div>
 
             {/* Content Section */}
-            <div className="w-full max-w-4xl mt-8 rounded-lg shadow-lg p-6">
+            <div className="w-full max-w-4xl mt-8 rounded-lg shadow-lg p-6 bg-white">
               <div className="">
                 <h2 className="text-2xl font-bold mb-4"></h2>
                 <EditSponsorsDetails />
