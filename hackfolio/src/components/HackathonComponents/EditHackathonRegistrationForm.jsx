@@ -1,10 +1,29 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { z } from 'zod';
+
+// Define Zod schema
+const registrationSchema = z.object({
+    aliasname: z.string().refine((value) => isNaN(Number(value)), {
+        message: "Alias name cannot be a number"
+    }),
+    firstname: z.string().nonempty("First name is required"),
+    lastname: z.string().nonempty("Last name is required"),
+    email: z.string().email("Invalid email format"),
+    phoneno: z.string().refine((value) => /^\d{10}$/.test(value), {
+        message: "Phone number must be exactly 10 digits",
+    }),
+    gender: z.string().nonempty("Gender is required"),
+    githubprofile: z.string().url("Invalid GitHub profile URL"),
+    linkednprofile: z.string().url("Invalid LinkedIn profile URL"),
+    portfoliowebsite: z.string().url("Invalid portfolio website URL"),
+    skills: z.string().nonempty("Skills are required"),
+});
 
 function EditHackathonRegistrationForm() {
     const { name } = useParams();
     const navigate = useNavigate();
-    const [data,setData] = useState(null);
+    const [data, setData] = useState(null);
 
     const [formData, setFormData] = useState({
         aliasname: '',
@@ -32,12 +51,14 @@ function EditHackathonRegistrationForm() {
         skills: false,
     });
 
-    useEffect(() => {
-        getInfo();
-    },[])
+    const [errors, setErrors] = useState({});
 
     useEffect(() => {
-        if(data)
+        getInfo();
+    }, []);
+
+    useEffect(() => {
+        if (data)
             setFormData({
                 aliasname: data.aliasname,
                 firstname: data.firstname,
@@ -50,18 +71,18 @@ function EditHackathonRegistrationForm() {
                 portfoliowebsite: data.portfoliowebsite,
                 skills: data.skills,
             });
-    },[data])
+    }, [data]);
 
     async function getInfo() {
         try {
             const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/registerForHackathon/${name}`, {
                 method: "GET",
                 headers: {
-                  "Content-Type": "application/json",
+                    "Content-Type": "application/json",
                 },
                 credentials: 'include',
-              });
-            if(response.status === 403) navigate('/Error403');
+            });
+            if (response.status === 403) navigate('/Error403');
             if (!response.ok) throw new Error('Network response was not ok');
             const arr = await response.json();
             setData(arr.data);
@@ -70,34 +91,44 @@ function EditHackathonRegistrationForm() {
         }
     }
 
-    function handleChange(e,name) {
+    function handleChange(e, name) {
         const temp = { ...formData };
         temp[name] = e.target.value;
         setFormData(temp);
     }
 
     function handleEdit(field) {
-        setEditableFields(prev => ({ ...prev, [field]: !prev[field] }));
+        setEditableFields((prev) => ({ ...prev, [field]: !prev[field] }));
     }
 
-
-    function inputComponent(label,name) {
-
-        return(
+    function inputComponent(label, name) {
+        return (
             <>
                 <label htmlFor="" className="mt-[20px] font-light">{label}</label>
                 <div className="flex items-center">
-                    <input type="text" disabled={!editableFields[name]} onChange={(e) => handleChange(e,name)} value={formData[name]} className="edit-inp shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-2"/>
+                    <input type="text" disabled={!editableFields[name]} onChange={(e) => handleChange(e, name)} value={formData[name]} className="edit-inp shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-2" />
                     <button onClick={() => handleEdit(name)} className="bg-[#5f3abd] font-medium hover:bg-[#5f3abd] text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2 edit-btn mt-2">
                         {editableFields[name] ? 'Save' : 'Edit'}
                     </button>
                 </div>
+                {errors[name] && <p className="text-red-500 text-xs italic mt-2">{errors[name]}</p>}
             </>
         );
     }
 
     async function handleSubmit() {
         try {
+            const parsedData = registrationSchema.safeParse(formData);
+            console.log("hitt")
+            if (!parsedData.success) {
+                const errorMessages = parsedData.error.errors.reduce((acc, error) => {
+                    acc[error.path[0]] = error.message;
+                    return acc;
+                }, {});
+                setErrors(errorMessages);
+                return;
+            }
+
             const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/registerForHackathon/${name}`, {
                 method: 'PUT',
                 headers: {
@@ -106,29 +137,30 @@ function EditHackathonRegistrationForm() {
                 body: JSON.stringify(formData),
                 credentials: 'include',
             });
-            if(response.status === 403) navigate('/Error403');
+
+            if (response.status === 403) navigate('/Error403');
             if (!response.ok) throw new Error('Network response was not ok');
-            console.log(await response.json())
-            navigate(`/hackathon/${name}/editRegistrationDetails`);
+            console.log(await response.json());
+            navigate(`/hackathon/${name}`);
         } catch (error) {
             console.error('Error posting data:', error);
         }
     }
 
-    return(
+    return (
         <div className="w-full p-6 border rounded-[10px]">
             <div className="">
                 <div className="text-4xl text-gray-500 mb-[40px]">Application Form :</div>
-                {inputComponent("What should people call you:","aliasname")}
-                {inputComponent("First Name:","firstname")}
-                {inputComponent("Last Name:","lastname")}
-                {inputComponent("Email: ","email")}
-                {inputComponent("Phone No.:","phoneno")}
-                {inputComponent("Gender:","gender")}
-                {inputComponent("Github URL:","githubprofile")}
-                {inputComponent("Linkedn URL:","linkednprofile")}
-                {inputComponent("Portfolio Website URL:","portfoliowebsite")}
-                {inputComponent("Skills:","skills")}
+                {inputComponent("What should people call you:", "aliasname")}
+                {inputComponent("First Name:", "firstname")}
+                {inputComponent("Last Name:", "lastname")}
+                {inputComponent("Email:", "email")}
+                {inputComponent("Phone No.:", "phoneno")}
+                {inputComponent("Gender:", "gender")}
+                {inputComponent("Github URL:", "githubprofile")}
+                {inputComponent("LinkedIn URL:", "linkednprofile")}
+                {inputComponent("Portfolio Website URL:", "portfoliowebsite")}
+                {inputComponent("Skills:", "skills")}
                 <div className="mt-4">
                     <button
                         onClick={handleSubmit}
@@ -142,4 +174,4 @@ function EditHackathonRegistrationForm() {
     );
 }
 
-export default EditHackathonRegistrationForm
+export default EditHackathonRegistrationForm;
