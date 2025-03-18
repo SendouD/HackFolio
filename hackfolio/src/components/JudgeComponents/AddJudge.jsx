@@ -7,7 +7,11 @@ const AddJudge = () => {
     const [judges, setJudges] = useState([""]); // Start with one empty judge input
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    
+    const judgeSchema = z.string().email({
+        message: 'Invalid email format'
+    }).min(1,{
+        message: 'Judge email is required'
+    })    ;
     // Fetch existing judges when the component mounts
     useEffect(() => {
         const fetchJudges = async () => {
@@ -40,7 +44,11 @@ const AddJudge = () => {
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+        const isValid = judgeSchema.safeParse(judges);
+        if (!isValid.success) {
+            setErrorMessage(isValid.error.format());
+            return;
+        }
         try {
             const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/judge/addjudge`, {
                 name, // Use the hackathon name from params

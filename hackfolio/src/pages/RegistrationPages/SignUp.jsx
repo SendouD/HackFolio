@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import '../../styles/SignUp.css'
-
+import '../../styles/SignUp.css';
+import * as z from 'zod';
 const SignUp = () => {
   // State variables for form inputs
   const [email, setEmail] = useState('');
@@ -12,20 +12,54 @@ const SignUp = () => {
   const [lastName, setLastName] = useState('');
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-
+  const signUpSchema = z.object({
+    firstName: z.string().regex(/^(?!\s)([A-Za-z]+(?: [A-Za-z]+)*){3,}$/, {
+      message:
+        'First name must contain at least 3 alphabetic characters and cannot have multiple consecutive spaces.',
+    }),
+    lastName: z.string().min(1, {
+      value: 1,
+      message: 'Last name must contain at least 1 alphabetic characters.',
+    }),
+    password: z.string().min(6, {
+      message: 'Password must be at least 6 characters long',
+    }),
+    email: z.string().email({
+      message: 'Please enter a valid email address',
+    }),
+    // Username must be 3-20 characters long, contain only letters, numbers, and underscores, and cannot start or end with an underscore.
+    username: z.string().regex(/^(?!_)(?!.*__)[A-Za-z0-9_]{3,20}(?<!_)$/, {
+      message:
+        'Username must be 3-20 characters long, contain only letters, numbers, and underscores, and cannot start or end with an underscore.',
+    }),
+  });
   const navigate = useNavigate();
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const isValid = signUpSchema.safeParse({
+      firstName,
+      lastName,
+      password,
+      username,
+      email,
+    });
+    if(!isValid.success){
+      setError(isValid.error.errors[0].message);
+      return;
+    }
+    
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/userlogin/signup`, {
-        email,
-        password,
-        username,
-        firstName,
-        lastName
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/userlogin/signup`,
+        {
+          email,
+          password,
+          username,
+          firstName,
+          lastName,
+        }
+      );
 
       console.log(response);
       // If successful, handle the success
@@ -45,12 +79,19 @@ const SignUp = () => {
         {/* Left side - Sign Up Form */}
         <div className="w-1/2 p-8">
           <div className="max-w-md w-full mx-auto">
-            <h2 className="text-2xl font-bold text-center mb-4">Create your account</h2>
-            <p className="text-center mb-6 text-sm text-gray-500">Start sharing your projects today!</p>
+            <h2 className="text-2xl font-bold text-center mb-4">
+              Create your account
+            </h2>
+            <p className="text-center mb-6 text-sm text-gray-500">
+              Start sharing your projects today!
+            </p>
             <form onSubmit={handleSubmit}>
               {/* Username Input */}
               <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
+                <label
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                  htmlFor="username"
+                >
                   Username
                 </label>
                 <input
@@ -66,7 +107,10 @@ const SignUp = () => {
 
               {/* First Name Input */}
               <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="first-name">
+                <label
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                  htmlFor="first-name"
+                >
                   First Name
                 </label>
                 <input
@@ -82,7 +126,10 @@ const SignUp = () => {
 
               {/* Last Name Input */}
               <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="last-name">
+                <label
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                  htmlFor="last-name"
+                >
                   Last Name
                 </label>
                 <input
@@ -98,7 +145,10 @@ const SignUp = () => {
 
               {/* Email Input */}
               <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+                <label
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                  htmlFor="email"
+                >
                   Email address
                 </label>
                 <input
@@ -114,7 +164,10 @@ const SignUp = () => {
 
               {/* Password Input */}
               <div className="mb-6">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+                <label
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                  htmlFor="password"
+                >
                   Password
                 </label>
                 <input
@@ -141,7 +194,9 @@ const SignUp = () => {
 
             {/* Error and Success Messages */}
             {error && <p className="mt-4 text-red-600 text-center">{error}</p>}
-            {success && <p className="mt-4 text-green-600 text-center">{success}</p>}
+            {success && (
+              <p className="mt-4 text-green-600 text-center">{success}</p>
+            )}
           </div>
         </div>
 
@@ -157,17 +212,32 @@ const SignUp = () => {
               fill="#2dd4bf"
               fillOpacity="1"
               d="M0,128L48,106.7C96,85,192,43,288,42.7C384,43,480,85,576,128C672,171,768,213,864,202.7C960,192,1056,128,1152,122.7C1248,117,1344,171,1392,213.3L1440,256V0H1392C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0H0Z"
-              className='animate-linear-move'
+              className="animate-linear-move"
             ></path>
-            <circle cx='300' cy='170' r='150' fill='#172554' className='animate-bounce' style={{animationDuration:"3.5s"}}></circle>
-            <circle cx='200' cy='300' r='100' fill='#facc15' className='animate-bounce'style={{animationDuration:"3.0s"}}></circle>
+            <circle
+              cx="300"
+              cy="170"
+              r="150"
+              fill="#172554"
+              className="animate-bounce"
+              style={{ animationDuration: '3.5s' }}
+            ></circle>
+            <circle
+              cx="200"
+              cy="300"
+              r="100"
+              fill="#facc15"
+              className="animate-bounce"
+              style={{ animationDuration: '3.0s' }}
+            ></circle>
           </svg>
 
           {/* Content */}
           <div className="text-center z-10">
             <h2 className="text-4xl font-bold mb-4">Welcome Back!</h2>
             <p className="mb-6 text-lg">
-              Sign in with your personal details to keep connected with your projects.
+              Sign in with your personal details to keep connected with your
+              projects.
             </p>
             <button
               className="bg-transparent border-2 border-white text-white font-bold py-2 px-6 rounded hover:bg-white hover:text-gray-900"
@@ -177,7 +247,6 @@ const SignUp = () => {
             </button>
           </div>
         </div>
-
       </div>
     </div>
   );
