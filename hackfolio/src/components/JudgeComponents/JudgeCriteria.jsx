@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import CriteriaList from './Criterialist'; // Ensure this path is correct
-
+import * as z from 'zod'
 const AddCriteria = () => {
     const { name } = useParams(); // Get the hackathon name from URL parameters
     const [criteria, setCriteria] = useState([{ name: '', maxMarks: '' }]); // Initial criteria state
@@ -40,13 +40,21 @@ const AddCriteria = () => {
         setCriteria(updatedCriteria);
         setErrors(updatedErrors);
     };
-
+    const criteriaSchema = z.object({
+        name: z.string().min(1, { message: 'Criteria name is required' }),
+        maxMarks: z.number().positive({ message: 'Max marks must be a positive number' }).max(100,{
+            message: 'Max marks must be a number between 1 and 100'
+        })
+    })
+    const formSchema  =z.object({
+        criteria: z.array(criteriaSchema.array()) 
+    })
     // Add new criteria input field
     const addCriteriaField = () => {
         setCriteria([...criteria, { name: '', maxMarks: '' }]);
         setErrors([...errors, {}]); // Initialize new field's errors
     };
-
+    
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();

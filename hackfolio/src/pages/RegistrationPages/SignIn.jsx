@@ -6,7 +6,7 @@ import '../../styles/SignIn.css'
 const SignIn = () => {
   axios.defaults.withCredentials = true;
   const navigate = useNavigate();
-
+  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
@@ -40,7 +40,7 @@ const SignIn = () => {
         email,
         password,
       });
-
+      
       localStorage.setItem("data", JSON.stringify(response.data));
       navigate('/');
       setSuccess('Sign in successful!');

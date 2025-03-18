@@ -11,7 +11,27 @@ const SignUp = () => {
   const [lastName, setLastName] = useState("");
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState(null);
-
+  const signUpSchema = z.object({
+    firstName: z.string().regex(/^(?!\s)([A-Za-z]+(?: [A-Za-z]+)*){3,}$/, {
+      message:
+        'First name must contain at least 3 alphabetic characters and cannot have multiple consecutive spaces.',
+    }),
+    lastName: z.string().min(1, {
+      value: 1,
+      message: 'Last name must contain at least 1 alphabetic characters.',
+    }),
+    password: z.string().min(6, {
+      message: 'Password must be at least 6 characters long',
+    }),
+    email: z.string().email({
+      message: 'Please enter a valid email address',
+    }),
+    // Username must be 3-20 characters long, contain only letters, numbers, and underscores, and cannot start or end with an underscore.
+    username: z.string().regex(/^(?!_)(?!.*__)[A-Za-z0-9_]{3,20}(?<!_)$/, {
+      message:
+        'Username must be 3-20 characters long, contain only letters, numbers, and underscores, and cannot start or end with an underscore.',
+    }),
+  });
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -54,6 +74,16 @@ const SignUp = () => {
           lastName,
         }
       );
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/userlogin/signup`,
+        {
+          email,
+          password,
+          username,
+          firstName,
+          lastName,
+        }
+      );
 
       console.log(response);
       setSuccess("User created successfully!");
@@ -68,6 +98,12 @@ const SignUp = () => {
       <div className="bg-white shadow-lg rounded-lg overflow-hidden max-w-4xl w-full flex">
         <div className="w-1/2 p-8">
           <div className="max-w-md w-full mx-auto">
+            <h2 className="text-2xl font-bold text-center mb-4">
+              Create your account
+            </h2>
+            <p className="text-center mb-6 text-sm text-gray-500">
+              Start sharing your projects today!
+            </p>
             <h2 className="text-2xl font-bold text-center mb-4">
               Create your account
             </h2>
@@ -199,3 +235,4 @@ const WelcomeSection = ({ navigate }) => (
 );
 
 export default SignUp;
+

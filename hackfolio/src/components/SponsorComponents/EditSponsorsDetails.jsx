@@ -3,6 +3,24 @@ import { motion } from 'framer-motion';
 
 const token = localStorage.getItem('data');
 
+// Define Zod schema for validation
+const sponsorSchema = z.object({
+    userName: z.string().min(1, 'User Name is required'),
+    companyName: z.string().min(1, 'Company Name is required'),
+    website: z.string().url('Must be a valid URL').optional().or(z.string().length(0)),
+    email: z.string().email('Invalid email address'),
+    phoneNumber: z.string().min(10, 'Phone Number must be at least 10 characters long'),
+    logo: z.string().optional(),
+    address: z.object({
+        street: z.string().min(1, 'Street is required'),
+        city: z.string().min(1, 'City is required'),
+        state: z.string().min(1, 'State is required'),
+        zip: z.string().min(1, 'ZIP code is required'),
+        country: z.string().min(1, 'Country is required'),
+    }),
+    description: z.string().min(1, 'Description is required'),
+});
+
 function EditSponsorsDetails() {
     const [data, setData] = useState(null);
     const [formData, setFormData] = useState({
@@ -24,19 +42,51 @@ function EditSponsorsDetails() {
         description: '',
         verificationStatus: 'Pending'
     });
+    
     const [editableFields, setEditableFields] = useState({
         userName: false,
         companyName: false,
         website: false,
         phoneNumber: false,
         logo: false,
-        registrationNumber: false,
-        taxId: false,
         address: false,
         description: false,
         verificationStatus: false,
     });
-
+    const [errors, setErrors] = useState({});
+    const [uploading, setUploading] = useState(false);
+    
+    const handleImageUpload = async (file) => {
+        if (!file) return;
+        
+        setUploading(true);
+        const uploadPreset = 'hackathonform';
+        const cloudName = 'dgjqg72wo';
+        const formDataImg = new FormData();
+        formDataImg.append('file', file);
+        formDataImg.append('upload_preset', uploadPreset);
+        
+        try {
+            const response = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, formDataImg, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+                withCredentials: false,
+            });
+            
+            setFormData(prev => ({
+                ...prev,
+                logo: response.data.secure_url
+            }));
+            setUploading(false);
+            return response.data.secure_url;
+        } catch (error) {
+            console.error('Error uploading file:', error.response ? error.response.data : error.message);
+            setUploading(false);
+            return null;
+        }
+    };
+    
     useEffect(() => {
         getSponsorInfo();
     }, []);
@@ -46,10 +96,10 @@ function EditSponsorsDetails() {
             const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/sponsors/updateSponsorDetails`, {
                 method: "GET",
                 headers: {
-                  "Content-Type": "application/json",
+                    "Content-Type": "application/json",
                 },
                 credentials: 'include',
-              });
+            });
             if (!response.ok) throw new Error('Network response was not ok');
             const arr = await response.json();
             setData(arr.data);
@@ -105,7 +155,7 @@ function EditSponsorsDetails() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({formData}),
+                body: JSON.stringify({ formData }),
                 credentials: 'include',
             });
             if (!response.ok) throw new Error('Network response was not ok');
@@ -132,6 +182,13 @@ function EditSponsorsDetails() {
         }));
     }
 
+    function handleFileChange(event) {
+        const file = event.target.files[0];
+        if (file) {
+            handleImageUpload(file);
+        }
+    }
+
     function renderEditableField(label, name, value) {
         return (
             <div className='mt-10 text-black'>
@@ -149,6 +206,7 @@ function EditSponsorsDetails() {
                         {editableFields[name] ? 'Save' : 'Edit'}
                     </button>
                 </div>
+                {errors[name] && <p className="text-red-500">{errors[name]}</p>}
             </div>
         );
     }
@@ -174,11 +232,44 @@ function EditSponsorsDetails() {
                             className={`text-black edit-inp shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline`}
                         />
                     </div>
+                    {errors.email && <p className="text-red-500">{errors.email}</p>}
                 </div>
                 {renderEditableField("Phone Number", "phoneNumber", formData.phoneNumber)}
-                {renderEditableField("Logo URL", "logo", formData.logo)}
-                {renderEditableField("Registration Number", "registrationNumber", formData.registrationNumber)}
-                {renderEditableField("Tax ID", "taxId", formData.taxId)}
+                
+                {/* Logo Upload Section */}
+                <div className='mt-10 text-black'>
+                    <label htmlFor="logo" className="text-black">Logo: </label>
+                    <div className='flex flex-col'>
+                        {formData.logo && (
+                            <div className="mb-2">
+                                <img 
+                                    src={formData.logo} 
+                                    alt="Logo preview" 
+                                    className="h-20 w-auto object-contain"
+                                />
+                            </div>
+                        )}
+                        <div className='flex items-center'>
+                            <input
+                                type="file"
+                                id="logoFile"
+                                name="logoFile"
+                                accept="image/*"
+                                disabled={!editableFields.logo}
+                                onChange={handleFileChange}
+                                className={`edit-inp shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline`}
+                            />
+                            <button 
+                                onClick={() => handleEdit('logo')} 
+                                className="bg-[#5f3abd] font-medium hover:bg-[#5f3abd] text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2 edit-btn"
+                            >
+                                {editableFields.logo ? 'Save' : 'Edit'}
+                            </button>
+                        </div>
+                        {uploading && <p className="text-blue-500">Uploading image...</p>}
+                        {errors.logo && <p className="text-red-500">{errors.logo}</p>}
+                    </div>
+                </div>
 
                 <div className='mt-10'>
                     <label className="text-black">Address:</label>
@@ -193,6 +284,7 @@ function EditSponsorsDetails() {
                                     className={`edit-inp shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline mt-2`}
                                     placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
                                 />
+                                {errors[`address.${field}`] && <p className="text-red-500">{errors[`address.${field}`]}</p>}
                             </div>
                         ))}
                         <button onClick={() => handleEdit('address')} className="bg-[#5f3abd] hover:bg-[#5f3abd] text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline edit-btn">
@@ -204,11 +296,12 @@ function EditSponsorsDetails() {
                 {renderEditableField("Description", "description", formData.description)}
                 {renderEditableField("Verification Status", "verificationStatus", formData.verificationStatus)}
 
-                <button onClick={submitHandle} className="edit-inp w-auto bg-[#5f3abd] hover:bg-[#5f3abd] text-white font-medium py-3 px-6 rounded focus:outline-none focus:shadow-outline edit-btn mt-4">
-                    Save Changes
+                <button onClick={submitHandle} className="edit-inp w-auto bg-[#5f3abd] hover:bg-[#5f3abd] text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-6">
+                    Submit Changes
                 </button>
             </div>
-            {/* Background Animations */}
+
+
             <div className=" inset-0 -z-10">
                 <motion.div
                     className="line-animation absolute top-[400px] left-[30px] w-32 h-32 -z-10"

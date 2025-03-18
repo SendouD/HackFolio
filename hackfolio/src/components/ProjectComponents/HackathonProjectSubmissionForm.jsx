@@ -4,6 +4,41 @@ import LoadingPage from "../loading";
 import { useNavigate } from 'react-router-dom';
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
+import * as z from 'zod';
+
+export const formSchema = z.object({
+  projectName: z
+    .string()
+    .min(1, { message: 'Project name is required' })
+    .max(30, { message: 'Project name cannot exceed 30 characters' }),
+  tagline: z
+    .string()
+    .min(1, { message: 'Tagline is required' })
+    .max(30, { message: 'Tagline cannot exceed 30 characters' }),
+  problem: z
+    .string()
+    .min(1, { message: 'Problem description is required' })
+    .max(100, { message: 'Problem description cannot exceed 100 characters' }),
+  challenges: z
+    .string()
+    .min(1, { message: 'Challenges are required' })
+    .max(500, { message: 'Challenges cannot exceed 500 characters' }),
+  technologies: z
+    .string()
+    .min(1, { message: 'Technologies used are required' })
+    .max(500, { message: 'Technologies cannot exceed 500 characters' }),
+  links: z
+    .string()
+    .min(1, { message: 'Links field is required' })
+    .max(2000, { message: 'Links cannot exceed 2000 characters' })
+    .url({ message: 'Invalid URL format' }),
+  videoDemo: z
+    .string()
+    .min(1, { message: 'Video demo link is required' })
+    .max(2000, { message: 'Video demo cannot exceed 2000 characters' })
+    .url({ message: 'Invalid video URL format' }),
+});
+
 
 function HackathonProjectSubmissionForm() {
   const navigate = useNavigate();
@@ -17,12 +52,12 @@ function HackathonProjectSubmissionForm() {
     links: "",
     videoDemo: "",
   });
-
+  
   const [logo, setLogo] = useState(null);
   const [images, setImages] = useState([]);
   const [coverimage, setCoverimage] = useState(null);
   const [isLoading, setIsloading] = useState(false);
-
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -30,14 +65,14 @@ function HackathonProjectSubmissionForm() {
       [name]: value,
     }));
   };
-
+  
   const handleImageUpload = async (file) => {
     const uploadPreset = 'hackathonform';
     const cloudName = 'dgjqg72wo';
     const formData = new FormData();
     formData.append('file', file);
     formData.append('upload_preset', uploadPreset);
-
+    
     try {
         const response = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, formData, {
             headers: {
@@ -55,7 +90,13 @@ function HackathonProjectSubmissionForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsloading(true);
-
+    const validationResult = formSchema.safeParse(formData);
+    if (validationResult.error) {
+      alert(validationResult.error.errors[0].message);
+      console.error('Validation failed:', validationResult.error.message);
+      setIsloading(false);
+      return;
+    }
     const logoUrl = logo ? await handleImageUpload(logo) : null;
     const imageUrls = await Promise.all(Array.from(images).map(handleImageUpload));
     const coverUrl = coverimage ? await handleImageUpload(coverimage) : null;

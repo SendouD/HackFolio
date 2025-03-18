@@ -1,5 +1,24 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { z } from 'zod';
+
+// Define Zod schema
+const registrationSchema = z.object({
+    aliasname: z.string().refine((value) => isNaN(Number(value)), {
+        message: "Alias name cannot be a number"
+    }),
+    firstname: z.string().nonempty("First name is required"),
+    lastname: z.string().nonempty("Last name is required"),
+    email: z.string().email("Invalid email format"),
+    phoneno: z.string().refine((value) => /^\d{10}$/.test(value), {
+        message: "Phone number must be exactly 10 digits",
+    }),
+    gender: z.string().nonempty("Gender is required"),
+    githubprofile: z.string().url("Invalid GitHub profile URL"),
+    linkednprofile: z.string().url("Invalid LinkedIn profile URL"),
+    portfoliowebsite: z.string().url("Invalid portfolio website URL"),
+    skills: z.string().nonempty("Skills are required"),
+});
 
 function EditHackathonRegistrationForm() {
   const { name } = useParams();
@@ -207,5 +226,7 @@ function EditHackathonRegistrationForm() {
     </div>
   );
 }
+
+export default EditHackathonRegistrationForm;
 
 export default EditHackathonRegistrationForm;

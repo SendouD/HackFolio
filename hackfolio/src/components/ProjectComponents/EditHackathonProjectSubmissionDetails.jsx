@@ -71,6 +71,7 @@ const EditHackathonProjectSubmissionDetails = () => {
   };
 
   const handleSave = async (e) => {
+    
     e.preventDefault();
     if (!validateForm()) return;
 
