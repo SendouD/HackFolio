@@ -9,9 +9,12 @@ const AddJudge = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const judgeSchema = z.string().email({
         message: 'Invalid email format'
-    }).min(1,{
-        message: 'Judge email is required'
-    })    ;
+    })
+    const formSchema = z.object({
+        judges: z.array(judgeSchema.array()).min(1,{
+            message: 'At least one judge must be provided'
+        })
+    })
     // Fetch existing judges when the component mounts
     useEffect(() => {
         const fetchJudges = async () => {
@@ -44,9 +47,9 @@ const AddJudge = () => {
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const isValid = judgeSchema.safeParse(judges);
+        const isValid = formSchema.safeParse(judges);
         if (!isValid.success) {
-            setErrorMessage(isValid.error.format());
+            setErrorMessage(isValid.error.errors[0].message);
             return;
         }
         try {
