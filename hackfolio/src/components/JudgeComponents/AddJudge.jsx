@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom'; // Import useParams for accessing URL parameters
 import axios from 'axios';
-
+import * as z from 'zod';
 const AddJudge = () => {
     const { name } = useParams(); // Get the hackathon name from URL parameters
     const [judges, setJudges] = useState([""]); // Start with one empty judge input
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-
+    
     // Fetch existing judges when the component mounts
     useEffect(() => {
         const fetchJudges = async () => {
@@ -21,32 +21,32 @@ const AddJudge = () => {
                 setErrorMessage('Failed to fetch existing judges.');
             }
         };
-
+        
         fetchJudges();
     }, [name]);
-
+    
     // Handle input change for judges
     const handleJudgeChange = (index, value) => {
         const updatedJudges = [...judges];
         updatedJudges[index] = value;
         setJudges(updatedJudges);
     };
-
+    
     // Add new judge input field
     const addJudgeField = () => {
         setJudges([...judges, ""]); // Keep existing judges and add an empty field for new judge
     };
-
+    
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        
         try {
             const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/judge/addjudge`, {
                 name, // Use the hackathon name from params
                 judges
             });
-
+            
             if (response.status === 200) {
                 setSuccessMessage('Judges added successfully!');
                 setErrorMessage('');
@@ -60,7 +60,7 @@ const AddJudge = () => {
             setSuccessMessage('');
         }
     };
-
+    
     return (
         <div className='add-judge-container'>
             <h2 className="text-2xl font-bold mb-4">Add Judges for {name}</h2>
@@ -84,7 +84,7 @@ const AddJudge = () => {
                         + Add More Judges
                     </button>
                 </div>
-
+                
                 <button type="submit" className="bg-[#5f3abd] text-white rounded px-4 py-2 mt-4">
                     Submit
                 </button>

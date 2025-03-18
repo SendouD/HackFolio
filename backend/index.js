@@ -33,7 +33,6 @@ const corsOptions = {
 };
 
 if (process.env.NODE_ENV === "development") {
-    console.log("herreeeeee");
     const logDirectory = path.join(__dirname, "logs");
     require("fs").existsSync(logDirectory) ||
         require("fs").mkdirSync(logDirectory);
