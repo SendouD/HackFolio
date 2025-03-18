@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import CriteriaList from './Criterialist'; // Ensure this path is correct
-
+import * as z from 'zod'
 const AddCriteria = () => {
     const { name } = useParams(); // Get the hackathon name from URL parameters
     const [criteria, setCriteria] = useState([{ name: '', maxMarks: '' }]); // Initial criteria state
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-
+    
     // Handle input change for criteria
     const handleCriteriaChange = (index, field, value) => {
         const updatedCriteria = [...criteria];
@@ -19,16 +19,28 @@ const AddCriteria = () => {
         }
         setCriteria(updatedCriteria);
     };
-
+    const criteriaSchema = z.object({
+        name: z.string().min(1, { message: 'Criteria name is required' }),
+        maxMarks: z.number().positive({ message: 'Max marks must be a positive number' }).max(100,{
+            message: 'Max marks must be a number between 1 and 100'
+        })
+    })
+    const formSchema = =z.object({
+        criteria: z.array(criteriaSchema.array()) 
+    })
     // Add new criteria input field
     const addCriteriaField = () => {
         setCriteria([...criteria, { name: '', maxMarks: '' }]);
     };
-
+    
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        const isValid = formSchema.safeParse({ criteria });
+        if (!isValid.success) {
+            setErrorMessage(isValid.error.errors[0].message);
+            return;
+        }
         // Filter out any empty criteria fields before submitting
         const filteredCriteria = criteria.filter(criterion => 
             criterion.name.trim() !== '' && 
@@ -36,7 +48,7 @@ const AddCriteria = () => {
             !isNaN(criterion.maxMarks) && 
             criterion.maxMarks > 0 // Ensure maxMarks is a positive number
         );
-
+        
         try {
             const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/judge/addcriteria`, {
                 name, // Use the hackathon name from params

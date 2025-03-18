@@ -1,25 +1,45 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import * as z from 'zod';
 const ResetPassword = () => {
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
     const navigate = useNavigate();
-
+    const resetPasswordSchema = z
+      .object({
+        newPassword: z.string().min(6, {
+          message: 'Password must be at least 6 characters long',
+        }),
+        confirmPassword: z.string().min(6, {
+          message: 'Password must be at least 6 characters long',
+        }),
+      })
+      .refine((data) => data.newPassword === data.confirmPassword, {
+        message: 'Passwords do not match',
+        path: ['confirmPassword'], // Error will be attached to confirmPassword
+      });
     const email = localStorage.getItem('email');
     const otp = localStorage.getItem('otp');
-
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const isValid = resetPasswordSchema.safeParse({
+          newPassword,
+          confirmPassword,
+        });
+        if (!isValid.success) {
+            setError(isValid.error.errors[0].message);
+            return;
+        }
 
         if (newPassword !== confirmPassword) {
             setError('Passwords do not match');
             return;
         }
-
+        
         try {
             const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/userlogin/resetpassword`, {
                 email,

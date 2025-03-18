@@ -33,7 +33,6 @@ const corsOptions = {
 };
 
 if (process.env.NODE_ENV === "development") {
-    console.log("herreeeeee");
     const logDirectory = path.join(__dirname, "logs");
     require("fs").existsSync(logDirectory) ||
         require("fs").mkdirSync(logDirectory);
@@ -146,8 +145,8 @@ app.use((err, req, res, next) => {
     });
 });
 
-server.listen(5001, () => {
-    console.log("Server started on port 5001 ... (http://localhost:5001/)");
+server.listen(5000, () => {
+    console.log("Server started on port 5000 ... (http://localhost:5000/)");
 });
 
 // module.exports = server;
