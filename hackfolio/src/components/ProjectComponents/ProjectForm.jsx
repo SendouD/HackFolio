@@ -13,11 +13,8 @@ const projectFormSchema = z.object({
   problem: z.string().min(1, "Problem description is required").max(2000, "Problem description must be under 2000 characters"),
   challenges: z.string().min(1, "Challenges description is required").max(2000, "Challenges description must be under 2000 characters"),
   technologies: z.string().min(1, "Technologies used is required").max(100, "Technologies list must be under 100 characters"),
-  links: z.string().url("Please enter a valid URL").optional(),
-  videoDemo: z.string().url("Please enter a valid URL").optional(),
-  logo: z.any().optional(),
-  coverimage: z.any().optional(),
-  images: z.any().optional(),
+  links: z.string().url("Please enter a valid URL"),
+  videoDemo: z.string().url("Please enter a valid URL"),
 });
 
 function ProjectForm() {
@@ -31,13 +28,13 @@ function ProjectForm() {
     links: "",
     videoDemo: "",
   });
-
+  
   const [logo, setLogo] = useState(null);
   const [images, setImages] = useState([]);
   const [coverimage, setCoverimage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({}); // Store validation errors
-
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -45,23 +42,23 @@ function ProjectForm() {
       [name]: value,
     }));
   };
-
+  
   const handleFileChange = (e, setFile) => {
     setFile(e.target.files[0]);
   };
-
+  
   const handleMultipleFileChange = (e) => {
     setImages([...e.target.files]);
   };
-
-
+  
+  
   const handleImageUpload = async (file) => {
     const uploadPreset = 'hackathonform';
     const cloudName = 'dgjqg72wo';
     const formData = new FormData();
     formData.append('file', file);
     formData.append('upload_preset', uploadPreset);
-
+    
     try {
         const response = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, formData, {
             headers: {
@@ -75,29 +72,30 @@ function ProjectForm() {
         return null;
     }
 };
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
+    console.log("hittt");
+    
     // Validate form data with Zod
     const validationResult = projectFormSchema.safeParse({
       ...formData,
-      logo,
-      coverimage,
-      images,
     });
     if (!validationResult.success) {
+      console.log(validationResult.error.format());
+      console.log("error");
       setErrors(validationResult.error.format()); // Set validation errors
       setIsLoading(false);
       return;
     }
-
+    
     // Upload logo and collect URL
     const logoUrl = logo ? await handleImageUpload(logo) : null;
     const imageUrls = await Promise.all(Array.from(images).map(handleImageUpload));
     const coverUrl = coverimage ? await handleImageUpload(coverimage) : null;
-
+    
     // Prepare data for API request
     const projectData = {
       ...formData,
@@ -105,7 +103,7 @@ function ProjectForm() {
       logoUrl,
       imageUrls,
     };
-
+    
     try {
       // Send data to /api/project
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/project/submitproject`, projectData);
@@ -116,7 +114,7 @@ function ProjectForm() {
     }
     setIsLoading(false);
   };
-
+  
   return (
     <>
       {isLoading ? (
@@ -170,7 +168,7 @@ function ProjectForm() {
                   )}
                 </div>
               ))}
-
+              
               {/* File Inputs */}
               <div className="mb-6">
                 <label className="block text-black font-bold mb-2">Project Logo</label>
@@ -200,7 +198,7 @@ function ProjectForm() {
                   className="w-full px-4 py-2  text-black rounded-lg focus:outline-none"
                 />
               </div>
-
+              
               {/* Submit Button */}
               <button
                 type="submit"

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import * as z from 'zod'
 const VerifyOTP = () => {
   const [otp, setOtp] = useState('');
   const [error, setError] = useState(null);
@@ -9,10 +9,16 @@ const VerifyOTP = () => {
   const navigate = useNavigate();
   
   const email = localStorage.getItem('email'); // Retrieve the email stored earlier
-
+  const otpSchema = z.string().regex(/^\d{6}$/, {
+  message: "Must be exactly 6 digits long.",
+});
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const isValid = otpSchema.safeParse(otp);
+    if (!isValid.success) {
+      setError(isValid.error.errors[0].message);
+      return;
+    }
     try {
       // Send OTP and email to the backend for verification
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/userlogin/verifyotp`, { email, otp });
