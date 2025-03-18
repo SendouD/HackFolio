@@ -22,7 +22,7 @@ function CreateHackathon() {
 
     return (
         <>
-            <div className="flex bg-gradient-to-br from-slate-50 to-blue-100">
+            <div className="flex bg-gradient-to-tr from-purple-200 via-blue-100 to-white">
                 <ReactingNavBar />
                 <div className="space-y-3 size-full">
                     <Header />

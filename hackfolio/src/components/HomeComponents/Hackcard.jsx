@@ -9,9 +9,9 @@ function HackathonsDisplayCard(props) {
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-10 p-10">
-            <div className="bg-white hover:shadow-[#4c1d95] hover:shadow-md rounded-lg bg-[#f5f3ff] text-white border-[#0f172a] min-w-[300px]">
+            <div className="bg-white shadow-[#4c1d95] shadow-md rounded-lg bg-[#f5f3ff] text-white border-[#0f172a] min-w-[300px] ">
 
-                <div className="p-1 rounded-t-lg bg-[#4b5563]"></div>
+                <div className="p-2 rounded-t-lg bg-[#4b5563]"></div>
                 <div className="flex flex-col rounded p-5 lg:p-8">
                     <h3 className="text-3xl text-black font-bold">
                         {props.data.hackathonName.split('-').join(' ')}
