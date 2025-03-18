@@ -89,29 +89,14 @@ authController.route('/signin')
     });
 
 // Forgot Password Route
+   // Forgot Password Route - Modified
 authController.route('/forgotpassword')
-    .post(async (req, res) => {
-        const { email } = req.body;  // Extract email from body
+.post(async (req, res) => {
+    const { email } = req.body;
 
-        mailSender.sendOtp = async function(email, otp) {
-            const mailOptions = {
-                from: 'dumdum69069@gmail.com',
-                to: email,
-                subject: 'Your OTP Code',
-                text: `Your OTP code is ${otp}. It is valid for 10 minutes.`
-            };
+    try {
+        const user = await User.findOne({ email });
         
-            try {
-                await this.sendMail(mailOptions);
-                console.log('OTP email sent');
-            } catch (error) {
-                console.error('Error sending OTP email:', error);
-                throw error;
-            }
-        };
-
-        const user = await User.findOne({ email });
-        console.log("hitt");
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -122,49 +107,18 @@ authController.route('/forgotpassword')
         // Store OTP in memory (should use Redis in production)
         otpStore[email] = { otp, expiresAt: Date.now() + 10 * 60 * 1000 };  // OTP valid for 10 minutes
 
-        // Send OTP to user's email
-        await mailSender.sendOtp(email, otp);  // Assuming sendOtp sends the OTP email
-
-        return res.status(200).json({ message: 'OTP sent to email' });
-    });
-
-    authController.route('/forgotpassword')
-    .post(async (req, res) => {
-        const { email } = req.body;  // Extract email from body
-
-        mailSender.sendOtp = async function(email, otp) {
-            const mailOptions = {
-                from: 'dumdum69069@gmail.com',
-                to: email,
-                subject: 'Your OTP Code',
-                text: `Your OTP code is ${otp}. It is valid for 10 minutes.`
-            };
-
-            try {
-                await this.sendMail(mailOptions);
-                console.log('OTP email sent');
-            } catch (error) {
-                console.error('Error sending OTP email:', error);
-                throw error;
-            }
-        };
-
-        const user = await User.findOne({ email });
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-
-        // Generate OTP
-        const otp = crypto.randomInt(100000, 999999).toString();
-
-        // Store OTP in memory (should use Redis in production)
-        otpStore[email] = { otp, expiresAt: Date.now() + 10 * 60 * 1000 };  // OTP valid for 10 minutes
+        // Import the sendOtp function from your mail.js
+        const { sendOtp } = require('./mail');
 
         // Send OTP to user's email
-        await mailSender.sendOtp(email, otp);  // Assuming sendOtp sends the OTP email
+        await sendOtp(email, otp);
 
         return res.status(200).json({ message: 'OTP sent to email' });
-    });
+    } catch (error) {
+        console.error('Error in forgot password route:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+});
 
     authController.route('/verifyotp')
     .post((req, res) => {
