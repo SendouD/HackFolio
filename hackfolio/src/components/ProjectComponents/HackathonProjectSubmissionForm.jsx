@@ -4,7 +4,7 @@ import LoadingPage from "../loading";
 import { useNavigate } from 'react-router-dom';
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-
+import * as z from 'zod';
 function HackathonProjectSubmissionForm() {
   const navigate = useNavigate();
   const { name } = useParams();
@@ -22,7 +22,7 @@ function HackathonProjectSubmissionForm() {
   const [images, setImages] = useState([]);
   const [coverimage, setCoverimage] = useState(null);
   const [isLoading, setIsloading] = useState(false);
-
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -30,14 +30,14 @@ function HackathonProjectSubmissionForm() {
       [name]: value,
     }));
   };
-
+  
   const handleImageUpload = async (file) => {
     const uploadPreset = 'hackathonform';
     const cloudName = 'dgjqg72wo';
     const formData = new FormData();
     formData.append('file', file);
     formData.append('upload_preset', uploadPreset);
-
+    
     try {
         const response = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, formData, {
             headers: {

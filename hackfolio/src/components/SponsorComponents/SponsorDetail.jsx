@@ -77,12 +77,8 @@ const SponsorDetail = () => {
     e.preventDefault();
     const message = inpRef.current.value;
     inpRef.current.value = ""; // Clear input after sending message
-    const messageSchema = z.string().min({
-      message: 'Message is required',
-    })    
-    if (!messageSchema.safeParse(message).success) {
-      setError("Message is required");      
-      return;
+    if(message=="") {
+      return; // Do nothing if message is empty
     }
     try {
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/chat/messages/${sponsor.email}`, {
