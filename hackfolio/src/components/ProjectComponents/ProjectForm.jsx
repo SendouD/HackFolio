@@ -15,12 +15,6 @@ const projectFormSchema = z.object({
   technologies: z.string().min(1, "Technologies used is required").max(100, "Technologies list must be under 100 characters"),
   links: z.string().url("Please enter a valid URL"),
   videoDemo: z.string().url("Please enter a valid URL"),
-  logo: z.string().url({
-    message:"Please enter a proper url"
-  }),
-  images: z.string().url({
-    message:"Please enter a proper url"
-  }),
 });
 
 function ProjectForm() {
@@ -82,15 +76,16 @@ function ProjectForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+
+    console.log("hittt");
     
     // Validate form data with Zod
     const validationResult = projectFormSchema.safeParse({
       ...formData,
-      logo,
-      coverimage,
-      images,
     });
     if (!validationResult.success) {
+      console.log(validationResult.error.format());
+      console.log("error");
       setErrors(validationResult.error.format()); // Set validation errors
       setIsLoading(false);
       return;
