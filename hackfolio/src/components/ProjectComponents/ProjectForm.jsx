@@ -32,7 +32,7 @@ const projectFormSchema = z.object({
     .string()
     .min(1, "Technologies used is required")
     .max(100, "Technologies list must be under 100 characters")
-    .regex(/^[A-Za-z][A-Za-z0-9 ]*$/, "Irrelevant Technologies "),
+    .regex(/^[A-Za-z0-9 ,.'"-]+$/, "Irrelevant Technologies "),
   links: z.string().url("Please enter a valid URL").optional(),
   videoDemo: z.string().url("Please enter a valid URL").optional(),
   logo: z.any().optional(),
