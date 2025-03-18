@@ -8,13 +8,36 @@ import { motion } from "framer-motion";
 
 // Define Zod schema for form validation
 const projectFormSchema = z.object({
-  projectName: z.string().min(1, "Project name is required").max(50, "Project name must be under 50 characters"),
-  tagline: z.string().min(1, "Tagline is required").max(200, "Tagline must be under 200 characters"),
-  problem: z.string().min(1, "Problem description is required").max(2000, "Problem description must be under 2000 characters"),
-  challenges: z.string().min(1, "Challenges description is required").max(2000, "Challenges description must be under 2000 characters"),
-  technologies: z.string().min(1, "Technologies used is required").max(100, "Technologies list must be under 100 characters"),
-  links: z.string().url("Please enter a valid URL"),
-  videoDemo: z.string().url("Please enter a valid URL"),
+  projectName: z
+    .string()
+    .min(1, "Project name is required")
+    .max(50, "Project name must be under 50 characters")
+    .regex(/^[A-Za-z][A-Za-z0-9 ]*$/, "Project name must start with characters"),
+  tagline: z
+    .string()
+    .min(1, "Tagline is required")
+    .max(200, "Tagline must be under 200 characters")
+    .regex(/^[A-Za-z][A-Za-z0-9 ]*$/, "Tagline is invalid"),
+  problem: z
+    .string()
+    .min(1, "Problem description is required")
+    .max(2000, "Problem description must be under 2000 characters")
+    .regex(/^[A-Za-z][A-Za-z0-9 ]*$/, "Enter an valid Problem description "),
+  challenges: z
+    .string()
+    .min(1, "Challenges description is required")
+    .max(2000, "Challenges description must be under 2000 characters")
+    .regex(/^[A-Za-z][A-Za-z0-9 ]*$/, "Enter an valid Challenges description "),
+  technologies: z
+    .string()
+    .min(1, "Technologies used is required")
+    .max(100, "Technologies list must be under 100 characters")
+    .regex(/^[A-Za-z0-9 ,.'"-]+$/, "Irrelevant Technologies "),
+  links: z.string().url("Please enter a valid URL").optional(),
+  videoDemo: z.string().url("Please enter a valid URL").optional(),
+  logo: z.any().optional(),
+  coverimage: z.any().optional(),
+  images: z.any().optional(),
 });
 
 function ProjectForm() {
@@ -179,7 +202,7 @@ function ProjectForm() {
                   className="w-full px-4 py-2  text-black rounded-lg focus:outline-none"
                 />
               </div>
-              {/* <div className="mb-6">
+              <div className="mb-6">
                 <label className="block text-black font-bold mb-2">Cover Image</label>
                 <input
                   type="file"
@@ -187,7 +210,7 @@ function ProjectForm() {
                   onChange={(e) => handleFileChange(e, setCoverimage)}
                   className="w-full px-4 py-2  text-black rounded-lg focus:outline-none"
                 />
-              </div> */}
+              </div>
               <div className="mb-6">
                 <label className="block text-black font-bold mb-2">Project Images</label>
                 <input

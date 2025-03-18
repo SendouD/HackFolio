@@ -6,18 +6,39 @@ import * as z from 'zod'
 const AddCriteria = () => {
     const { name } = useParams(); // Get the hackathon name from URL parameters
     const [criteria, setCriteria] = useState([{ name: '', maxMarks: '' }]); // Initial criteria state
+    const [errors, setErrors] = useState([]); // Track validation errors
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    
+
+    // Validation regex
+    const criteriaRegex = /^[A-Za-z][A-Za-z0-9\s]*$/; // Starts with an alphabet, allows alphanumeric and spaces
+
     // Handle input change for criteria
     const handleCriteriaChange = (index, field, value) => {
         const updatedCriteria = [...criteria];
+        const updatedErrors = [...errors];
+
         if (field === 'maxMarks') {
-            updatedCriteria[index][field] = Number(value); // Convert maxMarks to a number
+            const numValue = Number(value);
+            updatedCriteria[index][field] = numValue;
+
+            if (numValue > 100) {
+                updatedErrors[index] = { ...updatedErrors[index], maxMarks: "Max marks should be only up to 100" };
+            } else {
+                updatedErrors[index] = { ...updatedErrors[index], maxMarks: "" };
+            }
         } else {
             updatedCriteria[index][field] = value;
+
+            if (!criteriaRegex.test(value)) {
+                updatedErrors[index] = { ...updatedErrors[index], name: "Criteria must start with an alphabet and contain only letters, numbers, and spaces" };
+            } else {
+                updatedErrors[index] = { ...updatedErrors[index], name: "" };
+            }
         }
+
         setCriteria(updatedCriteria);
+        setErrors(updatedErrors);
     };
     const criteriaSchema = z.object({
         name: z.string().min(1, { message: 'Criteria name is required' }),
@@ -31,35 +52,39 @@ const AddCriteria = () => {
     // Add new criteria input field
     const addCriteriaField = () => {
         setCriteria([...criteria, { name: '', maxMarks: '' }]);
+        setErrors([...errors, {}]); // Initialize new field's errors
     };
     
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const isValid = formSchema.safeParse({ criteria });
-        if (!isValid.success) {
-            setErrorMessage(isValid.error.errors[0].message);
+
+        // Validate before submitting
+        const hasErrors = criteria.some((criterion, index) => {
+            return (
+                !criteriaRegex.test(criterion.name) ||
+                isNaN(criterion.maxMarks) ||
+                criterion.maxMarks <= 0 ||
+                criterion.maxMarks > 100
+            );
+        });
+
+        if (hasErrors) {
+            setErrorMessage('Please fix the validation errors before submitting.');
             return;
         }
-        // Filter out any empty criteria fields before submitting
-        const filteredCriteria = criteria.filter(criterion => 
-            criterion.name.trim() !== '' && 
-            typeof criterion.maxMarks === 'number' && 
-            !isNaN(criterion.maxMarks) && 
-            criterion.maxMarks > 0 // Ensure maxMarks is a positive number
-        );
-        
+
         try {
             const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/judge/addcriteria`, {
                 name, // Use the hackathon name from params
-                criteria: filteredCriteria // Only send valid criteria
+                criteria
             });
 
             if (response.status === 200) {
                 setSuccessMessage('Criteria added successfully!');
                 setErrorMessage('');
-                // Reset the input fields after success
-                setCriteria([{ name: '', maxMarks: '' }]); // Clear the fields for new input
+                setCriteria([{ name: '', maxMarks: '' }]); // Reset the form
+                setErrors([]); // Clear errors
             }
         } catch (error) {
             console.log(error);
@@ -77,23 +102,26 @@ const AddCriteria = () => {
                 <div>
                     <label className="block text-lg">Judging Criteria</label>
                     {criteria.map((criterion, index) => (
-                        <div key={index} className="flex space-x-2">
+                        <div key={index} className="flex flex-col space-y-2 mb-4">
                             <input
                                 type="text"
                                 value={criterion.name}
                                 onChange={(e) => handleCriteriaChange(index, 'name', e.target.value)}
                                 placeholder={`Criterion ${index + 1} Name`}
-                                className="border rounded px-3 py-2 w-full mb-2"
+                                className="border rounded px-3 py-2 w-full"
                                 required
                             />
+                            {errors[index]?.name && <p className="text-red-500 text-sm">{errors[index].name}</p>}
+                            
                             <input
                                 type="number"
                                 value={criterion.maxMarks}
                                 onChange={(e) => handleCriteriaChange(index, 'maxMarks', e.target.value)}
-                                placeholder={`Max Marks`}
-                                className="border rounded px-3 py-2 w-full mb-2"
+                                placeholder="Max Marks (Up to 100)"
+                                className="border rounded px-3 py-2 w-full"
                                 required
                             />
+                            {errors[index]?.maxMarks && <p className="text-red-500 text-sm">{errors[index].maxMarks}</p>}
                         </div>
                     ))}
                     <button type="button" onClick={addCriteriaField} className="text-[#5f3abd]">

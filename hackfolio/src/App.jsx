@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom"
 import React from "react";
+
 //common components
 import PrivateRoute from "./components/PrivateRoute";
 import AuthCheck from "./components/AuthCheck";
@@ -15,6 +16,8 @@ import ResetPassword from "./pages/RegistrationPages/ResetPassword";
 import CodeOfConduct from "./pages/code_ofconduct/code_of_conductpage";
 import AboutPage from "./pages/AboutPages/AboutPage";
 import AdminDashboard from "./pages/AdminPages/AdminDashboard";
+import SponsorApplications from "./pages/AdminPages/SponsorApplications";
+import HackathonList from "./pages/AdminPages/HackathonList";
 
 //SuccessRoutes
 import SponsorSuccessPage from "./pages/successPages/SponsorSuccess";
@@ -28,6 +31,7 @@ import UserProjects from "./pages/ProjectPages/UserProjects";
 import HackathonProjectDispay from "./components/HackathonComponents/Hackathon_projects";
 import UserDashboard from "./pages/UserPages/UserDashboard";
 import HackathonProjectSubmission from "./pages/ProjectPages/HackathonProjectSubmission";
+import ProjectList from "./pages/AdminPages/ProjectList";
 
 //Hackathons
 import OrganizedHackathonsDisplay from "./pages/HackathonPages/OrganizedHackathonsDisplay";
@@ -129,6 +133,10 @@ function App() {
             {/* Admin Private Routes */}
             <Route element={<PrivateRoute role="Admin" />}>
               <Route element={<AdminDashboard />} path="/adminDashboard" />
+              <Route path="/sponsor-applications" element={<SponsorApplications />} />
+              <Route path="/hackathon-list" element={<HackathonList />} />
+              <Route path="/projects" element={<ProjectList />} />
+
             </Route>
 
           {/* </Route> */}

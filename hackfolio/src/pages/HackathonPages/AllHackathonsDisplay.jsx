@@ -1,10 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import HackathonsDisplayCard from "../../components/HackathonComponents/HackathonsDisplayCard";
 import Header from "../../components/Header";
 import "../../styles/hack_card.css";
 import ReactingNavBar from "../../components/ReactingNavBar";
-import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 function AllHackathonsDisplay() {
     const [data, setData] = useState([]);
@@ -12,23 +15,19 @@ function AllHackathonsDisplay() {
     const [page, setPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState("");
     const navigate = useNavigate();
+    const shapesRef = useRef(null);
 
     async function getData(pageNo) {
         if (pageNo < 1 || pageNo > totalPages) return;
         try {
-            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon?page=${pageNo}&limit=4`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon?page=${pageNo}&limit=6`, {
                 method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
+                headers: { "Content-Type": "application/json" },
                 credentials: "include",
             });
 
             if (response.status === 403) navigate("/Error403");
-
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
+            if (!response.ok) throw new Error("Network response was not ok");
 
             const data = await response.json();
             console.log(data.hackathons)
@@ -40,22 +39,17 @@ function AllHackathonsDisplay() {
         }
     }
 
-    useEffect(() => {
-        getData(1);
-    }, []);
+    useEffect(() => { getData(1); }, []);
 
     async function handleSearch(query) {
         try {
             const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon?search=${query}`, {
                 method: "GET",
-                headers: {
-                  "Content-Type": "application/json",
-                },
+                headers: { "Content-Type": "application/json" },
                 credentials: 'include',
-              });
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
+            });
+            if (!response.ok) throw new Error("Network response was not ok");
+
             const data = await response.json();
             setData(data.hackathons);
             setPage(1);
@@ -67,146 +61,62 @@ function AllHackathonsDisplay() {
 
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
-            if (searchQuery.trim()) {
-                handleSearch(searchQuery);
-            } else {
-                getData(1);
-            }
+            if (searchQuery.trim()) handleSearch(searchQuery);
+            else getData(1);
         }, 500);
-
         return () => clearTimeout(delayDebounceFn);
     }, [searchQuery]);
 
-    function PageNumbers() {
-        let pages = [];
-        for (let i = 0; i < totalPages; i++) pages.push(i + 1);
-
-        return (
-            <div className="flex justify-center my-[20px]">
-                {pages.length !== 0 && (
-                    <button
-                        onClick={() => getData(page - 1)}
-                        className="py-1 px-2 bg-[#5f3abd] text-white rounded mr-2 hover:bg-[#5635ac]"
-                    >
-                        {"< prev"}
-                    </button>
-                )}
-                {pages.map((ele, i) => (
-                    <button
-                        key={i}
-                        onClick={() => getData(i + 1)}
-                        className={
-                            page === i + 1
-                                ? "py-1 px-2 bg-[#5f3abd] text-white rounded mr-2"
-                                : "py-1 px-2 rounded text-gray-600 underline mr-2"
-                        }
-                    >
-                        {ele}
-                    </button>
-                ))}
-                {pages.length !== 0 && (
-                    <button
-                        onClick={() => getData(page + 1)}
-                        className="py-1 px-2 bg-[#5f3abd] text-white rounded hover:bg-[#5635ac]"
-                    >
-                        {"Next >"}
-                    </button>
-                )}
-            </div>
-        );
-    }
+    useEffect(() => {
+        if (shapesRef.current) {
+            gsap.to(".shape", {
+                y: "random(-40,40)",
+                scale: "random(1,1.5)",
+                rotation: "random(-30,30)",
+                duration: 4,
+                repeat: -1,
+                yoyo: true,
+                ease: "power1.inOut",
+            });
+        }
+    }, []);
 
     return (
         <>
-            <div className="flex relative ">
-                <ReactingNavBar className=""/>
-                <div className="space-y-3 size-full">
-                    <div className="">
-                        <Header />
-                        <div className="flex justify-center mt-[40px] mb-[20px]">
-                            <input
-                                type="text"
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                className="border py-[10px] border-gray-500 rounded-[10px] w-[500px] pl-[20px] text-[20px]"
-                                placeholder="Search for hackathons"
-                            />
-                        </div>
-                        <div className="flex justify-center">
-                            <div className="flex flex-wrap justify-center w-4/5">
-                                {data.map((element, i) => (
-                                    <HackathonsDisplayCard key={i} data={element} />
-                                ))}
+            <div className="flex relative min-h-screen bg-[#fbfbfd] overflow-hidden">             
+
+                <ReactingNavBar />
+                <div className="w-full px-1">
+                    <Header />
+                    <div className="flex justify-center my-6">
+                        <input
+                            type="text"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="border py-3 px-5 rounded-lg w-[500px] text-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-gray-600 transition-all"
+                            placeholder="Search for hackathons"
+                        />
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-center">
+                        {data.map((element, i) => (
+                            <div key={i} className="hackathon-card">
+                                <HackathonsDisplayCard data={element} />
                             </div>
-                        </div>
+                        ))}
                     </div>
-                    <div className="">
-                        <PageNumbers />
+                    
+                    <div className="flex justify-center my-10">
+                        {[...Array(totalPages)].map((_, i) => (
+                            <button
+                                key={i}
+                                onClick={() => getData(i + 1)}
+                                className={`py-2 px-4 mx-1 rounded-lg ${page === i + 1 ? "bg-indigo-600 text-white" : "bg-white border-gray-500 border hover:bg-gray-200"}`}
+                            >
+                                {i + 1}
+                            </button>
+                        ))}
                     </div>
-                </div>
-
-                {/* Background Animations */}
-                <div className=" inset-0 -z-10">
-                    <motion.div
-                        className="line-animation absolute top-[400px] left-[30px] w-32 h-32"
-                        initial={{ pathLength: 0 }}
-                        whileInView={{ pathLength: 1 }}
-                        transition={{ duration: 2 }}
-                    >
-                        <motion.svg
-                            viewBox="0 0 100 100"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <motion.path
-                                d="M10 10 L 50 50 L 90 10"
-                                fill="transparent"
-                                stroke="#3b82f6"
-                                strokeWidth="4"
-                            />
-                        </motion.svg>
-                    </motion.div>
-
-                    <motion.div
-                        className="absolute bottom-[1000px] right-[250px] w-32 h-32 bg-blue-100 rounded-full"
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 1 }}
-                    />
-
-                    <motion.div
-                        className="absolute bottom-[50px] left-[10px] w-48 h-48 bg-purple-300 rounded-full"
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1.2 }}
-                        transition={{ duration: 0.8 }}
-                    />
-
-                    <motion.div
-                        className="absolute bottom-[700px] left-[250px] w-48 h-48 bg-purple-300 rounded-full"
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1.2 }}
-                        transition={{ duration: 0.8 }}
-                    />
-
-                    <motion.div
-                        className="absolute bottom-[800px] left-[1500px] w-48 h-48 bg-purple-300 rounded-full"
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1.2 }}
-                        transition={{ duration: 0.8 }}
-                    />
-
-                    <motion.div
-                        className="absolute bottom-[720px] right-[200px] w-32 h-32 bg-blue-100 rounded-full"
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 1 }}
-                    />
-
-                    <motion.div
-                        className="absolute bottom-[400px] right-[500px] w-32 h-32 bg-blue-100 rounded-full"
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 1 }}
-                    />
                 </div>
             </div>
         </>
