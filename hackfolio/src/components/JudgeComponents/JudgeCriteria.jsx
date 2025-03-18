@@ -25,7 +25,7 @@ const AddCriteria = () => {
             message: 'Max marks must be a number between 1 and 100'
         })
     })
-    const formSchema = =z.object({
+    const formSchema  =z.object({
         criteria: z.array(criteriaSchema.array()) 
     })
     // Add new criteria input field
