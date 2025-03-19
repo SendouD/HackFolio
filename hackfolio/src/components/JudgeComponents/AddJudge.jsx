@@ -7,14 +7,8 @@ const AddJudge = () => {
     const [judges, setJudges] = useState([""]); // Start with one empty judge input
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const judgeSchema = z.string().email({
-        message: 'Invalid email format'
-    })
-    const formSchema = z.object({
-        judges: z.array(judgeSchema.array()).min(1,{
-            message: 'At least one judge must be provided'
-        })
-    })
+    const [errors, setErrors] = useState([]); // Track validation errors
+
     // Fetch existing judges when the component mounts
     useEffect(() => {
         const fetchJudges = async () => {
@@ -37,21 +31,30 @@ const AddJudge = () => {
         const updatedJudges = [...judges];
         updatedJudges[index] = value;
         setJudges(updatedJudges);
+
+        // Validate email
+        const emailRegex = /^[a-zA-Z][a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        const updatedErrors = [...errors];
+        updatedErrors[index] = emailRegex.test(value) || value === "" ? "" : "Invalid email format";
+        setErrors(updatedErrors);
     };
     
     // Add new judge input field
     const addJudgeField = () => {
         setJudges([...judges, ""]); // Keep existing judges and add an empty field for new judge
+        setErrors([...errors, ""]);
     };
     
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const isValid = formSchema.safeParse(judges);
-        if (!isValid.success) {
-            setErrorMessage(isValid.error.errors[0].message);
+
+        // Check if all emails are valid
+        if (judges.some((judge) => !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(judge))) {
+            setErrorMessage('Please enter valid email addresses.');
             return;
         }
+
         try {
             const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/judge/addjudge`, {
                 name, // Use the hackathon name from params
@@ -81,15 +84,17 @@ const AddJudge = () => {
                 <div>
                     <label className="block text-lg">Judge Emails</label>
                     {judges.map((judge, index) => (
-                        <input
-                            key={index}
-                            type="email"
-                            value={judge}
-                            onChange={(e) => handleJudgeChange(index, e.target.value)}
-                            placeholder={`Judge ${index + 1} Email`}
-                            className="border rounded px-3 py-2 w-full mb-2"
-                            required
-                        />
+                        <div key={index}>
+                            <input
+                                type="email"
+                                value={judge}
+                                onChange={(e) => handleJudgeChange(index, e.target.value)}
+                                placeholder={`Judge ${index + 1} Email`}
+                                className="border rounded px-3 py-2 w-full mb-2"
+                                required
+                            />
+                            {errors[index] && <p className="text-red-500 text-sm">{errors[index]}</p>}
+                        </div>
                     ))}
                     <button type="button" onClick={addJudgeField} className="text-[#5f3abd]">
                         + Add More Judges

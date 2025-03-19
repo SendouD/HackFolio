@@ -28,9 +28,10 @@ const ForgotPassword = () => {
       localStorage.setItem( "email", email )
       navigate('/verifyotp'); // Redirect to the OTP page
     } catch (err) {
-      setError('Error sending OTP');
+      console.error("Error:", err.response?.data || err.message);
+      setError(err.response?.data?.message || 'Error sending OTP');
       setSuccess(null);
-    }
+  }
   };
 
   return (

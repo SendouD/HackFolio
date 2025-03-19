@@ -21,6 +21,7 @@ hack_register.route('/registerForHackathon/:name')
         const { name } = req.params;
         const formData = req.body;
         const email = req.email;
+        console.log("here");
         try{
             const flag = await hackParticipantDetails.find({hackathonName: name, email: email});
             if(flag.length === 0) {

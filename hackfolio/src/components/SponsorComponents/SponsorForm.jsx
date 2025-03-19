@@ -6,19 +6,59 @@ import { z } from "zod";
 import "animate.css";
 import { motion } from "framer-motion";
 
-
 const countryList = [
-  "United States", "India", "United Kingdom", "Canada", "Australia", "Germany",
-  "France", "Japan", "China", "Russia", "Brazil", "South Africa", "Italy", "Spain",
-  "Mexico", "Netherlands", "Sweden", "Norway", "Denmark", "Singapore", "New Zealand",
-  "Switzerland", "South Korea", "Argentina", "Malaysia", "Saudi Arabia", "UAE", "Indonesia",
-  "Vietnam", "Thailand", "Egypt", "Turkey", "Poland", "Portugal", "Ireland", "Austria",
-  "Belgium", "Greece", "Finland", "Israel"
+  "United States",
+  "India",
+  "United Kingdom",
+  "Canada",
+  "Australia",
+  "Germany",
+  "France",
+  "Japan",
+  "China",
+  "Russia",
+  "Brazil",
+  "South Africa",
+  "Italy",
+  "Spain",
+  "Mexico",
+  "Netherlands",
+  "Sweden",
+  "Norway",
+  "Denmark",
+  "Singapore",
+  "New Zealand",
+  "Switzerland",
+  "South Korea",
+  "Argentina",
+  "Malaysia",
+  "Saudi Arabia",
+  "UAE",
+  "Indonesia",
+  "Vietnam",
+  "Thailand",
+  "Egypt",
+  "Turkey",
+  "Poland",
+  "Portugal",
+  "Ireland",
+  "Austria",
+  "Belgium",
+  "Greece",
+  "Finland",
+  "Israel",
 ];
 
 const sponsorSchema = z.object({
-  companyName: z.string().min(1, "Company name is required"),
-  website: z.string().url("Must be a valid URL"),
+  companyName: z
+    .string()
+    .regex(/^[A-Za-z\s]{2,}$/, "Only Alphabets atleast 2 chars"), 
+  website: z
+    .string()
+    .regex(
+      /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})+([\/?].*)?$/,
+      "enter an valid url"
+    ),
   phoneNumber: z
     .string()
     .length(10, "Phone number must be exactly 10 digits long")
@@ -29,7 +69,10 @@ const sponsorSchema = z.object({
     .regex(/^HQ/i, "Registration number must start with 'HQ'"),
   taxId: z
     .string()
-    .regex(/^[a-zA-Z0-9]{5,}$/, "Tax ID must be at least 5 alphanumeric characters"),
+    .regex(
+      /^[a-zA-Z0-9]{5,}$/,
+      "Tax ID must be at least 5 alphanumeric characters"
+    ),
   address: z.object({
     street: z.string().optional(),
     city: z.string().optional(),
@@ -38,7 +81,7 @@ const sponsorSchema = z.object({
       .string()
       .regex(/^\d{5,6}$/, "ZIP code must be 5 or 6 digits")
       .optional(),
-    country: z.string().min(1, "Country is required")
+    country: z.string().min(1, "Country is required"),
   }),
   description: z.string().optional(),
 });
@@ -88,25 +131,32 @@ function SponsorForm() {
   };
 
   const handleImageUpload = async (file) => {
-    const uploadPreset = 'hackathonform';
-    const cloudName = 'dgjqg72wo';
+    const uploadPreset = "hackathonform";
+    const cloudName = "dgjqg72wo";
     const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', uploadPreset);
+    formData.append("file", file);
+    formData.append("upload_preset", uploadPreset);
 
     try {
-        const response = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-            withCredentials: false,
-        });
-        return response.data.secure_url;
+      const response = await axios.post(
+        `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: false,
+        }
+      );
+      return response.data.secure_url;
     } catch (error) {
-        console.error('Error uploading file:', error.response ? error.response.data : error.message);
-        return null;
+      console.error(
+        "Error uploading file:",
+        error.response ? error.response.data : error.message
+      );
+      return null;
     }
-};
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -122,7 +172,10 @@ function SponsorForm() {
         logo: logoUrl,
       };
 
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/sponsors`, sponsorData);
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/sponsors`,
+        sponsorData
+      );
       console.log("Server response:", response.data);
       navigate("/sponsoruploadsuccess");
     } catch (error) {
@@ -141,17 +194,21 @@ function SponsorForm() {
   };
 
   return (
-    <div style={{  minHeight: "100vh", color: "#ffffff" }}>
+    <div style={{ minHeight: "100vh", color: "#ffffff" }}>
       {isLoading ? (
         <LoadingPage />
       ) : (
         <div className="p-6 max-w-4xl mx-auto">
-          <h1 className="text-3xl font-extrabold text-center text-black mb-6">Sponsor Submission Form</h1>
+          <h1 className="text-3xl font-extrabold text-center text-black mb-6">
+            Sponsor Submission Form
+          </h1>
           <div className="max-w-3xl mx-auto bg-[#f4f4f5] p-8 rounded-lg shadow-lg animate__animated animate__fadeIn">
             <form onSubmit={handleSubmit}>
               {/* Form fields as before */}
               <div className="mb-4">
-                <label className="block text-gray-700 font-semibold mb-2">Company Name</label>
+                <label className="block text-gray-700 font-semibold mb-2">
+                  Company Name
+                </label>
                 <input
                   type="text"
                   name="companyName"
@@ -160,11 +217,15 @@ function SponsorForm() {
                   className="w-full text-black p-2 border border-black rounded"
                   placeholder="Enter the Company Name"
                 />
-                {errors.companyName && <span className="text-red-500">{errors.companyName}</span>}
+                {errors.companyName && (
+                  <span className="text-red-500">{errors.companyName}</span>
+                )}
               </div>
 
               <div className="mb-4">
-                <label className="block text-gray-700 font-semibold mb-2">Website</label>
+                <label className="block text-gray-700 font-semibold mb-2">
+                  Website
+                </label>
                 <input
                   type="text"
                   name="website"
@@ -174,12 +235,16 @@ function SponsorForm() {
                   placeholder="Enter company website"
                   required
                 />
-                {errors.website && <span className="text-red-500">{errors.website}</span>}
+                {errors.website && (
+                  <span className="text-red-500">{errors.website}</span>
+                )}
               </div>
 
               {/* Phone Number */}
               <div className="mb-4">
-                <label className="block text-gray-700 font-semibold mb-2">Phone Number</label>
+                <label className="block text-gray-700 font-semibold mb-2">
+                  Phone Number
+                </label>
                 <input
                   type="text"
                   name="phoneNumber"
@@ -189,12 +254,16 @@ function SponsorForm() {
                   placeholder="Enter contact phone number"
                   required
                 />
-                {errors.phoneNumber && <span className="text-red-500">{errors.phoneNumber}</span>}
+                {errors.phoneNumber && (
+                  <span className="text-red-500">{errors.phoneNumber}</span>
+                )}
               </div>
 
               {/* Registration Number */}
               <div className="mb-4">
-                <label className="block text-gray-700 font-semibold mb-2">Registration Number</label>
+                <label className="block text-gray-700 font-semibold mb-2">
+                  Registration Number
+                </label>
                 <input
                   type="text"
                   name="registrationNumber"
@@ -204,12 +273,18 @@ function SponsorForm() {
                   placeholder="Enter registration number (must start with 'HQ')"
                   required
                 />
-                {errors.registrationNumber && <span className="text-red-500">{errors.registrationNumber}</span>}
+                {errors.registrationNumber && (
+                  <span className="text-red-500">
+                    {errors.registrationNumber}
+                  </span>
+                )}
               </div>
 
               {/* Tax ID */}
               <div className="mb-4">
-                <label className="block text-gray-700 font-semibold mb-2">Tax ID</label>
+                <label className="block text-gray-700 font-semibold mb-2">
+                  Tax ID
+                </label>
                 <input
                   type="text"
                   name="taxId"
@@ -219,12 +294,16 @@ function SponsorForm() {
                   placeholder="Enter tax identification number"
                   required
                 />
-                {errors.taxId && <span className="text-red-500">{errors.taxId}</span>}
+                {errors.taxId && (
+                  <span className="text-red-500">{errors.taxId}</span>
+                )}
               </div>
 
               {/* Address */}
               <div className="mb-4">
-                <label className="block text-gray-700 font-semibold mb-2">Address</label>
+                <label className="block text-gray-700 font-semibold mb-2">
+                  Address
+                </label>
                 <input
                   type="text"
                   name="address.street"
@@ -257,7 +336,9 @@ function SponsorForm() {
                   className="w-full text-black px-3 py-2 mb-2 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5f3abd]"
                   placeholder="ZIP Code (5-6 digits)"
                 />
-                {errors.address?.zip && <span className="text-red-500">{errors.address.zip}</span>}
+                {errors.address?.zip && (
+                  <span className="text-red-500">{errors.address.zip}</span>
+                )}
                 <select
                   name="address.country"
                   value={formData.address.country}
@@ -272,12 +353,16 @@ function SponsorForm() {
                     </option>
                   ))}
                 </select>
-                {errors.address?.country && <span className="text-red-500">{errors.address.country}</span>}
+                {errors.address?.country && (
+                  <span className="text-red-500">{errors.address.country}</span>
+                )}
               </div>
 
               {/* Description */}
               <div className="mb-4">
-                <label className="block text-black font-semibold mb-2">Description</label>
+                <label className="block text-black font-semibold mb-2">
+                  Description
+                </label>
                 <textarea
                   name="description"
                   value={formData.description}
@@ -290,7 +375,9 @@ function SponsorForm() {
 
               {/* Logo Upload */}
               <div className="mb-4">
-                <label className="block text-gray-700 font-semibold mb-2">Logo Upload</label>
+                <label className="block text-gray-700 font-semibold mb-2">
+                  Logo Upload
+                </label>
                 <input
                   type="file"
                   accept="image/*"
@@ -299,81 +386,76 @@ function SponsorForm() {
                 />
               </div>
 
-
               <button
                 type="submit"
                 className="bg-purple-600 text-white p-2 rounded hover:bg-purple-700"
               >
                 Submit
               </button>
-
             </form>
           </div>
         </div>
       )}
-         {/* Background Animations */}
-         <div className=" inset-0 -z-10">
-                    <motion.div
-                        className="line-animation absolute top-[400px] left-[30px] w-32 h-32 -z-10"
-                        initial={{ pathLength: 0 }}
-                        whileInView={{ pathLength: 1 }}
-                        transition={{ duration: 2 }}
-                    >
-                        <motion.svg
-                            viewBox="0 0 100 100"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <motion.path
-                                d="M10 10 L 50 50 L 90 10"
-                                fill="transparent"
-                                stroke="#3b82f6"
-                                strokeWidth="4"
-                            />
-                        </motion.svg>
-                    </motion.div>
+      {/* Background Animations */}
+      <div className=" inset-0 -z-10">
+        <motion.div
+          className="line-animation absolute top-[400px] left-[30px] w-32 h-32 -z-10"
+          initial={{ pathLength: 0 }}
+          whileInView={{ pathLength: 1 }}
+          transition={{ duration: 2 }}
+        >
+          <motion.svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <motion.path
+              d="M10 10 L 50 50 L 90 10"
+              fill="transparent"
+              stroke="#3b82f6"
+              strokeWidth="4"
+            />
+          </motion.svg>
+        </motion.div>
 
-                    <motion.div
-                        className="absolute bottom-[1000px] right-[250px] w-32 h-32 bg-blue-100 rounded-full -z-10"
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 1 }}
-                    />
+        <motion.div
+          className="absolute bottom-[1000px] right-[250px] w-32 h-32 bg-blue-100 rounded-full -z-10"
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1 }}
+        />
 
-                    <motion.div
-                        className="absolute bottom-[50px] left-[10px] w-48 h-48 bg-purple-300 rounded-full -z-10"
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1.2 }}
-                        transition={{ duration: 0.8 }}
-                    />
+        <motion.div
+          className="absolute bottom-[50px] left-[10px] w-48 h-48 bg-purple-300 rounded-full -z-10"
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1.2 }}
+          transition={{ duration: 0.8 }}
+        />
 
-                    <motion.div
-                        className="absolute bottom-[700px] left-[250px] w-48 h-48 bg-purple-300 rounded-full -z-10"
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1.2 }}
-                        transition={{ duration: 0.8 }}
-                    />
+        <motion.div
+          className="absolute bottom-[700px] left-[250px] w-48 h-48 bg-purple-300 rounded-full -z-10"
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1.2 }}
+          transition={{ duration: 0.8 }}
+        />
 
-                    <motion.div
-                        className="absolute bottom-[800px] left-[1500px] w-48 h-48 bg-purple-300 rounded-full -z-10"
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1.2 }}
-                        transition={{ duration: 0.8 }}
-                    />
+        <motion.div
+          className="absolute bottom-[800px] left-[1500px] w-48 h-48 bg-purple-300 rounded-full -z-10"
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1.2 }}
+          transition={{ duration: 0.8 }}
+        />
 
-                    <motion.div
-                        className="absolute bottom-[720px] right-[200px] w-32 h-32 bg-blue-100 rounded-full -z-10"
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 1 }}
-                    />
+        <motion.div
+          className="absolute bottom-[720px] right-[200px] w-32 h-32 bg-blue-100 rounded-full -z-10"
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1 }}
+        />
 
-                    <motion.div
-                        className="absolute bottom-[400px] right-[500px] w-32 h-32 bg-blue-100 rounded-full -z-10"
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 1 }}
-                    />
-                </div>
+        <motion.div
+          className="absolute bottom-[400px] right-[500px] w-32 h-32 bg-blue-100 rounded-full -z-10"
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1 }}
+        />
+      </div>
     </div>
   );
 }

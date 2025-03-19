@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 
@@ -54,6 +55,8 @@ function HackathonRegistrationForm() {
             });
 
             if (response.status === 403) navigate('/Error403');
+
+            if (response.status === 403) navigate('/Error403');
             if (!response.ok) throw new Error('Network response was not ok');
             console.log(await response.json());
             navigate(`/hackathon/${name}/editRegistrationDetails`);
@@ -74,7 +77,7 @@ function HackathonRegistrationForm() {
 
     return (
         <div className="w-full p-6 border rounded-[10px]">
-            <div className="">
+            <div>
                 <div className="text-4xl text-gray-500 mb-[40px]">Application Form :</div>
                 {inputComponent("What should people call you:", "aliasname")}
                 {inputComponent("First Name:", "firstname")}
@@ -99,5 +102,7 @@ function HackathonRegistrationForm() {
         </div>
     );
 }
+
+export default HackathonRegistrationForm;
 
 export default HackathonRegistrationForm;
