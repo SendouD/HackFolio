@@ -17,7 +17,7 @@ hack_create.route("/").get(async (req, res) => {
 
     const query = {
       completelyFilled: true,
-      toDate: { $gte: currentDate }
+    //   toDate: { $gt: currentDate }
     };
 
     if (search.length !== 0) {
@@ -321,7 +321,7 @@ hack_create
     })
     .post(isUser, async (req, res) => {
         const { name } = req.params;
-        const formData = req.body;
+        const {formData} = req.body;
         const email = req.email;
         try {
             const flag = await hackParticipantDetails.find({

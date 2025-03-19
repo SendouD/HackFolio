@@ -228,5 +228,3 @@ function EditHackathonRegistrationForm() {
 }
 
 export default EditHackathonRegistrationForm;
-
-export default EditHackathonRegistrationForm;

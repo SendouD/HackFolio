@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../../styles/SignUp.css";
-
+import * as z from "zod";
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -64,16 +64,6 @@ const SignUp = () => {
     if (!validateForm()) return;
 
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/userlogin/signup`,
-        {
-          email,
-          password,
-          username,
-          firstName,
-          lastName,
-        }
-      );
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/userlogin/signup`,
         {

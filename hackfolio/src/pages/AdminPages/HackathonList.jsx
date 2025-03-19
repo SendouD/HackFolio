@@ -104,7 +104,7 @@ function HackathonList() {
         </div>
 
         {loading && <p className="text-gray-600 text-center">Loading hackathons...</p>}
-        {error && <p className="text-red-500 text-center">{error}</p>}
+        {error && <p className="text-red-500 text-center">Not Found</p>}
 
         {!loading && !error && hackathons.length > 0 && (
           <div className="overflow-x-auto">
