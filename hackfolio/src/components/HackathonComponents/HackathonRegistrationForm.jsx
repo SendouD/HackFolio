@@ -104,5 +104,3 @@ function HackathonRegistrationForm() {
 }
 
 export default HackathonRegistrationForm;
-
-export default HackathonRegistrationForm;
