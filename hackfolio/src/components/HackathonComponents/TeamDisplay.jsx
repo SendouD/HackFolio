@@ -39,7 +39,7 @@ function TeamDisplay(props) {
 
     return(
         <>
-            <div>
+            <div className="rounded-lg shadow p-6 bg-gradient-to-tr from-blue via-blue-100 to-white ">
                 <div>
                     Team Name: {data.teamName}
                 </div>

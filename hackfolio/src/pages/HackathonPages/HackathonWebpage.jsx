@@ -16,7 +16,7 @@ function HackathonWebpage() {
 
     return(
         <>
-        <div className='flex '>
+        <div className='flex min-h-screen bg-gradient-to-r from-blue-100 to-purple-200 '>
             <ReactingNavBar/>
             <div className='space-y-3 size-full'>
             <Header></Header>
@@ -24,25 +24,6 @@ function HackathonWebpage() {
 
 
             
-
-                        <motion.div
-                            className="fixed right-[400px] bottom-[170px] h-20 w-24 rounded-xl bg-blue-300 "
-                            initial={{ opacity: 0, scale: 0 }}
-                            animate={{ opacity: 1, scale: 2 }}
-                            transition={{ duration: 0.5, delay: 0.3 }}
-                        />
-                        {/* <motion.div
-                            className="fixed right-[400px] bottom-[230px] h-32 w-48 rounded-full bg-yellow-400 z-100"
-                            initial={{ opacity: 0, scale: 0 }}
-                            animate={{ opacity: 1, scale: 1.2 }}
-                            transition={{ duration: 0.5, delay: 0.4 }}
-                        /> */}
-                        <motion.div
-                            className="fixed bottom-[140px] right-[320px] h-24 w-24 rounded-full bg-purple-400"
-                            initial={{ opacity: 0, scale: 0 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.5, delay: 0.5 }}
-                        />
 
 
 <motion.div>
@@ -93,10 +74,10 @@ function HackathonWebpage() {
                 <div style={{marginTop:"30px"}}>
                     {/* <div style={{height:"300px",width:"100px"}}/> */}
                     <div className="flex">
-                        <div>
+                        <div className='bg-white rounded-xl shadow-sm overflow-hidden py-8 px-8'>
                             <HackathonDetailsDisplay name={name}/>
                         </div>
-                        <div>
+                        <div className="p-6">
                             <HackathonTimingsDisplay id={name} flag={1} />
                         </div>
                     </div>
