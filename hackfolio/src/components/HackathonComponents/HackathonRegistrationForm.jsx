@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 function HackathonRegistrationForm() {
     const { name } = useParams();
     const navigate = useNavigate();
-    const urlRegex = /^(https?:\/\/)(localhost|[\da-z.-]+)\.([a-z.]{2,6}|localhost)(:[0-9]{1,5})?(\/[^\s]*)?$/i;
+    const urlRegex = /^(https?:\/\/)?(www\.)?[a-zA-Z0-9.-]+\.(com|in)\/?.*$/;
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const phoneRegex = /^(?!0{10,}$)\d{10}$/;
 
@@ -49,7 +49,7 @@ function HackathonRegistrationForm() {
             const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/registerForHackathon/${name}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData),
+                body: JSON.stringify({formData}),
                 credentials: 'include',
             });
 

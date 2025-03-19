@@ -69,7 +69,7 @@ function EditHackathonDetails(props) {
   }
   function validateForm() {
     let newErrors = {};
-    const urlRegex = /^(http:\/\/|https?:\/\/)?([\w-]+\.)+[\w-]{2,}(\/.*)?$/;
+    const urlRegex = /^(https?:\/\/)?(www\.)?[a-zA-Z0-9.-]+\.(com|in)\/?.*$/;
 
     if (!/^[A-Za-z][A-Za-z\s-]*$/.test(formData.uniName))
       newErrors.uniName = "Invalid University Name";
