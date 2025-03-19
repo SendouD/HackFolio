@@ -7,6 +7,7 @@ import ReactingNavBar from "../../components/ReactingNavBar";
 import ParaAnimation from "./ParaAnimation";
 import { motion } from "framer-motion";
 import LoadingPage from "../../components/loading";
+
 function UserProjects() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -30,7 +31,6 @@ function UserProjects() {
         setLoading(false);
       }
     };
-
     fetchProject();
   }, []);
 
@@ -40,24 +40,18 @@ function UserProjects() {
   return (
     <div className="flex">
       <ReactingNavBar />
-
       <div className="space-y-3 size-full">
         <div className="min-h-screen bg-gray-100">
           <Header />
-
           {/* Full-Screen ParaAnimation */}
-          <div className="ParaAnimation-container ">
+          <div className="ParaAnimation-container">
             <ParaAnimation />
           </div>
-
           {/* Content Section */}
           <main className="max-w-10xl mx-auto p-6 bg-white bg-gradient-to-br from-slate-50 to-blue-100">
-  
-         
-
-            <section className="my-12 ">
+            <section className="my-12">
               <h2 className="text-2xl font-bold">Public Projects</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 max-w-5xl ">
+              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
                 {Array.isArray(projects) && projects.length > 0 ? (
                   projects.map((project) => (
                     <Link key={project.id} to={`/ProjectDisplay/${project._id}`}>

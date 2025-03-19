@@ -94,12 +94,6 @@ const SignUp = () => {
             <p className="text-center mb-6 text-sm text-gray-500">
               Start sharing your projects today!
             </p>
-            <h2 className="text-2xl font-bold text-center mb-4">
-              Create your account
-            </h2>
-            <p className="text-center mb-6 text-sm text-gray-500">
-              Start sharing your projects today!
-            </p>
             <form onSubmit={handleSubmit}>
               <InputField
                 label="Username"

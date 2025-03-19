@@ -1,17 +1,14 @@
 import { useEffect, useRef, useState } from "react";
-const token = localStorage.getItem('data');
-import io from 'socket.io-client';
-import { motion } from "framer-motion";
-import gsap from "gsap";
 
 function ChatOpenWindow(props) {
     const inpRef = useRef(null);
-    const [messages,setMessages] = useState([]);
+    const [messages, setMessages] = useState([]);
     const msgsEndRef = useRef(null);
+    const token = localStorage.getItem('data');
 
     useEffect(() => {
         getMessages();
-    },[props.currUser]);
+    }, [props.currUser]);
 
     useEffect(() => {
         if (props.newMessage) {
@@ -45,7 +42,9 @@ function ChatOpenWindow(props) {
     async function sendMessage(e) {
         e.preventDefault();
         const message = inpRef.current.value;
-        inpRef.current.value = ""
+        if (!message.trim()) return;
+        
+        inpRef.current.value = "";
         try {
             const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/chat/messages/${props.currUser}`, {
                 method: 'POST',
@@ -71,7 +70,7 @@ function ChatOpenWindow(props) {
         }
     }
 
-    function padZero(str,flag) {
+    function padZero(str, flag) {
         if(str === 0 && flag === 1) str = (12).toString();
         else if(str > 0 && str < 10 ) str = '0' + (str).toString();
 
@@ -85,56 +84,56 @@ function ChatOpenWindow(props) {
         let istOffset = 5 * 60 + 30;
         let istDate = new Date(utcDate.getTime() + istOffset * 60 * 1000);
 
-        let time = padZero((istDate.getHours())%12,1) + ":" + padZero(istDate.getMinutes(),2);
+        let time = padZero((istDate.getHours())%12, 1) + ":" + padZero(istDate.getMinutes(), 2);
         if(istDate.getHours() >= 12) time += " pm";
-        else time+=" am";
+        else time += " am";
         
-        return(
-            <div className={(JSON.parse(token).email === props.message.from) ? 'flex justify-end items-center' : ''}>
-                {
-                    (JSON.parse(token).email === props.message.from) ? <div className="bg-white h-[30px] w-[30px] rounded-[20px] text-center mr-[5px] cursor-pointer">...</div> : <></>
-                }
-                <span className="bg-[#5f3abd] text-white p-4 pb-2 inline-block rounded mt-[10px] max-w-[43vw] text-wrap break-words">
-                    <div>
-                        <div className={`text-xl font-bold flex justify-start`}>
-                            {props.message.from}
-                        </div>
+        const isCurrentUser = JSON.parse(token).email === props.message.from;
+        
+        return (
+            <div className={`flex ${isCurrentUser ? 'justify-end' : 'justify-start'} mb-3`}>
+                <div className={`max-w-[70%] rounded-lg px-4 py-2 ${isCurrentUser ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-800'}`}>
+                    <div className={`text-sm font-medium mb-1 ${isCurrentUser ? 'text-indigo-100' : 'text-gray-500'}`}>
+                        {props.message.from}
+                    </div>
+                    <div className="break-words">
                         {props.message.message}
                     </div>
-                    <div className="flex justify-end font-medium">
+                    <div className={`text-xs mt-1 text-right ${isCurrentUser ? 'text-indigo-100' : 'text-gray-500'}`}>
                         {time}
                     </div>
-                </span>
+                </div>
             </div>
-
         );
     }
 
-    return(
-        <>
-            <div className="h-full flex flex-col justify-between">
-                <div className="bg-white p-4 rounded-bl-[5px] rounded-br-[5px] rounded-tr-[5px] text-2xl font-bold border-b">
-                    {props.currUser}
-                </div>
-                <div className="h-full p-4 overflow-y-scroll">
-                    {
-                        messages.map((message,i) => {
-                            return <ChatBox key={i} message={message}/>;
-                        })
-                    }
-                    <div ref={msgsEndRef} />
-                </div>
-                <form onSubmit={(e) => sendMessage(e)} className="flex justify-center items-center">
-                    <input
-                        type="text"
-                        className="w-[83%] text-2xl py-2 px-4 mb-4 rounded-s border"
-                        ref={inpRef}
-                    />
-                    <button className="mb-4 bg-[#5f3abd] hover:bg-[#5131a1] text-white px-6 py-3 rounded-e-[10px]" type="submit">{'Send >'}</button>
-                </form>
+    return (
+        <div className="h-full flex flex-col">
+            <div className="bg-gray-50 p-3 border-b border-gray-100 font-medium">
+                {props.currUser}
             </div>
-        </>
+            <div className="flex-1 p-4 overflow-y-auto bg-white">
+                {messages.map((message, i) => (
+                    <ChatBox key={i} message={message} />
+                ))}
+                <div ref={msgsEndRef} />
+            </div>
+            <form onSubmit={sendMessage} className="flex p-3 border-t border-gray-100">
+                <input
+                    type="text"
+                    className="flex-1 border border-gray-200 rounded-l py-2 px-3 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    placeholder="Type a message..."
+                    ref={inpRef}
+                />
+                <button 
+                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-r transition-colors"
+                    type="submit"
+                >
+                    Send
+                </button>
+            </form>
+        </div>
     );
 }
 
-export default ChatOpenWindow
+export default ChatOpenWindow;

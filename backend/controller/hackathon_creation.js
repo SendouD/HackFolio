@@ -17,7 +17,7 @@ hack_create.route("/").get(async (req, res) => {
 
     const query = {
       completelyFilled: true,
-    //   toDate: { $gt: currentDate }
+      toDate: { $gt: currentDate }
     };
 
     if (search.length !== 0) {
@@ -41,7 +41,42 @@ hack_create.route("/").get(async (req, res) => {
       totalPages: Math.ceil(totalHackathons / limit),
       currentPage: page,
     });
-  });
+});
+
+hack_create.route("/endedHackathons").get(async (req, res) => {
+    let page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 20;
+    const search = req.query.search || "";
+
+    const currentDate = new Date().toISOString().split('T')[0];
+
+    const query = {
+      completelyFilled: true,
+      toDate: { $lte: currentDate }
+    };
+
+    if (search.length !== 0) {
+      query.hackathonName = { $regex: search, $options: "i" };
+    }
+    
+    const totalHackathons = await hackathon_form.countDocuments(query);
+    
+    if (page > Math.ceil(totalHackathons / limit))
+      page = Math.ceil(totalHackathons / limit);
+    if (page < 1) page = 1;
+    
+    const hackathons = await hackFullDetails
+      .find(query)
+      .skip((page - 1) * limit)
+      .limit(limit);
+    
+    return res.status(200).json({
+      totalHackathons,
+      hackathons,
+      totalPages: Math.ceil(totalHackathons / limit),
+      currentPage: page,
+    });
+});
 
 hack_create
     .route("/hackathonCreate")

@@ -1,16 +1,18 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import MyHackathonsCard from "../../components/HackathonComponents/MyHackathonsCard";
 import Header from "../../components/Header";
-import "../../styles/hack_card.css";
 import ReactingNavBar from "../../components/ReactingNavBar";
-import { motion } from "framer-motion"; // Import framer-motion for animations
+import "../../styles/hack_card.css";
 
 function RegisteredHackathonsDisplay() {
   const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   async function getData() {
+    setIsLoading(true);
     try {
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/registeredHackathons`, {
         method: 'GET',
@@ -19,6 +21,7 @@ function RegisteredHackathonsDisplay() {
         },
         credentials: 'include'
       });
+      
       if (response.status === 403) navigate('/Error403');
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -26,9 +29,10 @@ function RegisteredHackathonsDisplay() {
 
       const array = await response.json();
       setData(array);
-
     } catch (error) {
-      console.error('Error posting data:', error);
+      console.error('Error fetching data:', error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -40,87 +44,65 @@ function RegisteredHackathonsDisplay() {
     navigate(`/hackathon/${hackathonName}/editRegistrationDetails`);
   }
 
+  // Animation variants for staggered card appearance
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+  };
+
   return (
-    <>
-      <div className="relative flex">
-        {/* Background Animations */}
-        <div className="inset-0 -z-10 absolute">
+    <div className="flex relative min-h-screen bg-neutral-50">
+      <ReactingNavBar />
+      <div className="w-full px-4 md:px-6 lg:px-8 pb-12">
+        <Header />
+
+        <div className="mt-8 mb-6">
+          <h1 className="text-2xl md:text-3xl font-semibold text-neutral-800 text-center">
+            Registered Hackathons
+          </h1>
+          <p className="text-neutral-500 text-center mt-2">
+            Manage the hackathons you've registered for
+          </p>
+        </div>
+
+        {isLoading ? (
+          <div className="flex justify-center items-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+          </div>
+        ) : data.length === 0 ? (
+          <div className="text-center py-16">
+            <h3 className="text-xl font-medium text-neutral-600">No registered hackathons found</h3>
+            <p className="text-neutral-500 mt-2">You haven't registered for any hackathons yet</p>
+          </div>
+        ) : (
           <motion.div
-            className="line-animation absolute top-[400px] left-[30px] w-32 h-32 -z-10"
-            initial={{ pathLength: 0 }}
-            whileInView={{ pathLength: 1 }}
-            transition={{ duration: 2 }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            variants={containerVariants}
+            initial="hidden"
+            animate="show"
           >
-            <motion.svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-              <motion.path
-                d="M10 10 L 50 50 L 90 10"
-                fill="transparent"
-                stroke="#3b82f6"
-                strokeWidth="4"
-              />
-            </motion.svg>
+            {data.map((element, i) => (
+              <motion.div key={i} variants={itemVariants}>
+                <MyHackathonsCard
+                  data={element}
+                  handleClick={handleClick}
+                />
+              </motion.div>
+            ))}
           </motion.div>
-
-          <motion.div
-            className="absolute bottom-[1000px] right-[250px] w-32 h-32 bg-blue-100 rounded-full -z-10"
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1 }}
-          />
-
-          <motion.div
-            className="absolute bottom-[50px] left-[10px] w-48 h-48 bg-purple-300 rounded-full -z-10"
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1.2 }}
-            transition={{ duration: 0.8 }}
-          />
-
-          <motion.div
-            className="absolute bottom-[700px] left-[250px] w-48 h-48 bg-purple-300 rounded-full -z-10"
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1.2 }}
-            transition={{ duration: 0.8 }}
-          />
-
-          <motion.div
-            className="absolute bottom-[800px] left-[1500px] w-48 h-48 bg-purple-300 rounded-full -z-10"
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1.2 }}
-            transition={{ duration: 0.8 }}
-          />
-
-          <motion.div
-            className="absolute bottom-[720px] right-[200px] w-32 h-32 bg-blue-100 rounded-full -z-10"
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1 }}
-          />
-
-          <motion.div
-            className="absolute bottom-[400px] right-[500px] w-32 h-32 bg-blue-100 rounded-full -z-10"
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1 }}
-          />
-        </div>
-
-        {/* Main content */}
-        <ReactingNavBar />
-        <div className="space-y-3 w-full">
-            <Header />
-            <div className="text-4xl font-medium flex justify-center my-[50px]">
-                Registered Hackathons :
-            </div>
-            <div className="flex justify-center">
-                <div className="flex flex-wrap justify-center w-4/5">
-                    {data.map((element, i) => (
-                        <MyHackathonsCard data={element} handleClick={handleClick} />
-                    ))}
-                </div>
-            </div>     
-        </div>
+        )}
       </div>
-    </>
+    </div>
   );
 }
 

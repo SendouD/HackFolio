@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { motion } from "framer-motion";
 
 function HackathonRegistrationForm() {
     const { name } = useParams();
@@ -30,19 +29,35 @@ function HackathonRegistrationForm() {
 
     function validateForm() {
         let newErrors = {};
+        
+        const nameRegex = /^[A-Za-z\s]+$/; // Allows only letters and spaces
+    
+        if (!nameRegex.test(formData.firstname)) {
+            newErrors.firstname = "First name cannot contain numbers or special characters!";
+        }
+    
+        if (!nameRegex.test(formData.lastname)) {
+            newErrors.lastname = "Last name cannot contain numbers or special characters!";
+        }
+    
         if (!emailRegex.test(formData.email) || formData.email === "0.0@0.0") {
-            newErrors.email = 'Enter a valid email!';
+            newErrors.email = "Enter a valid email!";
         }
+    
         if (!phoneRegex.test(formData.phoneno)) {
-            newErrors.phoneno = 'Enter a valid 10-digit phone number!';
+            newErrors.phoneno = "Enter a valid 10-digit phone number!";
         }
-        if (![formData.githubprofile, formData.linkednprofile, formData.portfoliowebsite].every(url => url === "" || (urlRegex.test(url) && !/^https?:\/\/a\.aa$/i.test(url)))) {
-            newErrors.urls = 'Enter valid URLs!';
+    
+        if (![formData.githubprofile, formData.linkednprofile, formData.portfoliowebsite].every(url => 
+            url === "" || (urlRegex.test(url) && !/^https?:\/\/a\.aa$/i.test(url))
+        )) {
+            newErrors.urls = "Enter valid URLs!";
         }
+    
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     }
-
+    
     async function handleSubmit() {
         if (!validateForm()) return;
         try {
@@ -52,8 +67,6 @@ function HackathonRegistrationForm() {
                 body: JSON.stringify({formData}),
                 credentials: 'include',
             });
-
-            if (response.status === 403) navigate('/Error403');
 
             if (response.status === 403) navigate('/Error403');
             if (!response.ok) throw new Error('Network response was not ok');
@@ -66,13 +79,13 @@ function HackathonRegistrationForm() {
 
     function inputComponent(label, name, type = "text") {
         return (
-            <>
-                <label className="mt-[20px] font-light">{label}</label>
+            <div className="mb-5">
+                <label className="block text-sm font-medium text-gray-600 mb-1">{label}</label>
                 {name === "gender" ? (
                     <select
                         onChange={(e) => handleChange(e, name)}
                         value={formData[name]}
-                        className="edit-inp shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-2"
+                        className="w-full px-4 py-2.5 bg-white rounded-md border border-gray-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-colors duration-300"
                     >
                         <option value="">Select Gender</option>
                         <option value="Male">Male</option>
@@ -84,37 +97,51 @@ function HackathonRegistrationForm() {
                         type={type}
                         onChange={(e) => handleChange(e, name)}
                         value={formData[name]}
-                        className="edit-inp shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-2"
+                        className="w-full px-4 py-2.5 bg-white rounded-md border border-gray-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-colors duration-300"
+                        placeholder={`Enter your ${label.toLowerCase()}`}
                     />
                 )}
-                {errors[name] && <p className="text-red-500 text-sm mt-1">{errors[name]}</p>}
-            </>
+                {errors[name] && <p className="mt-1 text-sm text-red-500">{errors[name]}</p>}
+            </div>
         );
     }    
 
     return (
-        <div className="w-full p-6 border rounded-[10px]">
-            <div>
-                <div className="text-4xl text-gray-500 mb-[40px]">Application Form :</div>
-                {inputComponent("What should people call you:", "aliasname")}
-                {inputComponent("First Name:", "firstname")}
-                {inputComponent("Last Name:", "lastname")}
-                {inputComponent("Email:", "email", "email")}
-                {inputComponent("Phone No.:", "phoneno", "tel")}
-                {inputComponent("Gender:", "gender")}
-                {inputComponent("Github URL:", "githubprofile")}
-                {inputComponent("LinkedIn URL:", "linkednprofile")}
-                {inputComponent("Portfolio Website URL:", "portfoliowebsite")}
-                {inputComponent("Skills:", "skills")}
-                {errors.urls && <p className="text-red-500 text-sm mt-1">{errors.urls}</p>}
-                <div className="mt-4">
-                    <button
-                        onClick={handleSubmit}
-                        className="edit-inp w-auto bg-[#5f3abd] hover:bg-[#5f3abd] text-white font-medium py-3 px-6 rounded-[5px] focus:outline-none focus:shadow-outline edit-btn mt-4"
-                    >
-                        Submit
-                    </button>
+        <div className="max-w-2xl mx-auto bg-white shadow-sm rounded-lg border border-gray-100 p-8">
+            <h1 className="text-2xl font-medium text-gray-800 mb-6">Hackathon Registration</h1>
+            
+            <div className="grid gap-4">
+                {inputComponent("What should people call you", "aliasname")}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {inputComponent("First Name", "firstname")}
+                    {inputComponent("Last Name", "lastname")}
                 </div>
+                {inputComponent("Email", "email", "email")}
+                {inputComponent("Phone Number", "phoneno", "tel")}
+                {inputComponent("Gender", "gender")}
+                {inputComponent("GitHub URL", "githubprofile")}
+                {inputComponent("LinkedIn URL", "linkednprofile")}
+                {inputComponent("Portfolio Website", "portfoliowebsite")}
+                
+                <div className="mb-5">
+                    <label className="block text-sm font-medium text-gray-600 mb-1">Skills</label>
+                    <textarea
+                        onChange={(e) => handleChange(e, "skills")}
+                        value={formData.skills}
+                        className="w-full px-4 py-2.5 bg-white rounded-md border border-gray-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-colors duration-300"
+                        placeholder="Enter your skills (separated by commas)"
+                        rows="3"
+                    />
+                </div>
+                
+                {errors.urls && <p className="text-sm text-red-500 mb-4">{errors.urls}</p>}
+                
+                <button
+                    onClick={handleSubmit}
+                    className="w-full py-3 px-4 bg-[#5f3abd] hover:bg-[#4f2fa0] text-white font-medium rounded-md transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#5f3abd]"
+                >
+                    Submit Application
+                </button>
             </div>
         </div>
     );

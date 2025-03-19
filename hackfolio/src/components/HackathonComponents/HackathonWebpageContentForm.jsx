@@ -102,13 +102,13 @@ function HackathonWebpageContentForm(props) {
     let isValid = true;
 
     if (!validateInput(aboutHack)) {
-        validationErrors.about = "About Hackathon must start with a letter and cannot start with numbers, spaces, or special characters.";
-        isValid = false;
+      validationErrors.about = "About Hackathon must start with a letter and cannot start with numbers, spaces, or special characters.";
+      isValid = false;
     }
 
     if (!validateInput(aboutPrize)) {
-        validationErrors.prize = "About Prizes must start with a letter and cannot start with numbers, spaces, or special characters.";
-        isValid = false;
+      validationErrors.prize = "About Prizes must start with a letter and cannot start with numbers, spaces, or special characters.";
+      isValid = false;
     }
 
     setErrors(validationErrors);
@@ -116,51 +116,51 @@ function HackathonWebpageContentForm(props) {
     console.log("Validation result:", isValid, "Image Error:", imageError);
 
     if (!isValid || imageError) {
-        console.log("Validation failed, submission stopped.");
-        return;
+      console.log("Validation failed, submission stopped.");
+      return;
     }
 
     try {
-        setLoading(true);
+      setLoading(true);
 
-        let imageUrl = "a";  // Default value
-        if (file) {
-            imageUrl = await handleImageUpload(file);
-            console.log("Uploaded Image URL:", imageUrl);
-        }
+      let imageUrl = "a";  // Default value
+      if (file) {
+        imageUrl = await handleImageUpload(file);
+        console.log("Uploaded Image URL:", imageUrl);
+      }
 
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/hackathonCreate/${name}/2`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                imageUrl,
-                aboutHack,
-                aboutPrize,
-                otherFields,
-            }),
-            credentials: "include",
-        });
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/hackathonCreate/${name}/2`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          imageUrl,
+          aboutHack,
+          aboutPrize,
+          otherFields,
+        }),
+        credentials: "include",
+      });
 
-        console.log("Response Status:", response.status);
+      console.log("Response Status:", response.status);
 
-        if (response.status === 403) {
-            navigate("/Error403");
-            return;
-        }
+      if (response.status === 403) {
+        navigate("/Error403");
+        return;
+      }
 
-        if (!response.ok) {
-            throw new Error("Network response was not ok");
-        }
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
 
-        setLoading(false);
-        navigate(`/organizedHackathons/${name}`);
+      setLoading(false);
+      navigate(`/organizedHackathons/${name}`);
     } catch (error) {
-        console.error("Error posting data:", error);
-        setLoading(false);
+      console.error("Error posting data:", error);
+      setLoading(false);
     }
-}
+  }
 
   function addField() {
     setOtherFields([...otherFields, { key: "", value: "" }]);
@@ -192,112 +192,99 @@ function HackathonWebpageContentForm(props) {
   }
 
   return (
-    <div
-      style={{ display: "flex", justifyContent: "center" }}
-      className="relative"
-    >
-      <div style={{ marginTop: "30px" }}>
-        <div className="flex">
-          <div>
-            <div
-              style={{
-                padding: "30px",
-                paddingTop: "0px",
-                border: "solid 2px rgb(220, 220, 220)",
-                borderRadius: "20px",
-              }}
-            >
-              <div className="hackathon-poster">
-                <img
-                  className="h-full w-full"
-                  ref={imgRef}
-                  style={{ borderRadius: "20px" }}
+    <div className="flex justify-center relative">
+      <div className="max-w-screen-xl w-full my-8">
+        <div className="flex flex-col md:flex-row gap-6">
+          <div className="w-full md:w-2/3">
+            <div className="bg-white shadow-sm rounded-lg p-6 border border-gray-200">
+              {/* Image Upload Section */}
+              <div className="mb-6">
+                <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden mb-4">
+                  <img
+                    className="h-full w-full object-cover"
+                    ref={imgRef}
+                    alt="Hackathon banner"
+                  />
+                </div>
+                <input
+                  type="file"
+                  id="img"
+                  name="img"
+                  accept="image/*"
+                  className="text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-indigo-50 file:text-indigo-600 hover:file:bg-indigo-100"
+                  ref={imgInpRef}
                 />
+                {imageError && <p className="text-red-500 text-sm mt-1">{imageError}</p>}
               </div>
 
-              <input
-                type="file"
-                id="img"
-                name="img"
-                accept="image/*"
-                style={{ marginTop: "20px" }}
-                ref={imgInpRef}
-              />
-
-              <div className="about-hack" style={{ marginTop: "20px" }}>
-                <div className="text-4xl font-medium mb-5">About Hackathon</div>
-                <div className="flex justify-center">
+              {/* About Hackathon Section */}
+              <div className="mb-6">
+                <h2 className="text-2xl font-medium mb-3 text-gray-800">About Hackathon</h2>
+                <div>
                   <textarea
-                    type="text"
-                    className="min-h-[150px] w-11/12 resize-y border rounded-md p-2 overflow-y-hidden"
-                    placeholder="Enter about the hackathon"
+                    className="w-full min-h-[150px] border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-700"
+                    placeholder="Enter details about the hackathon"
                     ref={aboutRef}
                     onChange={(e) => handleTextChange(e, aboutRef)}
                   />
+                  {errors.about && <p className="text-red-500 text-sm mt-1">{errors.about}</p>}
                 </div>
               </div>
 
-              <div className="about-hack" style={{ marginTop: "20px" }}>
-                <div className="text-4xl font-medium mb-5">About Prizes</div>
-                <div className="flex justify-center">
+              {/* About Prizes Section */}
+              <div className="mb-6">
+                <h2 className="text-2xl font-medium mb-3 text-gray-800">About Prizes</h2>
+                <div>
                   <textarea
-                    type="text"
-                    className="min-h-[150px] w-11/12 resize-y border rounded-md p-2 overflow-y-hidden"
-                    placeholder="Enter about prizes"
+                    className="w-full min-h-[150px] border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-700"
+                    placeholder="Enter details about prizes"
                     ref={prizeRef}
                     onChange={(e) => handleTextChange(e, prizeRef)}
                   />
+                  {errors.prize && <p className="text-red-500 text-sm mt-1">{errors.prize}</p>}
                 </div>
               </div>
 
+              {/* Custom Fields */}
               {otherFields.map((field, i) => (
-                <div
-                  key={i}
-                  className="about-hack"
-                  style={{ marginTop: "20px" }}
-                >
-                  <div>
-                    <input
-                      type="text"
-                      className="h-[25%] w-11/12 mb-3 font-medium text-2xl border rounded-md p-2"
-                      placeholder="Enter field name"
-                      value={field.key}
-                      onChange={(e) =>
-                        handleFieldChange(i, "key", e.target.value)
-                      }
-                    />
-                    <ResizableTextArea
-                      className="h-[75%] w-11/12 resize-y border rounded-md p-2"
-                      placeholder="Enter field value"
-                      val={field.value}
-                      otherFields={otherFields}
-                      setOtherFields={setOtherFields}
-                      ind={i}
-                    />
-                    <div className="flex justify-end">
-                      <button
-                        className="remove-link-btn1 edit-btn mt-2 mr-0 ml-2"
-                        onClick={() => removeField(i)}
-                      >
-                        Remove
-                      </button>
-                    </div>
+                <div key={i} className="bg-gray-50 p-4 rounded-lg mb-4">
+                  <input
+                    type="text"
+                    className="w-full mb-2 text-lg font-medium border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="Enter field name"
+                    value={field.key}
+                    onChange={(e) => handleFieldChange(i, "key", e.target.value)}
+                  />
+                  <ResizableTextArea
+                    className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="Enter field value"
+                    val={field.value}
+                    otherFields={otherFields}
+                    setOtherFields={setOtherFields}
+                    ind={i}
+                  />
+                  <div className="flex justify-end mt-2">
+                    <button
+                      className="text-sm py-1 px-3 bg-gray-200 hover:bg-gray-300 rounded-md text-gray-700 transition-colors"
+                      onClick={() => removeField(i)}
+                    >
+                      Remove
+                    </button>
                   </div>
                 </div>
               ))}
 
               <button
                 onClick={addField}
-                className="add-link-btn edit-btn py-2 px-3 mt-[20px]"
+                className="text-sm py-2 px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors flex items-center"
               >
-                Add more fields
+                <span>Add more fields</span>
               </button>
             </div>
 
-            <div className="flex">
+            <div className="mt-6">
               <button
-                className="px-6 py-3 bg-indigo-600 text-2xl hover:bg-indigo-700 text-white font-bold rounded my-5"
-                style={{ borderRadius: "10px" }}
+                className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 onClick={handleSubmit}
               >
                 Submit
@@ -305,15 +292,11 @@ function HackathonWebpageContentForm(props) {
             </div>
           </div>
 
-          <div>
-            <div
-              className="hack-info-card flex flex-col justify-between"
-              style={{ marginLeft: "30px" }}
-            >
-              <div>From: To:</div>
-
+          <div className="w-full md:w-1/3">
+            <div className="bg-white shadow-sm rounded-lg p-6 border border-gray-200 sticky top-4">
+              <div className="text-gray-500 mb-4">From: To:</div>
               <div className="flex justify-center">
-                <button className="w-11/12 text-xl bg-gray-400 text-white py-4 rounded-md font-semibold cursor-default">
+                <button className="w-full text-base bg-gray-300 text-gray-600 py-3 rounded-lg font-medium cursor-default">
                   Apply now
                 </button>
               </div>
@@ -321,12 +304,12 @@ function HackathonWebpageContentForm(props) {
           </div>
         </div>
 
-        {/* Background Animations */}
-        <div className=" inset-0 -z-10">
+        {/* Background Animations - Simplified */}
+        <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
           <motion.div
-            className="line-animation absolute top-[400px] left-[30px] w-32 h-32 -z-10"
-            initial={{ pathLength: 0 }}
-            whileInView={{ pathLength: 1 }}
+            className="absolute top-[30%] left-[5%] w-24 h-24"
+            initial={{ pathLength: 0, opacity: 0.3 }}
+            whileInView={{ pathLength: 1, opacity: 0.7 }}
             transition={{ duration: 2 }}
           >
             <motion.svg
@@ -343,9 +326,9 @@ function HackathonWebpageContentForm(props) {
           </motion.div>
 
           <motion.div
-            className="line-animation absolute top-[800px] left-[1200px] w-32 h-32 -z-10"
-            initial={{ pathLength: 0 }}
-            whileInView={{ pathLength: 1 }}
+            className="absolute bottom-[20%] right-[10%] w-24 h-24"
+            initial={{ pathLength: 0, opacity: 0.3 }}
+            whileInView={{ pathLength: 1, opacity: 0.7 }}
             transition={{ duration: 2 }}
           >
             <motion.svg
@@ -360,67 +343,6 @@ function HackathonWebpageContentForm(props) {
               />
             </motion.svg>
           </motion.div>
-
-          <motion.div
-            className="line-animation absolute top-[200px] left-[1500px] w-32 h-32 -z-10"
-            initial={{ pathLength: 0 }}
-            whileInView={{ pathLength: 1 }}
-            transition={{ duration: 2 }}
-          >
-            <motion.svg
-              viewBox="0 0 100 100"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <motion.path
-                d="M10 10 L 50 50 L 90 10"
-                fill="transparent"
-                stroke="#3b82f6"
-                strokeWidth="4"
-              />
-            </motion.svg>
-          </motion.div>
-
-          {/* <motion.div
-                        className="absolute bottom-[1000px] right-[250px] w-32 h-32 bg-blue-100 rounded-full -z-10"
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 1 }}
-                    /> */}
-          {/* 
-                    <motion.div
-                        className="absolute bottom-[50px] left-[10px] w-48 h-48 bg-purple-300 rounded-full -z-10"
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1.2 }}
-                        transition={{ duration: 0.8 }}
-                    /> */}
-
-          {/* <motion.div
-                        className="absolute bottom-[700px] left-[250px] w-48 h-48 bg-purple-300 rounded-full -z-10"
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1.2 }}
-                        transition={{ duration: 0.8 }}
-                    /> */}
-
-          {/* <motion.div
-                        className="absolute bottom-[800px] left-[1500px] w-48 h-48 bg-purple-300 rounded-full -z-10"
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1.2 }}
-                        transition={{ duration: 0.8 }}
-                    /> */}
-          {/* 
-                    <motion.div
-                        className="absolute bottom-[720px] right-[200px] w-32 h-32 bg-blue-100 rounded-full -z-10"
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 1 }}
-                    /> */}
-
-          {/* <motion.div
-                        className="absolute bottom-[400px] right-[500px] w-32 h-32 bg-blue-100 rounded-full -z-10"
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 1 }}
-                    /> */}
         </div>
       </div>
     </div>
