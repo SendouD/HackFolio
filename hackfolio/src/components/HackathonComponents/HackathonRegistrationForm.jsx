@@ -68,11 +68,29 @@ function HackathonRegistrationForm() {
         return (
             <>
                 <label className="mt-[20px] font-light">{label}</label>
-                <input type={type} onChange={(e) => handleChange(e, name)} value={formData[name]} className="edit-inp shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-2"/>
+                {name === "gender" ? (
+                    <select
+                        onChange={(e) => handleChange(e, name)}
+                        value={formData[name]}
+                        className="edit-inp shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-2"
+                    >
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                ) : (
+                    <input
+                        type={type}
+                        onChange={(e) => handleChange(e, name)}
+                        value={formData[name]}
+                        className="edit-inp shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-2"
+                    />
+                )}
                 {errors[name] && <p className="text-red-500 text-sm mt-1">{errors[name]}</p>}
             </>
         );
-    }
+    }    
 
     return (
         <div className="w-full p-6 border rounded-[10px]">

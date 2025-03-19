@@ -83,7 +83,7 @@ function AllHackathonsDisplay() {
 
     return (
         <>
-            <div className="flex relative min-h-screen bg-[#fbfbfd] overflow-hidden">             
+            <div className="flex relative min-h-screen bg-gradient-to-tr from-purple-200 via-blue-100 to-white overflow-hidden">             
 
                 <ReactingNavBar />
                 <div className="w-full px-1">
