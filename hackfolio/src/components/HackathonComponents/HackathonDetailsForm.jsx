@@ -18,7 +18,7 @@ function HackathonDetailsForm(props) {
   const navigate = useNavigate();
   const { name } = useParams();
   const urlRegex =
-    /\b((http[s]?|ftp):\/\/)?[^\s(["<,>]*\.[^\s[",><]{2,}(\/[^\s[",><]*)?\b/gi;
+    /^(https?:\/\/)?(www\.)?[a-zA-Z0-9.-]+\.(com|in)\/?.*$/;
 
   useEffect(() => {
     getDetails();
