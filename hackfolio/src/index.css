@@ -63,6 +63,6 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground bg-gradient-to-tr from-purple-200 via-blue-100 to-white;
+    @apply bg-background text-foreground bg-gradient-to-br from-indigo-50 via-white to-purple-50;
   }
 }

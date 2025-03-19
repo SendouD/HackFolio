@@ -94,7 +94,7 @@ const EditHackathonProjectSubmissionDetails = () => {
       <div className="space-y-3 w-full">
         <Header />
         <div className="p-4">
-          <button onClick={handleEditToggle} className="mb-4 px-4 py-2 bg-[#5f3abd] text-white rounded hover:bg-blue-600 transition-colors">
+          <button onClick={handleEditToggle} className="mb-4 px-4 py-2 bg-[#5f3abd] text-white rounded hover:bg-blue-600">
             {isEditing ? "Cancel Edit" : "Edit Project"}
           </button>
           {isEditing ? (
