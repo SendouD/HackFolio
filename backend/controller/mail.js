@@ -1,4 +1,6 @@
 const nodemailer = require('nodemailer');
+require("dotenv").config();
+
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -12,7 +14,7 @@ async function donation_success(recieverID, amount) {
     
 
     const info = await transporter.sendMail({
-      from: `"hackfolio " <jananathan.m22@iiits.in>`,
+      from: `"hackfolio" <jananathan.m22@iiits.in>`, // Ensure this is the email used in the Gmail account
       to: `${recieverID}`,
       subject: "Confirmation of Donation ",
       text: `Your Donation of RS ${amount} is successful the receipt is attached with this Mail . Thank You for being a part of making a change :>`,
@@ -23,7 +25,7 @@ async function donation_success(recieverID, amount) {
 
   async function sendOtp(receiverEmail, otp) {
     const mailOptions = {
-      from: '"hackfolio" <jananathan.m22@iiits.in>',
+      from: `"hackfolio" <jananathan.m22@iiits.in>`,
       to: receiverEmail,
       subject: 'Your OTP for Password Reset',
       text: `Your OTP for password reset is: ${otp}. It is valid for 10 minutes.`,

@@ -53,7 +53,8 @@ const SignIn = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[url('hackfolio\\public\\signinbg_1.jpeg')] bg-cover bg-center">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      {/* Main container with increased height */}
       <div className="bg-white shadow-lg rounded-lg overflow-hidden max-w-4xl w-full flex min-h-[80vh]">
         <div className="w-1/2 p-8 flex flex-col justify-center">
           <div className="max-w-md w-full mx-auto">
