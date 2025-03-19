@@ -94,61 +94,73 @@ function HackathonWebpageContentForm(props) {
   };
 
   async function handleSubmit(e) {
+    console.log("Submit button clicked");
+
     const aboutHack = aboutRef.current.value;
     const aboutPrize = prizeRef.current.value;
     let validationErrors = { about: "", prize: "" };
     let isValid = true;
 
     if (!validateInput(aboutHack)) {
-      validationErrors.about =
-        "About Hackathon must start with a letter and cannot start with numbers, spaces, or special characters.";
-      isValid = false;
+        validationErrors.about = "About Hackathon must start with a letter and cannot start with numbers, spaces, or special characters.";
+        isValid = false;
     }
 
     if (!validateInput(aboutPrize)) {
-      validationErrors.prize =
-        "About Prizes must start with a letter and cannot start with numbers, spaces, or special characters.";
-      isValid = false;
+        validationErrors.prize = "About Prizes must start with a letter and cannot start with numbers, spaces, or special characters.";
+        isValid = false;
     }
 
     setErrors(validationErrors);
 
-    if (!isValid || imageError) return;
+    console.log("Validation result:", isValid, "Image Error:", imageError);
+
+    if (!isValid || imageError) {
+        console.log("Validation failed, submission stopped.");
+        return;
+    }
 
     try {
-      setLoading(true);
-      let imageUrl;
-      if (file !== "") imageUrl = await handleImageUpload(file);
-      else imageUrl = "a";
-      const response = await fetch(
-        `${
-          import.meta.env.VITE_BACKEND_URL
-        }/api/hackathon/hackathonCreate/${name}/2`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            imageUrl,
-            aboutHack,
-            aboutPrize,
-            otherFields,
-          }),
-          credentials: "include",
-        }
-      );
-      if (response.status === 403) navigate("/Error403");
+        setLoading(true);
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      setLoading(false);
-      navigate(`/organizedHackathons/${name}`);
+        let imageUrl = "a";  // Default value
+        if (file) {
+            imageUrl = await handleImageUpload(file);
+            console.log("Uploaded Image URL:", imageUrl);
+        }
+
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/hackathonCreate/${name}/2`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                imageUrl,
+                aboutHack,
+                aboutPrize,
+                otherFields,
+            }),
+            credentials: "include",
+        });
+
+        console.log("Response Status:", response.status);
+
+        if (response.status === 403) {
+            navigate("/Error403");
+            return;
+        }
+
+        if (!response.ok) {
+            throw new Error("Network response was not ok");
+        }
+
+        setLoading(false);
+        navigate(`/organizedHackathons/${name}`);
     } catch (error) {
-      console.error("Error posting data:", error);
+        console.error("Error posting data:", error);
+        setLoading(false);
     }
-  }
+}
 
   function addField() {
     setOtherFields([...otherFields, { key: "", value: "" }]);

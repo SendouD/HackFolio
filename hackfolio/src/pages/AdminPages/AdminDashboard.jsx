@@ -11,7 +11,7 @@ export default function AdminDashboard() {
   const [activeSection, setActiveSection] = useState(null); // 'hackathons' or 'projects'
 
   return (
-    <div className="relative flex min-h-screen bg-gray-100 overflow-hidden">
+    <div className="relative flex min-h-screen bg-gradient-to-tr from-purple-200 via-blue-100 to-white overflow-hidden">
       {/* Sidebar */}
       <motion.div
         initial={{ x: -200, opacity: 0 }}
