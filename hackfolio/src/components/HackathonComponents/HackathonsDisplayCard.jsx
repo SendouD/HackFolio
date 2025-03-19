@@ -1,93 +1,83 @@
-import { useNavigate } from 'react-router-dom';
-import { motion } from "framer-motion";
-import "animate.css"; // Import Animate.css for animations
+"use client"
+
+import { useNavigate } from "react-router-dom"
+import { motion } from "framer-motion"
 
 function HackathonsDisplayCard(props) {
-  const navigate = useNavigate();
-  
+  const navigate = useNavigate()
+
   async function handleClick() {
-    navigate(`/hackathon/${props.data.hackathonName}`);
+    navigate(`/hackathon/${props.data.hackathonName}`)
   }
-  
+
   // Get button text based on date comparison
   const getButtonText = () => {
-    const currentDate = new Date();
-    const startDate = new Date(props.data.fromDate);
-    const endDate = new Date(props.data.toDate); // Assuming you have an endDate in your data
-    
+    const currentDate = new Date()
+    const startDate = new Date(props.data.fromDate)
+    const endDate = new Date(props.data.toDate) // Assuming you have an endDate in your data
+
     if (currentDate < startDate) {
-      return "Apply Now";
+      return "Apply Now"
     } else if (currentDate > endDate) {
-      return " Ended";
+      return "Ended"
     } else {
-      return "View Hackathon";
+      return "View Hackathon"
     }
-  };
-  
+  }
+
+  // Determine button style based on status
+  const getButtonStyle = () => {
+    if (getButtonText() === "Ended") {
+      return "bg-neutral-400 cursor-not-allowed"
+    }
+    return "bg-indigo-600 hover:bg-indigo-700"
+  }
+
   return (
     <motion.div
-      className="hackathon-card flex flex-col justify-between p-6 bg-gray-200 rounded-lg shadow-gray-200 mx-4 my-4"
-      whileHover="hover"
+      className="flex flex-col justify-between p-6 bg-white rounded-xl border border-neutral-100 shadow-sm hover:shadow-md transition-shadow duration-300 h-full"
+      whileHover={{ y: -5 }}
       transition={{
-        duration: 0.5,
-        ease: "easeInOut",
-      }}
-      variants={{
-        hover: {
-          scale: 1.05,
-        },
+        duration: 0.3,
+        ease: "easeOut",
       }}
     >
-      <div className="flex justify-between items-center">
+      <div>
         {/* Hackathon Name */}
-        <div className="hack-name font-semibold text-3xl text-gray-900">
-          {props.data.hackathonName.split('-').join(' ')}
-        </div>
-        {/* Contact Links */}
-        {/* <div className="flex space-x-3">
-          {props.data.contactLinks.map((ele, i) => (
-            <a
-              key={i}
-              href={"https://" + ele}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xl text-indigo-600 hover:text-indigo-800"
-            >
-              &#128279;
-            </a>
-          ))}
-        </div> */}
-      </div>
-      <div className="flex justify-between mt-4">
-        <div>
-          <div className="font-bold text-gray-500">THEME</div>
-          <div className="hack-themes font-medium text-gray-700">
-            {props.data.tech}
+        <h2 className="font-semibold text-2xl text-neutral-800 mb-4 line-clamp-2">
+          {props.data.hackathonName.split("-").join(" ")}
+        </h2>
+
+        <div className="flex justify-between mb-4">
+          <div>
+            <div className="text-xs font-medium uppercase tracking-wider text-neutral-500 mb-1">Theme</div>
+            <div className="text-sm font-medium text-neutral-700">{props.data.tech}</div>
           </div>
         </div>
-   
       </div>
-      <div className="flex justify-between items-center mt-4">
-        <div className="flex space-x-4">
-          <span className="hack-status font-medium text-gray-600">
+
+      <div className="flex justify-between items-center mt-4 pt-4 border-t border-neutral-100">
+        <div className="flex flex-col space-y-1">
+          <span className="text-xs font-medium px-2 py-1 bg-neutral-100 rounded-full text-neutral-700 inline-block w-fit">
             {props.data.eventMode.toUpperCase()}
           </span>
-          <span className="hack-status font-medium text-gray-600">
-            STARTS {props.data.fromDate}
+          <span className="text-xs text-neutral-500">
+            Starts {new Date(props.data.fromDate).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
           </span>
         </div>
+
         {/* Dynamic Button */}
         <motion.button
-          className={`w-36 text-xl ${getButtonText() === "Hackathon Ended" ? "bg-gray-500" : "bg-[#5f3abd] hover:bg-[#5635aa]"} text-white py-2 rounded-md font-semibold transition-colors`}
+          className={`px-4 py-2 rounded-lg text-sm font-medium text-white transition-colors ${getButtonStyle()}`}
           onClick={handleClick}
-          whileHover={{ scale: getButtonText() === " Ended" ? 1.0 : 1.1 }}
-          disabled={getButtonText() === "Hackathon Ended"}
+          whileHover={getButtonText() !== "Ended" ? { scale: 1.05 } : {}}
+          whileTap={getButtonText() !== "Ended" ? { scale: 0.98 } : {}}
         >
           {getButtonText()}
         </motion.button>
       </div>
     </motion.div>
-  );
+  )
 }
 
-export default HackathonsDisplayCard;
+export default HackathonsDisplayCard

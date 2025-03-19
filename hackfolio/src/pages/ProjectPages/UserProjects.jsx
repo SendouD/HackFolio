@@ -38,7 +38,7 @@ function UserProjects() {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="flex ">
+    <div className="flex">
       <ReactingNavBar />
 
       <div className="space-y-3 size-full">

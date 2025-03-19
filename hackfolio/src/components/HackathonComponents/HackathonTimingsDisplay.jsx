@@ -2,7 +2,15 @@
 
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import LoadingPage from "../loading"
+import { Calendar, Clock, Award, ChevronRight } from "lucide-react"
+
+function LoadingSpinner() {
+  return (
+    <div className="flex justify-center items-center h-40">
+      <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-indigo-600"></div>
+    </div>
+  )
+}
 
 function HackathonTimingsDisplay(props) {
   const { name } = useParams()
@@ -11,6 +19,7 @@ function HackathonTimingsDisplay(props) {
   const [isJudge, setIsJudge] = useState(false)
   const [registered, setRegistered] = useState(false)
   const [flag, setFlag] = useState(0)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     getInfo()
@@ -45,6 +54,7 @@ function HackathonTimingsDisplay(props) {
   }
 
   async function getInfo() {
+    setLoading(true)
     try {
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/getHackDetails/${name}`, {
         method: "GET",
@@ -64,6 +74,8 @@ function HackathonTimingsDisplay(props) {
       else if (currTime > fromTime && flag < 2) setFlag(1)
     } catch (error) {
       console.error("Error fetching data:", error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -79,7 +91,7 @@ function HackathonTimingsDisplay(props) {
       if (response.status === 403) navigate("/Error403")
       if (!response.ok) throw new Error("Network response was not ok")
       const data1 = await response.json()
-      if (new Date(data.fromDate) < new Date() && !data1.flag && flag < 7) setFlag(7)
+      if (data && new Date(data.fromDate) < new Date() && !data1.flag && flag < 7) setFlag(7)
       setRegistered(data1.flag)
     } catch (error) {
       console.error("Error fetching data:", error)
@@ -146,128 +158,148 @@ function HackathonTimingsDisplay(props) {
     }
   }
 
-  if (data === null) return <LoadingPage />
+  if (loading) return <LoadingSpinner />
+  if (!data) return null
 
   const formatDate = (dateString) => {
     const date = new Date(dateString)
     return date.toLocaleDateString("en-US", {
-      month: "short",
+      month: "long",
       day: "numeric",
       year: "numeric",
     })
   }
 
+  // Get status text and color
+  const getStatusInfo = () => {
+    const now = new Date()
+    const startDate = new Date(data.fromDate)
+    const endDate = new Date(data.toDate)
+
+    if (now < startDate) {
+      return {
+        text: "Registration Open",
+        color: "bg-green-100 text-green-800",
+      }
+    } else if (now > endDate) {
+      return {
+        text: "Hackathon Ended",
+        color: "bg-gray-100 text-gray-800",
+      }
+    } else {
+      return {
+        text: "In Progress",
+        color: "bg-indigo-100 text-indigo-800",
+      }
+    }
+  }
+
+  const status = getStatusInfo()
+
+  // Get button text and style
+  const getButtonInfo = () => {
+    if (flag === 10) {
+      return {
+        text: "Hackathon Ended",
+        disabled: true,
+        style: "bg-gray-400 cursor-not-allowed",
+      }
+    } else if (flag === 7) {
+      return {
+        text: "Registration Ended",
+        disabled: true,
+        style: "bg-gray-400 cursor-not-allowed",
+      }
+    } else if (flag === 2) {
+      return {
+        text: "Edit Project",
+        disabled: false,
+        style: "bg-indigo-600 hover:bg-indigo-700",
+      }
+    } else if (flag === 1) {
+      return {
+        text: "Submit Project",
+        disabled: false,
+        style: "bg-indigo-600 hover:bg-indigo-700",
+      }
+    } else if (registered) {
+      return {
+        text: "Go to Dashboard",
+        disabled: false,
+        style: "bg-indigo-600 hover:bg-indigo-700",
+      }
+    } else {
+      return {
+        text: "Apply Now",
+        disabled: false,
+        style: "bg-indigo-600 hover:bg-indigo-700",
+      }
+    }
+  }
+
+  const buttonInfo = getButtonInfo()
+
   return (
-    <div className=" rounded-lg shadow p-6 bg-gradient-to-tr from-blue via-blue-100 to-white">
-      <div className="flex items-center gap-2 mb-6">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <circle cx="12" cy="12" r="10"></circle>
-          <polyline points="12 6 12 12 16 14"></polyline>
-        </svg>
-        <h2 className="text-lg font-medium">Hackathon Timeline</h2>
-      </div>
-
-      <div className="space-y-6">
-        <div className="flex flex-col space-y-3">
-          <div className="flex items-center gap-3 bg-gray-50 rounded-lg p-3">
-            <div className="flex items-center justify-center bg-purple-100 p-2 rounded-md">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-purple-700"
-              >
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                <line x1="16" y1="2" x2="16" y2="6"></line>
-                <line x1="8" y1="2" x2="8" y2="6"></line>
-                <line x1="3" y1="10" x2="21" y2="10"></line>
-              </svg>
-            </div>
-            <div>
-              <p className="text-xs text-gray-500 font-medium">Start Date</p>
-              <p className="font-medium text-gray-800">{formatDate(data.fromDate)}</p>
-            </div>
-          </div>
-
-          <div className="flex justify-center">
-            <div className="h-6 w-px bg-gray-200"></div>
-          </div>
-
-          <div className="flex items-center gap-3 bg-gray-50 rounded-lg p-3">
-            <div className="flex items-center justify-center bg-purple-100 p-2 rounded-md">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-purple-700"
-              >
-                <circle cx="12" cy="12" r="10"></circle>
-                <polyline points="12 6 12 12 16 14"></polyline>
-              </svg>
-            </div>
-            <div>
-              <p className="text-xs text-gray-500 font-medium">End Date</p>
-              <p className="font-medium text-gray-800">{formatDate(data.toDate)}</p>
-            </div>
-          </div>
+    <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+      <div className="p-6">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-lg font-semibold text-gray-800">Hackathon Timeline</h2>
+          <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${status.color}`}>{status.text}</span>
         </div>
 
-        {props.flag === 1 && (
-          <div className="space-y-3 pt-4">
-            <button
-              className="w-full bg-[#5f3abd] hover:bg-[#4d2f97] text-white py-4 px-4 rounded font-semibold transition-colors"
-              onClick={handleClick}
-              disabled={flag === 10 || flag === 7}
-            >
-              {flag === 10
-                ? "Hackathon Ended"
-                : flag === 7
-                  ? "Registration Ended"
-                  : flag === 2
-                    ? "Edit project"
-                    : flag === 1
-                      ? "Submit project"
-                      : registered
-                        ? "Go to dashboard"
-                        : "Apply now"}
-            </button>
-
-            {isJudge && (
-              <button
-                className="w-full bg-green-600 hover:bg-green-700 text-white py-4 px-4 rounded font-semibold transition-colors mt-4"
-                onClick={() => navigate(`/hackathon/${name}/judgeDashboard`)}
-              >
-                Judge Dashboard
-              </button>
-            )}
+        <div className="space-y-6">
+          <div className="relative pl-8 pb-8 border-l-2 border-indigo-100">
+            <div className="absolute -left-2 top-0">
+              <div className="flex items-center justify-center w-4 h-4 rounded-full bg-indigo-600">
+                <div className="w-2 h-2 rounded-full bg-white"></div>
+              </div>
+            </div>
+            <div className="mb-1 flex items-center">
+              <Calendar className="w-4 h-4 text-indigo-600 mr-2" />
+              <span className="text-sm font-medium text-gray-500">Start Date</span>
+            </div>
+            <p className="text-base font-medium text-gray-800">{formatDate(data.fromDate)}</p>
           </div>
-        )}
+
+          <div className="relative pl-8">
+            <div className="absolute -left-2 top-0">
+              <div className="flex items-center justify-center w-4 h-4 rounded-full bg-indigo-600">
+                <div className="w-2 h-2 rounded-full bg-white"></div>
+              </div>
+            </div>
+            <div className="mb-1 flex items-center">
+              <Clock className="w-4 h-4 text-indigo-600 mr-2" />
+              <span className="text-sm font-medium text-gray-500">End Date</span>
+            </div>
+            <p className="text-base font-medium text-gray-800">{formatDate(data.toDate)}</p>
+          </div>
+        </div>
       </div>
+
+      {props.flag === 1 && (
+        <div className="px-6 pb-6 pt-2 space-y-3">
+          <button
+            className={`w-full py-3 px-4 rounded-lg text-white font-medium transition-colors flex items-center justify-center ${buttonInfo.style}`}
+            onClick={handleClick}
+            disabled={buttonInfo.disabled}
+          >
+            {buttonInfo.text}
+            <ChevronRight className="w-4 h-4 ml-1" />
+          </button>
+
+          {isJudge && (
+            <button
+              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 px-4 rounded-lg font-medium transition-colors flex items-center justify-center"
+              onClick={() => navigate(`/hackathon/${name}/judgeDashboard`)}
+            >
+              <Award className="w-4 h-4 mr-2" />
+              Judge Dashboard
+            </button>
+          )}
+        </div>
+      )}
     </div>
   )
 }
 
 export default HackathonTimingsDisplay
-
