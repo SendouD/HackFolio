@@ -55,6 +55,7 @@ authController.route('/signup')
 
             return res.status(201).json({ id: newUser._id, username, email });
         } catch (e) {
+            console.log(e);
             return res.status(400).json({ Error: `Error saving data to Database ${e}` });
         }
     });

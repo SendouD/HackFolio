@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import Header from "../Header";
 import ReactingNavBar from "../ReactingNavBar";
 import LoadingPage from "../loading";
-
+import { formSchema } from "./HackathonProjectSubmissionForm";
 const EditHackathonProjectSubmissionDetails = () => {
   const { projectId } = useParams();
   const [project, setProject] = useState(null);
@@ -70,7 +70,13 @@ const EditHackathonProjectSubmissionDetails = () => {
     }
 };
   const handleSave = async (e) => {
+    
     e.preventDefault();
+    const isValid = formSchema.safeParse(editedProject);
+    if (isValid.error) {
+      alert(isValid.error.errors[0].message);
+      return;
+    }
     try {
       console.log(editedProject);
       const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/project/${projectId}`, editedProject);

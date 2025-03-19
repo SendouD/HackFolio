@@ -6,6 +6,7 @@ import { io } from "socket.io-client";
 import Header from "../Header";
 import ReactingNavBar from "../../components/ReactingNavBar"; // Assuming ReactingNavBar is the Navbar component
 import LoadingPage from "../loading";
+import * as z from 'zod';
 // Get the token from localStorage
 const token = localStorage.getItem('data');
 
@@ -17,7 +18,7 @@ const SponsorDetail = () => {
   const inpRef = useRef(null);
   const navigate = useNavigate();
   const [socket, setSocket] = useState(null);
-
+  
   useEffect(() => {
     // Initialize socket connection
     const newSocket = io("http://localhost:5000", {
@@ -28,11 +29,11 @@ const SponsorDetail = () => {
       withCredentials: true,
     });
     setSocket(newSocket);
-
+    
     newSocket.on('connect', () => {
       console.log('Connected to WebSocket server');
     });
-
+    
     newSocket.on('disconnect', async () => {
       try {
         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/chat/disconnect`, {
@@ -48,13 +49,13 @@ const SponsorDetail = () => {
         console.error('Error during disconnection:', error);
       }
     });
-
+    
     return () => {
       newSocket.off('chatMessage'); // Clean up socket event listeners on unmount
       newSocket.disconnect(); // Disconnect socket when the component is unmounted
     };
   }, []);
-
+  
   useEffect(() => {
     const fetchSponsor = async () => {
       try {
@@ -67,16 +68,18 @@ const SponsorDetail = () => {
         setLoading(false);
       }
     };
-
+    
     fetchSponsor();
   }, [companyName]);
-
+  
   // Send message function
   async function sendMessage(e) {
     e.preventDefault();
     const message = inpRef.current.value;
     inpRef.current.value = ""; // Clear input after sending message
-
+    if(message=="") {
+      return; // Do nothing if message is empty
+    }
     try {
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/chat/messages/${sponsor.email}`, {
         method: 'POST',
@@ -86,7 +89,7 @@ const SponsorDetail = () => {
         body: JSON.stringify({ message }),
         credentials: 'include',
       });
-
+      
       if (!response.ok) throw new Error('Network response was not ok');
       const msg = {
         from: JSON.parse(token).email,
@@ -96,16 +99,16 @@ const SponsorDetail = () => {
         readStatus: false,
       };
       socket.emit('chatMessage', msg); // Emit message to socket
-
+      
       navigate('/chat', { state: { currUser: sponsor.email } }); // Redirect to chat
     } catch (error) {
       console.error('Error posting message:', error);
     }
   }
-
+  
   if (loading) return <LoadingPage/>;
   if (error) return <div>{error}</div>;
-
+  
   return (
     <>
        {/* Background Animations */}
@@ -128,42 +131,42 @@ const SponsorDetail = () => {
                             />
                         </motion.svg>
                     </motion.div>
-
+                    
                     <motion.div
                         className="absolute bottom-[1000px] right-[250px] w-32 h-32 bg-blue-100 rounded-full -z-10"
                         initial={{ opacity: 0, scale: 0 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 1 }}
                     />
-
+                    
                     <motion.div
                         className="absolute bottom-[50px] left-[10px] w-48 h-48 bg-purple-300 rounded-full -z-10"
                         initial={{ opacity: 0, scale: 0 }}
                         animate={{ opacity: 1, scale: 1.2 }}
                         transition={{ duration: 0.8 }}
                     />
-
+                    
                     <motion.div
                         className="absolute bottom-[700px] left-[250px] w-48 h-48 bg-purple-300 rounded-full -z-10"
                         initial={{ opacity: 0, scale: 0 }}
                         animate={{ opacity: 1, scale: 1.2 }}
                         transition={{ duration: 0.8 }}
                     />
-
+                    
                     <motion.div
                         className="absolute bottom-[800px] left-[1500px] w-48 h-48 bg-purple-300 rounded-full -z-10"
                         initial={{ opacity: 0, scale: 0 }}
                         animate={{ opacity: 1, scale: 1.2 }}
                         transition={{ duration: 0.8 }}
                     />
-
+                    
                     <motion.div
                         className="absolute bottom-[720px] right-[200px] w-32 h-32 bg-blue-100 rounded-full -z-10" 
                         initial={{ opacity: 0, scale: 0 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 1 }}
                     />
-
+                    
                     <motion.div
                         className="absolute bottom-[400px] right-[500px] w-32 h-32 bg-blue-100 rounded-full -z-10"
                         initial={{ opacity: 0, scale: 0 }}
@@ -176,7 +179,7 @@ const SponsorDetail = () => {
         <ReactingNavBar /> {/* Navbar component */}
         <div className="space-y-3 size-full">
           <Header />
-
+          
           <div className="container mx-auto p-6 ">
             <motion.div
               className="flex flex-col items-center"
@@ -194,7 +197,7 @@ const SponsorDetail = () => {
                 <h1 className="text-4xl font-bold text-black">{sponsor.companyName}</h1>
                 <p className="text-gray-600 mt-2">{sponsor.userName}</p>
               </motion.div>
-
+              
               {/* Logo Section */}
               {sponsor.logo && (
                 <motion.div
@@ -210,7 +213,7 @@ const SponsorDetail = () => {
                   />
                 </motion.div>
               )}
-
+              
               {/* Website */}
               {sponsor.website && (
                 <motion.div
@@ -230,7 +233,7 @@ const SponsorDetail = () => {
                   </a>
                 </motion.div>
               )}
-
+              
               {/* Contact Details */}
               {(sponsor.email || sponsor.phoneNumber) && (
                 <motion.div
@@ -254,7 +257,7 @@ const SponsorDetail = () => {
                   {sponsor.phoneNumber && <p>Phone: {sponsor.phoneNumber}</p>}
                 </motion.div>
               )}
-
+              
               {/* Address Section */}
               {sponsor.address && (
                 <motion.div
@@ -270,7 +273,7 @@ const SponsorDetail = () => {
                   </p>
                 </motion.div>
               )}
-
+              
               {/* Description */}
               {sponsor.description && (
                 <motion.div
@@ -283,17 +286,17 @@ const SponsorDetail = () => {
                   <p>{sponsor.description}</p>
                 </motion.div>
               )}
-
+              
               {/* Random Shape Animation */}
               {/* <motion.div
                 className="absolute top-20 right-20 bg-[#5f3abd] rounded-full w-32 h-32 opacity-60"
                 animate={{ rotate: 360 }}
                 transition={{ repeat: Infinity, duration: 5, ease: "linear" }}
               ></motion.div> */}
-
+              
               {/* Contact Us Form */}
               <div className="font-bold text-3xl my-[20px] text-black">Contact Us</div>
-
+              
               <form onSubmit={sendMessage} className="items-center w-[60%] rounded">
                 <textarea
                   type="text"

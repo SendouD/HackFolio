@@ -2,26 +2,40 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/SignIn.css'
-
+import * as z from 'zod';
 
 const SignIn = () => {
   axios.defaults.withCredentials = true;
   const navigate = useNavigate();
-
+  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-
+  const signInSchema = z.object({
+    email: z.string().email({
+      message: 'Please enter a valid email address',
+    }),
+    password: z.string().min(6, {
+      message: 'Password must be at least 6 characters long',
+    }),
+  });
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const isValid = signInSchema.safeParse({
+      email,
+      password,
+    });
+    if (!isValid.success) {
+      setError(isValid.error.errors[0].message);
+      return;
+    }
     try {
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/userlogin/signin`, {
         email,
         password,
       });
-
+      
       localStorage.setItem("data", JSON.stringify(response.data));
       navigate('/');
 

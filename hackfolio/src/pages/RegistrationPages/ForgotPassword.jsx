@@ -1,16 +1,26 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import * as z from 'zod';
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const navigate = useNavigate();
-
+  const forgotPasswordSchema = z.object({
+    email: z.string().email({
+      message: 'Please enter a valid email address',
+    }),
+  });
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(email);
+    const isValid = forgotPasswordSchema.safeParse({
+      email
+    });
+    if (!isValid.success) {
+      setError(isValid.error.errors[0].message);
+      return;
+    }
     try {
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/userlogin/forgotpassword`, { email });
       setSuccess('OTP sent to your email');

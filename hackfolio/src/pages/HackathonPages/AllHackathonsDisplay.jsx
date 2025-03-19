@@ -31,6 +31,7 @@ function AllHackathonsDisplay() {
             }
 
             const data = await response.json();
+            console.log(data.hackathons)
             setData(data.hackathons);
             setPage(data.currentPage);
             setTotalPages(data.totalPages);
