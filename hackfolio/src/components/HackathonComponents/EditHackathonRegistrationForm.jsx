@@ -111,25 +111,39 @@ function EditHackathonRegistrationForm() {
       <div className="mt-4">
         <label className="font-light">{label}</label>
         <div className="flex items-center mt-2">
-          <input
-            type="text"
-            disabled={!editableFields[fieldName]}
-            value={formData[fieldName]}
-            onChange={(e) => handleChange(e, fieldName)}
-            className="shadow border rounded w-full py-2 px-3 text-gray-700 focus:outline-none"
-          />
+          {fieldName === "gender" ? (
+            <select
+              disabled={!editableFields[fieldName]}
+              value={formData[fieldName]}
+              onChange={(e) => handleChange(e, fieldName)}
+              className="shadow border rounded w-full py-2 px-3 text-gray-700 focus:outline-none"
+            >
+              <option value="">Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          ) : (
+            <input
+              type="text"
+              disabled={!editableFields[fieldName]}
+              value={formData[fieldName]}
+              onChange={(e) => handleChange(e, fieldName)}
+              className="shadow border rounded w-full py-2 px-3 text-gray-700 focus:outline-none"
+            />
+          )}
           <button
             type="button"
             onClick={() => handleEdit(fieldName)}
             className="bg-[#5f3abd] hover:bg-[#492a8a] text-white py-2 px-4 rounded ml-2 transition"
           >
-            {editableFields[fieldName] ? 'Save' : 'Edit'}
+            {editableFields[fieldName] ? "Save" : "Edit"}
           </button>
         </div>
         {errors[fieldName] && <p className="text-red-500 text-sm mt-1">{errors[fieldName]}</p>}
       </div>
     );
-  }
+  }  
 
   async function handleSubmit() {
     const parsedResult = registrationSchema.safeParse(formData);
