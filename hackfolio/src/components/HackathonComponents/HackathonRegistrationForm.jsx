@@ -49,7 +49,7 @@ function HackathonRegistrationForm() {
             const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/registerForHackathon/${name}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData),
+                body: JSON.stringify({formData}),
                 credentials: 'include',
             });
 

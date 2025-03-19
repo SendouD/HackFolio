@@ -323,6 +323,8 @@ hack_create
         const { name } = req.params;
         const {formData} = req.body;
         const email = req.email;
+        console.log(formData);
+
         try {
             const flag = await hackParticipantDetails.find({
                 hackathonName: name,
@@ -349,6 +351,7 @@ hack_create
                 return res.status(200).json({ Error: "Already Registered" });
             }
         } catch (e) {
+            console.log(e)
             return res.status(400).json({ Error: "Error saving data to Database!" });
         }
     })
