@@ -11,27 +11,6 @@ const SignUp = () => {
   const [lastName, setLastName] = useState("");
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState(null);
-  const signUpSchema = z.object({
-    firstName: z.string().regex(/^(?!\s)([A-Za-z]+(?: [A-Za-z]+)*){3,}$/, {
-      message:
-        'First name must contain at least 3 alphabetic characters and cannot have multiple consecutive spaces.',
-    }),
-    lastName: z.string().min(1, {
-      value: 1,
-      message: 'Last name must contain at least 1 alphabetic characters.',
-    }),
-    password: z.string().min(6, {
-      message: 'Password must be at least 6 characters long',
-    }),
-    email: z.string().email({
-      message: 'Please enter a valid email address',
-    }),
-    // Username must be 3-20 characters long, contain only letters, numbers, and underscores, and cannot start or end with an underscore.
-    username: z.string().regex(/^(?!_)(?!.*__)[A-Za-z0-9_]{3,20}(?<!_)$/, {
-      message:
-        'Username must be 3-20 characters long, contain only letters, numbers, and underscores, and cannot start or end with an underscore.',
-    }),
-  });
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -39,7 +18,7 @@ const SignUp = () => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const usernameRegex = /^[a-zA-Z0-9_]{3,15}$/;
     const nameRegex = /^[A-Za-z]{2,}$/;
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{6,}$/;
 
     if (!emailRegex.test(email)) newErrors.email = "Invalid email format";
     if (!usernameRegex.test(username))
@@ -54,7 +33,6 @@ const SignUp = () => {
     if (!passwordRegex.test(password))
       newErrors.password =
         "Password must be at least 6 characters, including one number";
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };

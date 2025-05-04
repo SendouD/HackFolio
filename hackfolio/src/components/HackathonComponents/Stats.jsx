@@ -182,7 +182,9 @@ const Stats = () => {
         {chartData && chartData.labels.length > 0 ? (
           <Bar data={chartData} options={options} />
         ) : (
-          <LoadingPage/>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '300px' }}>
+              <h3>No data available</h3>
+          </div>
         )}
       </div>
 

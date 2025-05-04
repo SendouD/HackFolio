@@ -1,31 +1,35 @@
 const express = require('express');
-const Sponsor = require('../models/sponser_Schema'); // Ensure this path is correct
-const isUser = require('../middleware/isUser'); // Assuming this is for user authentication/authorization
-const User=require('../models/user_Schema');
+const Sponsor = require('../models/sponser_Schema');
+const isUser = require('../middleware/isUser');
+const User = require('../models/user_Schema');
 const jwt = require('jsonwebtoken');
-const isAdmin=require('../middleware/isAdmin')
+const isAdmin = require('../middleware/isAdmin');
+const redisClient = require('../middleware/redisClient');
+
 const router = express.Router();
 
-// POST request to create a new sponsor
-router.post('/',isUser, async (req, res) => {
-  try {
-    userName=req.username
-    // Create a new sponsor instance with the request body
-    sponsorData={
-      ...req.body,userName
-    }
-    const sponsor = new Sponsor(sponsorData);
+// Helper: Cache setter
+const cacheData = async (key, data, ttl = 3600) => {
+  await redisClient.set(key, JSON.stringify(data), { EX: ttl });
+};
 
-    // Save the sponsor to the database
+// POST - Create sponsor
+router.post('/', isUser, async (req, res) => {
+  try {
+    const userName = req.username;
+    const sponsorData = { ...req.body, userName };
+    const sponsor = new Sponsor(sponsorData);
     await sponsor.save();
 
-    // Respond with success message and the created sponsor
+    // Invalidate relevant cache
+    await redisClient.del('verifiedSponsors');
+    await redisClient.del('pendingSponsors');
+
     res.status(201).json({
       message: 'Sponsor created successfully',
       sponsor,
     });
   } catch (error) {
-    // Handle validation or server errors
     console.error('Error creating sponsor:', error);
     res.status(400).json({
       message: 'Error creating sponsor',
@@ -33,76 +37,64 @@ router.post('/',isUser, async (req, res) => {
     });
   }
 });
+
+// GET - Get sponsor by company name
 router.get('/user/:companyName', async (req, res) => {
+  const { companyName } = req.params;
   try {
-    const { companyName } = req.params;
-    
-    // Find a sponsor by company name (case-insensitive)
     const sponsor = await Sponsor.findOne({
       companyName: { $regex: new RegExp(companyName, "i") }
     });
 
-    // Check if the sponsor was found
-    if (!sponsor) {
-      return res.status(202).json({ message: 'Sponsor not found' });
-    }
-
-    // Respond with the sponsor details
+    if (!sponsor) return res.status(202).json({ message: 'Sponsor not found' });
     res.status(200).json(sponsor);
   } catch (error) {
     console.error('Error fetching sponsor:', error);
-    res.status(500).json({
-      message: 'Error fetching sponsor',
-      error: error.message,
-    });
+    res.status(500).json({ message: 'Error fetching sponsor', error: error.message });
   }
 });
 
-// GET request to fetch sponsors with status 'Pending' for the admin dashboard
+// GET - Admin Dashboard (Pending sponsors)
 router.get('/adminDash', async (req, res) => {
   try {
-    // Filter sponsors by status 'Pending'
-    
+    const cacheKey = 'pendingSponsors';
+    const cached = await redisClient.get(cacheKey);
+    if (cached) return res.status(200).json(JSON.parse(cached));
+
     const sponsors = await Sponsor.find({ verificationStatus: 'Pending' });
 
-    // Respond with the list of pending sponsors
+    await cacheData(cacheKey, sponsors);
     res.status(200).json(sponsors);
   } catch (error) {
     console.error('Error fetching sponsor details:', error);
-    res.status(500).json({
-      message: 'Error fetching sponsor details',
-      error: error.message,
-    });
+    res.status(500).json({ message: 'Error fetching sponsor details', error: error.message });
   }
 });
-router.patch('/admin/verify/:companyName',isAdmin, async (req, res) => {
+
+// PATCH - Admin verify sponsor
+router.patch('/admin/verify/:companyName', isAdmin, async (req, res) => {
   const { companyName } = req.params;
   try {
-    // Find and update the sponsor's verification status
     const sponsor = await Sponsor.findOneAndUpdate(
       { companyName },
       { verificationStatus: req.body.verificationStatus },
       { new: true }
     );
 
-    // If sponsor not found, return 404
-    if (!sponsor) {
-      return res.status(202).json({ message: 'Sponsor not found' });
-    }
+    if (!sponsor) return res.status(202).json({ message: 'Sponsor not found' });
 
-    // Find the user associated with the sponsor and add "Sponsor" role to the roles array
     const user = await User.findOneAndUpdate(
       { username: sponsor.userName },
-      { $addToSet: { roles: "Sponsor" } }, // Add "Sponsor" to the roles array if it doesn't already exist
-      { new: true } // Return the updated document
+      { $addToSet: { roles: "Sponsor" } },
+      { new: true }
     );
 
-    // If user not found, return 404
-    if (!user) {
-      return res.status(202).json({ message: 'User not found' });
-    }
+    if (!user) return res.status(202).json({ message: 'User not found' });
 
-    // Respond with the updated sponsor data
+    // Invalidate relevant cache
+    await redisClient.del('verifiedSponsors');
+    await redisClient.del('pendingSponsors');
+
     res.status(200).json(sponsor);
   } catch (error) {
     console.error('Error verifying sponsor:', error);
@@ -110,8 +102,8 @@ router.patch('/admin/verify/:companyName',isAdmin, async (req, res) => {
   }
 });
 
-// PATCH request to decline a sponsor by company name
-router.patch('/admin/decline/:companyName',isAdmin, async (req, res) => {
+// PATCH - Admin decline sponsor
+router.patch('/admin/decline/:companyName', isAdmin, async (req, res) => {
   const { companyName } = req.params;
   try {
     const sponsor = await Sponsor.findOneAndUpdate(
@@ -119,55 +111,75 @@ router.patch('/admin/decline/:companyName',isAdmin, async (req, res) => {
       { verificationStatus: req.body.verificationStatus },
       { new: true }
     );
-    if (!sponsor) {
-      return res.status(202).json({ message: 'Sponsor not found' });
-    }
+
+    if (!sponsor) return res.status(202).json({ message: 'Sponsor not found' });
+
+    // Invalidate relevant cache
+    await redisClient.del('verifiedSponsors');
+    await redisClient.del('pendingSponsors');
+
     res.status(200).json(sponsor);
   } catch (error) {
     console.error('Error declining sponsor:', error);
     res.status(500).json({ message: 'Error declining sponsor', error: error.message });
   }
 });
+
+// GET - Public verified sponsors
 router.get('/', async (req, res) => {
   try {
-    // Filter sponsors by status 'Pending'
+    const cacheKey = 'verifiedSponsors';
+    const cached = await redisClient.get(cacheKey);
+    if (cached) return res.status(200).json(JSON.parse(cached));
+
     const sponsors = await Sponsor.find({ verificationStatus: 'Verified' });
 
-    // Respond with the list of pending sponsors
+    await cacheData(cacheKey, sponsors);
     res.status(200).json(sponsors);
   } catch (error) {
-    console.error('Error fetching pending sponsors:', error);
+    console.error('Error fetching verified sponsors:', error);
     res.status(500).json({
-      message: 'Error fetching pending sponsors',
+      message: 'Error fetching verified sponsors',
       error: error.message,
     });
   }
 });
 
-router.get('/updateSponsorDetails',isUser, async(req,res) => {
+// GET - Fetch sponsor details by logged in user
+router.get('/updateSponsorDetails', isUser, async (req, res) => {
   const email = req.email;
   try {
+    const cacheKey = `sponsorByEmail:${email}`;
+    const cached = await redisClient.get(cacheKey);
+    if (cached) return res.status(200).json({ data: JSON.parse(cached) });
+
     const data = await Sponsor.findOne({ email: email });
-    res.status(200).json({data: data});
+
+    await cacheData(cacheKey, data);
+    res.status(200).json({ data });
   } catch (error) {
-    console.error('Error fetching pending sponsors:', error);
-    res.status(500).json({
-      message: 'Error fetching pending sponsors',
-      error: error.message,
-    });
+    console.error('Error fetching sponsor details:', error);
+    res.status(500).json({ message: 'Error fetching sponsor details', error: error.message });
   }
 });
 
-router.post('/updateSponsorDetails',isUser, async(req,res) => {
+// POST - Update sponsor details
+router.post('/updateSponsorDetails', isUser, async (req, res) => {
   const email = req.email;
-  const {formData} = req.body;
+  const { formData } = req.body;
   try {
     formData.email = email;
-    const data = await Sponsor.findOneAndUpdate({ email: email },formData);
+
+    const data = await Sponsor.findOneAndUpdate({ email: email }, formData, { new: true });
+
+    // Invalidate relevant cache
+    await redisClient.del(`sponsorByEmail:${email}`);
+    await redisClient.del('verifiedSponsors');
+    await redisClient.del('pendingSponsors');
 
     res.status(200).json(data);
   } catch (error) {
-    res.status(400).json({error: "error saving to database.."});
+    res.status(400).json({ error: "Error saving to database." });
   }
 });
 
