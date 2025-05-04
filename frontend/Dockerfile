@@ -1,8 +1,8 @@
 FROM node:18-slim AS build
 WORKDIR /app
-COPY frontend/package*.json ./
+COPY package*.json ./
 RUN npm install
-COPY frontend/ .
+COPY . .  # Copy everything from the current directory (i.e., frontend)
 RUN npm run build
 FROM nginx:alpine
 COPY --from=build /app/dist /usr/share/nginx/html
