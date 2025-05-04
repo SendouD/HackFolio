@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import LoadingPage from "../loading";
 
 const DisplaySponsor = () => {
-  const [sponsors, setSponsors] = useState([]);
+  const [sponsors, setSponsors] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
