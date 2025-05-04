@@ -11,4 +11,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  define: {
+    'import.meta.env.VITE_BACKEND_URL': JSON.stringify('https://hackfolio-backend.onrender.com')
+  },
 })
