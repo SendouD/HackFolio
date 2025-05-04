@@ -25,6 +25,7 @@ const validuser = require("./middleware/isAdmin");
 const delete_hackathon = require("./controller/delete_hackathons");
 const hackathonRoutes = require("./routes/hackathonRoutes");
 const projectRoutes = require("./routes/projectRoutes")
+const adminStatsRoutes = require("./routes/adminStats");
 
 require("dotenv").config();
 
@@ -140,6 +141,7 @@ app.use("/api/project", hack_project);
 app.use("/api/deleteHackathon", delete_hackathon);
 app.use("/api/hackathons", hackathonRoutes);
 app.use("/api/projects", projectRoutes);
+app.use("/api/admin/stats", adminStatsRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
