@@ -39,7 +39,7 @@ function HackList() {
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-10 p-10">
-            {data.map((element, i) => (
+            {data && data.map((element, i) => (
                 <HackathonsDisplayCard key={i} data={element} />
             ))}
         </div>

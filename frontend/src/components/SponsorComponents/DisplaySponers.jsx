@@ -15,6 +15,7 @@ const DisplaySponsor = () => {
   async function fetchSponsors() {
     try {
       const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/sponsors`);
+      console.log(response);
       setSponsors(response.data);
       setLoading(false);
     } catch (err) {
@@ -123,7 +124,7 @@ const DisplaySponsor = () => {
         
         {/* Sponsor Cards */}
         <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          {sponsors.map((sponsor) => (
+          {sponsors && sponsors.map((sponsor) => (
             <motion.div
               key={sponsor._id}
               initial={{ opacity: 0, scale: 0.9 }}

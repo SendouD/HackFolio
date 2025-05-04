@@ -109,7 +109,7 @@ const HomePage = () => {
                 Now Happening!!
               </h1>
               <div className="pb-10">
-                {/* <HackList /> */}
+                <HackList />
               </div>
               <div className="flex flex-wrap justify-center gap-6">
                 <Link className="relative" to="/hackathons">
@@ -131,7 +131,7 @@ const HomePage = () => {
             viewport={{ once: true }}
           >
             <div className="max-w-6xl mx-auto">
-              {/* <ProjectsHackathonsSection /> */}
+              <ProjectsHackathonsSection />
             </div>
           </motion.section>
 
