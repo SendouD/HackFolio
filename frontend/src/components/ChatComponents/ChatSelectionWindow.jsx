@@ -11,7 +11,7 @@ function ChatSelectionWindow(props) {
   
   async function getUsers() {
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/chat/getFriends`, {
+      const response = await fetch(`${__BACKEND_URL__}/api/chat/getFriends`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -32,7 +32,7 @@ function ChatSelectionWindow(props) {
     if (!email.trim()) return;
     
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/chat/addFriends`, {
+      const response = await fetch(`${__BACKEND_URL__}/api/chat/addFriends`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

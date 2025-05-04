@@ -18,7 +18,7 @@ const Header = () => {
   const name = useSelector((state) => state.auth.user); 
 
   const logout = async () => {
-    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/userlogin/logout`);
+    const response = await axios.get(`${__BACKEND_URL__}/api/userlogin/logout`);
     localStorage.removeItem("data");
     // dispatch(logout()); 
     setUsername("");
@@ -27,7 +27,7 @@ const Header = () => {
 
   async function fetchData() {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/jwtverify/`);
+      const response = await axios.get(`${__BACKEND_URL__}/api/jwtverify/`);
       console.log(response);
 
       setRoles(response?.data?.roles);
@@ -58,7 +58,7 @@ const Header = () => {
   async function searchUser(e) {
     const query = e.target.value;
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/user/getUsers/${query}`, {
+      const response = await fetch(`${__BACKEND_URL__}/api/user/getUsers/${query}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

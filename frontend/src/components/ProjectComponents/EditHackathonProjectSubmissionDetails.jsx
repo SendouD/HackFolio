@@ -16,7 +16,7 @@ const EditHackathonProjectSubmissionDetails = () => {
   useEffect(() => {
     const fetchUserProject = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/project/${projectId}`);
+        const response = await axios.get(`${__BACKEND_URL__}/api/project/${projectId}`);
         setProject(response.data);
         setEditedProject(response.data);
         setLoading(false);
@@ -76,7 +76,7 @@ const EditHackathonProjectSubmissionDetails = () => {
     if (!validateForm()) return;
 
     try {
-      const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/project/${projectId}`, editedProject);
+      const response = await axios.put(`${__BACKEND_URL__}/api/project/${projectId}`, editedProject);
       setProject(response.data);
       setIsEditing(false);
     } catch (err) {

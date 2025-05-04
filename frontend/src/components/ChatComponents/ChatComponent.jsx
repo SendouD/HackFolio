@@ -9,7 +9,7 @@ function ChatComponent(props) {
     const token = localStorage.getItem('data');
 
     useEffect(() => {
-        const newSocket = io(`${import.meta.env.VITE_BACKEND_URL}`, {
+        const newSocket = io(`${__BACKEND_URL__}`, {
             transports: ["websocket"],
             auth: { token },
             withCredentials: true
@@ -22,7 +22,7 @@ function ChatComponent(props) {
 
         newSocket.on('disconnect', async () => {
             try {
-                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/chat/disconnect`, {
+                const response = await fetch(`${__BACKEND_URL__}/api/chat/disconnect`, {
                     method: "GET",
                     headers: {
                       "Content-Type": "application/json",
@@ -66,7 +66,7 @@ function ChatComponent(props) {
 
     async function msgstatus() {
         try {
-            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/chat/changeReadStatus/${props.currUser}`, {
+            const response = await fetch(`${__BACKEND_URL__}/api/chat/changeReadStatus/${props.currUser}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

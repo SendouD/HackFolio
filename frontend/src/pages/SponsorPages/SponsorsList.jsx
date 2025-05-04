@@ -19,7 +19,7 @@ const SponsorList = () => {
   useEffect(() => {
     const fetchSponsors = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/sponsors`);
+        const response = await axios.get(`${__BACKEND_URL__}/api/sponsors`);
         setSponsors(response.data);
         setLoading(false);
       } catch (err) {

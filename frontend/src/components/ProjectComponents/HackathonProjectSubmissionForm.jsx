@@ -111,7 +111,7 @@ function HackathonProjectSubmissionForm() {
     try {
       console.log(projectData);
       console.log("name");
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/project/hackathonProject/${name}`, projectData);
+      const response = await axios.post(`${__BACKEND_URL__}/api/project/hackathonProject/${name}`, projectData);
       console.log('Server response:', response.data);
       navigate('/uploadsuccess');
     } catch (error) {

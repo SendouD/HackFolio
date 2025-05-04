@@ -35,7 +35,7 @@ function HackathonTimingsDisplay(props) {
 
   async function getIfSubmitted() {
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/project/hackathonProject/${name}`, {
+      const response = await fetch(`${__BACKEND_URL__}/api/project/hackathonProject/${name}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -56,7 +56,7 @@ function HackathonTimingsDisplay(props) {
   async function getInfo() {
     setLoading(true)
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/getHackDetails/${name}`, {
+      const response = await fetch(`${__BACKEND_URL__}/api/hackathon/getHackDetails/${name}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -81,7 +81,7 @@ function HackathonTimingsDisplay(props) {
 
   async function checkIfRegistered() {
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/checkRegistration/${name}`, {
+      const response = await fetch(`${__BACKEND_URL__}/api/hackathon/checkRegistration/${name}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -100,7 +100,7 @@ function HackathonTimingsDisplay(props) {
 
   async function checkIfJudge() {
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/judge/isjudge/${name}`, {
+      const response = await fetch(`${__BACKEND_URL__}/api/judge/isjudge/${name}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -122,7 +122,7 @@ function HackathonTimingsDisplay(props) {
       navigate(`/hackathon/${name}/projectSubmission`)
     } else {
       try {
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/hackathonTeam/${name}/create`, {
+        const response = await fetch(`${__BACKEND_URL__}/api/hackathon/hackathonTeam/${name}/create`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -142,7 +142,7 @@ function HackathonTimingsDisplay(props) {
           navigate(`/hackathon/${name}/projectSubmission`)
         } else if (flag === 2) {
           console.log(name)
-          const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/project/getProject/${name}`, {
+          const response = await fetch(`${__BACKEND_URL__}/api/project/getProject/${name}`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",

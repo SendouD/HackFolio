@@ -76,7 +76,7 @@ function EditHackathonWebsite() {
     try {
       const response = await fetch(
         `${
-          import.meta.env.VITE_BACKEND_URL
+          __BACKEND_URL__
         }/api/hackathon/updateHackWebsite/${name}`,
         {
           method: "GET",
@@ -130,7 +130,7 @@ function EditHackathonWebsite() {
       const imageUrl = await handleImageUpload(file);
       const response = await fetch(
         `${
-          import.meta.env.VITE_BACKEND_URL
+          __BACKEND_URL__
         }/api/hackathon/updateHackWebsite/${name}`,
         {
           method: "POST",

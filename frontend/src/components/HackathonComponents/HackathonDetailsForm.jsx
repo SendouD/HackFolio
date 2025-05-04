@@ -53,7 +53,7 @@ function HackathonDetailsForm(props) {
     try {
       const response = await fetch(
         `${
-          import.meta.env.VITE_BACKEND_URL
+          __BACKEND_URL__
         }/api/hackathon/hackathonCreate/${name}/1`,
         {
           method: "GET",
@@ -108,7 +108,7 @@ function HackathonDetailsForm(props) {
     try {
       const response = await fetch(
         `${
-          import.meta.env.VITE_BACKEND_URL
+          __BACKEND_URL__
         }/api/hackathon/hackathonCreate/${name}/1`,
         {
           method: "POST",

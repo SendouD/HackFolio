@@ -43,7 +43,7 @@ const SignUp = () => {
 
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/userlogin/signup`,
+        `${__BACKEND_URL__}/api/userlogin/signup`,
         {
           email,
           password,

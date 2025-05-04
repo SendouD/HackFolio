@@ -11,4 +11,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  define: {
+    __BACKEND_URL__: JSON.stringify("https://hackfolio-backend.onrender.com"),
+  }
 })

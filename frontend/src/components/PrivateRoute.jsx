@@ -11,7 +11,7 @@ const PrivateRoute = ({role}) => {
     const fetchData = async () => {
       axios.defaults.withCredentials = true;
       try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/jwtverify`);
+        const response = await axios.get(`${__BACKEND_URL__}/api/jwtverify`);
         
 
         if (response.data.roles.includes(`${role}`)) {

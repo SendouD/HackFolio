@@ -11,7 +11,7 @@ function AuthCheck() {
     const fetchData = async () => {
       axios.defaults.withCredentials = true;
       try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/jwtverify`);
+        const response = await axios.get(`${__BACKEND_URL__}/api/jwtverify`);
         if(response.status === 201) {
             if(response.data.error ==='Token expired') {
                 localStorage.removeItem("data");

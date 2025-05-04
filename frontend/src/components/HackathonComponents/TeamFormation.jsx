@@ -14,7 +14,7 @@ function TeamFormation(props) {
             return;
         }
         try {
-            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/hackathonTeam/${name}/create`, {
+            const response = await fetch(`${__BACKEND_URL__}/api/hackathon/hackathonTeam/${name}/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ function TeamFormation(props) {
         }
         else {
             try {
-                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/hackathonTeam/${name}/join`, {
+                const response = await fetch(`${__BACKEND_URL__}/api/hackathon/hackathonTeam/${name}/join`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

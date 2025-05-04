@@ -93,7 +93,7 @@ function EditSponsorsDetails() {
 
     async function getSponsorInfo() {
         try {
-            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/sponsors/updateSponsorDetails`, {
+            const response = await fetch(`${__BACKEND_URL__}/api/sponsors/updateSponsorDetails`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -150,7 +150,7 @@ function EditSponsorsDetails() {
     async function submitHandle() {
         if (!validateForm()) return;
         try {
-            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/sponsors/updateSponsorDetails`, {
+            const response = await fetch(`${__BACKEND_URL__}/api/sponsors/updateSponsorDetails`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
