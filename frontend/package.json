@@ -8,7 +8,8 @@
     "dev": "vite --host",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "echo \"Error: no test specified\""
   },
   "dependencies": {
     "@cloudinary/react": "^1.13.0",
