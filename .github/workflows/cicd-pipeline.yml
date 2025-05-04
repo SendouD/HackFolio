@@ -33,9 +33,6 @@ jobs:
       - name: 📦 Install Dependencies & 🧪 Run Tests
         run: |
           cd ${{ matrix.dir }}
-          if [ "${{ matrix.dir }}" = "frontend" ]; then
-            echo "${{ secrets.FRONTEND_ENV }}" > .env
-          fi
           npm ci || npm install
           npm test
 
