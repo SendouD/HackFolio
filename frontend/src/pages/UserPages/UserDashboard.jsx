@@ -22,7 +22,7 @@ const UserDashboard = () => {
     const fetchProject = async () => {
       try {
         const projectResponse = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/api/project/userprojects/${username}`
+          `${__BACKEND_URL__}/api/project/userprojects/${username}`
         );
         setProjects(projectResponse.data);
       } catch (err) {
@@ -37,7 +37,7 @@ const UserDashboard = () => {
 
       try {
         const userResponse = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/api/user/${username}`
+          `${__BACKEND_URL__}/api/user/${username}`
         );
         setUserdetails(userResponse.data);
       } catch (err) {

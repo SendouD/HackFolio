@@ -25,7 +25,7 @@ function Education() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/userProfile/${userId}/2`);
+                const response = await axios.get(`${__BACKEND_URL__}/api/userProfile/${userId}/2`);
                 setFormData(response.data);
             } catch (error) {
                 console.error("Error fetching education data:", error);
@@ -47,7 +47,7 @@ function Education() {
         }
 
         try {
-            await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/userProfile/${userId}/2`, {
+            await axios.put(`${__BACKEND_URL__}/api/userProfile/${userId}/2`, {
                 [name]: formData[name]
             });
             alert(`${name} updated successfully!`);

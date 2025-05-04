@@ -8,7 +8,7 @@ import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from 
 const AdminSponsorDetail = ({ sponsor, onClose, onUpdate }) => {
   const handleVerify = async () => {
     try {
-      await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/api/sponsors/admin/verify/${sponsor.companyName}`, {
+      await axios.patch(`${__BACKEND_URL__}/api/sponsors/admin/verify/${sponsor.companyName}`, {
         verificationStatus: 'Verified',
       });
       
@@ -22,7 +22,7 @@ const AdminSponsorDetail = ({ sponsor, onClose, onUpdate }) => {
 
   const handleDecline = async () => {
     try {
-      await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/api/sponsors/admin/decline/${sponsor.companyName}`, {
+      await axios.patch(`${__BACKEND_URL__}/api/sponsors/admin/decline/${sponsor.companyName}`, {
         verificationStatus: 'Rejected',
       });
       onUpdate(); // Call onUpdate to refresh the sponsor list

@@ -27,7 +27,7 @@ function EditRegisteredHackathonDetails() {
     async function checkHackathonStatus() {
         try {
             setIsLoading(true);
-            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/details/${name}`, {
+            const response = await fetch(`${__BACKEND_URL__}/api/hackathon/details/${name}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -51,7 +51,7 @@ function EditRegisteredHackathonDetails() {
 
     async function handle() {
         try {
-            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/registerForHackathon/${name}`, {
+            const response = await fetch(`${__BACKEND_URL__}/api/hackathon/registerForHackathon/${name}`, {
                 method: "GET",
                 headers: {
                   "Content-Type": "application/json",

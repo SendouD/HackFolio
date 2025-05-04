@@ -18,7 +18,7 @@ function FillFullHackathonDetails() {
   async function getCompletionStatus() {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/api/hackathon/hackathonCreate/${name}/1`,
+        `${__BACKEND_URL__}/api/hackathon/hackathonCreate/${name}/1`,
         {
           method: 'GET',
           headers: {

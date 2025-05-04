@@ -20,7 +20,7 @@ const SponsorComp = () => {
     const fetchSponsors = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/api/sponsors/adminDash`
+          `${__BACKEND_URL__}/api/sponsors/adminDash`
         );
         setSponsors(response.data);
         setLoading(false);
@@ -44,7 +44,7 @@ const SponsorComp = () => {
   const handleUpdateSponsors = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/sponsors/adminDash`
+        `${__BACKEND_URL__}/api/sponsors/adminDash`
       );
       setSponsors(response.data);
     } catch (error) {

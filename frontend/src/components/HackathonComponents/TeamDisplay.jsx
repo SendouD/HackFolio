@@ -16,7 +16,7 @@ function TeamDisplay(props) {
     
     async function getTeamDetails() {
         try {
-            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/hackathonTeam/${name}/join`, {
+            const response = await fetch(`${__BACKEND_URL__}/api/hackathon/hackathonTeam/${name}/join`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ function TeamDisplay(props) {
     
     async function checkHackathonStatus() {
         try {
-            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/getHackDetails/${name}`, {
+            const response = await fetch(`${__BACKEND_URL__}/api/hackathon/getHackDetails/${name}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

@@ -21,7 +21,7 @@ const SponsorDetail = () => {
   
   useEffect(() => {
     // Initialize socket connection
-    const newSocket = io(`${import.meta.env.VITE_BACKEND_URL}`, {
+    const newSocket = io(`${__BACKEND_URL__}`, {
       transports: ["websocket"],
       auth: {
         token: token,
@@ -36,7 +36,7 @@ const SponsorDetail = () => {
     
     newSocket.on('disconnect', async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/chat/disconnect`, {
+        const response = await fetch(`${__BACKEND_URL__}/api/chat/disconnect`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -59,7 +59,7 @@ const SponsorDetail = () => {
   useEffect(() => {
     const fetchSponsor = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/sponsors/user/${companyName}`);
+        const response = await axios.get(`${__BACKEND_URL__}/api/sponsors/user/${companyName}`);
         setSponsor(response.data);
         setLoading(false);
       } catch (err) {
@@ -81,7 +81,7 @@ const SponsorDetail = () => {
       return; // Do nothing if message is empty
     }
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/chat/messages/${sponsor.email}`, {
+      const response = await fetch(`${__BACKEND_URL__}/api/chat/messages/${sponsor.email}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

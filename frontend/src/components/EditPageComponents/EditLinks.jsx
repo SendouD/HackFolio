@@ -30,7 +30,7 @@ const Links = () => {
             if (!userId) return;
 
             try {
-                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/userProfile/${userId}/1`);
+                const response = await axios.get(`${__BACKEND_URL__}/api/userProfile/${userId}/1`);
                 const userData = response.data.user || response.data;
 
                 setFormData({
@@ -79,7 +79,7 @@ const Links = () => {
         }
 
         try {
-            const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/userProfile/${userId}/1`, formData);
+            const response = await axios.put(`${__BACKEND_URL__}/api/userProfile/${userId}/1`, formData);
             if (response.status === 200) {
                 alert("Links updated successfully!");
                 setEditableFields((prev) => ({ ...prev, [field]: false }));

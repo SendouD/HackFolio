@@ -14,7 +14,7 @@ function RegisteredHackathonsDisplay() {
   async function getData() {
     setIsLoading(true);
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/registeredHackathons`, {
+      const response = await fetch(`${__BACKEND_URL__}/api/hackathon/registeredHackathons`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'

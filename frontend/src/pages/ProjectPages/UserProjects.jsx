@@ -17,7 +17,7 @@ function UserProjects() {
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/project/userprojects`);
+        const response = await axios.get(`${__BACKEND_URL__}/api/project/userprojects`);
         setProjects(response.data);
         setLoading(false);
       } catch (err) {

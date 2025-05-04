@@ -25,7 +25,7 @@ function HackathonDetailsDisplay() {
   async function getWebInfo() {
     setLoading(true)
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/getHackWebsite/${name}`, {
+      const response = await fetch(`${__BACKEND_URL__}/api/hackathon/getHackWebsite/${name}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

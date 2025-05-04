@@ -19,7 +19,7 @@ const SponsorApplications = () => {
   useEffect(() => {
     const fetchSponsors = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/sponsors/adminDash`);
+        const response = await axios.get(`${__BACKEND_URL__}/api/sponsors/adminDash`);
         setSponsors(response.data);
         setLoading(false);
       } catch (err) {
@@ -41,7 +41,7 @@ const SponsorApplications = () => {
 
   const handleUpdateSponsors = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/sponsors/adminDash`);
+      const response = await axios.get(`${__BACKEND_URL__}/api/sponsors/adminDash`);
       setSponsors(response.data); 
     } catch (error) {
       console.error("Error fetching updated sponsors:", error);

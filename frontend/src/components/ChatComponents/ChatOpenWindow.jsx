@@ -22,7 +22,7 @@ function ChatOpenWindow(props) {
 
     async function getMessages() {
         try {
-            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/chat/messages/${props.currUser}`, {
+            const response = await fetch(`${__BACKEND_URL__}/api/chat/messages/${props.currUser}`, {
                 method: "GET",
                 headers: {
                   "Content-Type": "application/json",
@@ -46,7 +46,7 @@ function ChatOpenWindow(props) {
         
         inpRef.current.value = "";
         try {
-            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/chat/messages/${props.currUser}`, {
+            const response = await fetch(`${__BACKEND_URL__}/api/chat/messages/${props.currUser}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
