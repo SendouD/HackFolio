@@ -38,7 +38,7 @@ export default function AdminDashboard() {
   const fetchAdminStats = async () => {
     try {
       const response = await fetch(
-        `__BACKEND_URL__}/api/hackathons/stats`
+        `${__BACKEND_URL__}/api/hackathons/stats`
       );
       if (!response.ok) {
         const errorText = await response.text();
