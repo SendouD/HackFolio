@@ -33,127 +33,83 @@ const DisplaySponsor = () => {
     navigate(`/sponsors/${sponsor.companyName}`);
   };
 
-  if (loading) return <LoadingPage />;
-  if (error) return <div>{error}</div>;
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
+  
+  if (error) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="text-center p-10 text-red-500 bg-red-50 rounded-lg shadow-md">
+          <h3 className="text-xl font-bold mb-2">Error</h3>
+          <p>{error}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="relative min-h-screen py-10 bg-gray-100 dark:bg-gray-900 overflow-hidden bg-gradient-to-br from-slate-50 to-blue-200">
-      {/* Animated Background Elements */}
-      <motion.div
-        className="absolute inset-0"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 2 }}
-      >
-        <motion.div className="absolute top-10 left-10 w-24 h-24 bg-yellow-400 rounded-full z-[-1]" animate={{ x: [0, 20, -20, 0], y: [0, -20, 20, 0] }} transition={{ repeat: Infinity, duration: 6 }} />
-        <motion.div className="absolute top-40 right-20 w-28 h-28 bg-blue-300 rounded-full z-[-1]" animate={{ y: [0, 15, -15, 0] }} transition={{ repeat: Infinity, duration: 7 }} />
-        <motion.div className="absolute bottom-20 left-20 w-20 h-20 bg-purple-400 rounded-full z-[-1]" animate={{ rotate: [0, 10, -10, 0] }} transition={{ repeat: Infinity, duration: 5 }} />
-        
-      </motion.div>
-      <div className="absolute top-0 left-0 w-full h-full z-0">
-          <div className="wave"></div>
+    <div className="min-h-screen py-12 bg-gradient-to-br from-slate-50 to-blue-200">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-purple-800 mb-4">
+            Our Sponsors
+          </h1>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            We're grateful to these amazing organizations for supporting our mission.
+          </p>
         </div>
-        <motion.div
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={{ opacity: 0.7, scale: 0.7 }}
-                  transition={{ duration: 3 }}
-                  className="absolute top-10 left-10 w-32 h-32 bg-yellow-400 rounded-full z-[-10]"
-                />
-                <motion.div
-                  initial={{ opacity: 0, x: -500 }}
-                  animate={{ opacity: 1, scale: 0.7 }}
-                  transition={{ duration: 3 }}
-                  className="absolute top-40 right-10 w-28 h-28 bg-blue-300"
-                />
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ opacity: 1, scale: 0.7 }}
-                  transition={{ duration: 3 }}
-                  className="absolute bottom-20 left-20 w-20 h-20 bg-purple-400 rounded-full"
-                />
-                <motion.div
-                  initial={{ opacity: 0, y: -50 }}
-                  animate={{ opacity: 1, scale: 0.7 }}
-                  transition={{ duration: 3 }}
-                  className="absolute bottom-0 right-0 w-40 h-40 bg-green-300"
-                />
-                <motion.div>
-                  <motion.svg
-                    className="line-animation absolute bottom-1/4 left-1/2 w-32 h-32"
-                    initial={{ pathLength: 0 }}
-                    whileInView={{ pathLength: 1 }}
-                    transition={{ duration: 2 }}
-                    viewBox="0 0 100 100"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <motion.path
-                      d="M10 10 C 20 20, 40 20, 50 10 S 90 10, 100 50"
-                      fill="transparent"
-                      stroke="#3b82f6"
-                      strokeWidth="4"
-                    />
-                  </motion.svg>
-                </motion.div>
-                <motion.div>
-                  <motion.svg
-                    className="line-animation absolute top-[100px]  left-1/4 w-32 h-32"
-                    initial={{ pathLength: 0 }}
-                    whileInView={{ pathLength: 1 }}
-                    transition={{ duration: 2 }}
-                    viewBox="0 0 100 100"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <motion.path
-                      d="M10 10 L 50 50 L 90 10"
-                      fill="transparent"
-                      stroke="#3b82f6"
-                      strokeWidth="4"
-                    />
-                  </motion.svg>
-                </motion.div>
-      
-      <motion.div
-        className="featured-sponsors py-10"
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
-      >
-        <h2 className="text-3xl sm:text-4xl font-bold text-center text-purple-800 dark:text-white mb-10">
-          Our Sponsors
-        </h2>
-        
-        {/* Sponsor Cards */}
-        <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          {sponsors && sponsors.map((sponsor) => (
-            <motion.div
-              key={sponsor._id}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
-              onClick={() => handleSponsorClick(sponsor)}
-              className="cursor-pointer"
-            >
-              <Card className="hover:shadow-lg transition duration-200">
-                <CardHeader className="text-center">
-                  <img
-                    src={sponsor.logo}
-                    alt={sponsor.companyName}
-                    className="h-16 w-16 mb-4 mx-auto"
-                  />
-                  <CardTitle className="text-xl font-semibold text-gray-800 dark:text-white">
-                    {sponsor.companyName}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <Button variant="link" className="mx-auto block text-blue-500">
-                    View Details
-                  </Button>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
+
+        {sponsors.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {sponsors.map((sponsor, index) => (
+              <div
+                key={sponsor._id || `sponsor-${index}`}
+                onClick={() => handleSponsorClick(sponsor)}
+                className="cursor-pointer transform transition-all duration-300 hover:scale-105"
+              >
+                <div className="bg-white rounded-lg shadow-md overflow-hidden h-full border border-gray-200">
+                  <div className="p-6 text-center">
+                    <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
+                      {sponsor.logo ? (
+                        <img
+                          src={sponsor.logo}
+                          alt={sponsor.companyName}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <span className="text-2xl font-bold text-gray-400">
+                          {sponsor.companyName?.charAt(0)}
+                        </span>
+                      )}
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                      {sponsor.companyName}
+                    </h3>
+                    <p className="text-sm text-gray-500 mb-4">
+                      {sponsor.description || "Proud supporter of our organization"}
+                    </p>
+                    <button className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors">
+                      View Details
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center p-10 bg-white rounded-lg shadow-md max-w-2xl mx-auto">
+            <h3 className="text-xl font-semibold mb-2">No Sponsors Available</h3>
+            <p className="text-gray-600">
+              We currently don't have any sponsors to display. Check back soon!
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
