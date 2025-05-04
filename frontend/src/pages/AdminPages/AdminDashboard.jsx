@@ -22,7 +22,7 @@ export default function AdminDashboard() {
   const fetchOngoingHackathons = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/hackathons/all?status=ongoing"
+        `${__BACKEND_URL__}/api/hackathons/all?status=ongoing`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch data");
@@ -38,7 +38,7 @@ export default function AdminDashboard() {
   const fetchAdminStats = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/hackathons/stats"
+        `__BACKEND_URL__}/api/hackathons/stats`
       );
       if (!response.ok) {
         const errorText = await response.text();

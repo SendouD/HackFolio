@@ -33,7 +33,7 @@ function HackathonList() {
   }, []);
   const fetchDomainStats = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/hackathons/stats");
+      const res = await fetch(`${__BACKEND_URL__}/api/hackathons/stats`);
       const data = await res.json();
       setDomainStats(data);
     } catch (err) {
@@ -57,10 +57,10 @@ function HackathonList() {
     setLoading(true);
     setError("");
     try {
-      let url = `http://localhost:5000/api/hackathons/all?status=${selectedStatus}`;
+      let url = `${__BACKEND_URL__}/api/hackathons/all?status=${selectedStatus}`;
       if (domain) {
         const formattedDomain = domain.replace("/", "_").toLowerCase();
-        url = `http://localhost:5000/api/hackathons/domain/${encodeURIComponent(
+        url = `${__BACKEND_URL__}/api/hackathons/domain/${encodeURIComponent(
           formattedDomain
         )}?status=${selectedStatus}`;
       }
