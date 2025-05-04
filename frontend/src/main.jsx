@@ -13,11 +13,11 @@ import store from '../store/store.jsx';
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider store={store}>
-    <BrowserRouter>
+    <BrowserRouter basename="/app">
     {/* <PersistGate loading={null} persistor={persistor}>
         <App />
       </PersistGate> */}
-<App />
+      <App />
     </BrowserRouter>
 
     </Provider>
