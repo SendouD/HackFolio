@@ -9,7 +9,7 @@ const JudgeList = ({ name }) => {
     useEffect(() => {
         const fetchJudges = async () => {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/judge/getjudges/${name}`); // Adjust the API endpoint as needed
+                const response = await axios.get(`${__BACKEND_URL__}/api/judge/getjudges/${name}`); // Adjust the API endpoint as needed
                 if (response.data && response.data.judges) {
                     setJudges(response.data.judges); // Set the fetched judges
                 }

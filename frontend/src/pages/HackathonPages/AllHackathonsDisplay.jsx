@@ -25,7 +25,7 @@ function AllHackathonsDisplay() {
     if (pageNo < 1 || pageNo > activeTotalPages) return
     setIsActiveLoading(true)
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon?page=${pageNo}&limit=6`, {
+      const response = await fetch(`${__BACKEND_URL__}/api/hackathon?page=${pageNo}&limit=6`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -49,7 +49,7 @@ function AllHackathonsDisplay() {
     if (pageNo < 1 || pageNo > endedTotalPages) return
     setIsEndedLoading(true)
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/endedHackathons?page=${pageNo}&limit=6`, {
+      const response = await fetch(`${__BACKEND_URL__}/api/hackathon/endedHackathons?page=${pageNo}&limit=6`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -79,7 +79,7 @@ function AllHackathonsDisplay() {
     setIsEndedLoading(true)
     try {
       // Search active hackathons
-      const activeResponse = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon?search=${query}`, {
+      const activeResponse = await fetch(`${__BACKEND_URL__}/api/hackathon?search=${query}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -91,7 +91,7 @@ function AllHackathonsDisplay() {
       setActiveTotalPages(activeData.totalPages)
 
       // Search ended hackathons
-      const endedResponse = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/endedHackathons?search=${query}`, {
+      const endedResponse = await fetch(`${__BACKEND_URL__}/api/hackathon/endedHackathons?search=${query}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

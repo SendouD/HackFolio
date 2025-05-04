@@ -173,7 +173,7 @@ function SponsorForm() {
       };
 
       const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/sponsors`,
+        `${__BACKEND_URL__}/api/sponsors`,
         sponsorData
       );
       console.log("Server response:", response.data);

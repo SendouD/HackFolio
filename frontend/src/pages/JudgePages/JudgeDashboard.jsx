@@ -17,7 +17,7 @@ const JudgeDashboard = () => {
     useEffect(() => {
         const getTeams = async () => {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/judge/getteams/${name}`);
+                const response = await axios.get(`${__BACKEND_URL__}/api/judge/getteams/${name}`);
                 console.log(response.data.teams)
                 setTeams(response.data.teams);
             } catch (error) {
@@ -27,7 +27,7 @@ const JudgeDashboard = () => {
         
         const getCriteria = async () => {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/judge/getcriteria/${name}`);
+                const response = await axios.get(`${__BACKEND_URL__}/api/judge/getcriteria/${name}`);
                 setCriteria(response.data.criteria);
             } catch (error) {
                 console.error("Error fetching criteria:", error);
@@ -41,7 +41,7 @@ const JudgeDashboard = () => {
     // Fetch project details for a team
     const getProject = async (teamCode) => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/project/hackathonProject/judge/projects/${teamCode}`);
+            const response = await axios.get(`${__BACKEND_URL__}/api/project/hackathonProject/judge/projects/${teamCode}`);
             const id = response.data.id;
             navigate(`/ProjectDisplay/${id}`);
             // Clear error for this team, if any
@@ -80,7 +80,7 @@ const JudgeDashboard = () => {
         const email = JSON.parse(localStorage.getItem("data")).email; // Retrieve email from localStorage
 
         try {
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/judge/update/scores`, {
+            const response = await axios.post(`${__BACKEND_URL__}/api/judge/update/scores`, {
                 teamId,
                 email,
                 scores: teamScores,

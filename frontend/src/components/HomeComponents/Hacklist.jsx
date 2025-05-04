@@ -11,7 +11,7 @@ function HackList() {
         async function fetchHackathons() {
             setIsLoading(true);
             try {
-                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon?page=1&limit=3`, {
+                const response = await fetch(`${__BACKEND_URL__}/api/hackathon?page=1&limit=3`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",

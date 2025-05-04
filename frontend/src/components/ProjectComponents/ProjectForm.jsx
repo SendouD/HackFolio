@@ -129,7 +129,7 @@ function ProjectForm() {
     
     try {
       // Send data to /api/project
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/project/submitproject`, projectData);
+      const response = await axios.post(`${__BACKEND_URL__}/api/project/submitproject`, projectData);
       console.log("Server response:", response.data);
       navigate("/uploadsuccess");
     } catch (error) {

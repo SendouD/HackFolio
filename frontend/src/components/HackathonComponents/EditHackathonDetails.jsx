@@ -38,7 +38,7 @@ function EditHackathonDetails(props) {
     try {
       const response = await fetch(
         `${
-          import.meta.env.VITE_BACKEND_URL
+          __BACKEND_URL__
         }/api/hackathon/updateHackDetails/${name}`,
         {
           method: "GET",
@@ -104,7 +104,7 @@ function EditHackathonDetails(props) {
     try {
       const response = await fetch(
         `${
-          import.meta.env.VITE_BACKEND_URL
+          __BACKEND_URL__
         }/api/hackathon/updateHackDetails/${name}`,
         {
           method: "POST",

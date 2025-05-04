@@ -19,7 +19,7 @@ const AdminHackathonCard = ({ hackathon, onClose, onUpdate }) => {
         try {
           setLoading(true);
           await axios.delete(
-            `${import.meta.env.VITE_BACKEND_URL}/api/deleteHackathon/${hackathon.hackathonName}`
+            `${__BACKEND_URL__}/api/deleteHackathon/${hackathon.hackathonName}`
           );
           setMessage("Hackathon deleted successfully!");
           setTimeout(() => {
@@ -115,7 +115,7 @@ const AdminHackathonsComp = () => {
       try {
         setLoading(true);
         
-        let url = `${import.meta.env.VITE_BACKEND_URL}/api/hackathon?page=${page}&limit=8`;
+        let url = `${__BACKEND_URL__}/api/hackathon?page=${page}&limit=8`;
         if (query.trim()) {
           url += `&search=${query}`;
         }

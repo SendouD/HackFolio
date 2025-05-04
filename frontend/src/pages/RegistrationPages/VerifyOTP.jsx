@@ -21,7 +21,7 @@ const VerifyOTP = () => {
     }
     try {
       // Send OTP and email to the backend for verification
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/userlogin/verifyotp`, { email, otp });
+      const response = await axios.post(`${__BACKEND_URL__}/api/userlogin/verifyotp`, { email, otp });
       setSuccess('OTP verified successfully');
       setError(null);
 

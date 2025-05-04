@@ -129,7 +129,7 @@ function HackathonWebpageContentForm(props) {
         console.log("Uploaded Image URL:", imageUrl);
       }
 
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/hackathonCreate/${name}/2`, {
+      const response = await fetch(`${__BACKEND_URL__}/api/hackathon/hackathonCreate/${name}/2`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

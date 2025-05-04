@@ -22,7 +22,7 @@ const ForgotPassword = () => {
       return;
     }
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/userlogin/forgotpassword`, { email });
+      const response = await axios.post(`${__BACKEND_URL__}/api/userlogin/forgotpassword`, { email });
       setSuccess('OTP sent to your email');
       setError(null);
       localStorage.setItem( "email", email )

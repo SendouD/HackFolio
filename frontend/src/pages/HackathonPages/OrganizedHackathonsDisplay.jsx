@@ -14,7 +14,7 @@ function OrganizedHackathonsDisplay() {
     async function getData() {
         setIsLoading(true);
         try {
-            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/organizedHackathons`, {
+            const response = await fetch(`${__BACKEND_URL__}/api/hackathon/organizedHackathons`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -42,7 +42,7 @@ function OrganizedHackathonsDisplay() {
 
     async function handleClick(hackathonName) {
         try {
-            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/hackathonCreate/${hackathonName}/1`, {
+            const response = await fetch(`${__BACKEND_URL__}/api/hackathon/hackathonCreate/${hackathonName}/1`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

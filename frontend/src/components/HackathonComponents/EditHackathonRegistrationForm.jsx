@@ -73,7 +73,7 @@ function EditHackathonRegistrationForm() {
 
   async function fetchData() {
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/registerForHackathon/${name}`, {
+      const response = await fetch(`${__BACKEND_URL__}/api/hackathon/registerForHackathon/${name}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
         credentials: 'include',
@@ -89,7 +89,7 @@ function EditHackathonRegistrationForm() {
 
   async function checkHackathonStatus() {
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/getHackDetails/${name}`, {
+      const response = await fetch(`${__BACKEND_URL__}/api/hackathon/getHackDetails/${name}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
         credentials: 'include',
@@ -210,7 +210,7 @@ function EditHackathonRegistrationForm() {
     }
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/hackathon/registerForHackathon/${name}`, {
+      const response = await fetch(`${__BACKEND_URL__}/api/hackathon/registerForHackathon/${name}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

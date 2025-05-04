@@ -15,7 +15,7 @@ const DisplaySponsor = () => {
 
   async function fetchSponsors() {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/sponsors`);
+      const response = await axios.get(`${__BACKEND_URL__}/api/sponsors`);
       console.log("Sponsors response:", response.data);
       
       // Ensure we're setting an array, even if the API returns null or undefined

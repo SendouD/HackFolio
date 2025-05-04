@@ -32,9 +32,9 @@ function HackathonCreationForm(props) {
     if (!validateInputs()) return;
 
     try {
-      console.log(import.meta.env.VITE_BACKEND_URL);
+      console.log(__BACKEND_URL__);
       const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/api/hackathon/hackathonCreate`,
+        `${__BACKEND_URL__}/api/hackathon/hackathonCreate`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
