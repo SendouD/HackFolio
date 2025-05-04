@@ -38,7 +38,6 @@ jobs:
           elif [ "${{ matrix.dir }}" = "frontend" ]; then
             echo "${{ secrets.FRONTEND_ENV }}" > .env
           fi
-          run: echo "${{ secrets.ENV_FILE }}" > .env
           npm ci || npm install
           npm test
 
