@@ -9,6 +9,45 @@ let otpStore = {};  // OTP store in memory (use Redis in production)
 const chatStatusModel = require('../models/chat_status_model');
 const chatUserSchema = require('../models/chat_user_schema');
 
+/**
+ * @swagger
+ * tags:
+ *   name: Authentication
+ *   description: User authentication and management
+ *
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       required:
+ *         - username
+ *         - firstName
+ *         - lastName
+ *         - email
+ *         - password
+ *       properties:
+ *         _id:
+ *           type: string
+ *           description: Auto-generated MongoDB ID
+ *         username:
+ *           type: string
+ *           description: User's unique username
+ *         firstName:
+ *           type: string
+ *           description: User's first name
+ *         lastName:
+ *           type: string
+ *           description: User's last name
+ *         email:
+ *           type: string
+ *           format: email
+ *           description: User's email address
+ *         password:
+ *           type: string
+ *           format: password
+ *           description: User's hashed password
+ */
+
 const mailSender = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
@@ -17,6 +56,55 @@ const mailSender = nodemailer.createTransport({
     }
 });
 
+/**
+ * @swagger
+ * /userlogin/signup:
+ *   post:
+ *     summary: Register a new user
+ *     description: Create a new user account with the provided details
+ *     tags: [Authentication]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - username
+ *               - firstName
+ *               - lastName
+ *               - email
+ *               - password
+ *             properties:
+ *               username:
+ *                 type: string
+ *               firstName:
+ *                 type: string
+ *               lastName:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               password:
+ *                 type: string
+ *                 format: password
+ *     responses:
+ *       201:
+ *         description: User created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                 username:
+ *                   type: string
+ *                 email:
+ *                   type: string
+ *       400:
+ *         description: User already exists or error occurred
+ */
 // Sign-Up Route
 authController.route('/signup')
     .post(async (req, res) => {
@@ -60,6 +148,54 @@ authController.route('/signup')
         }
     });
 
+/**
+ * @swagger
+ * /userlogin/signin:
+ *   post:
+ *     summary: Sign in to user account
+ *     description: Authenticate a user and generate a JWT token
+ *     tags: [Authentication]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               password:
+ *                 type: string
+ *                 format: password
+ *     responses:
+ *       200:
+ *         description: Successfully authenticated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Success
+ *                 username:
+ *                   type: string
+ *                 email:
+ *                   type: string
+ *         headers:
+ *           Set-Cookie:
+ *             schema:
+ *               type: string
+ *               example: jwt=abcdef123456; Path=/; HttpOnly
+ *       400:
+ *         description: Invalid credentials
+ *       404:
+ *         description: User not found
+ */
 // Sign-In Route
 authController.route('/signin')
     .post(async (req, res) => {
@@ -90,7 +226,42 @@ authController.route('/signin')
     });
 
 // Forgot Password Route
-   // Forgot Password Route - Modified
+   /**
+ * @swagger
+ * /userlogin/forgotpassword:
+ *   post:
+ *     summary: Request password reset
+ *     description: Send an OTP to the user's email for password reset
+ *     tags: [Authentication]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *     responses:
+ *       200:
+ *         description: OTP sent to email
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: OTP sent to email
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Internal server error
+ */
+// Forgot Password Route - Modified
 authController.route('/forgotpassword')
 .post(async (req, res) => {
     const { email } = req.body;
@@ -121,6 +292,42 @@ authController.route('/forgotpassword')
     }
 });
 
+    /**
+     * @swagger
+     * /userlogin/verifyotp:
+     *   post:
+     *     summary: Verify OTP
+     *     description: Verify the OTP sent to the user's email
+     *     tags: [Authentication]
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             required:
+     *               - email
+     *               - otp
+     *             properties:
+     *               email:
+     *                 type: string
+     *                 format: email
+     *               otp:
+     *                 type: string
+     *     responses:
+     *       200:
+     *         description: OTP verified successfully
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: object
+     *               properties:
+     *                 message:
+     *                   type: string
+     *                   example: OTP verified
+     *       400:
+     *         description: Invalid or expired OTP
+     */
     authController.route('/verifyotp')
     .post((req, res) => {
         const { email, otp } = req.body;
@@ -137,6 +344,46 @@ authController.route('/forgotpassword')
         }
     });
 
+    /**
+     * @swagger
+     * /userlogin/resetpassword:
+     *   post:
+     *     summary: Reset password
+     *     description: Reset the user's password after OTP verification
+     *     tags: [Authentication]
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             required:
+     *               - email
+     *               - otp
+     *               - newPassword
+     *             properties:
+     *               email:
+     *                 type: string
+     *                 format: email
+     *               otp:
+     *                 type: string
+     *               newPassword:
+     *                 type: string
+     *                 format: password
+     *     responses:
+     *       200:
+     *         description: Password reset successful
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: object
+     *               properties:
+     *                 message:
+     *                   type: string
+     *                   example: Password reset successful
+     *       400:
+     *         description: Invalid or expired OTP
+     */
     authController.route('/resetpassword')
     .post(async (req, res) => {
         const { email, otp, newPassword } = req.body;
@@ -159,6 +406,25 @@ authController.route('/forgotpassword')
         return res.status(200).json({ message: 'Password reset successful' });
     });
 
+    /**
+     * @swagger
+     * /userlogin/logout:
+     *   get:
+     *     summary: Logout user
+     *     description: Logout the user by clearing the JWT cookie
+     *     tags: [Authentication]
+     *     responses:
+     *       200:
+     *         description: Successfully logged out
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: object
+     *               properties:
+     *                 message:
+     *                   type: string
+     *                   example: Successfully logged out
+     */
     authController.route('/logout')
     .get(async (req, res) => {
             res.clearCookie("jwt")

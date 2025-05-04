@@ -3,6 +3,74 @@ const HackathonDetails = require("../models/hackathon_full_details"); // Main Ha
 const HackathonParticipantsDetails = require("../models/hackathon_participants_schema"); // Participant model
 const router = express.Router();
 
+/**
+ * @swagger
+ * tags:
+ *   name: Hackathons
+ *   description: API endpoints for managing hackathons
+ *
+ * components:
+ *   schemas:
+ *     Hackathon:
+ *       type: object
+ *       required:
+ *         - hackathonName
+ *         - uniName
+ *         - fromDate
+ *         - toDate
+ *       properties:
+ *         _id:
+ *           type: string
+ *           description: Auto-generated MongoDB ID
+ *         hackathonName:
+ *           type: string
+ *           description: Name of the hackathon
+ *         uniName:
+ *           type: string
+ *           description: University or organization name
+ *         eventMode:
+ *           type: string
+ *           description: Mode of event (online/offline/hybrid)
+ *         tech:
+ *           type: string
+ *           description: Technology domain
+ *         teamSize:
+ *           type: string
+ *           description: Maximum team size allowed
+ *         participantsProfile:
+ *           type: string
+ *           description: Target participant profile
+ *         contactLinks:
+ *           type: array
+ *           description: Contact information and links
+ *         fromDate:
+ *           type: string
+ *           format: date
+ *           description: Start date of hackathon
+ *         toDate:
+ *           type: string
+ *           format: date
+ *           description: End date of hackathon
+ *         prizesDesc:
+ *           type: string
+ *           description: Description of prizes
+ *     Participant:
+ *       type: object
+ *       properties:
+ *         _id:
+ *           type: string
+ *         hackathonId:
+ *           type: string
+ *         hackathonName:
+ *           type: string
+ *         email:
+ *           type: string
+ *         teamCode:
+ *           type: string
+ *         teamName:
+ *           type: string
+ */
+
 // Utility function to check hackathon status
 const getHackathonStatus = (hackathon) => {
   const today = new Date().toISOString().split("T")[0];
@@ -11,6 +79,32 @@ const getHackathonStatus = (hackathon) => {
     : "completed";
 };
 
+/**
+ * @swagger
+ * /hackathons/all:
+ *   get:
+ *     summary: Get all hackathons
+ *     description: Retrieve a list of hackathons with optional status filtering
+ *     tags: [Hackathons]
+ *     parameters:
+ *       - in: query
+ *         name: status
+ *         schema:
+ *           type: string
+ *           enum: [ongoing, completed]
+ *         description: Filter hackathons by status
+ *     responses:
+ *       200:
+ *         description: A list of hackathons
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Hackathon'
+ *       500:
+ *         description: Server error
+ */
 router.get("/all", async (req, res) => {
   try {
     const { status } = req.query; // Get the filter query from the request
@@ -47,6 +141,40 @@ router.get("/all", async (req, res) => {
 });
 
 // Fetch hackathons by domain (tech) with participant details and optional status filtering
+/**
+ * @swagger
+ * /hackathons/domain/{tech}:
+ *   get:
+ *     summary: Get hackathons by technology domain
+ *     description: Retrieve hackathons filtered by technology domain with optional status filtering
+ *     tags: [Hackathons]
+ *     parameters:
+ *       - in: path
+ *         name: tech
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Technology domain to filter by
+ *       - in: query
+ *         name: status
+ *         schema:
+ *           type: string
+ *           enum: [ongoing, completed, all]
+ *         description: Filter hackathons by status
+ *     responses:
+ *       200:
+ *         description: A list of hackathons in the specified domain
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Hackathon'
+ *       404:
+ *         description: No hackathons found for the specified domain
+ *       500:
+ *         description: Server error
+ */
 router.get("/domain/:tech", async (req, res) => {
   try {
     let tech = req.params.tech.toLowerCase().trim().replace("_", "/");
@@ -96,6 +224,34 @@ router.get("/domain/:tech", async (req, res) => {
 
 // Add this route below your existing routes
 
+/**
+ * @swagger
+ * /hackathons/participants/{hackathonId}:
+ *   get:
+ *     summary: Get participants for a specific hackathon
+ *     description: Retrieve all participants registered for a given hackathon
+ *     tags: [Hackathons]
+ *     parameters:
+ *       - in: path
+ *         name: hackathonId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Hackathon ID
+ *     responses:
+ *       200:
+ *         description: List of participants
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Participant'
+ *       404:
+ *         description: No participants found for this hackathon
+ *       500:
+ *         description: Server error
+ */
 router.get("/participants/:hackathonId", async (req, res) => {
   const { hackathonId } = req.params;
 
@@ -117,6 +273,34 @@ router.get("/participants/:hackathonId", async (req, res) => {
   }
 });
 // GET /api/hackathons/stats - Admin Dashboard Stats
+/**
+ * @swagger
+ * /hackathons/stats:
+ *   get:
+ *     summary: Get hackathon statistics
+ *     description: Retrieve overall statistics for hackathons
+ *     tags: [Hackathons]
+ *     responses:
+ *       200:
+ *         description: Hackathon statistics
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 totalHackathons:
+ *                   type: integer
+ *                 totalOngoing:
+ *                   type: integer
+ *                 completedHackathons:
+ *                   type: integer
+ *                 totalParticipants:
+ *                   type: integer
+ *                 domains:
+ *                   type: object
+ *       500:
+ *         description: Server error
+ */
 router.get("/stats", async (req, res) => {
     try {
       // 1. Fetch all hackathons
