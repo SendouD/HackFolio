@@ -7,20 +7,25 @@ import { Button } from "@/components/ui/button";
 import LoadingPage from "../loading";
 
 const DisplaySponsor = () => {
-  const [sponsors, setSponsors] = useState(null);
+  // Initialize as empty array
+  const [sponsors, setSponsors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   async function fetchSponsors() {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/sponsors`);
-      console.log(response);
-      setSponsors(response.data);
-      setLoading(false);
+      const response = await axios.get(`${__BACKEND_URL__}/api/sponsors`);
+      console.log("Sponsors response:", response.data);
+      
+      // Ensure we're setting an array, even if the API returns null or undefined
+      setSponsors(Array.isArray(response.data) ? response.data : []);
     } catch (err) {
       console.error("Error fetching sponsors:", err);
       setError("Error fetching sponsors");
+      // Set to empty array on error to prevent .map() issues
+      setSponsors([]);
+    } finally {
       setLoading(false);
     }
   }
