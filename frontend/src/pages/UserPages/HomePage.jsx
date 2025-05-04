@@ -144,7 +144,7 @@ const HomePage = () => {
             viewport={{ once: true }}
           >
             <div className="max-h-5xl mx-auto">
-              {/* <DisplaySponsor /> */}
+              <DisplaySponsor />
             </div>
           </motion.section>
 
