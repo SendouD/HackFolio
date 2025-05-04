@@ -1,0 +1,123 @@
+name: CI/CD Pipeline for Render with Docker
+
+on:
+  push:
+    branches:
+      - "**" # Run on all branches
+
+jobs:
+  # STAGE 1: TESTING
+  test:
+    name: 🧪 Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v3
+
+      - name: 🧰 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: 💾 Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: 📦 Install Dependencies
+        run: npm ci
+
+      - name: 🧪 Run Tests
+        run: npm test
+
+  # LINT CHECKS
+  lint:
+    name: 🧹 Run Lint Checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v3
+
+      - name: 🧰 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: 💾 Restore node_modules from cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: 📦 Install Dependencies
+        run: npm ci
+
+      - name: 🧪 Run Lint
+        run: npm run lint
+
+  # STAGE 2: BUILD & PUSH DOCKER IMAGES
+  docker:
+    name: 🐳 Build and Push Docker Images for Frontend & Backend
+    runs-on: ubuntu-latest
+    needs: [test, lint]
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v3
+
+      # Build and push backend image
+      - name: 🔐 Docker Login for Backend
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: 🧰 Build Docker Image for Backend
+        run: |
+          cd backend
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/hackfolio-backend:${{ github.sha }} .
+
+      - name: 🚀 Push Docker Image for Backend
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/hackfolio-backend:${{ github.sha }}
+
+      # Build and push frontend image
+      - name: 🔐 Docker Login for Frontend
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: 🧰 Build Docker Image for Frontend
+        run: |
+          cd frontend
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/hackfolio-frontend:${{ github.sha }} .
+
+      - name: 🚀 Push Docker Image for Frontend
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/hackfolio-frontend:${{ github.sha }}
+
+  # STAGE 3: DEPLOYMENT TO RENDER
+  deploy:
+    name: 🚀 Deploy to Render (Frontend & Backend)
+    runs-on: ubuntu-latest
+    needs: docker
+    if: github.ref == 'refs/heads/prod' && success()
+    steps:
+      - name: 🔗 Trigger Render Deployment for Backend
+        run: |
+          curl -X POST \
+            -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+            -d '{"service":"hackfolio-backend","branch":"prod","docker_image":"${{ secrets.DOCKER_USERNAME }}/hackfolio-backend:${{ github.sha }}"}' \
+            https://api.render.com/v1/services/${{ secrets.RENDER_BACKEND_SERVICE_ID }}/deploy
+
+      - name: 🔗 Trigger Render Deployment for Frontend
+        run: |
+          curl -X POST \
+            -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+            -d '{"service":"hackfolio-frontend","branch":"prod","docker_image":"${{ secrets.DOCKER_USERNAME }}/hackfolio-frontend:${{ github.sha }}"}' \
+            https://api.render.com/v1/services/${{ secrets.RENDER_FRONTEND_SERVICE_ID }}/deploy

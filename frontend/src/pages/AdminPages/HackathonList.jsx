@@ -23,10 +23,10 @@ function HackathonList() {
       setError("");
 
       try {
-        let url = "http://localhost:5000/api/hackathons/all";
+        let url = `${import.meta.env.VITE_BACKEND_URL}/api/hackathons/all`;
         if (selectedDomain) {
           const formattedDomain = selectedDomain.replace("/", "_");
-          url = `http://localhost:5000/api/hackathons/domain/${encodeURIComponent(formattedDomain)}`;
+          url = `${import.meta.env.VITE_BACKEND_URL}/api/hackathons/domain/${encodeURIComponent(formattedDomain)}`;
         }
 
         const response = await fetch(url);

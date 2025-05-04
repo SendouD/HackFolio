@@ -11,7 +11,7 @@ const ProjectList = () => {
 
   const fetchProjects = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/projects/all");
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/projects/all`);
       if (!response.ok) {
         throw new Error("Failed to fetch projects");
       }
