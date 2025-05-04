@@ -76,13 +76,13 @@ export default function AdminDashboard() {
   ];
 
   return (
-    <div className="relative flex min-h-screen bg-gradient-to-tr from-purple-200 via-blue-100 to-white overflow-hidden">
+    <div className="relative flex min-h-screen bg-gradient-to-tr from-purple-200 via-blue-100 to-white ">
+      <ReactingNavBar />
       <motion.div
         initial={{ x: -200, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 0.6 }}
       >
-        <ReactingNavBar />
       </motion.div>
 
       <motion.div

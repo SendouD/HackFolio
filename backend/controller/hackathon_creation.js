@@ -14,7 +14,6 @@ hack_create.route("/").get(async (req, res) => {
     const search = req.query.search || "";
 
     const currentDate = new Date().toISOString().split('T')[0];
-
     const query = {
       completelyFilled: true,
       toDate: { $gt: currentDate }
