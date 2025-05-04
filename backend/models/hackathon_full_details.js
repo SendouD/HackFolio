@@ -5,21 +5,25 @@ const hackFullDetails = new mongoose.Schema({
         type: String,
         required: true,
         maxlength: 40,
+        index: true, // frequently queried
     },
     uniName: {
         type: String,
         required: true,
         maxlength: 40,
+        index: true, // filter by university
     },
     eventMode: {
         type: String,
         required: true,
         default: "",
+        index: true, // optional, if you filter online/offline
     },
     tech: {
         type: String,
         required: true,
         default: "",
+        index: true, // optional, useful for tech filters
     },
     teamSize: {
         type: Number,
@@ -40,11 +44,13 @@ const hackFullDetails = new mongoose.Schema({
         type: String,
         required: true,
         default: "",
+        index: true, // for sorting/filtering by date
     },
     toDate: {
         type: String,
         required: true,
         default: "",
+        index: true, // for filtering date range
     },
     prizesDesc: {
         type: String,
