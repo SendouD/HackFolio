@@ -88,12 +88,18 @@ jobs:
         run: |
           curl -X POST \
             -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
-            -d '{"service":"hackfolio-backend","branch":"prod","docker_image":"${{ secrets.DOCKER_USERNAME }}/hackfolio-backend:${{ github.sha }}"}' \
-            https://api.render.com/deploy/${{ secrets.RENDER_BACKEND_SERVICE_ID }}?key=KEYbHR910V0
+            -H "Content-Type: application/json" \
+            -d '{
+              "dockerImage": "${{ secrets.DOCKER_USERNAME }}/hackfolio-backend:${{ github.sha }}"
+            }' \
+            https://api.render.com/v1/services/${{ secrets.RENDER_BACKEND_SERVICE_ID }}/deploys
 
       - name: 🔗 Trigger Render Deployment for Frontend
         run: |
           curl -X POST \
             -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
-            -d '{"service":"hackfolio-frontend","branch":"prod","docker_image":"${{ secrets.DOCKER_USERNAME }}/hackfolio-frontend:${{ github.sha }}"}' \
-            https://api.render.com/deploy/${{ secrets.RENDER_FRONTEND_SERVICE_ID }}?key=w3n2ur_pI5U
+            -H "Content-Type: application/json" \
+            -d '{
+              "dockerImage": "${{ secrets.DOCKER_USERNAME }}/hackfolio-frontend:${{ github.sha }}"
+            }' \
+            https://api.render.com/v1/services/${{ secrets.RENDER_FRONTEND_SERVICE_ID }}/deploys
