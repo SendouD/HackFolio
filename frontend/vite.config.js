@@ -12,6 +12,6 @@ export default defineConfig({
     },
   },
   define: {
-    __BACKEND_URL__: JSON.stringify("http://localhost:5000"),
+    __BACKEND_URL__: JSON.stringify("https://hackfolio-backend.onrender.com"),
   }
 })
