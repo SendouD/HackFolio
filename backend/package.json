@@ -4,12 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --forceExit --detectOpenHandles",
     "start": "node index.js",
     "dev": "nodemon index"
-  },
-  "jest": {
-    "setupFilesAfterEnv": ["./jest.setup.js"]
   },
   "keywords": [],
   "author": "",
@@ -46,6 +43,7 @@
   },
   "devDependencies": {
     "jest": "^29.7.0",
+    "jest-html-reporter": "^4.1.0",
     "mongodb-memory-server": "^10.1.4",
     "nodemon": "^3.1.4",
     "supertest": "^7.1.0"

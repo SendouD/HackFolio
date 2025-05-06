@@ -50,9 +50,14 @@ describe('User Registration Controller', () => {
 
   // Clean up after tests
   afterAll(async () => {
+    await mockRedisClient.quit();
+    await new Promise(resolve => setTimeout(resolve, 100)); // Allow time for connections to close
     jest.clearAllMocks();
     jest.resetAllMocks();
   });
+  
+  // Set timeout for each test to prevent hanging
+  jest.setTimeout(10000);
 
   // Reset mocks between tests
   beforeEach(() => {
