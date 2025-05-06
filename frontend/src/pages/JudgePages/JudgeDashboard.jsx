@@ -12,6 +12,8 @@ const JudgeDashboard = () => {
     const navigate = useNavigate();
     const { name } = useParams();
     const [errorMessages, setErrorMessages] = useState({}); // Track errors per team
+    const [submitStatus, setSubmitStatus] = useState({});
+
 
     // Fetch teams and criteria on component load
     useEffect(() => {
@@ -46,6 +48,7 @@ const JudgeDashboard = () => {
             navigate(`/ProjectDisplay/${id}`);
             // Clear error for this team, if any
             setErrorMessages(prev => ({ ...prev, [teamCode]: null }));
+
         } catch (e) {
             if (e.response && e.response.status === 404) {
                 // Set an error message for this team
@@ -86,8 +89,12 @@ const JudgeDashboard = () => {
                 scores: teamScores,
             });
             console.log("Scores updated successfully:", response.data);
+            setSubmitStatus(prev => ({ ...prev, [teamId]: "Scores updated successfully" }));
+
         } catch (error) {
             console.error("Error submitting scores:", error);
+            setSubmitStatus(prev => ({ ...prev, [teamId]: "Error submitting scores" }));
+
         }
     };
 
@@ -201,6 +208,10 @@ const JudgeDashboard = () => {
                                         >
                                             Submit Evaluation
                                         </button>
+                                        {submitStatus[team._id] && (
+    <p className="mt-2 text-green-600">{submitStatus[team._id]}</p>
+)}
+
                                     </div>
                                 </motion.div>
                             ))

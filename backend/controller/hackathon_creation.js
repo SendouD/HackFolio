@@ -587,9 +587,8 @@ hack_create.route("/registeredHackathons").get(isUser, async (req, res) => {
     return res.status(200).send(details);
 });
 
-hack_create
-    .route("/registeredParticipants/:hackathonName")
-    .get(async (req, res) => {
+hack_create.route("/registeredParticipants/:hackathonName").get(async (req, res) => {
+        console.log("but");
         const hackathonName = req.params.hackathonName;
 
         const response = await teamCodeSchema.find({

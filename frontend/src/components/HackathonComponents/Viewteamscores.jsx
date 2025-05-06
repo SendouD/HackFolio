@@ -11,7 +11,7 @@ const ViewScore = () => {
         const fetchTeams = async () => {
             try {
                 const response = await axios.get(
-                    `/api/hackathon/registeredParticipants/${name}`
+                    `${__BACKEND_URL__}/api/hackathon/registeredParticipants/${name}`
                 );
                 console.log(response.data.response.members);
                 setTeams(response.data.response);
