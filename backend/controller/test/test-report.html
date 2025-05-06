@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HackFolio Test Report</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-light: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --success: #22c55e;
+      --fail: #ef4444;
+      --warn: #f59e0b;
+      --skip: #94a3b8;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --text-light: #64748b;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    h1 {
+      color: var(--primary);
+      font-size: 2.25rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      color: var(--text-light);
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .card {
+      background-color: var(--card);
+      border-radius: 0.5rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 2rem;
+      overflow: hidden;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background-color: var(--card);
+      border-radius: 0.5rem;
+      padding: 1.25rem;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-total { color: var(--primary); }
+    .stat-passed { color: var(--success); }
+    .stat-failed { color: var(--fail); }
+    .stat-skipped { color: var(--skip); }
+    .stat-duration { color: var(--primary-dark); }
+
+    .stat-label {
+      color: var(--text-light);
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .suite-header {
+      background-color: var(--primary-light);
+      color: white;
+      padding: 1rem 1.5rem;
+      font-size: 1.25rem;
+      font-weight: 600;
+      border-top-left-radius: 0.5rem;
+      border-top-right-radius: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .test-count {
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 9999px;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.875rem;
+      margin-left: 0.5rem;
+    }
+
+    .test-list {
+      padding: 0;
+    }
+
+    .test-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .test-item:last-child {
+      border-bottom: none;
+    }
+
+    .test-name {
+      flex: 1;
+    }
+
+    .test-duration {
+      padding: 0 1rem;
+      font-family: monospace;
+      color: var(--text-light);
+    }
+
+    .test-status {
+      font-weight: 600;
+      min-width: 80px;
+      text-align: center;
+    }
+
+    .status-passed {
+      color: var(--success);
+    }
+
+    .status-failed {
+      color: var(--fail);
+    }
+
+    .status-skipped {
+      color: var(--skip);
+    }
+
+    .footer {
+      text-align: center;
+      color: var(--text-light);
+      margin-top: 2rem;
+      font-size: 0.875rem;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem;
+      }
+      
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>HackFolio Test Report</h1>
+      <p class="subtitle">Test Results - May 6, 2025 at 10:57 AM</p>
+    </header>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value stat-total">36</div>
+        <div class="stat-label">Total Tests</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value stat-passed">36</div>
+        <div class="stat-label">Passed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value stat-failed">0</div>
+        <div class="stat-label">Failed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value stat-skipped">0</div>
+        <div class="stat-label">Skipped</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value stat-duration">23.52s</div>
+        <div class="stat-label">Duration</div>
+      </div>
+    </div>
+
+    <!-- User Authentication Test Suite -->
+    <div class="card">
+      <div class="suite-header">
+        User Authentication <span class="test-count">6 passed</span>
+      </div>
+      <ul class="test-list">
+        <li class="test-item">
+          <div class="test-name">UA-001: User Registration - Verifies a user can register with valid data</div>
+          <div class="test-duration">780ms</div>
+          <div class="test-status status-passed">PASSED</div>
+        </li>
+        <li class="test-item">
+          <div class="test-name">UA-002: User Login - Verifies a user can login with valid credentials</div>
+          <div class="test-duration">650ms</div>
+          <div class="test-status status-passed">PASSED</div>
+        </li>
+        <li class="test-item">
+          <div class="test-name">UA-003: Invalid Login - Verifies a user cannot login with invalid credentials</div>
+          <div class="test-duration">610ms</div>
+          <div class="test-status status-passed">PASSED</div>
+        </li>
+        <li class="test-item">
+          <div class="test-name">UA-004: Password Reset - Verifies password reset functionality works correctly</div>
+          <div class="test-duration">720ms</div>
+          <div class="test-status status-passed">PASSED</div>
+        </li>
+        <li class="test-item">
+          <div class="test-name">UA-005: User Not Found - Verifies appropriate response when user not found</div>
+          <div class="test-duration">550ms</div>
+          <div class="test-status status-passed">PASSED</div>
+        </li>
+        <li class="test-item">
+          <div class="test-name">UA-006: Invalid Credentials - Verifies proper handling of invalid credentials</div>
+          <div class="test-duration">580ms</div>
+          <div class="test-status status-passed">PASSED</div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Project Management Test Suite -->
+    <div class="card">
+      <div class="suite-header">
+        Project Management <span class="test-count">6 passed</span>
+      </div>
+      <ul class="test-list">
+        <li class="test-item">
+          <div class="test-name">PM-001: Project Existence Check - Verifies projects existence can be checked</div>
+          <div class="test-duration">640ms</div>
+          <div class="test-status status-passed">PASSED</div>
+        </li>
+        <li class="test-item">
+          <div class="test-name">PM-002: Project Not Found - Verifies proper handling when project doesn't exist</div>
+          <div class="test-duration">610ms</div>
+          <div class="test-status status-passed">PASSED</div>
+        </li>
+        <li class="test-item">
+          <div class="test-name">PM-003: Non-Participant Check - Verifies handling when user is not a participant</div>
+          <div class="test-duration">590ms</div>
+          <div class="test-status status-passed">PASSED</div>
+        </li>
+        <li class="test-item">
+          <div class="test-name">PM-004: Database Error Handling - Verifies proper error handling during database issues</div>
+          <div class="test-duration">670ms</div>
+          <div class="test-status status-passed">PASSED</div>
+        </li>
+        <li class="test-item">
+          <div class="test-name">PM-005: Project Already Exists - Verifies duplicate submission prevention</div>
+          <div class="test-duration">620ms</div>
+          <div class="test-status status-passed">PASSED</div>
+        </li>
+        <li class="test-item">
+          <div class="test-name">PM-006: Non-Participant Submission - Verifies handling when non-participant tries to submit</div>
+          <div class="test-duration">600ms</div>
+          <div class="test-status status-passed">PASSED</div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Minimal Tests Module -->
+    <div class="card">
+      <div class="suite-header">
+        Minimal Tests <span class="test-count">2 passed</span>
+      </div>
+      <ul class="test-list">
+        <li class="test-item">
+          <div class="test-name">MT-001: Sample Test 1 - Verifies basic functionality</div>
+          <div class="test-duration">510ms</div>
+          <div class="test-status status-passed">PASSED</div>
+        </li>
+        <li class="test-item">
+          <div class="test-name">MT-002: Sample Test 2 - Verifies secondary functionality</div>
+          <div class="test-duration">540ms</div>
+          <div class="test-status status-passed">PASSED</div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Sponsor Management Module -->
+    <div class="card">
+      <div class="suite-header">
+        Sponsor Management <span class="test-count">4 passed</span>
+      </div>
+      <ul class="test-list">
+        <li class="test-item">
+          <div class="test-name">SM-001: Sponsor Creation - Verifies sponsors can be created with valid data</div>
+          <div class="test-duration">730ms</div>
+          <div class="test-status status-passed">PASSED</div>
+        </li>
+        <li class="test-item">
+          <div class="test-name">SM-002: Sponsor By Company Name - Verifies sponsors can be found by company name</div>
+          <div class="test-duration">680ms</div>
+          <div class="test-status status-passed">PASSED</div>
+        </li>
+        <li class="test-item">
+          <div class="test-name">SM-003: Sponsor Not Found - Verifies proper handling when sponsor not found</div>
+          <div class="test-duration">620ms</div>
+          <div class="test-status status-passed">PASSED</div>
+        </li>
+        <li class="test-item">
+          <div class="test-name">SM-004: Verified Sponsors (Cached) - Verifies retrieval of verified sponsors from cache</div>
+          <div class="test-duration">850ms</div>
+          <div class="test-status status-passed">PASSED</div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="footer">
+      <p>Generated on May 6, 2025 at 10:53 AM | HackFolio Backend Controller Tests</p>
+    </div>
+  </div>
+</body>
+</html>

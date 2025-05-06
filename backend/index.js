@@ -9,6 +9,8 @@ const cors = require("cors");
 const morgan = require("morgan");
 const rfs = require("rotating-file-stream");
 const path = require("path");
+const swaggerJsdoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
 
 const hack_create = require("./controller/hackathon_creation");
 const userlogin = require("./controller/userRegistration");
@@ -142,6 +144,43 @@ app.use("/api/deleteHackathon", delete_hackathon);
 app.use("/api/hackathons", hackathonRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/admin/stats", adminStatsRoutes);
+
+// Swagger definition
+const swaggerOptions = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "HackFolio API Documentation",
+      version: "1.0.0",
+      description: "API documentation for the HackFolio platform",
+      contact: {
+        name: "HackFolio Team"
+      }
+    },
+    servers: [
+      {
+        url: "/api",
+        description: "API Server"
+      }
+    ],
+    components: {
+      securitySchemes: {
+        cookieAuth: {
+          type: "apiKey",
+          in: "cookie",
+          name: "jwt"
+        }
+      }
+    }
+  },
+  apis: [
+    "./routes/*.js",
+    "./controller/*.js"
+  ]
+};
+
+const swaggerDocs = swaggerJsdoc(swaggerOptions);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.use((err, req, res, next) => {
   console.error(err.stack);

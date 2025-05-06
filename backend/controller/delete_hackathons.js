@@ -1,3 +1,11 @@
+/**
+ * @swagger
+ * tags:
+ *   name: Hackathons
+ *   description: API endpoints for managing hackathons
+ */
+
+
 const express = require('express');
 const delete_hackathon = express.Router();
 const isAdmin = require('../middleware/isAdmin');
@@ -7,6 +15,28 @@ const OrgForm = require('../models/org_form_Schema');
 const HackathonWebpageDetails = require('../models/hackathon_webpage_details');
 const HackathonParticipantsDetails = require('../models/hackathon_participants_schema');
 const HackathonDetails = require('../models/hackathon_full_details');
+
+/**
+ * @swagger
+ * /deleteHackathon/{name}:
+ *   delete:
+ *     summary: Delete a hackathon and all associated data
+ *     tags: [Hackathons] 
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: name
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Name of the hackathon to delete
+ *     responses:
+ *       200:
+ *         description: Hackathon deleted successfully
+ *       500:
+ *         description: Server error
+ */
 
 delete_hackathon.route('/:name').delete(isAdmin, async (req, res) => {
     const { name } = req.params;

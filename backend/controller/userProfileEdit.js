@@ -1,8 +1,65 @@
+/**
+ * @swagger
+ * tags:
+ *   name: UserProfile
+ *   description: User profile management endpoints
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     UserProfile:
+ *       type: object
+ *       properties:
+ *         username:
+ *           type: string
+ *           description: User's unique identifier
+ *         email:
+ *           type: string
+ *           description: User's email address
+ *         name:
+ *           type: string
+ *           description: User's full name
+ *         roles:
+ *           type: array
+ *           items:
+ *             type: string
+ *           description: User's roles in the system
+ *         education:
+ *           type: object
+ *           description: User's educational details
+ */
+
 const express = require('express');
 const authController = express.Router();
 const User = require('../models/user_Schema');
 
-// Route to get user profile by ID (excluding password)
+/**
+ * @swagger
+ * /profile/{id}/1:
+ *   get:
+ *     summary: Get user profile by username
+ *     tags: [UserProfile]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The user's username
+ *     responses:
+ *       200:
+ *         description: User profile data
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/UserProfile'
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Server error
+ */
 authController.get('/:id/1', async (req, res) => {
   try {
     const { id } = req.params;
@@ -23,6 +80,27 @@ authController.get('/:id/1', async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /profile/{id}/2:
+ *   get:
+ *     summary: Get user's education details
+ *     tags: [UserProfile]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The user's username
+ *     responses:
+ *       200:
+ *         description: User's education details
+ *       404:
+ *         description: User or education details not found
+ *       500:
+ *         description: Server error
+ */
 authController.get('/:id/2', async (req, res) => {
   try {
     const { id } = req.params; // Get the username from the URL parameters
@@ -50,8 +128,44 @@ authController.get('/:id/2', async (req, res) => {
 });
 
 
-// Route to update user profile by ID
-// Route to update user profile by username (ID)
+/**
+ * @swagger
+ * /profile/{id}/1:
+ *   put:
+ *     summary: Update user profile information
+ *     tags: [UserProfile]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The user's username
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               bio:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Profile updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/UserProfile'
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Server error
+ */
 authController.put('/:id/1', async (req, res) => {
   try {
     const { id } = req.params; // Get the username (or ID) from the URL parameters
@@ -82,6 +196,44 @@ authController.put('/:id/1', async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /profile/{id}/2:
+ *   put:
+ *     summary: Update user's education details
+ *     tags: [UserProfile]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The user's username
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               school:
+ *                 type: string
+ *               degree:
+ *                 type: string
+ *               field:
+ *                 type: string
+ *               startYear:
+ *                 type: string
+ *               endYear:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Education details updated successfully
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Server error
+ */
 authController.put('/:id/2', async (req, res) => {
   try {
     const { id } = req.params; // Get the username (or ID) from the URL parameters
