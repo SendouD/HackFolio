@@ -109,13 +109,12 @@ function App() {
             <Route element={<SponsorSuccessPage />} path="/sponsoruploadsuccess" />
 
 
-
+            <Route path="/completeHackathonCreation/:name" element={<FillFullHackathonDetails />} />
             {/* User private routes */}
             <Route element={<PrivateRoute role="User" />}>
               <Route path="/projectForm" element={<SubmissionForm formName="projectForm" />} />
               <Route path="/sponsorForm" element={<SubmissionForm formName="sponsorForm" />} />
               <Route path="/createHackathon" element={<CreateHackathon />} />
-              <Route path="/completeHackathonCreation/:name" element={<FillFullHackathonDetails />} />
               <Route path="/organizedHackathons" element={<OrganizedHackathonsDisplay />} />
               <Route path="/hackathon/:name/register" element={<HackathonRegistrationPage />} />
               <Route path="/userProjects" element={<UserProjects />} />

@@ -232,14 +232,14 @@ hack_create.post("/hackathonCreate", isUser, async (req, res) => {
 
             const newHackathonData = new hackathon_form({
                 email: req.email,
-                hackathonName: hackName,
+                hackathonName: hackathonName,
                 uniName: uniName,
                 completelyFilled: false,
             });
             await newHackathonData.save();
 
             const newHackFullDetails = new hackFullDetails({
-                hackathonName: hackName,
+                hackathonName: hackathonName,
                 uniName: uniName,
                 eventMode: " ",
                 tech: " ",
@@ -253,7 +253,7 @@ hack_create.post("/hackathonCreate", isUser, async (req, res) => {
             const data = await newHackFullDetails.save();
 
             const savedHackathon = await hackathon_form.findOne({
-                hackathonName: hackName,
+                hackathonName: hackathonName,
             });
             return res.status(200).json({ name: savedHackathon.hackathonName });
         } catch (e) {
