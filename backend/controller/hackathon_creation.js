@@ -8,55 +8,6 @@ const ownHackathon = require("../middleware/ownHackathon");
 const hackParticipantDetails = require("../models/hackathon_participants_schema");
 const teamCodeSchema = require("../models/team_code_schema");
 
-/**
- * @swagger
- * tags:
- *   name: Hackathon Creation
- *   description: API endpoints for hackathon creation and management
- */
-
-/**
- * @swagger
- * /hackathon:
- *   get:
- *     summary: Get active hackathons
- *     description: Retrieve a list of active hackathons with pagination and search functionality
- *     tags: [Hackathon Creation]
- *     parameters:
- *       - in: query
- *         name: page
- *         schema:
- *           type: integer
- *         description: Page number for pagination (default 1)
- *       - in: query
- *         name: limit
- *         schema:
- *           type: integer
- *         description: Number of items per page (default 20)
- *       - in: query
- *         name: search
- *         schema:
- *           type: string
- *         description: Search term to filter hackathons
- *     responses:
- *       200:
- *         description: List of hackathons with pagination metadata
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 totalHackathons:
- *                   type: integer
- *                 hackathons:
- *                   type: array
- *                   items:
- *                     $ref: '#/components/schemas/Hackathon'
- *                 totalPages:
- *                   type: integer
- *                 currentPage:
- *                   type: integer
- */
 hack_create.route("/").get(async (req, res) => {
     let page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 20;
@@ -91,48 +42,6 @@ hack_create.route("/").get(async (req, res) => {
     });
 });
 
-/**
- * @swagger
- * /hackathon/endedHackathons:
- *   get:
- *     summary: Get completed hackathons
- *     description: Retrieve a list of completed hackathons with pagination and search functionality
- *     tags: [Hackathon Creation]
- *     parameters:
- *       - in: query
- *         name: page
- *         schema:
- *           type: integer
- *         description: Page number for pagination (default 1)
- *       - in: query
- *         name: limit
- *         schema:
- *           type: integer
- *         description: Number of items per page (default 20)
- *       - in: query
- *         name: search
- *         schema:
- *           type: string
- *         description: Search term to filter hackathons
- *     responses:
- *       200:
- *         description: List of completed hackathons with pagination metadata
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 totalHackathons:
- *                   type: integer
- *                 hackathons:
- *                   type: array
- *                   items:
- *                     $ref: '#/components/schemas/Hackathon'
- *                 totalPages:
- *                   type: integer
- *                 currentPage:
- *                   type: integer
- */
 hack_create.route("/endedHackathons").get(async (req, res) => {
     let page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 20;
@@ -173,73 +82,26 @@ hack_create
     .get(async (req, res) => {
         return res.status(200).send("hereee");
     })
-/**
- * @swagger
- * /hackathon/hackathonCreate:
- *   post:
- *     summary: Create a new hackathon
- *     description: Creates a new hackathon with basic information
- *     tags: [Hackathon Creation]
- *     security:
- *       - cookieAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - hackathonName
- *               - uniName
- *             properties:
- *               hackathonName:
- *                 type: string
- *                 description: Name of the hackathon
- *               uniName:
- *                 type: string
- *                 description: University or organization name
- *     responses:
- *       200:
- *         description: Hackathon created successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 name:
- *                   type: string
- *                 uniName:
- *                   type: string
- *       201:
- *         description: Name already exists
- *       400:
- *         description: Missing required fields or database error
- */
-hack_create.post("/hackathonCreate", isUser, async (req, res) => {
-    const { hackathonName, uniName } = req.body;
-
-    if (!hackathonName || !uniName) {
-        return res.status(400).json({ Error: "Missing required fields." });
-    }
-
-    try {
-        const existingHackathon = await hackathon_form.findOne({
-            hackathonName: hackathonName,
-        });
-        if (existingHackathon) {
-            return res.status(201).json({ Error: "Name already exists" });
-        }
+    .post(isUser, async (req, res) => {
+        const { hackName, uniName } = req.body;
+        try {
+            const existingHackathon = await hackathon_form.findOne({
+                hackathonName: hackName,
+            });
+            if (existingHackathon) {
+                return res.status(201).json({ Error: "Name already exists" });
+            }
 
             const newHackathonData = new hackathon_form({
                 email: req.email,
-                hackathonName: hackathonName,
+                hackathonName: hackName,
                 uniName: uniName,
                 completelyFilled: false,
             });
             await newHackathonData.save();
 
             const newHackFullDetails = new hackFullDetails({
-                hackathonName: hackathonName,
+                hackathonName: hackName,
                 uniName: uniName,
                 eventMode: " ",
                 tech: " ",
@@ -253,7 +115,7 @@ hack_create.post("/hackathonCreate", isUser, async (req, res) => {
             const data = await newHackFullDetails.save();
 
             const savedHackathon = await hackathon_form.findOne({
-                hackathonName: hackathonName,
+                hackathonName: hackName,
             });
             return res.status(200).json({ name: savedHackathon.hackathonName });
         } catch (e) {
@@ -261,30 +123,6 @@ hack_create.post("/hackathonCreate", isUser, async (req, res) => {
         }
     });
 
-/**
- * @swagger
- * /hackathon/hackathonCreate/{name}/1:
- *   get:
- *     summary: Get hackathon details for step 1
- *     description: Retrieve details of a specific hackathon for step 1 of creation process
- *     tags: [Hackathon Creation]
- *     security:
- *       - cookieAuth: []
- *     parameters:
- *       - in: path
- *         name: name
- *         required: true
- *         schema:
- *           type: string
- *         description: Name of the hackathon
- *     responses:
- *       200:
- *         description: Hackathon details
- *       400:
- *         description: Error fetching data
- *       404:
- *         description: Hackathon not found
- */
 hack_create
     .route("/hackathonCreate/:name/1")
     .get(ownHackathon, isUser, async (req, res) => {
@@ -499,30 +337,6 @@ hack_create.route("/getHackDetails/:name").get(async (req, res) => {
         res.status(400).json({ Error: "Error saving data to Database!" });
     }
 });
-/**
- * @swagger
- * /hackathon/registerForHackathon/{name}:
- *   get:
- *     summary: Get hackathon registration details
- *     description: Get registration information for a specific hackathon
- *     tags: [Hackathon Creation]
- *     security:
- *       - cookieAuth: []
- *     parameters:
- *       - in: path
- *         name: name
- *         required: true
- *         schema:
- *           type: string
- *         description: Name of the hackathon
- *     responses:
- *       200:
- *         description: Hackathon registration details
- *       400:
- *         description: Error fetching data
- *       404:
- *         description: Hackathon not found
- */
 hack_create
     .route("/registerForHackathon/:name")
     .get(isUser, async (req, res) => {
@@ -773,34 +587,6 @@ hack_create.route("/registeredHackathons").get(isUser, async (req, res) => {
     return res.status(200).send(details);
 });
 
-/**
- * @swagger
- * /hackathon/registeredParticipants/{hackathonName}:
- *   get:
- *     summary: Get registered participants
- *     description: Retrieve all participants registered for a specific hackathon
- *     tags: [Hackathon Creation]
- *     parameters:
- *       - in: path
- *         name: hackathonName
- *         required: true
- *         schema:
- *           type: string
- *         description: Name of the hackathon
- *     responses:
- *       200:
- *         description: List of registered participants
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Participant'
- *       400:
- *         description: Error fetching participants
- *       404:
- *         description: No registered participants found
- */
 hack_create
     .route("/registeredParticipants/:hackathonName")
     .get(async (req, res) => {
