@@ -1,72 +1,48 @@
-/**
- * @swagger
- * tags:
- *   name: UserProfile
- *   description: User profile management endpoints
- */
-
-/**
- * @swagger
- * components:
- *   schemas:
- *     UserProfile:
- *       type: object
- *       properties:
- *         username:
- *           type: string
- *           description: User's unique identifier
- *         email:
- *           type: string
- *           description: User's email address
- *         name:
- *           type: string
- *           description: User's full name
- *         roles:
- *           type: array
- *           items:
- *             type: string
- *           description: User's roles in the system
- *         education:
- *           type: object
- *           description: User's educational details
- */
-
 const express = require('express');
 const authController = express.Router();
 const User = require('../models/user_Schema');
 
 /**
  * @swagger
- * /profile/{id}/1:
+ * tags:
+ *   name: User
+ *   description: User profile and education management
+ */
+
+
+/**
+ * @swagger
+ * /userProfile/{id}/1:
  *   get:
  *     summary: Get user profile by username
- *     tags: [UserProfile]
+ *     tags: [User]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: string
- *         description: The user's username
+ *         description: Username of the user
  *     responses:
  *       200:
- *         description: User profile data
+ *         description: User profile retrieved successfully
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/UserProfile'
+ *               $ref: '#/components/schemas/User'
  *       404:
  *         description: User not found
- *       500:
- *         description: Server error
  */
+
+// Route to get user profile by ID (excluding password)
 authController.get('/:id/1', async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id } = req.params; // Using 'id' as per the original code
+
     if(!id) return res.status(404).json({message: "Id not found"});
 
-    // Find the user by ID, excluding the password field
-    const user = await User.findOne({username: id}).select('-password');
+    // Find the user by username (using 'id' as the parameter)
+    const user = await User.findOne({ username: id }).select('-password');
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
@@ -80,34 +56,40 @@ authController.get('/:id/1', async (req, res) => {
   }
 });
 
+
 /**
  * @swagger
- * /profile/{id}/2:
+ * /userProfile/{id}/2:
  *   get:
  *     summary: Get user's education details
- *     tags: [UserProfile]
+ *     tags: [User]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: string
- *         description: The user's username
+ *         description: Username of the user
  *     responses:
  *       200:
- *         description: User's education details
+ *         description: Education details retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               description: Education details object
  *       404:
  *         description: User or education details not found
- *       500:
- *         description: Server error
  */
+
+// Route to get user's education details
 authController.get('/:id/2', async (req, res) => {
   try {
     const { id } = req.params; // Get the username from the URL parameters
     
     if (!id) return res.status(404).json({ message: "Id not found" });
 
-    // Find the user by username, excluding the password field
+    // Find the user by username (using 'id' as the parameter)
     const user = await User.findOne({ username: id }).select('-password');
 
     if (!user) {
@@ -130,17 +112,17 @@ authController.get('/:id/2', async (req, res) => {
 
 /**
  * @swagger
- * /profile/{id}/1:
+ * /userProfile/{id}/1:
  *   put:
- *     summary: Update user profile information
- *     tags: [UserProfile]
+ *     summary: Update user profile by username
+ *     tags: [User]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: string
- *         description: The user's username
+ *         description: Username of the user
  *     requestBody:
  *       required: true
  *       content:
@@ -148,33 +130,55 @@ authController.get('/:id/2', async (req, res) => {
  *           schema:
  *             type: object
  *             properties:
- *               name:
+ *               firstName:
+ *                 type: string
+ *               lastName:
  *                 type: string
  *               email:
  *                 type: string
+ *               gender:
+ *                 type: string
+ *               githubProfile:
+ *                 type: string
+ *               linkedinProfile:
+ *                 type: string
+ *               phoneNumber:
+ *                 type: string
+ *               city:
+ *                 type: string
+ *               country:
+ *                 type: string
  *               bio:
  *                 type: string
+ *               skills:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *               roles:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *               resume:
+ *                 type: string
+ *               workExperience:
+ *                 type: array
+ *                 items:
+ *                   type: string
  *     responses:
  *       200:
- *         description: Profile updated successfully
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/UserProfile'
+ *         description: User profile updated successfully
  *       404:
  *         description: User not found
- *       500:
- *         description: Server error
  */
+
+// Route to update user profile by ID
 authController.put('/:id/1', async (req, res) => {
   try {
     const { id } = req.params; // Get the username (or ID) from the URL parameters
     const updates = req.body;  // Data to update from the request body
 
-    
-
-    // Find the user by username (ID)
-    const user = await User.findOne({ username: id }).select('-password');
+    // Find the user by username (using 'id' as the parameter)
+    const user = await User.findOne({ username: id });
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
@@ -196,19 +200,20 @@ authController.put('/:id/1', async (req, res) => {
   }
 });
 
+
 /**
  * @swagger
- * /profile/{id}/2:
+ * /userProfile/{id}/2:
  *   put:
  *     summary: Update user's education details
- *     tags: [UserProfile]
+ *     tags: [User]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: string
- *         description: The user's username
+ *         description: Username of the user
  *     requestBody:
  *       required: true
  *       content:
@@ -216,39 +221,41 @@ authController.put('/:id/1', async (req, res) => {
  *           schema:
  *             type: object
  *             properties:
- *               school:
+ *               degreeType:
  *                 type: string
- *               degree:
+ *               institution:
  *                 type: string
- *               field:
+ *               fieldOfStudy:
  *                 type: string
- *               startYear:
+ *               graduationMonth:
  *                 type: string
- *               endYear:
- *                 type: string
+ *               graduationYear:
+ *                 type: integer
+ *               certificationLinks:
+ *                 type: array
+ *                 items:
+ *                   type: string
  *     responses:
  *       200:
  *         description: Education details updated successfully
  *       404:
  *         description: User not found
- *       500:
- *         description: Server error
  */
+
+// Route to update user's education details by ID
 authController.put('/:id/2', async (req, res) => {
   try {
     const { id } = req.params; // Get the username (or ID) from the URL parameters
     const updates = req.body;  // Data to update from the request body
 
-    
-
-    // Find the user by username (ID)
-    const user = await User.findOne({ username: id }).select('-password');
+    // Find the user by username (using 'id' as the parameter)
+    const user = await User.findOne({ username: id });
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // Update the user's fields with the data provided in req.body
+    // Update the user's education details
     Object.keys(updates).forEach((key) => {
       user['education'][key] = updates[key];
     });
@@ -259,7 +266,7 @@ authController.put('/:id/2', async (req, res) => {
     // Return the updated user details (excluding the password)
     res.status(200).json(user);
   } catch (error) {
-    console.error('Error updating user profile:', error);
+    console.error('Error updating user education details:', error);
     res.status(500).json({ message: 'Server error' });
   }
 });
