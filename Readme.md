@@ -62,7 +62,7 @@ npm start
 
 ### Frontend Setup
 ```bash
-cd hackfolio
+cd frontend
 npm install
 npm run dev
 ```
@@ -74,7 +74,7 @@ npm run dev
   - `middleware/`: Custom middleware (auth, validation)
   - `models/`: Database schemas
   
-- `hackfolio/`: Client-side code
+- `frontend/`: Client-side code
   - `src/components/`: Reusable UI components
   - `src/pages/`: Main application pages
   - `src/store/`: Redux store configuration
